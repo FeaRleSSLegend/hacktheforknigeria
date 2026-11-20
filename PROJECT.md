@@ -1,258 +1,228 @@
-# Swap & See: Project Reference
+# PROJECT.md: ProteinPath (working name)
 
-Read this when you are lost. It is the single source of truth for what we are building, why, and how the pieces fit. If this file and the code disagree, tell the human; do not silently pick one.
+Single source of truth for the project. Agents: read this and `AGENTS.md` fully before acting. If the two conflict, ask one specific question. Version 2.1 (core flow: suggest dishes from what you have, then teach how to make them).
 
-## 1. Event facts
+## 1. Event facts and rules
 
-- Event: Hack the Fork Nigeria 2026, Veritas University, Abuja. 20-21 November 2026.
-- Build starts: Day 1, 1:50 PM (WAT). Hall closes 9 PM Day 1, reopens 8:30 AM Day 2. Teams may work online overnight.
-- Final submission deadline: Day 2, 12:30 PM. Final pitches and demos: 12:30-1:30 PM. Jury evaluation after lunch.
-- Mentor checkpoints: Day 1 2:50 PM and 4:50 PM (technical and evidence review). Day 2 final support is optional.
-- Team size: 2 to 5.
-- Scope rules from the organisers' guide:
-  - Stay within alternative proteins, especially plant-based and relevant fermentation applications.
-  - Do not drift into insect-based protein.
-  - Do not claim experimental, market, or model performance that has not been demonstrated.
-  - Do not make the solution depend on inaccessible proprietary data.
-  - Do not build a generic AI product and attach an alternative-protein label to it.
-  - Keep the prototype focused on one clear problem and one user decision.
-- AI must be a meaningful part of the solution. A chatbot layer over a manual process does not count.
-- Required deliverables (guide section 13): problem definition, working prototype, AI component explanation, evidence (tests, examples, benchmarks), user value, limitations, next step.
-- Judging criteria: problem fit, AI contribution, evidence and technical quality, user value and feasibility, Nigeria/ecosystem relevance, prototype quality, clarity and communication.
+- Event: Hack the Fork Nigeria 2026, Nov 20-21, Veritas University, Abuja.
+- Build window opened Day 1 at 1:50 PM WAT. Final submission is Day 2 at 12:30 PM WAT.
+- The organisers' guide says teams build the concept during the event. Whether pre-written code is allowed was never confirmed in writing. Treat all product code as written during the event.
+- Judging stresses real AI contribution (a chatbot over a manual process does not count), honesty about limits, one clear user and one decision, and a working testable prototype.
+- Scope limits from the guide: no insect protein, no unsupported claims.
+- **Track 1: Alternative Protein Product Innovation. Challenge 1:** an AI tool that identifies and ranks promising Nigerian protein ingredients for a defined application, based on their functional properties.
+- Open item: confirm with an organiser or mentor that this merged concept counts as Challenge 1.
 
-## 2. What we are building
+## 2. The product in plain words
 
-**Swap & See** helps a school cafeteria manager replace the meat or fish in a dish with a plant-based option, within a protein budget, and preview the result in 3D.
+A phone app for ordinary Nigerian households on a tight budget. The user says what they have (or can buy), their budget for the meal and how many people they are feeding. Or they skip the pantry and pick a dish. The app:
 
-- **User:** a school cafeteria manager. Not a restaurant, not a street vendor. They are not technical.
-- **Decision:** "For this dish, which plant-based swap should I serve, given my budget and what my students need?"
-- **Track and challenge:** Track 2 (Commercialisation and Market Development), Challenge 2 (plant-based menu innovation). The price layer also speaks to Challenge 3 (where plant protein is actually cheaper).
-- **Pitch line:** "One canteen, one budget, one decision, and you can see what you are serving before you cook it."
+1. **Suggests dishes** they can make. It ranks each plant protein against each dish by published functional properties (binding, foaming, emulsifying, water holding, solubility), with cost per gram of protein as a secondary criterion and the budget as a filter.
+2. **Teaches how to prepare** the chosen dish's protein (soak, dehull, ferment, cook) using a small model trained on published experiments, with ranges and citations. If the data is too thin it shows the closest published conditions instead of a prediction.
+3. **Balances the plate** by pairing the protein with sides (carbohydrate, vegetable, iron-rich foods) and showing four numbers for the plate: protein, energy, iron, fat.
+4. **Works offline.** Everything above runs on the phone. When online, the app can fetch newer data and show nicer wording.
 
-### Three views in the app
+**One user:** a home cook on a budget (phone, patchy data, mixed literacy).
+**One decision:** "With what I have and my budget, what can I make, and how do I prepare it?"
 
-1. **Swaps:** ranked plant-based alternatives for one dish with cost, protein, similarity, drivers, flags, and a 3D preview.
-2. **Price per protein:** naira per 100 g of protein, plant vs animal, so the cafeteria sees where plants are cheaper.
-3. **Forecast:** price trend for one ingredient from a linear regression, with an uncertainty band and honest backtest numbers.
+Why not just ask a general chatbot: every number here comes from a table with a source and a quality flag. An LLM, if used, only rephrases numbers the engine already computed. The app works with the LLM off.
 
-### In scope
+### Core flow (this is the product; everything else is an add-on)
 
-- 3 to 5 dishes, 8 to 12 ingredients, one cafeteria user type.
-- A scoring and optimisation engine (singles and two-ingredient blends).
-- Linear regression price trend per ingredient, evaluated on a time-based hold-out.
-- A procedural 3D plate driven by ingredient traits.
-- A visible limitations panel and data-quality badges.
+1. **Input:** what you have or can buy, budget in naira for this meal, number of people. Or skip the pantry and pick a dish.
+2. **Suggest:** ranked dishes. Each card shows the plant protein it would use, how well that plant suits the dish, protein per plate, the cost of anything you are missing, and flags. Budget is a filter and a number on the card.
+3. **Prepare:** tap a dish to get sourced steps, expected effect with a range, evidence level and safety notes.
+4. **Plate:** suggested sides and four numbers (protein, energy, iron, fat).
+5. **Shopping list (add-on, only after the core works):** the "missing items" from step 2, added up and shareable.
 
-### Out of scope (do not build)
+This is still Challenge 1: the ranking is plant against dish by functional properties. "I have these, what can I make" is the same ranking read the other way round.
 
-- Marketplace, vendor listings, checkout, payments, accounts, auth.
-- Live text-to-3D or any external 3D generation API.
-- Photo matching or image search.
-- Claims about taste, student acceptance, health outcomes, or lab performance.
-- Insect protein, cultivated meat.
-- Deep learning.
+**One dish first.** Build the whole flow for one dish end to end (akara-style with cowpea or bambara: suggest, prepare, plate, offline) before adding dishes. Then add dishes one at a time. If the data lane runs behind, one complete flow is still demoable.
 
-## 3. How it works (flow)
+**Cost shown is protein and sides only.** Oil, pepper and spices are not in our price data, and the card says "excludes oil and spices".
 
-1. User picks a dish, number of plates, protein budget (naira per plate for the protein part), allergens to avoid, and optional weights.
-2. Backend loads the dish and its original animal protein from `data/`.
-3. Candidates = all plant ingredients, minus allergen conflicts. Blends = every pair at 10% share steps, plus singles.
-4. Hard constraints remove candidates: over budget, protein ratio below the minimum, allergen conflict, missing data. Removed items are returned in `excluded` with a reason.
-5. Remaining candidates are scored. Top N are returned with a score breakdown and drivers.
-6. Frontend shows the ranked list. Selecting one shows the 3D plate using that candidate's `render_traits`.
-7. The forecast model can optionally supply a projected price instead of the latest price.
+## 3. Scope
 
-## 4. Data
+**In:** dish suggestion, ranking, processing recommendation, plate balance, budget, allergen filter, safety guard, offline mode, limits panel, model card, evaluation report. After the core works: shopping list.
 
-All data lives in `data/`. Every row needs a source and a quality flag. If a value is estimated, say so. Never invent a measured value.
+**Out (do not build):** store or restaurant finder, marketplace, accounts, payments, leaderboards or gamification, price-history charts, 3D or generated food images, insect protein, medical or health claims, diet plans for medical conditions, on-device LLM.
 
-### `data/ingredients.csv`
+**Stretch (online only, cut first):** AI-written recipe text, photo of pantry to list ingredients (vision lists items, the user confirms, numbers still come from tables), Pidgin language option.
 
-| Column | Type | Meaning |
+## 4. Architecture: offline-first and safety-first
+
+```
+ [Dev machine, offline pipeline]                [Phone, runs with no network]
+  data/*.csv + data/*.json                        Expo React Native app (TypeScript)
+        |                                          |-- bundle/*.json   (data + model + version)
+  scripts/validate_data.py                         |-- engine/         (pure TS functions)
+  scripts/train_processing.py  --> model.json      |     sizing, scoring, processing model,
+  scripts/build_bundle.py      --> bundle/*.json   |     plate balance, safety guard
+        |                                          |-- screens + design system
+        +----- copied into app assets -----------> |-- local storage (prefs only)
+                                                   |
+ [Optional online service, FastAPI]  <--- only when network is available
+   GET  /bundle/latest   newer data bundle (version + sha256)
+   POST /explain         LLM wording of engine output (guarded)
+   POST /recipes, /pantry-vision   (stretch)
+```
+
+### 4.1 Offline-first rules
+- First launch with no network must work: all data and the trained model ship inside the app as JSON.
+- The model is a regularised linear regression, so inference is a dot product in TypeScript. No ML runtime on the phone.
+- No network call on the critical path. All network access goes through `src/lib/net.ts` with a short timeout and a clear offline state.
+- Online adds only: (a) a newer data bundle, (b) friendlier wording of the same numbers, (c) stretch features. A badge shows "Offline: standard guidance" or "Online: enhanced".
+- Bundle update: download, validate against the schema, verify sha256, then swap atomically. Any failure keeps the bundled copy. The checksum checks integrity only, not authorship; signing is out of scope.
+- Demo check: every milestone is shown once in airplane mode.
+
+### 4.2 Safety-first rules
+- **Safety guard** (`engine/safety.ts`) runs on every result before display. Rules live in `safety_rules.json` with a source, severity (`block` or `warn`) and a `reviewed` flag. A `block` rule withholds the step and shows why.
+- Starting rules (each needs a source, and a food scientist or mentor should review them): cook legumes thoroughly and never recommend raw or undercooked beans; apply the user's allergen list (soy, groundnut and others); basic hygiene for soaking and fermenting (clean containers, discard if it smells off or shows mould); infants, pregnancy and medical conditions: "ask a health worker".
+- The app never states numeric safety thresholds (boil minutes, fermentation limits) unless a source supports them. Otherwise use plain wording such as "cook until fully soft".
+- **No health claims.** Show numbers (for example fat per serving) and sourced steps. Never say a food causes or treats a condition.
+- **Model gate:** a model ships for a given outcome metric only if it beats the baseline in grouped cross-validation. Otherwise that metric uses the fallback (nearest published rows). Predictions are only made inside the range of the training data.
+- **LLM guard:** generated text may only mention ingredients and numbers that appear in the engine output. Anything else is discarded and a template sentence is used.
+- **Privacy:** no accounts, no analytics. Body weight and preferences stay on the device. Online requests contain ingredient ids only, never weight or identity.
+
+## 5. Screens
+
+1. **Start:** tick what you have (or search plants), set budget in naira and number of people, optional body weight; or pick a dish directly. Offline badge.
+2. **Suggestions:** ranked dish cards: dish and protein name, functional fit, protein per plate, missing items and their cost, a "why" line (top drivers), badges (measured or estimated, evidence strength), flags (allergen, missing data).
+3. **Prepare:** steps for the chosen plant: treatment, time, temperature or "until soft", expected effect with range, sources, evidence level, safety notes. A "fallback" label when it shows published conditions instead of a prediction.
+4. **Plate:** protein plus suggested sides; four numbers (protein, energy, iron, fat); simple low/ok/high labels against a stated guideline; legume-plus-grain pairing note.
+5. **About and limits:** always one tap away and shown as a banner: what is measured, what is estimated, what is not validated in a lab, model card and backtest table.
+
+All screens need loading, empty and error states, 48 dp touch targets, readable contrast, large-text support, and short plain wording.
+
+## 6. Data tables (in `data/`)
+
+Every row has a `source`, a `quality` flag (`measured`, `read_from_figure`, `calculated`, `estimated`) and, where it comes from a paper, `paper_id`, `page` and a short `quote`. Estimates need a reason in `notes`. Never invent a measured number. Missing values stay missing and the engine reports the exclusion.
+
+| File | Purpose | Columns (key ones) |
 |---|---|---|
-| id | string | snake_case, unique (e.g. `soy_chunks`) |
-| name | string | Display name |
-| type | string | `plant`, `fungi`, or `animal` |
-| yield_factor | float | Cooked or rehydrated weight divided by as-sold weight (e.g. dry soy chunks about 2 to 3; fresh mushroom about 1) |
-| price_ngn_per_kg | float | Latest price per kg as sold |
-| price_date | YYYY-MM | When that price was observed |
-| price_source | string | Market, report, or URL |
-| price_quality | string | `measured` or `estimated` |
-| protein_g_per_100g_cooked | float | Protein per 100 g of cooked weight |
-| protein_source | string | Table name or URL |
-| protein_quality | string | `measured` or `estimated` |
-| fibrousness, firmness, moisture | float 0-1 | Texture traits (estimated unless a source exists) |
-| umami, smoky, savoury, spice_carry | float 0-1 | Flavour traits (estimated) |
-| browning | float 0-1 | How much it browns when cooked (feeds 3D) |
-| prep_effort | float 0-1 | 0 = trivial, 1 = very hard in a canteen kitchen |
-| colour_hex | string | Cooked colour for 3D |
-| allergens | string | Pipe-separated (e.g. `soy|`, `groundnut|`); empty if none |
-| trait_quality | string | `estimated` unless sourced |
-| notes | string | Rationale for any estimated trait |
+| `ingredients.csv` | Composition and price | `ingredient_id, name, local_names, form_sold, protein_g_per_100g, fat_g, energy_kcal, iron_mg, water_g, price_ngn_per_kg, price_month, price_source, allergen_tags, quality, source` |
+| `functional_properties.csv` | Published functional values | `ingredient_id, property, value, unit, form (flour/concentrate/isolate), ph, method_note, paper_id, page, quote, quality` |
+| `applications.json` | What each use needs | `id, name, needs:[{property, direction(higher/lower), weight}], notes` (weights are expert-judgement estimates, labelled so) |
+| `dishes.json` | Dishes the app can suggest (start with about 8; build one first) | `id, name, application_id, protein_slot_ids[], side_items[{id, as_sold_g_per_serving}] (portions are estimates), playbook_ids[], notes` |
+| `treatment_experiments.csv` | Training table for the processing model | `exp_id, crop_id, part, treatment, time_h, temp_c, ph, outcome_metric, baseline_value, treated_value, change_pct, paper_id, page, quote, method_note, quality` |
+| `playbook.json` | Sourced preparation steps | `id, crop_id, goal, steps[], conditions, effect, why (optional one sourced line on what the step does), evidence_level, sources[]` |
+| `sides.csv` | Carbohydrate, vegetable, iron-rich sides | same composition columns as ingredients, plus `food_group` |
+| `safety_rules.json` | Safety guard rules | `id, applies_to, severity, text, source, reviewed` |
+| `units.csv` | Local measures | from `units_mudu.csv` |
+| `SOURCES.md` | Every source, how used, caveats | free text |
 
-Animal rows (chicken, beef, fish) use the same columns, so originals and swaps are scored on the same scale.
+Files already in hand (carry over): `wafct_protein_verified.csv` (FAO/INFOODS West African FCT 2012; 34 rows with protein, water, fat; boiled values are calculated, not measured), `nbs_prices_history.csv` (NBS monthly national averages for brown beans, boneless beef, frozen chicken; 66 table rows and 16 press-quote rows to verify), `units_mudu.csv` (1 mudu of beans or grains is about 1.5 kg, an estimate until someone weighs it).
 
-### `data/dishes.json`
+Known gaps: WAFCT energy and iron columns for ingredients and sides; prices for soy, bambara, egusi, mushroom; functional values and treatment experiments (to be extracted from papers). Treatment outcomes are stored as percent change against the untreated sample in the same paper, because methods differ between papers.
 
-List of objects: `id`, `name`, `animal_ingredient_id`, `portion_cooked_g` (cooked weight of the protein part per plate), `notes`. Start with three dishes: jollof rice with chicken, suya-style beef, egusi soup with beef. Replace or extend if the organisers' resource pack provides examples.
+## 7. Calculations (reference implementation in Python, ported to TypeScript, same fixtures)
 
-### `data/prices_history.csv`
+**Protein sizing.** Target protein per meal `T` g: user choice, default one third of the daily guideline (0.8 g per kg body weight per day, a general estimate for adults, not medical advice). `as_sold_g = T / (protein_g_per_100g_as_sold / 100)`. `cost_ngn = as_sold_g / 1000 * price_ngn_per_kg`. `cost_per_g_protein = cost_ngn / T`. Without a body weight the app asks for `T` directly.
 
-Columns: `ingredient_id`, `month` (YYYY-MM), `market`, `price_ngn_per_kg`, `source`. One row per ingredient per month per market. The forecast uses a monthly series per ingredient (average across markets).
+**Candidates.** Singles and, as a stretch, two-ingredient blends at 10% steps. Hard constraints: budget, allergens, missing required data (excluded with a reason).
 
-### `data/SOURCES.md`
+**Dish suggestion.** For each dish: candidates are the ingredients in `protein_slot_ids` (in `pantry` mode, those the user has rank first and the rest are treated as items to buy; in `dish` mode the user picked the dish). Score each candidate for the dish's application as below. `missing_cost = sum(cost of items not in the pantry)`; `total_cost = protein cost + side costs`, all scaled to `servings`. The budget is money the user must spend, so drop dishes whose `missing_cost` exceeds the budget (listed under excluded with the reason). Rank dishes by the overall score of their best candidate. Cost excludes oil and spices.
 
-One line per source: what it is, URL, date accessed, what we took from it. Any estimated value must be listed here with the reason.
+**Shopping list (add-on).** Sum of `missing_items` for the chosen dishes, with prices and their source month.
 
-### Where to look (verify each before use)
+**Functional fit.** For each need `k` in the application: take the ingredient's median value (and min-max range) for that property within one `form`. Scale across candidates to 0-1 (invert if direction is lower). `fit = sum(w_k * d_k)`. Ranges are carried through so uncertainty is shown. Ingredients with no value for a needed property are marked "no data" for that need and the fit is computed on the available needs with a visible flag.
 
-- Protein composition: FAO/INFOODS West African Food Composition Table; USDA FoodData Central as a cross-check.
-- Prices: WFP market price monitoring for Nigeria (check the Humanitarian Data Exchange), NBS food price reports, plus a small hand-collected table from local markets.
-- Population or household context (optional): NBS publications.
+**Overall score.** `0.50 * fit + 0.30 * cost_score + 0.20 * protein_density_score` (default weights, estimated, shown in the model card). **Drivers** = `w_k * (score_k - mean_k)`, the top two shown as plain text.
 
-If a source cannot be reached from the workspace, ask the human to download and upload the file. Do not guess numbers.
+**Processing model.** For each outcome metric with enough rows (at least 30, to be checked at training time): features are crop (one-hot), treatment (one-hot), `time_h`, `temp_c`, `time_h^2`, `time_h x temp_c`; target is `change_pct`; model is `Ridge`. Validation is `GroupKFold` by `paper_id` (never split rows of one paper across train and test). Baseline is the mean `change_pct` per treatment. Report MAE for model and baseline, and R-squared. Interval is plus or minus 1.96 times residual SD from cross-validation. Recommendation = grid search over the observed range of time and temperature for that crop and treatment (no extrapolation), top 3 conditions, with intervals. A metric ships a model only if its grouped-CV MAE is lower than the baseline's. Otherwise it ships the fallback.
 
-## 5. Calculations
+**Fallback.** Show the nearest published experiments (same crop and treatment, closest conditions) with citations and say "no prediction available".
 
-Notation: for a candidate made of components `i` with shares `s_i` that sum to 1.
+**Plate balance.** Plate totals for protein, energy, iron, fat from the chosen protein plus up to two suggested sides, picked greedily to fill the biggest gap within the remaining budget. Compare against reference values stored in `data/reference_values.json` with a source for each. If a reference has no source, the label is hidden. A legume plus cereal pairing sets a "complementary proteins" note.
 
-- `as_sold_g = portion_cooked_g * s_i / yield_factor_i`
-- `cost_ngn_per_plate = sum( as_sold_g / 1000 * price_ngn_per_kg_i )` (use forecast price if requested)
-- `protein_g = sum( portion_cooked_g * s_i * protein_g_per_100g_cooked_i / 100 )`
-- `protein_ratio = protein_g / original_protein_g`
-- `cost_per_100g_protein = cost_ngn_per_plate / protein_g * 100`
-- Traits of a blend are the share-weighted average of component traits. This assumes linear mixing; state it as an assumption in the UI.
-- `flavour_similarity = 1 - mean(|candidate_t - original_t|)` over umami, smoky, savoury, spice_carry.
-- `texture_similarity = 1 - mean(|candidate_t - original_t|)` over fibrousness, firmness, moisture.
-- `prep_effort` of a blend = max over components.
+## 8. On-device interfaces (TypeScript, pure functions, no I/O)
 
-### Hard constraints (candidate excluded if violated)
+```
+suggestDishes(input: PlanInput, bundle: Bundle): SuggestResult
+  PlanInput  = { mode: "pantry" | "dish", pantryIds: string[], dishId?: string, budgetNgn: number, servings: number, targetProteinG: number, allergens: string[] }
+  SuggestResult = { dishes: DishSuggestion[], excluded: { id, reason }[], bundleVersion: string }
+  DishSuggestion = { dishId, name, protein: RankedItem, missingItems: { id, costNgn }[], totalCostNgn, proteinPerPlateG, flags: string[] }
 
-- `cost_ngn_per_plate <= protein_budget_ngn`
-- `protein_ratio >= min_protein_ratio` (default 0.8)
-- No component allergen is in the user's avoid list.
-- All required fields present.
+rankIngredients(applicationId: string, input: PlanInput, bundle: Bundle): RankedResult   // used inside suggestDishes
+  RankedResult = { items: RankedItem[], excluded: { id, reason }[], bundleVersion }
+  RankedItem = { ingredientId, score, fit, fitRange, costNgn, costPerGProtein, asSoldG, drivers: string[], flags: string[], quality: Record<string,string> }
 
-### Score
+recommendProcessing(ingredientId: string, goal: string, bundle: Bundle): ProcessingResult
+  ProcessingResult = { mode: "model" | "fallback", options: { treatment, timeH?, tempC?, instruction, effect, effectRange, sources: string[], evidence: string }[], note: string }
 
-Each sub-score is in 0..1:
+checkPlate(plate: PlateInput, bundle: Bundle): PlateResult
+  PlateResult = { totals: { proteinG, energyKcal, ironMg, fatG }, status: Record<string, "low"|"ok"|"high"|"unknown">, suggestedSides: string[], notes: string[] }
 
-- `cost_score = clamp(1 - cost_ngn_per_plate / protein_budget_ngn, 0, 1)`
-- `protein_score = clamp(protein_ratio, 0, 1)`
-- `flavour_score = flavour_similarity`
-- `texture_score = texture_similarity`
-- `prep_score = 1 - prep_effort`
+safetyGuard(result: ProcessingResult | PlateResult, ctx): { allowed: boolean, warnings: string[], blocked: string[] }
+```
 
-`score = sum(w_k * score_k)` with weights summing to 1. Default weights: cost 0.30, protein 0.25, flavour 0.20, texture 0.15, prep 0.10. If the user sets weights, normalise them to sum to 1.
+The Python reference engine uses the same camelCase keys as these interfaces in its inputs and outputs, so golden fixtures can be compared with the TypeScript output directly.
 
-### Drivers (explanation)
+Optional online endpoints (FastAPI, never required): `GET /health`, `GET /bundle/latest`, `POST /explain` (input: engine output; output: reworded text, rejected if it adds facts), stretch `POST /recipes`, `POST /pantry-vision`.
 
-For each returned candidate, `driver_k = w_k * (score_k - mean_k)` where `mean_k` is the mean of that sub-score across all feasible candidates. Return the two largest positive drivers as plain-language strings (e.g. "Much cheaper than other options"). If no driver is positive, say the candidate is average on all factors.
+## 9. Design system and UI stack
 
-### Default protein budget
+- React Native with Expo, TypeScript strict, `expo-router`.
+- Components: **React Native Paper** (Material Design 3). Use `react-native-reusables` (shadcn-style for React Native) only if Paper blocks a specific need, and record it in `AGENTS.md` under Deviations.
+- Icons: `@expo/vector-icons` (MaterialCommunityIcons).
+- Animation: `react-native-reanimated` for transitions, bars and counters; `lottie-react-native` only for one or two small illustrations. Respect the reduced-motion setting.
+- Design system: one theme file `src/theme/` with tokens (color roles for light and dark, type scale, spacing 4/8/12/16/24, radius, elevation) built on the Paper MD3 theme. An open-source React Native design system from GitHub may be used as reference only, and only with a permissive licence (MIT or Apache-2.0); read its LICENSE first and do not copy code with an unclear licence.
+- Skills for agents: mobile (Expo, React Native), UI design, animation. Details in `AGENTS.md` section 5.
 
-If the user does not enter one, use the original animal protein's cost per plate.
+## 10. Evidence we show (also what the pitch uses)
 
-## 6. Models (what is trained, and how we prove it)
+- Processing model: grouped-CV table per metric (model MAE, baseline MAE, rows, papers) and which metrics shipped a model or the fallback. If regression does not beat the baseline, we say so.
+- Data coverage: rows per crop and per metric, number of papers, share of values that are measured, read from a figure, or estimated.
+- Sanity checks that must pass: soy ranks above cowpea on protein density; cost per gram of protein is reproducible by hand for three ingredients; every shown number has a source.
+- Limits panel lists every estimated input category, the fact that nothing was lab-tested by the team, and that published values come from different methods.
+- Wording rules: "predicted", "published", "estimated". Never "proven", "tastes like", "healthy", "cures".
 
-### Price trend (the one trained model)
+## 11. Milestones, what each returns, and check loops
 
-- Model: scikit-learn `LinearRegression`, one per ingredient, fit on `y = price` vs `x = month index`.
-- Optional seasonality: add month-of-year dummies only if an ingredient has 24 or more monthly points. Otherwise trend only.
-- Minimum data: 6 monthly points. Below that, return `low_confidence: true` and no forecast.
-- Evaluation: time-based split. If n >= 9, hold out the last 3 months. Report MAE, MAPE, R-squared on the hold-out, and a naive baseline (carry the last training value forward). If the regression does not beat the baseline, say so in the UI.
-- Interval: forecast plus or minus 1.96 times the residual standard deviation. Label it as approximate.
-- Output: `backend/models/forecast.joblib` and `reports/metrics.json`, produced by `scripts/train_forecast.py`.
+Order: backend first. M0 first. Then M1 (data) and M2 (reference engine in Python, including `suggestDishes`) in parallel. The AI lane (processing model) follows M2. The mobile front end starts in the evening once M3 results exist; until then the backend and fixtures are the contract. Then M3, M4, M6. M5 last and cuttable.
 
-### Not trained (deliberately)
+| # | Milestone | Time box | Returns (done when) |
+|---|---|---|---|
+| M0 | Foundations: Expo app boots on a phone, theme tokens, `data/` with carried-over files, bundle schema and loader, validation script | 1 h | App shows bundle version on a phone in Expo Go; `python scripts/validate_data.py` and `npm test` pass |
+| M1 | Data lane (continuous): functional properties, treatment experiments, playbook, applications, safety rules, sides | until 9 PM, then overnight | Tables validate; `SOURCES.md` covers every row; coverage report prints rows per crop and metric |
+| M2 | Reference engine in Python and processing model training | 3 h | Tests pass; `reports/metrics.json` with model vs baseline; `bundle/*.json` and golden fixtures written |
+| M3 | TypeScript engine on device | 2 h | Jest passes; TS outputs match Python fixtures on all cases; safety guard tests pass |
+| M4 | Screens: Start, Ranking, Prepare, Plate, About; states; offline badge; accessibility | 3 h | Full flow runs in Expo Go in airplane mode; no crashes; limits visible |
+| M5 | Online extras: `/bundle/latest`, `/explain` with guard, optional stretch | 1.5 h | App works identically with the service off; guard rejects an injected unsupported number in a test |
+| M6 | Evidence and polish: backtest slide table, animations, model card, README, demo script | rest | `npx tsc --noEmit` clean, tests green, 3-minute demo rehearsed offline |
 
-- The similarity scoring and optimiser are transparent formulas, not learned models. Judges can inspect them, and with this little data a learned model would overfit.
-- An LLM, if used, only turns the numbers into plain sentences. It never chooses a swap, never edits a number, and the app must work with the LLM off (template text).
+**Loops (how agents work):**
+- **Build loop (every task):** write the test first, implement, run, read the failure, fix. Two fixes at most for one error, then apply the cut list and report.
+- **Milestone check loop:** run the milestone's checks (tests, type check, manual run on a phone), record the result in the report, then move on.
+- **Data loop:** extract rows from a paper, validate, print coverage, then target the crop or metric with the fewest rows next.
+- **Demo loop:** after every milestone, run the full user flow in airplane mode once.
 
-### Stretch only (do not start before the core is done)
+**Cut list (in order):** online extras, photo input, animations, blends, sides suggestion (keep plate totals for the chosen protein only), processing model (keep fallback). The ranking engine, the honest labels, the safety guard and offline mode must survive every cut.
 
-- Survey logistic regression: if the team collects 100 or more consented survey responses on willingness to switch, fit scikit-learn `LogisticRegression` and show an acceptance estimate with the survey size beside it.
+## 12. Team lanes
 
-### Evidence to produce for the pitch
+- **Data:** read papers, fill the tables (including the dish list and each dish's functional needs), keep `SOURCES.md`. This lane decides whether the product works, so it gets the most people.
+- **Backend (starts now):** data validation, Python reference engine (`suggestDishes`, ranking, sizing, plate), bundle builder, golden fixtures, optional FastAPI service. The TypeScript port follows the same fixtures.
+- **AI:** processing model training, grouped cross-validation, baseline, `model.json`, metrics report.
+- **Mobile (later this evening):** Expo app, design system, screens, offline behaviour, accessibility; consumes the bundle and the TypeScript engine.
 
-1. Backtest table: regression vs naive baseline on hold-out months.
-2. Baseline comparison: our top swap vs "cheapest only" on cost, protein, similarity.
-3. Sanity checks: at least 3 swaps reviewed against domain knowledge; record the mentor's comments at checkpoint 2.
-4. A limitations slide listing every estimated input.
+## 13. Three-minute pitch outline
 
-## 7. API contract
+1. The problem: protein costs about 4 times more per gram from beef than from beans (our NBS-based calculation, to be re-checked), and many households cannot meet the guideline.
+2. The user and decision: a home cook on a budget choosing a plant protein and how to prepare it.
+3. Demo, offline: "I have beans and 1,500 naira": see the dish suggestions with reasons, open one and see the sourced preparation steps, then the plate balance.
+4. The AI: ranking from published functional properties plus a model trained on published experiments, with a backtest against a simple baseline shown honestly.
+5. Safety and honesty: offline, private, safety guard, limits panel, what is not validated in a lab.
+6. Next: weigh local measures, add more crops, expert review of rules, lab validation.
 
-Base URL `http://localhost:8000`. JSON. CORS allows `http://localhost:5173`. All errors return `{"detail": "..."}` with a correct status code.
+## 14. Risks and open questions
 
-- `GET /health` returns `{"status": "ok"}`.
-- `GET /dishes` returns a list of `{id, name, animal_ingredient_id, portion_cooked_g, original_protein_g, original_cost_ngn}`.
-- `GET /ingredients` returns every ingredient row with provenance fields.
-- `POST /swap`
-  - Request: `{dish_id, plates (int), protein_budget_ngn (float or null), allergens ([str]), weights ({cost, protein, flavour, texture, prep} or null), min_protein_ratio (float, default 0.8), use_forecast (bool, default false), horizon_months (int 0-3, default 0), max_results (int, default 5)}`
-  - Response: `{dish, original: {cost_ngn, protein_g, traits}, candidates: [...], excluded: [{ingredient_id, reason}], limitations: [str], generated_at}`
-  - Each candidate: `{rank, label, components: [{ingredient_id, share}], cost_ngn_per_plate, cost_ngn_total, protein_g, protein_ratio, flavour_similarity, texture_similarity, prep_effort, score, score_breakdown: {cost, protein, flavour, texture, prep}, drivers: [str], flags: [str], render_traits: {fibrousness, firmness, moisture, browning, colour_hex}, data_quality: "measured" | "mixed" | "estimated"}`
-- `GET /price-per-protein` returns `[{ingredient_id, name, type, cost_ngn_per_100g_protein, data_quality}]`, sorted ascending.
-- `GET /forecast/{ingredient_id}?horizon=3` returns `{history: [{month, price}], fitted: [{month, price}], forecast: [{month, price, low, high}], metrics: {n, mae, mape, r2, naive_mae} or null, low_confidence}`.
-- `POST /explain` (optional) takes one candidate and returns `{text}`. Template text by default; LLM only if `ANTHROPIC_API_KEY` is set, and numbers must be passed in and never changed.
+- Track fit: confirm with organisers that this counts as Challenge 1.
+- Pre-written code rule: unconfirmed.
+- The organisers' resource pack may contain functional-property data. Check it first.
+- Data thinness: papers on these crops are limited; methods differ. Mitigations: percent change within paper, grouped CV, fallback mode.
+- Safety rules need a food scientist or mentor review. Until then they are labelled unreviewed.
+- Reference values for energy and iron must be sourced before any low/ok/high label is shown.
+- The 1.5 kg per mudu figure is a trade convention, not a measurement.
+- A phone demo needs Expo Go on a device on the same network, or a built APK (optional, cut if it costs time).
 
-`data_quality` is `measured` only if every used price and protein value is measured, `estimated` if all are estimated, otherwise `mixed`. Trait estimates are always disclosed separately in `limitations`.
-
-## 8. Frontend
-
-- Stack: Vite, React, TypeScript, Tailwind, shadcn/ui. (Material UI only if shadcn setup fails and cannot be fixed in 15 minutes.)
-- Layout: left control panel, right results area with tabs (Swaps, Price per protein, Forecast).
-- Controls: dish select, plates input, protein budget input (placeholder shows the default), allergen checkboxes (soy, groundnut, others from data), weight sliders, "use forecast price" switch.
-- Results: ranked cards with rank, label, cost per plate and total, protein ratio, two similarity bars, drivers, flags, data-quality badge. Selecting a card updates the 3D panel.
-- A persistent alert: "Prices and protein are marked measured or estimated. Flavour, texture and appearance are estimates. Not taste-tested."
-- Loading: skeletons. Errors: readable message with a retry. Empty result: explain which constraints removed everything and offer to relax them.
-- Mobile-friendly is nice, desktop projector view is the priority. High contrast, large text for demo.
-
-## 9. 3D preview
-
-- Libraries: three, @react-three/fiber, @react-three/drei.
-- Procedural only. No external model files, no generation APIs.
-- Scene: plate, a starch mound (rice or soup base) built with instancing, and protein pieces.
-- Mapping from `render_traits`:
-  - `colour_hex` sets the base colour; `browning` darkens edges.
-  - `fibrousness` sets stripe frequency and contrast of a generated canvas bump/normal texture.
-  - `moisture` lowers roughness (shinier) as it rises.
-  - `firmness` sets piece corner roundness and count (firmer means crisper edges).
-- OrbitControls, soft lighting, an environment preset, limited triangle count (under about 200k).
-- Always show the caption: "Predicted appearance, not a photo."
-- Fallback if WebGL fails: a static SVG plate with colour only.
-
-## 10. Honesty rules (these protect our score)
-
-- Label every input measured or estimated. Show it.
-- Say "predicted similarity", never "tastes like".
-- Say "estimated from a small price history" on forecasts. Show the backtest, including when it is poor.
-- No claims about health, acceptance, or lab validation.
-- If data is missing, exclude the candidate and say why. Do not fill silently.
-
-## 11. Milestones and the cut list
-
-| Milestone | Done when |
-|---|---|
-| M0 Repo and data | Folders exist, three CSV/JSON files load without errors, SOURCES.md filled for every row |
-| M1 Engine | `POST /swap` returns ranked candidates for all dishes; unit tests pass |
-| M2 Forecast | `train_forecast.py` writes metrics; `/forecast` and `/price-per-protein` work |
-| M3 UI | Controls and Swaps tab work end to end against the live API |
-| M4 3D and charts | 3D plate reacts to the selected candidate; Forecast and Price tabs render |
-| M5 Polish and evidence | Limitations panel, backtest table, baseline comparison, pitch deck notes |
-
-If time runs short, cut in this order: (1) 3D becomes the SVG plate, (2) forecast tab becomes a table, (3) blends become singles only, (4) drop the optional endpoints. The ranking engine and the honest labels must survive every cut.
-
-## 12. Pitch outline (3 minutes)
-
-1. Problem (20 s): cafeterias want plant-based options but cannot tell what fits their budget.
-2. Live demo (60 s): pick a dish, set a budget, see ranked swaps, click one, see the 3D plate.
-3. The AI (40 s): optimiser and similarity scoring; regression price trend; why not an LLM for the numbers.
-4. Evidence (30 s): backtest vs naive baseline, comparison with "cheapest only".
-5. Limits (15 s): what is estimated, what is not claimed.
-6. Next step (15 s): pilot with one school cafeteria and a tasting panel.
-
-## 13. Open questions for the human
-
-- Are pre-written files and code allowed before the build starts? Has the organisers' resource pack arrived?
-- Which three dishes does the team want first?
-- Which cities or markets will the price data cover?
+- Dish list and each dish's functional needs are judgement calls. Agree them with a mentor and mark the weights as estimated.
