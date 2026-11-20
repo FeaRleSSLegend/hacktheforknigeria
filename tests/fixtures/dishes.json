@@ -1,0 +1,43 @@
+[
+ {
+  "id": "test_dish",
+  "name": "Test dish",
+  "application_id": "test_app",
+  "protein_slot_ids": [
+   "test_a",
+   "test_b",
+   "test_c",
+   "test_partial"
+  ],
+  "side_items": [
+   {
+    "id": "test_side",
+    "as_sold_g_per_serving": 50
+   }
+  ],
+  "playbook_ids": [],
+  "notes": "TEST ONLY"
+ },
+ {
+  "id": "test_dish_nodata",
+  "name": "Test dish no data",
+  "application_id": "test_app",
+  "protein_slot_ids": [
+   "test_nodata"
+  ],
+  "side_items": [],
+  "playbook_ids": [],
+  "notes": "TEST ONLY"
+ },
+ {
+  "id": "test_dish_noprice",
+  "name": "Test dish no price",
+  "application_id": "test_app",
+  "protein_slot_ids": [
+   "test_noprice"
+  ],
+  "side_items": [],
+  "playbook_ids": [],
+  "notes": "TEST ONLY"
+ }
+]

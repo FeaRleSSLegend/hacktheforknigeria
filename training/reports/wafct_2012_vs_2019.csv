@@ -1,0 +1,34 @@
+code_2012,food_2012,value_type_2012,code_2019,name_2019,protein_g_2012,protein_g_2019,protein_g_diff,water_g_2012,water_g_2019,water_g_diff,fat_g_2012,fat_g_2019,fat_g_diff,note
+03_004,Cowpea (dried),table_value,03_004,"Cowpea, dry, raw",21.2,22.6,1.4,11.8,11.0,-0.8,1.3,1.5,0.2,
+03_007,Cowpea (boiled no salt),calculated_from_raw,03_007,"Cowpea, not soaked, boiled* (without salt), drained",7.9,8.5,0.6,67.3,66.7,-0.6,0.5,0.5,0.0,
+03_006,Cowpea white (dried),table_value,03_006,"Cowpea, white, dry, raw",19.2,23.0,3.8,13.3,10.7,-2.6,1.5,1.8,0.3,
+03_029,Cowpea white (boiled no salt),calculated_from_raw,03_029,"Cowpea, white, not soaked, boiled* (without salt), drained",7.1,8.6,1.5,67.9,66.5,-1.4,0.6,0.7,0.1,
+03_027,Cowpea brown (dried),table_value,03_027,"Cowpea, brown, dry, raw",21.2,23.6,2.4,12.5,11.0,-1.5,1.6,1.9,0.3,
+03_028,Cowpea brown (boiled no salt),calculated_from_raw,03_028,"Cowpea, brown, not soaked, boiled* (without salt), drained",7.9,8.9,1.0,67.6,66.7,-0.9,0.6,0.7,0.1,
+03_001,Bambara groundnut (dried),table_value,03_001,"Bambara groundnut, dry, raw",20.1,19.5,-0.6,8.4,9.0,0.6,5.9,5.9,0.0,
+03_012,Bambara groundnut (boiled no salt),calculated_from_raw,03_012,"Bambara groundnut, not soaked, boiled* (without salt), drained",7.4,9.8,2.4,66.1,54.5,-11.6,2.2,2.9,0.7,
+03_018,Bambara groundnut combined varieties Ghana (dried),table_value,03_018,"Bambara groundnut, combined varieties, dry, raw (Ghana)",20.8,20.8,0.0,9.4,9.4,0.0,5.5,5.5,0.0,
+03_019,Bambara groundnut combined varieties Ghana (boiled),calculated_from_raw,03_019,"Bambara groundnut, combined varieties (Ghana), not soaked, boiled* (without salt), drained",7.7,10.4,2.7,66.4,54.7,-11.7,2.0,2.7,0.7,
+03_008,Soya bean (dried),table_value,03_008,"Soya bean, dry, raw",32.0,31.3,-0.7,9.3,9.3,0.0,17.0,17.0,0.0,
+03_034,Soya bean (boiled no salt),calculated_from_raw,03_034,"Soya bean, not soaked, boiled* (without salt), drained",13.9,12.9,-1.0,60.6,62.7,2.1,7.4,7.0,-0.4,
+03_039,Soya bean combined varieties Ghana (dried),table_value,03_039,"Soya bean, combined varieties, dry, raw (Ghana)",34.7,34.7,0.0,7.9,7.9,0.0,15.9,15.9,0.0,
+03_040,Soya bean combined varieties Ghana (boiled),calculated_from_raw,03_040,"Soya bean, combined varieties (Ghana), not soaked, boiled* (without salt), drained",15.1,14.3,-0.8,60.0,62.1,2.1,6.9,6.5,-0.4,
+03_032,Pigeon pea (dried),table_value,03_032,"Pigeon pea, dry, raw",18.4,20.8,2.4,13.4,11.1,-2.3,1.5,2.1,0.6,
+03_033,Pigeon pea (boiled no salt),calculated_from_raw,03_033,"Pigeon pea, not soaked, boiled* (without salt), drained",6.8,9.0,2.2,67.9,61.4,-6.5,0.6,0.9,0.3,
+03_010,African yam bean (dried),table_value,03_010,"African yam bean, dry, raw",18.9,20.5,1.6,13.3,11.4,-1.9,1.5,1.5,0.0,
+03_011,African yam bean (boiled no salt),calculated_from_raw,03_011,"African yam bean, not soaked, boiled* (without salt), drained",7.0,7.9,0.9,67.9,66.1,-1.8,0.6,0.6,0.0,
+03_009,African locust bean seeds (dried),table_value,03_009,"African locust bean, dry, raw",32.3,29.0,-3.3,7.0,7.8,0.8,19.5,13.8,-5.7,
+06_010,Groundnut shelled (dried),table_value,06_010,"Groundnut, shelled, dried, raw",22.4,22.4,0.0,6.3,5.4,-0.9,45.9,44.2,-1.7,
+06_026,Groundnut paste,table_value,06_026,"Groundnut paste, from groundnuts only",25.0,23.9,-1.1,7.2,4.6,-2.6,47.2,49.9,2.7,
+06_028,Groundnut flour defatted,table_value,06_028,"Groundnut flour, partially defatted",42.5,42.5,0.0,5.0,5.0,0.0,9.9,9.9,0.0,
+06_013,Melon seeds (egusi) slightly salted,table_value,06_013,"Melon seed, kernel only, dried, raw",27.5,27.6,0.1,6.4,6.3,-0.1,47.9,45.0,-2.9,
+07_009,Beef lean boneless,table_value,07_009,,21.7,,,73.2,,,4.3,,,no 2019 match in the kept food groups or sheet 11
+07_010,Beef lean boneless boiled no salt,calculated_from_raw,07_010,,36.2,,,55.3,,,7.2,,,no 2019 match in the kept food groups or sheet 11
+07_011,Beef lean boneless grilled,calculated_from_raw,07_011,,30.1,,,62.8,,,6.0,,,no 2019 match in the kept food groups or sheet 11
+07_002,Beef 15-20% fat boneless,table_value,07_002,,18.4,,,64.3,,,18.0,,,no 2019 match in the kept food groups or sheet 11
+07_012,Beef 15-20% fat boneless boiled,calculated_from_raw,07_012,,30.6,,,49.1,,,21.3,,,no 2019 match in the kept food groups or sheet 11
+07_013,Beef 15-20% fat boneless grilled,calculated_from_raw,07_013,,25.5,,,55.4,,,19.9,,,no 2019 match in the kept food groups or sheet 11
+07_033,Chicken light meat flesh,table_value,07_033,,23.6,,,74.5,,,1.4,,,no 2019 match in the kept food groups or sheet 11
+07_034,Chicken light meat flesh boiled,calculated_from_raw,07_034,,31.1,,,66.5,,,1.8,,,no 2019 match in the kept food groups or sheet 11
+07_003,Chicken dark meat flesh,table_value,07_003,,20.4,,,72.9,,,5.9,,,no 2019 match in the kept food groups or sheet 11
+07_028,Chicken dark meat flesh boiled,calculated_from_raw,07_028,,26.8,,,66.5,,,5.6,,,no 2019 match in the kept food groups or sheet 11

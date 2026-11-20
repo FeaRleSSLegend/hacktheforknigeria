@@ -1,0 +1,10 @@
+application_id,needs_source,ingredient_id,n_functional_values,needs_with_data,needs_missing,engine_effect
+TEST_FIXTURE_akara_batter,TEST FIXTURE (data/applications.json is empty),cowpea,22,foam_capacity;foam_stability;emulsion_capacity;oil_absorption,,complete
+TEST_FIXTURE_akara_batter,TEST FIXTURE (data/applications.json is empty),bambara,28,foam_capacity;foam_stability;emulsion_capacity;oil_absorption,,complete
+TEST_FIXTURE_akara_batter,TEST FIXTURE (data/applications.json is empty),pigeon_pea,19,foam_capacity;foam_stability;emulsion_capacity;oil_absorption,,complete
+TEST_FIXTURE_akara_batter,TEST FIXTURE (data/applications.json is empty),african_yam_bean,5,foam_capacity,foam_stability;emulsion_capacity;oil_absorption,partial data flag
+TEST_FIXTURE_akara_batter,TEST FIXTURE (data/applications.json is empty),jack_bean,10,foam_capacity;foam_stability;emulsion_capacity;oil_absorption,,complete
+TEST_FIXTURE_akara_batter,TEST FIXTURE (data/applications.json is empty),soybean,5,foam_capacity;foam_stability;oil_absorption,emulsion_capacity,partial data flag
+TEST_FIXTURE_akara_batter,TEST FIXTURE (data/applications.json is empty),groundnut,0,,foam_capacity;foam_stability;emulsion_capacity;oil_absorption,excluded (no functional data)
+TEST_FIXTURE_akara_batter,TEST FIXTURE (data/applications.json is empty),melon_seed,7,foam_capacity;oil_absorption,foam_stability;emulsion_capacity,partial data flag
+TEST_FIXTURE_akara_batter,TEST FIXTURE (data/applications.json is empty),african_locust_bean,4,foam_capacity;foam_stability;emulsion_capacity,oil_absorption,partial data flag

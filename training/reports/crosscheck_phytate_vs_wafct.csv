@@ -1,0 +1,10 @@
+crop_id,wafct_code,wafct_phytate_mg,wafct_imputed,phyfoodcomp_raw_records,phytate_indirect_mg_n,phytate_indirect_mg_min,phytate_indirect_mg_median,phytate_indirect_mg_max,phytate_direct_mg_n,phytate_direct_mg_min,phytate_direct_mg_median,phytate_direct_mg_max,phytate_anion_exchange_mg_n,phytate_anion_exchange_mg_min,phytate_anion_exchange_mg_median,phytate_anion_exchange_mg_max
+cowpea,03_004,779.0,False,49,13,103.8202,353.792268,840.5218950000001,1,625.2182,625.2182,625.2182,35,456.144,752.5,1330.0
+bambara,03_001,,False,3,1,1379.1139500000002,1379.1139500000002,1379.1139500000002,1,12.3363,12.3363,12.3363,1,1100.0,1100.0,1100.0
+pigeon_pea,03_032,375.0,False,2,0,,,,2,255.0,491.0,727.0,0,,,
+african_yam_bean,03_010,,False,0,0,,,,0,,,,0,,,
+jack_bean,03_052,,False,0,0,,,,0,,,,0,,,
+soybean,03_008,487.0,False,35,2,1100.4,1551.91,2003.42,19,35.179,342.316,1872.0,14,0.809432,2.2186165,1356.2120000000002
+groundnut,06_010,339.0,False,3,3,170.0,590.0,860.0,0,,,,0,,,
+melon_seed,06_013,178.0,False,0,0,,,,0,,,,0,,,
+african_locust_bean,03_009,317.0,False,1,1,1023.5579999999999,1023.5579999999999,1023.5579999999999,0,,,,0,,,

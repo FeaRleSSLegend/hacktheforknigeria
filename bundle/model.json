@@ -1,0 +1,5 @@
+{
+  "generated": "2026-11-20",
+  "models": {},
+  "note": "Only metrics that beat the baseline in grouped CV appear here; all others use the fallback."
+}

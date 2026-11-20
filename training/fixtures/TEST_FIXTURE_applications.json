@@ -1,0 +1,13 @@
+[
+  {
+    "id": "TEST_FIXTURE_akara_batter",
+    "name": "TEST FIXTURE: akara-style whipped batter (placeholder needs, equal weights)",
+    "needs": [
+      {"property": "foam_capacity", "direction": "higher", "weight": 0.25},
+      {"property": "foam_stability", "direction": "higher", "weight": 0.25},
+      {"property": "emulsion_capacity", "direction": "higher", "weight": 0.25},
+      {"property": "oil_absorption", "direction": "lower", "weight": 0.25}
+    ],
+    "notes": "TEST FIXTURE. Placeholder needs and weights to exercise the pipeline; not expert judgement."
+  }
+]

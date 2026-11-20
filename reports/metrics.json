@@ -1,0 +1,805 @@
+{
+  "generated": "2026-11-20",
+  "source": "data/treatment_experiments.csv",
+  "rule": {
+    "min_rows": 30,
+    "min_papers": 3,
+    "must_beat": "min(B0, B1) grouped-CV MAE"
+  },
+  "rows_used": 283,
+  "rows_excluded_zero_baseline": 0,
+  "rows_excluded_needs_human": 22,
+  "features": "crop, treatment, baseline type (one-hot); time_h, temp_c, time^2, time x temp (standardised)",
+  "per_metric": {
+    "bulk_density": {
+      "n_rows": 28,
+      "n_papers": 4,
+      "n_crops": 3,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 18,
+      "cv_run": true,
+      "mae_model": 16.40116222958032,
+      "mae_b0": 8.500944157711555,
+      "mae_b1": 8.500944157711555,
+      "r2_model": -5.398657876403036,
+      "residual_sd": 24.730574804566274,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "sobowale2025"
+          ],
+          "alpha": 100.0,
+          "n_test": 12,
+          "n_test_in_training_range": 0,
+          "mae_model": 11.640706370618348,
+          "mae_b0": 11.054536513611872,
+          "mae_b1": 11.054536513611872
+        },
+        {
+          "test_papers": [
+            "makinde2020"
+          ],
+          "alpha": 0.01,
+          "n_test": 9,
+          "n_test_in_training_range": 0,
+          "mae_model": 3.6496619457053154,
+          "mae_b0": 5.465511173273729,
+          "mae_b1": 5.465511173273729
+        },
+        {
+          "test_papers": [
+            "abioye2014"
+          ],
+          "alpha": 100.0,
+          "n_test": 4,
+          "n_test_in_training_range": 0,
+          "mae_model": 53.10313626832581,
+          "mae_b0": 0.5952380952380958,
+          "mae_b1": 0.5952380952380958
+        },
+        {
+          "test_papers": [
+            "abiodun2011"
+          ],
+          "alpha": 100.0,
+          "n_test": 3,
+          "n_test_in_training_range": 0,
+          "mae_model": 24.761521132059215,
+          "mae_b0": 17.933815104055046,
+          "mae_b1": 17.933815104055046
+        }
+      ],
+      "shipped": false,
+      "reason": "28 rows; at least 30 needed"
+    },
+    "bulk_density_packed": {
+      "n_rows": 9,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 3,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "dispersibility": {
+      "n_rows": 12,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 12,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "emulsion_capacity": {
+      "n_rows": 6,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 6,
+      "rows_missing_temp": 6,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "emulsion_stability": {
+      "n_rows": 6,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 6,
+      "rows_missing_temp": 6,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "energy": {
+      "n_rows": 1,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 1,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "fat": {
+      "n_rows": 4,
+      "n_papers": 2,
+      "n_crops": 4,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 4,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "2 paper(s); grouped cross-validation needs at least 3"
+    },
+    "fibre": {
+      "n_rows": 1,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 1,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "foam_capacity": {
+      "n_rows": 25,
+      "n_papers": 4,
+      "n_crops": 4,
+      "rows_missing_time": 9,
+      "rows_missing_temp": 21,
+      "cv_run": true,
+      "mae_model": 35.98511064928929,
+      "mae_b0": 33.62746355051906,
+      "mae_b1": 32.08429715902282,
+      "r2_model": -0.1437360918076176,
+      "residual_sd": 44.886086320294375,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "sobowale2025"
+          ],
+          "alpha": 0.1,
+          "n_test": 12,
+          "n_test_in_training_range": 0,
+          "mae_model": 37.781411556294564,
+          "mae_b0": 37.90071935233225,
+          "mae_b1": 37.90071935233225
+        },
+        {
+          "test_papers": [
+            "mubaiwa2018"
+          ],
+          "alpha": 10.0,
+          "n_test": 6,
+          "n_test_in_training_range": 0,
+          "mae_model": 49.17995784448404,
+          "mae_b0": 49.0009746588694,
+          "mae_b1": 38.081434428984345
+        },
+        {
+          "test_papers": [
+            "abioye2014"
+          ],
+          "alpha": 0.01,
+          "n_test": 4,
+          "n_test_in_training_range": 0,
+          "mae_model": 26.068003711618786,
+          "mae_b0": 10.899061628201874,
+          "mae_b1": 14.347337490270846
+        },
+        {
+          "test_papers": [
+            "abulude2006"
+          ],
+          "alpha": 1.0,
+          "n_test": 3,
+          "n_test_in_training_range": 0,
+          "mae_model": 15.63302188110606,
+          "mae_b0": 16.091954022988507,
+          "mae_b1": 20.473613404197966
+        }
+      ],
+      "shipped": false,
+      "reason": "25 rows; at least 30 needed"
+    },
+    "foam_stability": {
+      "n_rows": 6,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 6,
+      "rows_missing_temp": 6,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "iron": {
+      "n_rows": 4,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 0,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "ivpd": {
+      "n_rows": 1,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 1,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "least_gelation": {
+      "n_rows": 9,
+      "n_papers": 2,
+      "n_crops": 2,
+      "rows_missing_time": 9,
+      "rows_missing_temp": 9,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "2 paper(s); grouped cross-validation needs at least 3"
+    },
+    "oil_absorption": {
+      "n_rows": 24,
+      "n_papers": 3,
+      "n_crops": 3,
+      "rows_missing_time": 3,
+      "rows_missing_temp": 18,
+      "cv_run": true,
+      "mae_model": 327920.5165607327,
+      "mae_b0": 19.94605677278523,
+      "mae_b1": 31.113900874967296,
+      "r2_model": -385720537.4683204,
+      "residual_sd": 472827.3310542729,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "sobowale2025"
+          ],
+          "alpha": 0.01,
+          "n_test": 12,
+          "n_test_in_training_range": 0,
+          "mae_model": 655794.4560100705,
+          "mae_b0": 16.98141032291359,
+          "mae_b1": 16.98141032291359
+        },
+        {
+          "test_papers": [
+            "makinde2020"
+          ],
+          "alpha": 0.01,
+          "n_test": 9,
+          "n_test_in_training_range": 0,
+          "mae_model": 39.23984520980955,
+          "mae_b0": 9.144095524946,
+          "mae_b1": 39.983879537953634
+        },
+        {
+          "test_papers": [
+            "abulude2006"
+          ],
+          "alpha": 100.0,
+          "n_test": 3,
+          "n_test_in_training_range": 0,
+          "mae_model": 68.5889099497241,
+          "mae_b0": 64.21052631578948,
+          "mae_b1": 61.03392709422312
+        }
+      ],
+      "shipped": false,
+      "reason": "24 rows; at least 30 needed"
+    },
+    "oxalate": {
+      "n_rows": 29,
+      "n_papers": 5,
+      "n_crops": 4,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 19,
+      "cv_run": true,
+      "mae_model": 63.811833750759426,
+      "mae_b0": 47.89765268282541,
+      "mae_b1": 47.89765268282541,
+      "r2_model": -1.3015801520292882,
+      "residual_sd": 93.82726345247434,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "sobowale2025"
+          ],
+          "alpha": 100.0,
+          "n_test": 12,
+          "n_test_in_training_range": 0,
+          "mae_model": 68.49140609449991,
+          "mae_b0": 65.6993986577171,
+          "mae_b1": 65.6993986577171
+        },
+        {
+          "test_papers": [
+            "makinde2020"
+          ],
+          "alpha": 10.0,
+          "n_test": 9,
+          "n_test_in_training_range": 0,
+          "mae_model": 30.764843497067073,
+          "mae_b0": 32.43364822312191,
+          "mae_b1": 32.43364822312191
+        },
+        {
+          "test_papers": [
+            "abioye2014"
+          ],
+          "alpha": 10.0,
+          "n_test": 4,
+          "n_test_in_training_range": 0,
+          "mae_model": 147.29259871161292,
+          "mae_b0": 28.094523630907727,
+          "mae_b1": 28.094523630907727
+        },
+        {
+          "test_papers": [
+            "abiodun2011"
+          ],
+          "alpha": 100.0,
+          "n_test": 3,
+          "n_test_in_training_range": 0,
+          "mae_model": 34.334517766978074,
+          "mae_b0": 42.02931503577779,
+          "mae_b1": 42.02931503577779
+        },
+        {
+          "test_papers": [
+            "chude2018"
+          ],
+          "alpha": 100.0,
+          "n_test": 1,
+          "n_test_in_training_range": 0,
+          "mae_model": 59.58876601703445,
+          "mae_b0": 70.27027027027027,
+          "mae_b1": 70.27027027027027
+        }
+      ],
+      "shipped": false,
+      "reason": "29 rows; at least 30 needed"
+    },
+    "phytate": {
+      "n_rows": 17,
+      "n_papers": 4,
+      "n_crops": 4,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 7,
+      "cv_run": true,
+      "mae_model": 58.095956958932064,
+      "mae_b0": 33.00310523194733,
+      "mae_b1": 33.00310523194733,
+      "r2_model": -29.700491080936125,
+      "residual_sd": 90.24829624401802,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "makinde2020"
+          ],
+          "alpha": 100.0,
+          "n_test": 9,
+          "n_test_in_training_range": 0,
+          "mae_model": 14.962962384376596,
+          "mae_b0": 29.37589510519024,
+          "mae_b1": 29.37589510519024
+        },
+        {
+          "test_papers": [
+            "abioye2014"
+          ],
+          "alpha": 100.0,
+          "n_test": 4,
+          "n_test_in_training_range": 0,
+          "mae_model": 187.15991091227266,
+          "mae_b0": 21.24212421242124,
+          "mae_b1": 21.24212421242124
+        },
+        {
+          "test_papers": [
+            "abiodun2011"
+          ],
+          "alpha": 100.0,
+          "n_test": 3,
+          "n_test_in_training_range": 0,
+          "mae_model": 33.68158741643663,
+          "mae_b0": 60.43092480837148,
+          "mae_b1": 60.43092480837148
+        },
+        {
+          "test_papers": [
+            "chude2018"
+          ],
+          "alpha": 100.0,
+          "n_test": 1,
+          "n_test_in_training_range": 0,
+          "mae_model": 3.2802009440552844,
+          "mae_b0": 30.40846172159304,
+          "mae_b1": 30.40846172159304
+        }
+      ],
+      "shipped": false,
+      "reason": "17 rows; at least 30 needed"
+    },
+    "polyphenols": {
+      "n_rows": 1,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 1,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "protein": {
+      "n_rows": 8,
+      "n_papers": 3,
+      "n_crops": 4,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 4,
+      "cv_run": true,
+      "mae_model": 13.523563622641827,
+      "mae_b0": 8.029830803518475,
+      "mae_b1": 8.029830803518475,
+      "r2_model": -2.493704475976637,
+      "residual_sd": 16.350253347612178,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "abioye2014"
+          ],
+          "alpha": 0.01,
+          "n_test": 4,
+          "n_test_in_training_range": 0,
+          "mae_model": 13.352732928566603,
+          "mae_b0": 1.8779342723004668,
+          "mae_b1": 1.8779342723004668
+        },
+        {
+          "test_papers": [
+            "abiodun2011"
+          ],
+          "alpha": 0.01,
+          "n_test": 3,
+          "n_test_in_training_range": 0,
+          "mae_model": 17.43978763017938,
+          "mae_b0": 17.14614926682813,
+          "mae_b1": 17.14614926682813
+        },
+        {
+          "test_papers": [
+            "chude2018"
+          ],
+          "alpha": 100.0,
+          "n_test": 1,
+          "n_test_in_training_range": 0,
+          "mae_model": 2.458214376330055,
+          "mae_b0": 5.288461538461545,
+          "mae_b1": 5.288461538461545
+        }
+      ],
+      "shipped": false,
+      "reason": "8 rows; at least 30 needed"
+    },
+    "saponin": {
+      "n_rows": 3,
+      "n_papers": 1,
+      "n_crops": 3,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 3,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "starch_solubility": {
+      "n_rows": 9,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 3,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "swelling_capacity": {
+      "n_rows": 4,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 0,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "swelling_index": {
+      "n_rows": 3,
+      "n_papers": 1,
+      "n_crops": 3,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 3,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "swelling_power": {
+      "n_rows": 21,
+      "n_papers": 2,
+      "n_crops": 2,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 15,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "2 paper(s); grouped cross-validation needs at least 3"
+    },
+    "tannin": {
+      "n_rows": 13,
+      "n_papers": 3,
+      "n_crops": 4,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 7,
+      "cv_run": true,
+      "mae_model": 13389.515081519568,
+      "mae_b0": 54.63519637125486,
+      "mae_b1": 54.63519637125486,
+      "r2_model": -17210900.04509616,
+      "residual_sd": 48227.87675320259,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "makinde2020"
+          ],
+          "alpha": 0.01,
+          "n_test": 9,
+          "n_test_in_training_range": 0,
+          "mae_model": 13.516325962019275,
+          "mae_b0": 50.28467919680071,
+          "mae_b1": 50.28467919680071
+        },
+        {
+          "test_papers": [
+            "abiodun2011"
+          ],
+          "alpha": 100.0,
+          "n_test": 3,
+          "n_test_in_training_range": 0,
+          "mae_model": 16.47822311821243,
+          "mae_b0": 67.25441222175874,
+          "mae_b1": 67.25441222175874
+        },
+        {
+          "test_papers": [
+            "chude2018"
+          ],
+          "alpha": 0.01,
+          "n_test": 1,
+          "n_test_in_training_range": 0,
+          "mae_model": 173892.61445674158,
+          "mae_b0": 55.932203389830505,
+          "mae_b1": 55.932203389830505
+        }
+      ],
+      "shipped": false,
+      "reason": "13 rows; at least 30 needed"
+    },
+    "trypsin_inhibitor": {
+      "n_rows": 8,
+      "n_papers": 3,
+      "n_crops": 4,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 4,
+      "cv_run": true,
+      "mae_model": 23.680512927216085,
+      "mae_b0": 61.765422077922075,
+      "mae_b1": 61.765422077922075,
+      "r2_model": -0.3653363600548758,
+      "residual_sd": 29.815016275992473,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "abioye2014"
+          ],
+          "alpha": 0.01,
+          "n_test": 4,
+          "n_test_in_training_range": 0,
+          "mae_model": 31.032827837920202,
+          "mae_b0": 72.72727272727272,
+          "mae_b1": 72.72727272727272
+        },
+        {
+          "test_papers": [
+            "abiodun2011"
+          ],
+          "alpha": 100.0,
+          "n_test": 3,
+          "n_test_in_training_range": 0,
+          "mae_model": 18.397439975231404,
+          "mae_b0": 47.5,
+          "mae_b1": 47.5
+        },
+        {
+          "test_papers": [
+            "chude2018"
+          ],
+          "alpha": 10.0,
+          "n_test": 1,
+          "n_test_in_training_range": 0,
+          "mae_model": 10.120472140353684,
+          "mae_b0": 60.71428571428572,
+          "mae_b1": 60.71428571428572
+        }
+      ],
+      "shipped": false,
+      "reason": "8 rows; at least 30 needed"
+    },
+    "water_absorption": {
+      "n_rows": 31,
+      "n_papers": 5,
+      "n_crops": 4,
+      "rows_missing_time": 3,
+      "rows_missing_temp": 21,
+      "cv_run": true,
+      "mae_model": 31.809640757142358,
+      "mae_b0": 19.745369421319392,
+      "mae_b1": 30.365282708225497,
+      "r2_model": -3.0886057416003014,
+      "residual_sd": 50.053735227870305,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "sobowale2025"
+          ],
+          "alpha": 100.0,
+          "n_test": 12,
+          "n_test_in_training_range": 0,
+          "mae_model": 13.05201837257473,
+          "mae_b0": 16.601282021268002,
+          "mae_b1": 16.601282021268002
+        },
+        {
+          "test_papers": [
+            "makinde2020"
+          ],
+          "alpha": 100.0,
+          "n_test": 9,
+          "n_test_in_training_range": 0,
+          "mae_model": 8.938601945992959,
+          "mae_b0": 12.129621892667046,
+          "mae_b1": 27.96295522600038
+        },
+        {
+          "test_papers": [
+            "abioye2014"
+          ],
+          "alpha": 100.0,
+          "n_test": 4,
+          "n_test_in_training_range": 0,
+          "mae_model": 110.28745618351199,
+          "mae_b0": 5.722784359587116,
+          "mae_b1": 49.27721564041289
+        },
+        {
+          "test_papers": [
+            "abulude2006"
+          ],
+          "alpha": 100.0,
+          "n_test": 3,
+          "n_test_in_training_range": 0,
+          "mae_model": 51.07811346789813,
+          "mae_b0": 37.5,
+          "mae_b1": 41.66652892359533
+        },
+        {
+          "test_papers": [
+            "abiodun2011"
+          ],
+          "alpha": 100.0,
+          "n_test": 3,
+          "n_test_in_training_range": 0,
+          "mae_model": 51.547686782945846,
+          "mae_b0": 56.11111111111111,
+          "mae_b1": 56.11111111111111
+        }
+      ],
+      "shipped": false,
+      "reason": "model MAE 31.81 does not beat the better baseline 19.75"
+    }
+  },
+  "pooled_antinutrients_exploratory": {
+    "n_rows": 68,
+    "n_papers": 5,
+    "n_crops": 4,
+    "rows_missing_time": 0,
+    "rows_missing_temp": 38,
+    "cv_run": true,
+    "mae_model": 128.00868361908243,
+    "mae_b0": 47.21143236414884,
+    "mae_b1": 47.21143236414884,
+    "r2_model": -31.82129953374512,
+    "residual_sd": 248.4522286584378,
+    "n_test_in_training_range": 0,
+    "folds": [
+      {
+        "test_papers": [
+          "makinde2020"
+        ],
+        "alpha": 100.0,
+        "n_test": 27,
+        "n_test_in_training_range": 0,
+        "mae_model": 16.512021104679935,
+        "mae_b0": 37.36474084170428,
+        "mae_b1": 37.36474084170428
+      },
+      {
+        "test_papers": [
+          "sobowale2025"
+        ],
+        "alpha": 100.0,
+        "n_test": 12,
+        "n_test_in_training_range": 0,
+        "mae_model": 72.34714141093029,
+        "mae_b0": 65.6993986577171,
+        "mae_b1": 65.6993986577171
+      },
+      {
+        "test_papers": [
+          "abioye2014"
+        ],
+        "alpha": 10.0,
+        "n_test": 12,
+        "n_test_in_training_range": 0,
+        "mae_model": 574.3410402942699,
+        "mae_b0": 40.6879735235339,
+        "mae_b1": 40.6879735235339
+      },
+      {
+        "test_papers": [
+          "abiodun2011"
+        ],
+        "alpha": 100.0,
+        "n_test": 12,
+        "n_test_in_training_range": 0,
+        "mae_model": 31.578433217662663,
+        "mae_b0": 54.303663016477,
+        "mae_b1": 54.303663016477
+      },
+      {
+        "test_papers": [
+          "chude2018"
+        ],
+        "alpha": 100.0,
+        "n_test": 5,
+        "n_test_in_training_range": 0,
+        "mae_model": 23.913307439379167,
+        "mae_b0": 54.64739513267402,
+        "mae_b1": 54.64739513267402
+      }
+    ],
+    "shipped": false,
+    "reason": "model MAE 128.01 does not beat the better baseline 47.21",
+    "exploratory": true,
+    "metrics_pooled": [
+      "oxalate",
+      "phytate",
+      "polyphenols",
+      "tannin",
+      "trypsin_inhibitor"
+    ],
+    "n_rows_including_needs_human": 90,
+    "n_papers_including_needs_human": 5
+  },
+  "shipped_metrics": []
+}

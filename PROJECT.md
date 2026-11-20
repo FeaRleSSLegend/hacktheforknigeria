@@ -118,15 +118,17 @@ Known gaps: WAFCT energy and iron columns for ingredients and sides; prices for 
 
 **Protein sizing.** Target protein per meal `T` g: user choice, default one third of the daily guideline (0.8 g per kg body weight per day, a general estimate for adults, not medical advice). `as_sold_g = T / (protein_g_per_100g_as_sold / 100)`. `cost_ngn = as_sold_g / 1000 * price_ngn_per_kg`. `cost_per_g_protein = cost_ngn / T`. Without a body weight the app asks for `T` directly.
 
-**Candidates.** Singles and, as a stretch, two-ingredient blends at 10% steps. Hard constraints: budget, allergens, missing required data (excluded with a reason).
+**Price.** The input may carry a price per kg for any ingredient or side (`userPricesNgnPerKg`). A user price overrides the bundled price, which is only a default. An item with neither has no cost: it shows "price needed", its cost fields are null, and it is left out of the budget filter (not out of the ranking).
 
-**Dish suggestion.** For each dish: candidates are the ingredients in `protein_slot_ids` (in `pantry` mode, those the user has rank first and the rest are treated as items to buy; in `dish` mode the user picked the dish). Score each candidate for the dish's application as below. `missing_cost = sum(cost of items not in the pantry)`; `total_cost = protein cost + side costs`, all scaled to `servings`. The budget is money the user must spend, so drop dishes whose `missing_cost` exceeds the budget (listed under excluded with the reason). Rank dishes by the overall score of their best candidate. Cost excludes oil and spices.
+**Candidates.** Singles and, as a stretch, two-ingredient blends at 10% steps. Hard constraints: allergens, missing protein value, and missing functional data (see complete coverage below), each excluded with a reason. Budget filters dishes on known costs only.
+
+**Dish suggestion.** For each dish: candidates are the ingredients in `protein_slot_ids` (in `pantry` mode, those the user has rank first and the rest are treated as items to buy; in `dish` mode the user picked the dish). Score each candidate for the dish's application as below. `missing_cost = sum(known cost of items not in the pantry)`; `total_cost = protein cost + side costs`, all scaled to `servings`, and null if any of them has no price. The budget is money the user must spend, so drop dishes whose `missing_cost` exceeds the budget (listed under excluded with the reason). Items with no price are not counted and the card says so. Rank dishes by the overall score of their best candidate. Cost excludes oil and spices.
 
 **Shopping list (add-on).** Sum of `missing_items` for the chosen dishes, with prices and their source month.
 
-**Functional fit.** For each need `k` in the application: take the ingredient's median value (and min-max range) for that property within one `form`. Scale across candidates to 0-1 (invert if direction is lower). `fit = sum(w_k * d_k)`. Ranges are carried through so uncertainty is shown. Ingredients with no value for a needed property are marked "no data" for that need and the fit is computed on the available needs with a visible flag.
+**Functional fit (complete-coverage rule).** An ingredient is ranked for an application only if it has a value for every need of that application. An ingredient missing any need is not ranked; it goes in a separate "not enough data" list with the missing needs named. Fit is never computed over a subset of needs. For each need `k`: take the ingredient's median value (and min-max range) for that property within one `form`. Scale across the ranked candidates only to 0-1 (invert if direction is lower). `fit = sum(w_k * d_k) / sum(w_k)`. Ranges are carried through so uncertainty is shown.
 
-**Overall score.** `0.50 * fit + 0.30 * cost_score + 0.20 * protein_density_score` (default weights, estimated, shown in the model card). **Drivers** = `w_k * (score_k - mean_k)`, the top two shown as plain text.
+**Overall score.** `0.50 * fit + 0.30 * cost_score + 0.20 * protein_density_score` (default weights, estimated, shown in the model card). The cost score is scaled across priced candidates only. A candidate with no price is scored on fit and density alone, with those two weights renormalised (`(0.50 * fit + 0.20 * density) / 0.70`), and flagged "price needed". **Drivers** = `w_k * (score_k - mean_k)` over the parts a candidate has (means over the candidates that have that part), the top two shown as plain text.
 
 **Processing model.** For each outcome metric with enough rows (at least 30, to be checked at training time): features are crop (one-hot), treatment (one-hot), `time_h`, `temp_c`, `time_h^2`, `time_h x temp_c`; target is `change_pct`; model is `Ridge`. Validation is `GroupKFold` by `paper_id` (never split rows of one paper across train and test). Baseline is the mean `change_pct` per treatment. Report MAE for model and baseline, and R-squared. Interval is plus or minus 1.96 times residual SD from cross-validation. Recommendation = grid search over the observed range of time and temperature for that crop and treatment (no extrapolation), top 3 conditions, with intervals. A metric ships a model only if its grouped-CV MAE is lower than the baseline's. Otherwise it ships the fallback.
 
@@ -138,13 +140,13 @@ Known gaps: WAFCT energy and iron columns for ingredients and sides; prices for 
 
 ```
 suggestDishes(input: PlanInput, bundle: Bundle): SuggestResult
-  PlanInput  = { mode: "pantry" | "dish", pantryIds: string[], dishId?: string, budgetNgn: number, servings: number, targetProteinG: number, allergens: string[] }
+  PlanInput  = { mode: "pantry" | "dish", pantryIds: string[], dishId?: string, budgetNgn: number, servings: number, targetProteinG: number, allergens: string[], userPricesNgnPerKg?: Record<string, number> }   // user prices > 0, override bundled prices
   SuggestResult = { dishes: DishSuggestion[], excluded: { id, reason }[], bundleVersion: string }
-  DishSuggestion = { dishId, name, protein: RankedItem, missingItems: { id, costNgn }[], totalCostNgn, proteinPerPlateG, flags: string[] }
+  DishSuggestion = { dishId, name, protein: RankedItem, missingItems: { id, costNgn: number | null }[], totalCostNgn: number | null, proteinPerPlateG, notEnoughData: { id, missingNeeds: string[] }[], flags: string[] }
 
 rankIngredients(applicationId: string, input: PlanInput, bundle: Bundle): RankedResult   // used inside suggestDishes
-  RankedResult = { items: RankedItem[], excluded: { id, reason }[], bundleVersion }
-  RankedItem = { ingredientId, score, fit, fitRange, costNgn, costPerGProtein, asSoldG, drivers: string[], flags: string[], quality: Record<string,string> }
+  RankedResult = { items: RankedItem[], notEnoughData: { id, missingNeeds: string[] }[], excluded: { id, reason }[], bundleVersion }
+  RankedItem = { ingredientId, score, fit, fitRange, costNgn: number | null, costPerGProtein: number | null, priceSource: "user" | "bundled" | null, asSoldG, drivers: string[], flags: string[], quality: Record<string,string> }   // flags include "price needed" when costNgn is null
 
 recommendProcessing(ingredientId: string, goal: string, bundle: Bundle): ProcessingResult
   ProcessingResult = { mode: "model" | "fallback", options: { treatment, timeH?, tempC?, instruction, effect, effectRange, sources: string[], evidence: string }[], note: string }

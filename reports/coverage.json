@@ -1,0 +1,69 @@
+{
+  "functional_values_per_ingredient": {
+    "jack_bean": 10,
+    "pigeon_pea": 19,
+    "cowpea": 22,
+    "melon_seed": 7,
+    "soybean": 5,
+    "african_yam_bean": 5,
+    "bambara": 28,
+    "african_locust_bean": 4
+  },
+  "functional_values_per_property": {
+    "oil_absorption": 12,
+    "water_absorption": 20,
+    "foam_capacity": 15,
+    "emulsion_capacity": 8,
+    "least_gelation": 12,
+    "foam_stability": 11,
+    "emulsion_stability": 6,
+    "bulk_density": 15,
+    "swelling_capacity": 1
+  },
+  "functional_papers": 14,
+  "treatment_rows_per_metric": {
+    "oxalate": 29,
+    "phytate": 29,
+    "trypsin_inhibitor": 8,
+    "bulk_density": 28,
+    "swelling_capacity": 4,
+    "foam_capacity": 25,
+    "water_absorption": 31,
+    "protein": 8,
+    "iron": 4,
+    "ivpd": 1,
+    "tannin": 23,
+    "polyphenols": 1,
+    "fat": 4,
+    "fibre": 1,
+    "energy": 1,
+    "oil_absorption": 24,
+    "least_gelation": 9,
+    "swelling_power": 21,
+    "starch_solubility": 9,
+    "bulk_density_packed": 9,
+    "swelling_index": 3,
+    "saponin": 3,
+    "dispersibility": 12,
+    "emulsion_capacity": 6,
+    "emulsion_stability": 6,
+    "foam_stability": 6
+  },
+  "treatment_rows_per_crop": {
+    "african_yam_bean": 46,
+    "bambara": 40,
+    "melon_seed": 12,
+    "cowpea": 91,
+    "pigeon_pea": 116
+  },
+  "treatment_papers": 7,
+  "quality_mix": {
+    "calculated": 27,
+    "measured": 378
+  },
+  "totals": {
+    "ingredients": 9,
+    "functional_values": 100,
+    "treatment_rows": 305
+  }
+}
