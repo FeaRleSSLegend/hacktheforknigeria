@@ -7,8 +7,12 @@ Rules:
 - Complete coverage: a protein is ranked for a dish only if it has a value for every
   functional need of the dish's application. Others go to the dish's notEnoughData list.
 - Price: inp["userPricesNgnPerKg"] (optional, id -> NGN per kg) overrides the bundled price.
-  A protein with neither still ranks on function, shows "price needed" and has no cost; it
-  is left out of the budget filter, not out of the ranking.
+  A protein with neither is never the headline pick while any priced protein can be used:
+  priced proteins are ranked first by overall score, unpriced ones below them by fit only
+  (score null), flagged "price needed", and left out of the budget filter.
+- Headline (dish["protein"]): the best priced protein in the pool (pantry items first in
+  pantry mode), else the best priced protein overall, else (no priced protein at all) the
+  best unpriced one by fit. Dishes whose headline is unpriced sort after all priced dishes.
 """
 from typing import Optional
 
@@ -83,17 +87,43 @@ def suggest_dishes(inp: dict, data: dict) -> dict:
         cost = {c: (cost_ngn(sold[c], price[c][0]) if price[c][0] is not None else None) for c in usable}
         per_g = {c: (cost[c] / total_protein_g if cost[c] is not None else None) for c in usable}
         dens = {c: data["ingredients"][c]["protein_g_per_100g"] for c in usable}
-        scores = overall_scores({c: fits[c]["fit"] for c in usable}, per_g, dens)
+        priced = [c for c in usable if cost[c] is not None]
+        unpriced = [c for c in usable if cost[c] is None]
+        scores = overall_scores({c: fits[c]["fit"] for c in priced}, {c: per_g[c] for c in priced},
+                                {c: dens[c] for c in priced}) if priced else {}
+        order = (sorted(priced, key=lambda c: -scores[c]["score"])
+                 + sorted(unpriced, key=lambda c: -fits[c]["fit"]))
 
         have = [c for c in usable if c in pantry]
         pool = have if (mode == "pantry" and have) else usable
-        best = max(pool, key=lambda c: scores[c]["score"])
+        pool_priced = [c for c in order if c in pool and c in priced]
+        if pool_priced:
+            best = pool_priced[0]
+        elif priced:
+            best = order[0]
+        else:
+            best = next(c for c in order if c in pool)
 
-        missing, flags, protein_flags = [], [], []
+        def item(c: str) -> dict:
+            return {
+                "ingredientId": c,
+                "score": scores[c]["score"] if c in scores else None,
+                "fit": fits[c]["fit"],
+                "fitRange": list(fits[c]["fitRange"]),
+                "costNgn": round(cost[c], 2) if cost[c] is not None else None,
+                "costPerGProtein": round(per_g[c], 4) if per_g[c] is not None else None,
+                "priceSource": price[c][1],
+                "asSoldG": round(sold[c], 1),
+                "drivers": scores[c]["drivers"] if c in scores else [],
+                "flags": [] if c in scores else [PRICE_NEEDED],
+            }
+
+        missing, flags = [], []
         total_cost: Optional[float] = cost[best]
         if cost[best] is None:
-            protein_flags.append(PRICE_NEEDED)
             flags.append(f"{PRICE_NEEDED}: {best}")
+        if unpriced and best in priced:
+            flags.append("price needed for lower-ranked options: " + ", ".join(unpriced))
         if best not in pantry:
             missing.append({"id": best, "costNgn": round(cost[best], 2) if cost[best] is not None else None})
         for side in dish.get("side_items", []):
@@ -123,18 +153,8 @@ def suggest_dishes(inp: dict, data: dict) -> dict:
         suggestions.append({
             "dishId": dish["id"],
             "name": dish["name"],
-            "protein": {
-                "ingredientId": best,
-                "score": scores[best]["score"],
-                "fit": fits[best]["fit"],
-                "fitRange": list(fits[best]["fitRange"]),
-                "costNgn": round(cost[best], 2) if cost[best] is not None else None,
-                "costPerGProtein": round(per_g[best], 4) if per_g[best] is not None else None,
-                "priceSource": price[best][1],
-                "asSoldG": round(sold[best], 1),
-                "drivers": scores[best]["drivers"],
-                "flags": protein_flags,
-            },
+            "protein": item(best),
+            "ranked": [item(c) for c in order],
             "missingItems": missing,
             "totalCostNgn": round(total_cost, 2) if total_cost is not None else None,
             "proteinPerPlateG": round(target, 1),
@@ -142,5 +162,6 @@ def suggest_dishes(inp: dict, data: dict) -> dict:
             "flags": flags,
         })
 
-    suggestions.sort(key=lambda s: s["protein"]["score"], reverse=True)
+    suggestions.sort(key=lambda s: (s["protein"]["score"] is None,
+                                    -(s["protein"]["score"] if s["protein"]["score"] is not None else s["protein"]["fit"])))
     return {"dishes": suggestions, "excluded": excluded, "bundleVersion": data.get("version", "dev")}

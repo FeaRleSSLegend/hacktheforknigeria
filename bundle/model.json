@@ -1,5 +1,1821 @@
 {
-  "generated": "2026-11-20",
-  "models": {},
-  "note": "Only metrics that beat the baseline in grouped CV appear here; all others use the fallback."
+  "generated": "2026-11-21",
+  "models": {
+    "bulk_density": {
+      "kind": "ridge",
+      "metric": "bulk_density",
+      "alpha": 1.0,
+      "feature_names": [
+        "time_h",
+        "temp_c",
+        "time_h_sq",
+        "time_x_temp",
+        "time_missing",
+        "temp_missing",
+        "crop=african_yam_bean",
+        "crop=cowpea",
+        "crop=groundnut",
+        "crop=horse_gram",
+        "crop=pigeon_pea",
+        "treatment=autoclaving",
+        "treatment=boiling",
+        "treatment=dehulling_soaking",
+        "treatment=fermentation",
+        "treatment=germination",
+        "treatment=roasting",
+        "treatment=soaking",
+        "baseline=dehulled",
+        "baseline=germinated",
+        "baseline=hydrated_dehulled",
+        "baseline=non_germinated",
+        "baseline=raw",
+        "baseline=soaked"
+      ],
+      "scaler_means": {
+        "time_h": 32.78758039215686,
+        "temp_c": 55.370370370370374,
+        "time_h_sq": 2130.9613272333336,
+        "time_x_temp": 717.2037814814815
+      },
+      "scaler_stds": {
+        "time_h": 32.49516732163699,
+        "temp_c": 38.6811736657398,
+        "time_h_sq": 3343.458431094398,
+        "time_x_temp": 684.5922037158292
+      },
+      "coefficients": [
+        -8.684101334797584,
+        -5.725938268584544,
+        4.997775347281579,
+        0.028355929923595258,
+        0.0,
+        -1.4831714704200147,
+        8.275546925230278,
+        -2.251339342392465,
+        6.11011237589018,
+        -9.111483829771345,
+        -3.0228361289567327,
+        5.485993915184741,
+        1.269655649882174,
+        7.5775707727237025,
+        0.1916637673337625,
+        -9.418399705103619,
+        -5.204576287943819,
+        0.09809188792309714,
+        -1.415932373246052,
+        -1.6621725733946056,
+        -1.6903530153167379,
+        -1.1888714471334414,
+        4.576199318842547,
+        1.381130090248408
+      ],
+      "intercept": -1.7067522817777414,
+      "training_ranges": {
+        "african_yam_bean|dehulling_soaking": {
+          "time_h": [
+            0.5,
+            0.5
+          ],
+          "temp_c": null,
+          "citations": [
+            "E160"
+          ],
+          "papers": [
+            "abiodun2011"
+          ]
+        },
+        "african_yam_bean|germination": {
+          "time_h": [
+            24.0,
+            96.0
+          ],
+          "temp_c": [
+            25.0,
+            25.0
+          ],
+          "citations": [
+            "E013",
+            "E014",
+            "E015",
+            "E016"
+          ],
+          "papers": [
+            "abioye2014"
+          ]
+        },
+        "cowpea|autoclaving": {
+          "time_h": [
+            0.1667,
+            0.1667
+          ],
+          "temp_c": [
+            121.0,
+            121.0
+          ],
+          "citations": [
+            "E128",
+            "E129",
+            "E130"
+          ],
+          "papers": [
+            "makinde2020"
+          ]
+        },
+        "cowpea|boiling": {
+          "time_h": [
+            0.3333,
+            0.3333
+          ],
+          "temp_c": [
+            100.0,
+            100.0
+          ],
+          "citations": [
+            "E122",
+            "E123",
+            "E124"
+          ],
+          "papers": [
+            "makinde2020"
+          ]
+        },
+        "cowpea|dehulling_soaking": {
+          "time_h": [
+            0.5,
+            0.5
+          ],
+          "temp_c": null,
+          "citations": [
+            "E140"
+          ],
+          "papers": [
+            "abiodun2011"
+          ]
+        },
+        "cowpea|roasting": {
+          "time_h": [
+            0.3333,
+            0.3333
+          ],
+          "temp_c": null,
+          "citations": [
+            "E125",
+            "E126",
+            "E127"
+          ],
+          "papers": [
+            "makinde2020"
+          ]
+        },
+        "groundnut|boiling": {
+          "time_h": [
+            0.5,
+            0.5
+          ],
+          "temp_c": [
+            100.0,
+            100.0
+          ],
+          "citations": [
+            "E651"
+          ],
+          "papers": [
+            "ijarotimi2022"
+          ]
+        },
+        "groundnut|germination": {
+          "time_h": [
+            96.0,
+            96.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E660"
+          ],
+          "papers": [
+            "ijarotimi2022"
+          ]
+        },
+        "horse_gram|fermentation": {
+          "time_h": [
+            48.0,
+            48.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E554"
+          ],
+          "papers": [
+            "ojha2020"
+          ]
+        },
+        "horse_gram|germination": {
+          "time_h": [
+            72.0,
+            72.0
+          ],
+          "temp_c": [
+            27.0,
+            27.0
+          ],
+          "citations": [
+            "E553"
+          ],
+          "papers": [
+            "ojha2020"
+          ]
+        },
+        "horse_gram|roasting": {
+          "time_h": [
+            0.1667,
+            0.1667
+          ],
+          "temp_c": null,
+          "citations": [
+            "E552"
+          ],
+          "papers": [
+            "ojha2020"
+          ]
+        },
+        "horse_gram|soaking": {
+          "time_h": [
+            24.0,
+            24.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E551"
+          ],
+          "papers": [
+            "ojha2020"
+          ]
+        },
+        "pigeon_pea|boiling": {
+          "time_h": [
+            1.0,
+            1.0
+          ],
+          "temp_c": [
+            100.0,
+            100.0
+          ],
+          "citations": [
+            "E399"
+          ],
+          "papers": [
+            "akubor2017"
+          ]
+        },
+        "pigeon_pea|dehulling_soaking": {
+          "time_h": [
+            0.5,
+            0.5
+          ],
+          "temp_c": null,
+          "citations": [
+            "E150"
+          ],
+          "papers": [
+            "abiodun2011"
+          ]
+        },
+        "pigeon_pea|fermentation": {
+          "time_h": [
+            24.0,
+            120.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E170",
+            "E179",
+            "E188",
+            "E197",
+            "E206",
+            "E215",
+            "E224",
+            "E233",
+            "E242",
+            "E251",
+            "E260",
+            "E268",
+            "E417"
+          ],
+          "papers": [
+            "akubor2017",
+            "sobowale2025"
+          ]
+        },
+        "pigeon_pea|germination": {
+          "time_h": [
+            12.0,
+            120.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E408",
+            "E431",
+            "E438",
+            "E445",
+            "E452",
+            "E459",
+            "E466",
+            "E473",
+            "E480",
+            "E487",
+            "E494",
+            "E501",
+            "E508"
+          ],
+          "papers": [
+            "akubor2017",
+            "sharma2019"
+          ]
+        },
+        "pigeon_pea|roasting": {
+          "time_h": [
+            0.5,
+            0.5
+          ],
+          "temp_c": [
+            120.0,
+            120.0
+          ],
+          "citations": [
+            "E392"
+          ],
+          "papers": [
+            "akubor2017"
+          ]
+        },
+        "pigeon_pea|soaking": {
+          "time_h": [
+            10.0,
+            10.0
+          ],
+          "temp_c": [
+            25.0,
+            25.0
+          ],
+          "citations": [
+            "E424"
+          ],
+          "papers": [
+            "sharma2019"
+          ]
+        }
+      },
+      "crops": [
+        "african_yam_bean",
+        "cowpea",
+        "groundnut",
+        "horse_gram",
+        "pigeon_pea"
+      ],
+      "treatments": [
+        "autoclaving",
+        "boiling",
+        "dehulling_soaking",
+        "fermentation",
+        "germination",
+        "roasting",
+        "soaking"
+      ],
+      "baseline_types": [
+        "dehulled",
+        "germinated",
+        "hydrated_dehulled",
+        "non_germinated",
+        "raw",
+        "soaked"
+      ],
+      "residual_sd": 11.141556448192663,
+      "n_rows": 51,
+      "n_papers": 8,
+      "trained_on_crops": [
+        "african_yam_bean",
+        "cowpea",
+        "groundnut",
+        "horse_gram",
+        "pigeon_pea"
+      ],
+      "trained_on_crops_not_in_ingredient_table": [
+        "horse_gram"
+      ],
+      "trained_on_rows_from_other_crops": 4,
+      "ships_only_with_different_crop_rows": true,
+      "display_label": "estimated from other legumes"
+    },
+    "oxalate": {
+      "kind": "ridge",
+      "metric": "oxalate",
+      "alpha": 10.0,
+      "feature_names": [
+        "time_h",
+        "temp_c",
+        "time_h_sq",
+        "time_x_temp",
+        "time_missing",
+        "temp_missing",
+        "crop=african_yam_bean",
+        "crop=bambara",
+        "crop=cowpea",
+        "crop=groundnut",
+        "crop=mungbean",
+        "crop=pigeon_pea",
+        "treatment=autoclaving",
+        "treatment=boiling",
+        "treatment=dehulling",
+        "treatment=dehulling_soaking",
+        "treatment=fermentation",
+        "treatment=fermentation_lactic",
+        "treatment=germination",
+        "treatment=roasting",
+        "treatment=soaking",
+        "treatment=soaking_autoclaving",
+        "treatment=soaking_boiling",
+        "baseline=dehulled",
+        "baseline=germinated",
+        "baseline=raw",
+        "baseline=soaked"
+      ],
+      "scaler_means": {
+        "time_h": 29.822365789473686,
+        "temp_c": 80.29411764705883,
+        "time_h_sq": 1841.7351947371055,
+        "time_x_temp": 632.4118882352941
+      },
+      "scaler_stds": {
+        "time_h": 30.86035796059299,
+        "temp_c": 45.408945355943914,
+        "time_h_sq": 2527.4025999860305,
+        "time_x_temp": 797.8877196784631
+      },
+      "coefficients": [
+        0.1200953989796192,
+        -1.3775319374198143,
+        -7.273606433095178,
+        0.6826265697342521,
+        -2.978476304555605,
+        6.999037775282458,
+        2.3977123349965273,
+        -2.1469830371987677,
+        -3.7504005927508186,
+        -1.723133515701298,
+        -4.916149069608935,
+        10.13895388026326,
+        -3.564710819523793,
+        -4.315450439128857,
+        0.6780892525012189,
+        -3.4826888373799236,
+        13.694355031078155,
+        -2.1469830371987677,
+        0.17435480997886404,
+        2.861826122777226,
+        0.9966040009442004,
+        -2.4820326935274206,
+        -2.41336339052093,
+        -1.8810770429540693,
+        13.322476697140507,
+        -12.449854830422344,
+        1.0084551762359308
+      ],
+      "intercept": -29.601097600209336,
+      "training_ranges": {
+        "african_yam_bean|dehulling_soaking": {
+          "time_h": [
+            0.5,
+            0.5
+          ],
+          "temp_c": null,
+          "citations": [
+            "E163"
+          ],
+          "papers": [
+            "abiodun2011"
+          ]
+        },
+        "african_yam_bean|germination": {
+          "time_h": [
+            24.0,
+            96.0
+          ],
+          "temp_c": [
+            25.0,
+            25.0
+          ],
+          "citations": [
+            "E001",
+            "E002",
+            "E003",
+            "E004"
+          ],
+          "papers": [
+            "abioye2014"
+          ]
+        },
+        "bambara|fermentation_lactic": {
+          "time_h": [
+            72.0,
+            72.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E041"
+          ],
+          "papers": [
+            "chude2018"
+          ]
+        },
+        "cowpea|autoclaving": {
+          "time_h": [
+            0.1667,
+            0.1667
+          ],
+          "temp_c": [
+            121.0,
+            121.0
+          ],
+          "citations": [
+            "E083",
+            "E084",
+            "E085"
+          ],
+          "papers": [
+            "makinde2020"
+          ]
+        },
+        "cowpea|boiling": {
+          "time_h": [
+            0.3333,
+            0.3333
+          ],
+          "temp_c": [
+            100.0,
+            100.0
+          ],
+          "citations": [
+            "E077",
+            "E078",
+            "E079"
+          ],
+          "papers": [
+            "makinde2020"
+          ]
+        },
+        "cowpea|dehulling_soaking": {
+          "time_h": [
+            0.5,
+            0.5
+          ],
+          "temp_c": null,
+          "citations": [
+            "E143"
+          ],
+          "papers": [
+            "abiodun2011"
+          ]
+        },
+        "cowpea|fermentation": {
+          "time_h": [
+            48.0,
+            48.0
+          ],
+          "temp_c": [
+            35.0,
+            35.0
+          ],
+          "citations": [
+            "E518"
+          ],
+          "papers": [
+            "kewuyemi2024"
+          ]
+        },
+        "cowpea|germination": {
+          "time_h": [
+            48.0,
+            48.0
+          ],
+          "temp_c": [
+            35.0,
+            35.0
+          ],
+          "citations": [
+            "E516"
+          ],
+          "papers": [
+            "kewuyemi2024"
+          ]
+        },
+        "cowpea|roasting": {
+          "time_h": [
+            0.3333,
+            0.3333
+          ],
+          "temp_c": null,
+          "citations": [
+            "E080",
+            "E081",
+            "E082"
+          ],
+          "papers": [
+            "makinde2020"
+          ]
+        },
+        "groundnut|boiling": {
+          "time_h": [
+            0.5,
+            0.5
+          ],
+          "temp_c": [
+            100.0,
+            100.0
+          ],
+          "citations": [
+            "E648"
+          ],
+          "papers": [
+            "ijarotimi2022"
+          ]
+        },
+        "groundnut|germination": {
+          "time_h": [
+            96.0,
+            96.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E657"
+          ],
+          "papers": [
+            "ijarotimi2022"
+          ]
+        },
+        "mungbean|autoclaving": {
+          "time_h": [
+            0.25,
+            0.25
+          ],
+          "temp_c": [
+            121.0,
+            121.0
+          ],
+          "citations": [
+            "E532"
+          ],
+          "papers": [
+            "pokharel2024"
+          ]
+        },
+        "mungbean|boiling": {
+          "time_h": null,
+          "temp_c": null,
+          "citations": [
+            "E531"
+          ],
+          "papers": [
+            "pokharel2024"
+          ]
+        },
+        "mungbean|dehulling": {
+          "time_h": null,
+          "temp_c": null,
+          "citations": [
+            "E530"
+          ],
+          "papers": [
+            "pokharel2024"
+          ]
+        },
+        "mungbean|germination": {
+          "time_h": [
+            36.0,
+            36.0
+          ],
+          "temp_c": [
+            30.0,
+            30.0
+          ],
+          "citations": [
+            "E528"
+          ],
+          "papers": [
+            "pokharel2024"
+          ]
+        },
+        "mungbean|roasting": {
+          "time_h": [
+            0.25,
+            0.25
+          ],
+          "temp_c": [
+            160.0,
+            160.0
+          ],
+          "citations": [
+            "E527"
+          ],
+          "papers": [
+            "pokharel2024"
+          ]
+        },
+        "mungbean|soaking": {
+          "time_h": [
+            12.0,
+            12.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E529"
+          ],
+          "papers": [
+            "pokharel2024"
+          ]
+        },
+        "mungbean|soaking_autoclaving": {
+          "time_h": [
+            0.25,
+            0.25
+          ],
+          "temp_c": [
+            121.0,
+            121.0
+          ],
+          "citations": [
+            "E534"
+          ],
+          "papers": [
+            "pokharel2024"
+          ]
+        },
+        "mungbean|soaking_boiling": {
+          "time_h": null,
+          "temp_c": null,
+          "citations": [
+            "E533"
+          ],
+          "papers": [
+            "pokharel2024"
+          ]
+        },
+        "pigeon_pea|dehulling_soaking": {
+          "time_h": [
+            0.5,
+            0.5
+          ],
+          "temp_c": null,
+          "citations": [
+            "E153"
+          ],
+          "papers": [
+            "abiodun2011"
+          ]
+        },
+        "pigeon_pea|fermentation": {
+          "time_h": [
+            24.0,
+            72.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E178",
+            "E187",
+            "E196",
+            "E205",
+            "E214",
+            "E223",
+            "E232",
+            "E241",
+            "E250",
+            "E259",
+            "E267",
+            "E275"
+          ],
+          "papers": [
+            "sobowale2025"
+          ]
+        }
+      },
+      "crops": [
+        "african_yam_bean",
+        "bambara",
+        "cowpea",
+        "groundnut",
+        "mungbean",
+        "pigeon_pea"
+      ],
+      "treatments": [
+        "autoclaving",
+        "boiling",
+        "dehulling",
+        "dehulling_soaking",
+        "fermentation",
+        "fermentation_lactic",
+        "germination",
+        "roasting",
+        "soaking",
+        "soaking_autoclaving",
+        "soaking_boiling"
+      ],
+      "baseline_types": [
+        "dehulled",
+        "germinated",
+        "raw",
+        "soaked"
+      ],
+      "residual_sd": 58.606486720992095,
+      "n_rows": 41,
+      "n_papers": 8,
+      "trained_on_crops": [
+        "african_yam_bean",
+        "bambara",
+        "cowpea",
+        "groundnut",
+        "mungbean",
+        "pigeon_pea"
+      ],
+      "trained_on_crops_not_in_ingredient_table": [
+        "mungbean"
+      ],
+      "trained_on_rows_from_other_crops": 8,
+      "ships_only_with_different_crop_rows": false,
+      "display_label": "predicted, pooled from listed crops"
+    },
+    "phytate": {
+      "kind": "C3",
+      "label": "shrunk mean per treatment x metric",
+      "key": "treatment|outcome_metric",
+      "entries": {
+        "autoclaving|phytate": {
+          "value": -26.311397668550015,
+          "n_rows": 4,
+          "papers": [
+            "makinde2020",
+            "pokharel2024"
+          ],
+          "crops": [
+            "cowpea",
+            "mungbean"
+          ],
+          "from_crops_not_in_ingredient_table": [
+            "mungbean"
+          ],
+          "time_h": [
+            0.1667,
+            0.25
+          ],
+          "temp_c": [
+            121.0,
+            121.0
+          ],
+          "citations": [
+            "E074",
+            "E075",
+            "E076",
+            "E540"
+          ],
+          "cumulative_from_raw": false,
+          "stage_paths": []
+        },
+        "boiling|phytate": {
+          "value": -36.03794373188282,
+          "n_rows": 5,
+          "papers": [
+            "ijarotimi2022",
+            "makinde2020",
+            "pokharel2024"
+          ],
+          "crops": [
+            "cowpea",
+            "groundnut",
+            "mungbean"
+          ],
+          "from_crops_not_in_ingredient_table": [
+            "mungbean"
+          ],
+          "time_h": [
+            0.3333,
+            0.5
+          ],
+          "temp_c": [
+            100.0,
+            100.0
+          ],
+          "citations": [
+            "E068",
+            "E069",
+            "E070",
+            "E539",
+            "E649"
+          ],
+          "cumulative_from_raw": false,
+          "stage_paths": []
+        },
+        "dehulling_soaking|phytate": {
+          "value": -41.361836799558674,
+          "n_rows": 3,
+          "papers": [
+            "abiodun2011"
+          ],
+          "crops": [
+            "african_yam_bean",
+            "cowpea",
+            "pigeon_pea"
+          ],
+          "from_crops_not_in_ingredient_table": [],
+          "time_h": [
+            0.5,
+            0.5
+          ],
+          "temp_c": null,
+          "citations": [
+            "E144",
+            "E154",
+            "E164"
+          ],
+          "cumulative_from_raw": false,
+          "stage_paths": []
+        },
+        "dehulling|phytate": {
+          "value": -29.86922541227821,
+          "n_rows": 1,
+          "papers": [
+            "pokharel2024"
+          ],
+          "crops": [
+            "mungbean"
+          ],
+          "from_crops_not_in_ingredient_table": [
+            "mungbean"
+          ],
+          "time_h": null,
+          "temp_c": null,
+          "citations": [
+            "E538"
+          ],
+          "cumulative_from_raw": false,
+          "stage_paths": []
+        },
+        "fermentation_lactic|phytate": {
+          "value": -30.001730282158004,
+          "n_rows": 1,
+          "papers": [
+            "chude2018"
+          ],
+          "crops": [
+            "bambara"
+          ],
+          "from_crops_not_in_ingredient_table": [],
+          "time_h": [
+            72.0,
+            72.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E040"
+          ],
+          "cumulative_from_raw": false,
+          "stage_paths": []
+        },
+        "germination|phytate": {
+          "value": -28.27339621239265,
+          "n_rows": 14,
+          "papers": [
+            "abioye2014",
+            "ijarotimi2022",
+            "nagessa2023",
+            "pokharel2024",
+            "rizvi2024"
+          ],
+          "crops": [
+            "adzuki_bean",
+            "african_yam_bean",
+            "black_bean",
+            "groundnut",
+            "lima_bean",
+            "mungbean"
+          ],
+          "from_crops_not_in_ingredient_table": [
+            "adzuki_bean",
+            "black_bean",
+            "lima_bean",
+            "mungbean"
+          ],
+          "time_h": [
+            24.0,
+            96.0
+          ],
+          "temp_c": [
+            25.0,
+            30.0
+          ],
+          "citations": [
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E536",
+            "E609",
+            "E611",
+            "E619",
+            "E620",
+            "E621",
+            "E634",
+            "E635",
+            "E636",
+            "E658"
+          ],
+          "cumulative_from_raw": false,
+          "stage_paths": []
+        },
+        "roasting|phytate": {
+          "value": -26.567203127314716,
+          "n_rows": 4,
+          "papers": [
+            "makinde2020",
+            "pokharel2024"
+          ],
+          "crops": [
+            "cowpea",
+            "mungbean"
+          ],
+          "from_crops_not_in_ingredient_table": [
+            "mungbean"
+          ],
+          "time_h": [
+            0.25,
+            0.3333
+          ],
+          "temp_c": [
+            160.0,
+            160.0
+          ],
+          "citations": [
+            "E071",
+            "E072",
+            "E073",
+            "E535"
+          ],
+          "cumulative_from_raw": false,
+          "stage_paths": []
+        },
+        "soaking_alkaline|phytate": {
+          "value": -29.48867725200414,
+          "n_rows": 1,
+          "papers": [
+            "nagessa2023"
+          ],
+          "crops": [
+            "black_bean"
+          ],
+          "from_crops_not_in_ingredient_table": [
+            "black_bean"
+          ],
+          "time_h": [
+            12.0,
+            12.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E607"
+          ],
+          "cumulative_from_raw": false,
+          "stage_paths": []
+        },
+        "soaking_autoclaving|phytate": {
+          "value": -30.783239947131005,
+          "n_rows": 1,
+          "papers": [
+            "pokharel2024"
+          ],
+          "crops": [
+            "mungbean"
+          ],
+          "from_crops_not_in_ingredient_table": [
+            "mungbean"
+          ],
+          "time_h": [
+            0.25,
+            0.25
+          ],
+          "temp_c": [
+            121.0,
+            121.0
+          ],
+          "citations": [
+            "E542"
+          ],
+          "cumulative_from_raw": false,
+          "stage_paths": []
+        },
+        "soaking_boiling|phytate": {
+          "value": -31.41910179684473,
+          "n_rows": 2,
+          "papers": [
+            "nagessa2023",
+            "pokharel2024"
+          ],
+          "crops": [
+            "black_bean",
+            "mungbean"
+          ],
+          "from_crops_not_in_ingredient_table": [
+            "black_bean",
+            "mungbean"
+          ],
+          "time_h": [
+            13.47,
+            13.47
+          ],
+          "temp_c": [
+            100.0,
+            100.0
+          ],
+          "citations": [
+            "E541",
+            "E613"
+          ],
+          "cumulative_from_raw": false,
+          "stage_paths": []
+        },
+        "soaking_pressure_cooking|phytate": {
+          "value": -30.802871829356615,
+          "n_rows": 1,
+          "papers": [
+            "nagessa2023"
+          ],
+          "crops": [
+            "black_bean"
+          ],
+          "from_crops_not_in_ingredient_table": [
+            "black_bean"
+          ],
+          "time_h": [
+            12.63,
+            12.63
+          ],
+          "temp_c": [
+            100.0,
+            100.0
+          ],
+          "citations": [
+            "E615"
+          ],
+          "cumulative_from_raw": false,
+          "stage_paths": []
+        },
+        "soaking|phytate": {
+          "value": -22.892300325535558,
+          "n_rows": 6,
+          "papers": [
+            "nagessa2023",
+            "pokharel2024",
+            "rizvi2024"
+          ],
+          "crops": [
+            "adzuki_bean",
+            "black_bean",
+            "lima_bean",
+            "mungbean"
+          ],
+          "from_crops_not_in_ingredient_table": [
+            "adzuki_bean",
+            "black_bean",
+            "lima_bean",
+            "mungbean"
+          ],
+          "time_h": [
+            12.0,
+            24.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E537",
+            "E605",
+            "E617",
+            "E618",
+            "E632",
+            "E633"
+          ],
+          "cumulative_from_raw": false,
+          "stage_paths": []
+        }
+      },
+      "note": "Value is a pooled published percent change for the key, not crop-specific; show with its citations and the crops it comes from. cumulative_from_raw entries are the change from raw seed through all stages in stage_paths, not the last step alone. Unknown key: use the fallback.",
+      "trained_on_crops": [
+        "adzuki_bean",
+        "african_yam_bean",
+        "bambara",
+        "black_bean",
+        "cowpea",
+        "groundnut",
+        "lima_bean",
+        "mungbean",
+        "pigeon_pea"
+      ],
+      "trained_on_crops_not_in_ingredient_table": [
+        "adzuki_bean",
+        "black_bean",
+        "lima_bean",
+        "mungbean"
+      ],
+      "trained_on_rows_from_other_crops": 24,
+      "ships_only_with_different_crop_rows": true,
+      "display_label": "estimated from other legumes"
+    },
+    "tannin": {
+      "kind": "ridge",
+      "metric": "tannin",
+      "alpha": 100.0,
+      "feature_names": [
+        "time_h",
+        "temp_c",
+        "time_h_sq",
+        "time_x_temp",
+        "time_missing",
+        "temp_missing",
+        "crop=adzuki_bean",
+        "crop=african_yam_bean",
+        "crop=bambara",
+        "crop=black_bean",
+        "crop=cowpea",
+        "crop=groundnut",
+        "crop=lima_bean",
+        "crop=mungbean",
+        "crop=pigeon_pea",
+        "treatment=autoclaving",
+        "treatment=boiling",
+        "treatment=dehulling",
+        "treatment=dehulling_soaking",
+        "treatment=fermentation",
+        "treatment=fermentation_lactic",
+        "treatment=germination",
+        "treatment=roasting",
+        "treatment=soaking",
+        "treatment=soaking_alkaline",
+        "treatment=soaking_autoclaving",
+        "treatment=soaking_boiling",
+        "treatment=soaking_pressure_cooking",
+        "baseline=dehulled",
+        "baseline=hydrated_dehulled",
+        "baseline=raw"
+      ],
+      "scaler_means": {
+        "time_h": 25.94755853658537,
+        "temp_c": 74.375,
+        "time_h_sq": 1764.4669560978052,
+        "time_x_temp": 709.2084208333334
+      },
+      "scaler_stds": {
+        "time_h": 33.0331827423317,
+        "temp_c": 45.09047617476075,
+        "time_h_sq": 3462.943840133128,
+        "time_x_temp": 686.276892089168
+      },
+      "coefficients": [
+        -0.3179845768590022,
+        -0.48094463766827156,
+        -1.0528520605435803,
+        -0.3268684051180083,
+        -0.2625025883364452,
+        0.36251398134063484,
+        1.1295366927905368,
+        -0.19052376931016646,
+        -0.0831643630839768,
+        -0.8974185364100177,
+        -0.15938164067651925,
+        0.31136314475578425,
+        0.5452300141442363,
+        -0.03268813780764531,
+        -0.6229534044022321,
+        0.1315283053461296,
+        -0.3825522089798538,
+        -0.17031454934814758,
+        -0.6333494397453064,
+        0.19235617777441852,
+        -0.08316436308397682,
+        0.10848278899139696,
+        0.24789022349400908,
+        1.469419573861118,
+        -0.08366877811560146,
+        -0.15385014108898656,
+        -0.34380321243831413,
+        -0.29897437666688603,
+        -0.3289792267092549,
+        -0.34617695254200775,
+        0.6751561792512623
+      ],
+      "intercept": -47.004144022556886,
+      "training_ranges": {
+        "adzuki_bean|germination": {
+          "time_h": [
+            24.0,
+            72.0
+          ],
+          "temp_c": [
+            25.0,
+            25.0
+          ],
+          "citations": [
+            "E639",
+            "E640",
+            "E641"
+          ],
+          "papers": [
+            "rizvi2024"
+          ]
+        },
+        "adzuki_bean|soaking": {
+          "time_h": [
+            12.0,
+            24.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E637",
+            "E638"
+          ],
+          "papers": [
+            "rizvi2024"
+          ]
+        },
+        "african_yam_bean|dehulling_soaking": {
+          "time_h": [
+            0.5,
+            0.5
+          ],
+          "temp_c": null,
+          "citations": [
+            "E167"
+          ],
+          "papers": [
+            "abiodun2011"
+          ]
+        },
+        "bambara|fermentation_lactic": {
+          "time_h": [
+            72.0,
+            72.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E038"
+          ],
+          "papers": [
+            "chude2018"
+          ]
+        },
+        "black_bean|germination": {
+          "time_h": [
+            36.0,
+            60.0
+          ],
+          "temp_c": [
+            25.0,
+            25.0
+          ],
+          "citations": [
+            "E610",
+            "E612"
+          ],
+          "papers": [
+            "nagessa2023"
+          ]
+        },
+        "black_bean|soaking": {
+          "time_h": [
+            12.0,
+            12.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E606"
+          ],
+          "papers": [
+            "nagessa2023"
+          ]
+        },
+        "black_bean|soaking_alkaline": {
+          "time_h": [
+            12.0,
+            12.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E608"
+          ],
+          "papers": [
+            "nagessa2023"
+          ]
+        },
+        "black_bean|soaking_boiling": {
+          "time_h": [
+            13.47,
+            13.47
+          ],
+          "temp_c": [
+            100.0,
+            100.0
+          ],
+          "citations": [
+            "E614"
+          ],
+          "papers": [
+            "nagessa2023"
+          ]
+        },
+        "black_bean|soaking_pressure_cooking": {
+          "time_h": [
+            12.63,
+            12.63
+          ],
+          "temp_c": [
+            100.0,
+            100.0
+          ],
+          "citations": [
+            "E616"
+          ],
+          "papers": [
+            "nagessa2023"
+          ]
+        },
+        "cowpea|autoclaving": {
+          "time_h": [
+            0.1667,
+            0.1667
+          ],
+          "temp_c": [
+            121.0,
+            121.0
+          ],
+          "citations": [
+            "E065",
+            "E066",
+            "E067"
+          ],
+          "papers": [
+            "makinde2020"
+          ]
+        },
+        "cowpea|boiling": {
+          "time_h": [
+            0.3333,
+            0.3333
+          ],
+          "temp_c": [
+            100.0,
+            100.0
+          ],
+          "citations": [
+            "E059",
+            "E060",
+            "E061"
+          ],
+          "papers": [
+            "makinde2020"
+          ]
+        },
+        "cowpea|dehulling_soaking": {
+          "time_h": [
+            0.5,
+            0.5
+          ],
+          "temp_c": null,
+          "citations": [
+            "E147"
+          ],
+          "papers": [
+            "abiodun2011"
+          ]
+        },
+        "cowpea|fermentation": {
+          "time_h": [
+            48.0,
+            48.0
+          ],
+          "temp_c": [
+            35.0,
+            35.0
+          ],
+          "citations": [
+            "E517"
+          ],
+          "papers": [
+            "kewuyemi2024"
+          ]
+        },
+        "cowpea|germination": {
+          "time_h": [
+            48.0,
+            48.0
+          ],
+          "temp_c": [
+            35.0,
+            35.0
+          ],
+          "citations": [
+            "E515"
+          ],
+          "papers": [
+            "kewuyemi2024"
+          ]
+        },
+        "cowpea|roasting": {
+          "time_h": [
+            0.3333,
+            0.3333
+          ],
+          "temp_c": null,
+          "citations": [
+            "E062",
+            "E063",
+            "E064"
+          ],
+          "papers": [
+            "makinde2020"
+          ]
+        },
+        "groundnut|boiling": {
+          "time_h": [
+            0.5,
+            0.5
+          ],
+          "temp_c": [
+            100.0,
+            100.0
+          ],
+          "citations": [
+            "E647"
+          ],
+          "papers": [
+            "ijarotimi2022"
+          ]
+        },
+        "groundnut|germination": {
+          "time_h": [
+            96.0,
+            96.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E656"
+          ],
+          "papers": [
+            "ijarotimi2022"
+          ]
+        },
+        "lima_bean|germination": {
+          "time_h": [
+            24.0,
+            72.0
+          ],
+          "temp_c": [
+            25.0,
+            25.0
+          ],
+          "citations": [
+            "E624",
+            "E625",
+            "E626"
+          ],
+          "papers": [
+            "rizvi2024"
+          ]
+        },
+        "lima_bean|soaking": {
+          "time_h": [
+            12.0,
+            24.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E622",
+            "E623"
+          ],
+          "papers": [
+            "rizvi2024"
+          ]
+        },
+        "mungbean|autoclaving": {
+          "time_h": [
+            0.25,
+            0.25
+          ],
+          "temp_c": [
+            121.0,
+            121.0
+          ],
+          "citations": [
+            "E524"
+          ],
+          "papers": [
+            "pokharel2024"
+          ]
+        },
+        "mungbean|boiling": {
+          "time_h": null,
+          "temp_c": null,
+          "citations": [
+            "E523"
+          ],
+          "papers": [
+            "pokharel2024"
+          ]
+        },
+        "mungbean|dehulling": {
+          "time_h": null,
+          "temp_c": null,
+          "citations": [
+            "E522"
+          ],
+          "papers": [
+            "pokharel2024"
+          ]
+        },
+        "mungbean|germination": {
+          "time_h": [
+            36.0,
+            36.0
+          ],
+          "temp_c": [
+            30.0,
+            30.0
+          ],
+          "citations": [
+            "E520"
+          ],
+          "papers": [
+            "pokharel2024"
+          ]
+        },
+        "mungbean|roasting": {
+          "time_h": [
+            0.25,
+            0.25
+          ],
+          "temp_c": [
+            160.0,
+            160.0
+          ],
+          "citations": [
+            "E519"
+          ],
+          "papers": [
+            "pokharel2024"
+          ]
+        },
+        "mungbean|soaking": {
+          "time_h": [
+            12.0,
+            12.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E521"
+          ],
+          "papers": [
+            "pokharel2024"
+          ]
+        },
+        "mungbean|soaking_autoclaving": {
+          "time_h": [
+            0.25,
+            0.25
+          ],
+          "temp_c": [
+            121.0,
+            121.0
+          ],
+          "citations": [
+            "E526"
+          ],
+          "papers": [
+            "pokharel2024"
+          ]
+        },
+        "mungbean|soaking_boiling": {
+          "time_h": null,
+          "temp_c": null,
+          "citations": [
+            "E525"
+          ],
+          "papers": [
+            "pokharel2024"
+          ]
+        },
+        "pigeon_pea|dehulling_soaking": {
+          "time_h": [
+            0.5,
+            0.5
+          ],
+          "temp_c": null,
+          "citations": [
+            "E157"
+          ],
+          "papers": [
+            "abiodun2011"
+          ]
+        },
+        "pigeon_pea|fermentation": {
+          "time_h": [
+            120.0,
+            120.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E415"
+          ],
+          "papers": [
+            "akubor2017"
+          ]
+        },
+        "pigeon_pea|germination": {
+          "time_h": [
+            120.0,
+            120.0
+          ],
+          "temp_c": null,
+          "citations": [
+            "E406"
+          ],
+          "papers": [
+            "akubor2017"
+          ]
+        },
+        "pigeon_pea|roasting": {
+          "time_h": [
+            0.5,
+            0.5
+          ],
+          "temp_c": [
+            120.0,
+            120.0
+          ],
+          "citations": [
+            "E390"
+          ],
+          "papers": [
+            "akubor2017"
+          ]
+        }
+      },
+      "crops": [
+        "adzuki_bean",
+        "african_yam_bean",
+        "bambara",
+        "black_bean",
+        "cowpea",
+        "groundnut",
+        "lima_bean",
+        "mungbean",
+        "pigeon_pea"
+      ],
+      "treatments": [
+        "autoclaving",
+        "boiling",
+        "dehulling",
+        "dehulling_soaking",
+        "fermentation",
+        "fermentation_lactic",
+        "germination",
+        "roasting",
+        "soaking",
+        "soaking_alkaline",
+        "soaking_autoclaving",
+        "soaking_boiling",
+        "soaking_pressure_cooking"
+      ],
+      "baseline_types": [
+        "dehulled",
+        "hydrated_dehulled",
+        "raw"
+      ],
+      "residual_sd": 21.364548178081726,
+      "n_rows": 44,
+      "n_papers": 9,
+      "trained_on_crops": [
+        "adzuki_bean",
+        "african_yam_bean",
+        "bambara",
+        "black_bean",
+        "cowpea",
+        "groundnut",
+        "lima_bean",
+        "mungbean",
+        "pigeon_pea"
+      ],
+      "trained_on_crops_not_in_ingredient_table": [
+        "adzuki_bean",
+        "black_bean",
+        "lima_bean",
+        "mungbean"
+      ],
+      "trained_on_rows_from_other_crops": 24,
+      "ships_only_with_different_crop_rows": true,
+      "display_label": "estimated from other legumes"
+    }
+  },
+  "note": "Only metrics whose model passes the ship rule appear here; predict only inside each entry's training range, show its citations, and use the fallback (cited published rows) otherwise."
 }

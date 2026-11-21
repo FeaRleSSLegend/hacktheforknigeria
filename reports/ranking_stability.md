@@ -8,9 +8,9 @@ Needs: foam_capacity (higher, w=0.25), foam_stability (higher, w=0.25), emulsion
 
 ## App output (suggest_dishes)
 
-- Chosen protein: **jack_bean**, score 0.712, fit 0.597 (range 0.593-0.602), cost None NGN, 83.0 g as sold, None NGN per g protein
-- Drivers: density +0.102, fit +0.077
-- Flags: price needed: jack_bean; budget check leaves out items with no price; not enough data: african_yam_bean, soybean; cost excludes oil and spices
+- Chosen protein: **cowpea**, score 0.438, fit 0.375 (range 0.179-0.450), cost 218.23 NGN, 88.5 g as sold, 10.9113 NGN per g protein
+- Drivers: fit +0.000, cost +0.000
+- Flags: price needed for lower-ranked options: bambara, pigeon_pea, jack_bean; not enough data: african_yam_bean, soybean; cost excludes oil and spices
 
 Rules: only proteins with a value for every need are ranked (complete coverage); a protein with no price still ranks on fit and density and shows 'price needed'.
 
@@ -27,23 +27,27 @@ Rules: only proteins with a value for every need are ranked (complete coverage);
 
 ## Fit-only diagnostic (ignores price and density; ranked candidates only)
 
-All papers: bambara (0.63) > jack_bean (0.60) > cowpea (0.54) > pigeon_pea (0.00)
+All papers: bambara (0.62) > jack_bean (0.45) > cowpea (0.38) > pigeon_pea (0.27)
 
 | Paper removed | Rows removed | Fit order | Same order? |
 |---|---|---|---|
-| abiodun2011 | 6 | bambara (0.63) > jack_bean (0.60) > cowpea (0.54) > pigeon_pea (0.00) | yes |
-| abioye2014 | 3 | bambara (0.63) > jack_bean (0.60) > cowpea (0.54) > pigeon_pea (0.00) | yes |
-| abulude2006 | 4 | bambara (0.63) > jack_bean (0.60) > cowpea (0.54) > pigeon_pea (0.00) | yes |
-| adediran2013 | 7 | jack_bean (0.70) > bambara (0.64) > cowpea (0.48) > pigeon_pea (0.00) | no |
-| adeleke2018 | 18 | jack_bean (0.84) > cowpea (0.81) > pigeon_pea (0.00) | no (drops out: bambara) |
-| arawande2010 | 21 | bambara (0.50) | no (drops out: jack_bean, cowpea, pigeon_pea) |
-| makinde2020 | 6 | bambara (0.63) > jack_bean (0.60) > cowpea (0.54) > pigeon_pea (0.00) | yes |
-| mubaiwa2018 | 10 | jack_bean (0.84) > cowpea (0.81) > pigeon_pea (0.00) | no (drops out: bambara) |
-| nzeagwu2018 | 3 | bambara (0.63) > jack_bean (0.60) > cowpea (0.54) > pigeon_pea (0.00) | yes |
-| odedeji2024 | 3 | bambara (0.63) > jack_bean (0.59) > cowpea (0.54) > pigeon_pea (0.00) | yes |
-| ogunyinka2017 | 4 | bambara (0.63) > jack_bean (0.60) > cowpea (0.54) > pigeon_pea (0.00) | yes |
-| okoye2021 | 4 | bambara (0.68) > jack_bean (0.61) > cowpea (0.55) > pigeon_pea (0.00) | yes |
-| oloyo2005 | 6 | bambara (0.58) > jack_bean (0.54) > cowpea (0.42) > pigeon_pea (0.20) | yes |
-| onwuzurike2021 | 5 | bambara (0.63) > jack_bean (0.60) > cowpea (0.54) > pigeon_pea (0.00) | yes |
+| abiodun2011 | 6 | bambara (0.62) > jack_bean (0.45) > cowpea (0.38) > pigeon_pea (0.27) | yes |
+| abioye2014 | 3 | bambara (0.62) > jack_bean (0.45) > cowpea (0.38) > pigeon_pea (0.27) | yes |
+| abulude2006 | 4 | bambara (0.62) > jack_bean (0.45) > cowpea (0.38) > pigeon_pea (0.27) | yes |
+| adediran2013 | 7 | bambara (0.62) > jack_bean (0.56) > pigeon_pea (0.38) > cowpea (0.34) | no |
+| adeleke2018 | 18 | jack_bean (0.50) > cowpea (0.42) > pigeon_pea (0.25) | no (drops out: bambara) |
+| akubor2017 | 7 | bambara (0.62) > jack_bean (0.53) > cowpea (0.47) > pigeon_pea (0.14) | yes |
+| arawande2010 | 21 | bambara (0.50) > pigeon_pea (0.50) | no (drops out: jack_bean, cowpea) |
+| ijarotimi2022 | 5 | bambara (0.62) > jack_bean (0.45) > cowpea (0.38) > pigeon_pea (0.27) | yes |
+| kanetro2021 | 2 | bambara (0.62) > jack_bean (0.46) > cowpea (0.38) > pigeon_pea (0.27) | yes |
+| makinde2020 | 6 | bambara (0.62) > jack_bean (0.45) > cowpea (0.38) > pigeon_pea (0.27) | yes |
+| mubaiwa2018 | 10 | jack_bean (0.50) > cowpea (0.42) > pigeon_pea (0.25) | no (drops out: bambara) |
+| nzeagwu2018 | 3 | bambara (0.62) > jack_bean (0.45) > cowpea (0.38) > pigeon_pea (0.27) | yes |
+| odedeji2024 | 3 | bambara (0.62) > cowpea (0.43) > jack_bean (0.39) > pigeon_pea (0.33) | no |
+| ogunyinka2017 | 4 | bambara (0.62) > jack_bean (0.45) > cowpea (0.38) > pigeon_pea (0.27) | yes |
+| okoye2021 | 4 | bambara (0.63) > jack_bean (0.45) > cowpea (0.39) > pigeon_pea (0.19) | yes |
+| oloyo2005 | 6 | bambara (0.58) > jack_bean (0.44) > pigeon_pea (0.42) > cowpea (0.32) | no |
+| onwuzurike2021 | 5 | bambara (0.62) > jack_bean (0.45) > cowpea (0.38) > pigeon_pea (0.27) | yes |
+| sharma2019 | 7 | bambara (0.62) > jack_bean (0.50) > cowpea (0.43) > pigeon_pea (0.19) | yes |
 
 Fit is min-max scaled across the ranked candidates, so a candidate entering or leaving the ranked set changes everyone's scaled scores. Weights were not tuned.

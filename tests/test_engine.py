@@ -96,7 +96,7 @@ def dish(r, dish_id):
 
 def test_suggest_basic(data):
     r = suggest_dishes(base_input(), data)
-    assert {d["dishId"] for d in r["dishes"]} == {"test_dish", "test_dish_noprice"}
+    assert {d["dishId"] for d in r["dishes"]} == {"test_dish", "test_dish_noprice", "test_dish_mixed"}
     d = dish(r, "test_dish")
     assert d["protein"]["ingredientId"] in {"test_a", "test_b", "test_c"}
     assert d["proteinPerPlateG"] == 20.0
@@ -178,3 +178,32 @@ def test_dish_mode_filters(data):
 
 def test_deterministic(data):
     assert suggest_dishes(base_input(), data) == suggest_dishes(base_input(), data)
+
+
+def test_unpriced_never_headline_when_priced_exists(data):
+    d = dish(suggest_dishes(base_input(), data), "test_dish_mixed")
+    assert d["protein"]["ingredientId"] == "test_c"  # priced, although test_noprice has the higher fit
+    ranked = d["ranked"]
+    assert [x["ingredientId"] for x in ranked] == ["test_c", "test_noprice"]
+    assert ranked[1]["score"] is None and ranked[1]["flags"] == ["price needed"]
+    assert ranked[1]["fit"] > ranked[0]["fit"]
+    assert "price needed for lower-ranked options: test_noprice" in d["flags"]
+
+
+def test_unpriced_pantry_item_is_not_headline(data):
+    d = dish(suggest_dishes(base_input(pantryIds=["test_noprice"]), data), "test_dish_mixed")
+    assert d["protein"]["ingredientId"] == "test_c"
+    assert {"id": "test_c", "costNgn": d["protein"]["costNgn"]} in d["missingItems"]
+
+
+def test_dishes_with_unpriced_headline_sort_last(data):
+    r = suggest_dishes(base_input(), data)
+    ids = [x["dishId"] for x in r["dishes"]]
+    assert ids[-1] == "test_dish_noprice"
+    assert all(x["protein"]["score"] is not None for x in r["dishes"][:-1])
+
+
+def test_user_price_moves_item_into_scored_ranking(data):
+    d = dish(suggest_dishes(base_input(userPricesNgnPerKg={"test_noprice": 100}), data), "test_dish_mixed")
+    assert all(x["score"] is not None for x in d["ranked"])
+    assert d["protein"]["ingredientId"] == "test_noprice"  # cheap and better fit once priced

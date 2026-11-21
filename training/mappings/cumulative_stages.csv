@@ -1,0 +1,10 @@
+paper_id,treatment,stage_order,route,stage_path
+bolade2015,soaking,1,shared,soak
+bolade2015,dehulling_soaking,2,shared,soak > dehull
+bolade2015,soaking_dehulling_soaking,3,shared,soak > dehull > soak
+bolade2015,wet_milling,4,akara and moin-moin,soak > dehull > soak > wet mill
+bolade2015,deep_frying,5,akara,soak > dehull > soak > wet mill > deep fry
+bolade2015,steaming,5,moin-moin,soak > dehull > soak > wet mill > steam
+bolade2015,pressure_cooking,,gbegiri,soak > dehull > pressure cook (exact preceding stage not stated)
+ijarotimi2022,boiling_fermentation,2,fermented groundnut,boil > ferment
+ijarotimi2022,germination_boiling_fermentation,3,germinated fermented groundnut,germinate > boil > ferment

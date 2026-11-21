@@ -22,13 +22,15 @@ EXPECTED = {
     "functional_properties.csv": "Hand-filled functional values (copy of data/)",
     "treatment_experiments.csv": "Hand-filled treatment rows (copy of data/)",
     "ingredients.csv": "Hand-filled ingredients (copy of data/)",
-    "new_rows/new_treatment_experiments.csv": "Batch 3 saved here over batch 2 on Nov 20; identical copy in batch3/; not used",
-    "new_rows/new_functional_properties.csv": "Batch 3 saved here over batch 2 on Nov 20; identical copy in batch3/; not used",
     "new_rows/batch2/new_treatment_experiments.csv": "Batch 2 (makinde2020), rebuilt from data/; see RECONSTRUCTED.txt",
     "new_rows/batch2/new_functional_properties.csv": "Batch 2 (makinde2020), rebuilt from data/",
     "new_rows/batch2/RECONSTRUCTED.txt": "Why batch 2 was rebuilt",
     "new_rows/batch3/new_treatment_experiments.csv": "Batch 3 (abiodun2011, sobowale2025, mubaiwa2018)",
     "new_rows/batch3/new_functional_properties.csv": "Batch 3 (abiodun2011, mubaiwa2018, adeleke2018, ogunyinka2017)",
+    "new_rows/batch4/new_treatment_experiments.csv": "Batch 4 (bolade2015, akubor2017, sharma2019, kewuyemi2024, pokharel2024, ojha2020, gandhi2022, kanetro2021)",
+    "new_rows/batch4/new_functional_properties.csv": "Batch 4 (akubor2017, sharma2019, kanetro2021)",
+    "new_rows/batch5/new_treatment_experiments.csv": "Batch 5 (ijarotimi2022, nagessa2023, rizvi2024)",
+    "new_rows/batch5/new_functional_properties.csv": "Batch 5 (ijarotimi2022 groundnut)",
     "salvage.py": "Zip salvage helper; read, not needed (PhyFoodComp opens normally)",
 }
 

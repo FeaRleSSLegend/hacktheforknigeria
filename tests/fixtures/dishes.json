@@ -39,5 +39,17 @@
   "side_items": [],
   "playbook_ids": [],
   "notes": "TEST ONLY"
+ },
+ {
+  "id": "test_dish_mixed",
+  "name": "Test dish priced and unpriced",
+  "application_id": "test_app",
+  "protein_slot_ids": [
+   "test_c",
+   "test_noprice"
+  ],
+  "side_items": [],
+  "playbook_ids": [],
+  "notes": "TEST ONLY"
  }
 ]

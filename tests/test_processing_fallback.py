@@ -2,7 +2,8 @@
 import pytest
 
 from reference.processing_fallback import (LABEL_DIFFERENT_CROP, LABEL_INTERPOLATED, LABEL_NONE,
-                                           LABEL_RELATED, fallback_lookup)
+                                           LABEL_CUMULATIVE, LABEL_RELATED, cumulative_route,
+                                           fallback_lookup)
 
 
 def row(exp, crop, trt, t, change, paper="p1", temp="25", metric="phytate"):
@@ -99,3 +100,43 @@ def test_needs_human_rows_are_marked():
     rows = [dict(row("N1", "bean_a", "fermentation", "24", "-10"), method_note="NEEDS_HUMAN: unit unclear; x")]
     r = fallback_lookup(rows, "bean_a", "fermentation", "phytate")
     assert r["rows"][0]["needsHuman"] is True
+
+
+def staged(exp, trt, stage, route, path, change, variety):
+    r = row(exp, "bean_a", trt, "0.5", change, paper="pb")
+    r.update(cumulative_from_raw="True", stage_order=str(stage), route=route, stage_path=path,
+             method_note=f"variety {variety}")
+    return r
+
+
+STAGED = [
+    staged("K1", "soaking", 1, "shared", "soak", "-15", "v1"),
+    staged("K2", "soaking", 1, "shared", "soak", "-10", "v2"),
+    staged("K3", "wet_milling", 4, "akara and moin-moin", "soak > mill", "-70", "v1"),
+    staged("K4", "deep_frying", 5, "akara", "soak > mill > fry", "-85", "v1"),
+    staged("K5", "deep_frying", 5, "akara", "soak > mill > fry", "-80", "v2"),
+    staged("K6", "steaming", 5, "moin-moin", "soak > mill > steam", "-81", "v1"),
+]
+
+
+def test_cumulative_rows_are_labelled_cumulative():
+    r = fallback_lookup(STAGED, "bean_a", "deep_frying", "phytate", time_h=0.5)
+    assert r["label"] == LABEL_CUMULATIVE and r["mode"] == "published_range" and r["range"] == [-85.0, -80.0]
+    assert all(c["cumulativeFromRaw"] and c["stagePath"] == "soak > mill > fry" for c in r["rows"])
+
+
+def test_cumulative_route_series():
+    r = fallback_lookup(STAGED, "bean_a", "soaking", "phytate")
+    assert r["label"] == LABEL_CUMULATIVE
+    route = cumulative_route(STAGED, "bean_a", "phytate", "akara")
+    assert [s["treatment"] for s in route["stages"]] == ["soaking", "wet_milling", "deep_frying"]
+    assert route["stages"][2]["range"] == [-85.0, -80.0] and route["stages"][2]["n"] == 2
+    assert route["label"] == LABEL_CUMULATIVE
+    assert cumulative_route(STAGED, "bean_b", "phytate", "akara")["mode"] == "no_published_data"
+
+
+def test_different_crop_rows_are_marked():
+    r = fallback_lookup(ROWS, "bean_x", "fermentation", "phytate")
+    assert all(c["fromDifferentCrop"] for c in r["rows"])
+    same = fallback_lookup(ROWS, "bean_a", "germination", "phytate")
+    assert not any(c["fromDifferentCrop"] for c in same["rows"])

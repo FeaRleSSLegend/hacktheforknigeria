@@ -16,7 +16,7 @@ ALPHAS = (0.01, 0.1, 1.0, 10.0, 100.0)
 MIN_ROWS = 30
 MIN_PAPERS = 3
 NUMERIC = ("time_h", "temp_c", "time_h_sq", "time_x_temp")
-ANTINUTRIENT_PREFIXES = ("phytate", "oxalate", "trypsin_inhibitor", "tannin", "polyphenols")
+ANTINUTRIENT_PREFIXES = ("phytate", "oxalate", "trypsin_inhibitor", "tannin", "polyphenols", "saponin")
 
 
 def recompute_change(df: pd.DataFrame, tol: float = 0.01) -> tuple[pd.DataFrame, list[str], int]:
@@ -170,6 +170,7 @@ def evaluate(df: pd.DataFrame, use_metric: bool = False) -> dict:
                r2_model=1 - float(np.sum(resid ** 2)) / ss_tot if ss_tot > 0 else None,
                residual_sd=float(np.std(resid, ddof=1)) if len(resid) > 1 else None,
                n_test_in_training_range=int(in_range.sum()),
+               oof={k: v.tolist() for k, v in oof.items()},
                folds=folds, shipped=bool(ok_rows and wins), reason=reason)
     return res
 
@@ -182,7 +183,8 @@ def fit_final(df: pd.DataFrame, metric: str, use_metric: bool = False, residual_
     ranges = {}
     for (crop, trt), g in df.groupby(["crop_id", "treatment"]):
         ranges[f"{crop}|{trt}"] = {
-            k: ([float(g[k].min()), float(g[k].max())] if g[k].notna().all() else None) for k in ("time_h", "temp_c")
+            **{k: ([float(g[k].min()), float(g[k].max())] if g[k].notna().all() else None) for k in ("time_h", "temp_c")},
+            "citations": sorted(g["exp_id"].astype(str)), "papers": sorted(g["paper_id"].unique()),
         }
     return {"metric": metric, "alpha": alpha, "feature_names": f.feature_names,
             "scaler_means": f.means, "scaler_stds": f.stds,

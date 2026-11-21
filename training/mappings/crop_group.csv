@@ -1,0 +1,16 @@
+crop_id,crop_group,note
+cowpea,legume,
+bambara,legume,
+pigeon_pea,legume,
+african_yam_bean,legume,
+jack_bean,legume,
+soybean,legume,
+groundnut,legume,
+african_locust_bean,legume,
+melon_seed,oilseed,"Cucumeropsis/Citrullus seed (egusi), not a legume"
+mungbean,legume,different crop; evidence only (Nepal)
+horse_gram,legume,different crop; evidence only (Nepal)
+lentil,legume,different crop; evidence only (India)
+black_bean,legume,different crop; evidence only (Mozambique)
+lima_bean,legume,different crop; evidence only (India)
+adzuki_bean,legume,different crop; evidence only (India)

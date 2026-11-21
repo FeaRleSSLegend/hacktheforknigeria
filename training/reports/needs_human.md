@@ -46,3 +46,39 @@ Each item: the question, what the pipeline does now, and the options. Nothing be
 22. **Bambara cultivars differ a lot.** Least gelation is 6-20 % (Adeleke 9-20 %, Mubaiwa 6-8 %; flagged `high_disagreement`) and foam stability 42-79 %. The median pools cultivars within a paper, so Adeleke's 3 cultivars outweigh Mubaiwa's 2. Bambara bulk density, oil and water absorption come from Adeleke only. Weight papers equally instead of rows?
 23. **Bambara now ranks for akara (test fixture), above jack bean and cowpea on fit.** It has no price. The app pick for akara is jack bean (no price, score 0.71). This repeats item 5: unpriced proteins can outrank priced cowpea.
 24. **Still no model:** water absorption (31 rows, 5 papers) loses to B0 (31.8 vs 19.8). Oxalate has 29 rows, one short of the rule, and its model loses anyway (63.8 vs 47.9). In every fold, 0 held-out rows fall inside the training range.
+
+## Batch 4 (Nov 20)
+
+25. **Akubor 2017:** boiled tannin printed "25 +0.4" (probably 2.5) was left out, as was toasted foam stability "2. 0e". Germinated trypsin inhibitor "0.08 +0.7" has an SD larger than the mean; keep it?
+26. **Pokharel 2024 soaking time:** the methods say 18 h, the abstract and other sections 12 h; 12 h was used. Which is right?
+27. **Ojha 2020:** water and oil absorption units are not printed (assumed g/g). Antinutrients exist only as a bar chart plus text percentages (fermentation phytate -69.5, tannin -69.3, oxalate -66.7; germination -61.6, -54.6, -61.6); these were not added. Add them as percent-only rows?
+28. **Kanetro 2021 jack bean:** printed as % but the method gives g/g. Control flour moisture is 13.3 % vs 7 % treated, so part of the change may be moisture. Emulsion and foaming values were left out.
+29. **Sharma 2019:** the text's emulsion activity range does not match the table, and foam stability was left out.
+30. **Gandhi 2022:** emulsion was not determined for boiled samples, and tannin and phytate exist only in a figure.
+31. **Bolade 2015:** values are means of three households, and the tannin units look large. Pressure cooking (gbegiri): the exact preceding stage is not stated (stage_order left blank).
+32. **Models now ship (C3 for tannin, phytate and trypsin inhibitor; ridge for oxalate; C5 for bulk density).** Please review before the demo:
+    - C3 pulls each treatment's mean toward the metric's overall mean (K = 5 rows), which distorts single-paper entries. The cumulative Bolade stages suffer most: `deep_frying|phytate` is -66.6 while all 4 cited rows are -85 to -89. `soaking|phytate` is -35.5, pooled from cowpea and mungbean, while cowpea's own Bolade soak rows are -15 to -21. Recommendation: when same-crop published rows exist for the asked treatment, the app shows those first (fallback rows) and the pooled prediction second, labelled "predicted, pooled from <crops>". Alternatively, keep cumulative-stage rows out of model training. Decide which.
+    - Pooled values include different crops (mungbean, lentil, horse gram). Each entry lists its crops and `from_crops_not_in_ingredient_table`. The app must name them and never present the value as cowpea's own.
+    - Ridge (oxalate): 0 held-out rows fell inside the training range, so the backtest measures transfer to new papers. It lost to B0 on Sobowale (72 vs 66).
+    - Choosing the lowest-error candidate out of 6 on the same folds slightly flatters the winner; phytate C3 (27.8) and ridge (28.6) are close.
+    - "Beats B0 clearly" was defined as MAE at most 90 % of B0 AND lower error than B0 on more than half of the held-out papers. Confirm this definition.
+33. **Functional metrics still have no model:** water and oil absorption, foam capacity, swelling power and emulsion stability all fail; most do not beat "no change" on half the papers.
+34. **Akara (test fixture):** pigeon pea gained functional rows (Akubor, Sharma). Fit order: bambara 0.62 > jack bean 0.45 > cowpea 0.38 > pigeon pea 0.27 (pigeon pea was 0.00). The app pick is still jack bean (no price). The real akara definition is still missing.
+
+## Decisions taken (Nov 20)
+- Items 5, 23 and 32 resolved: same-crop published rows first, pooled prediction only without them; cumulative stages excluded from training; unpriced proteins never headline; ship rule accepted.
+- Consequence: with cumulative stages excluded, phytate (25 rows), tannin (26) and trypsin inhibitor (12) fall below 30 rows and STOP SHIPPING, although their best candidates still beat B0 by a wide margin (see reports/cumulative_exclusion_comparison.md). Only bulk density (C5) and oxalate (ridge) ship. More single-operation rows for these three metrics would bring them back.
+- Edge case to confirm: in pantry mode, if the cook owns only unpriced proteins, the headline is a priced protein they must buy (the rule says unpriced is never headline). Entering a price for the owned item fixes it.
+
+## Batch 5 (Nov 21, last data batch)
+
+35. **Ijarotimi 2022 (groundnut):**
+    - The trypsin inhibitor unit is not printed (the caption says mg/g).
+    - Fermentation is 37 C 48 h in one place and "3 days" in the text.
+    - Germination temperature is not stated.
+    - Raw foaming capacity is 4.07 % as printed.
+    - WAC and OAC were printed in %. Divided by 100 (`calculated`) they give 0.30 and 0.29 g/g, very low for a flour; check whether they are really % or g/g.
+36. **Nagessa 2023 (black bean):** cooking times are printed as 1.47 h and 38 min; 1.47 h could mean 1 h 47 min. The germination tannin reduction is printed as 66.69 % at 48 h, but the table values give 62.5 %; table values were used. Soaking time used: 12 h (the paper also mentions a 16 h non-soaker test).
+37. **Rizvi 2024:** the steeping time before germination is only in Figure 1, which was not read. Soak and germination rows are each against raw grains.
+38. **Read but not used:** the "Unravelling the Impact of Dive..." review.
+39. **Models that pass only thanks to other crops.** Under the unchanged rule, phytate (C3), tannin (ridge) and bulk density (ridge) ship, but none of them would pass on ingredient-crop rows alone (`ships_only_with_different_crop_rows: true`). The app labels their output "estimated from other legumes". Oxalate (ridge) also passes on ingredient crops alone. Trypsin inhibitor still has too few non-cumulative rows (24) to ship.

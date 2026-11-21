@@ -21,7 +21,8 @@ DATA = ROOT / "data"
 FIXTURES = ROOT / "training" / "fixtures"
 EXPECTED_UNIT = {"water_absorption": "g/g", "oil_absorption": "g/g", "bulk_density": "g/mL",
                  "foam_capacity": "%", "foam_stability": "%", "emulsion_capacity": "%",
-                 "emulsion_stability": "%", "least_gelation": "% w/v", "swelling_capacity": "ratio"}
+                 "emulsion_stability": "%", "least_gelation": "% w/v", "swelling_capacity": "ratio",
+                 "swelling_power": "g/g", "emulsion_activity": "%"}
 MAX_PLAUSIBLE_G_PER_G = 10.0  # a printed % that slipped through undivided would be about 100x larger
 DISAGREEMENT_RATIO = 3.0
 OUTLIER_FACTOR = 2.0  # a value below median/2 or above median*2 in a group of 3 or more

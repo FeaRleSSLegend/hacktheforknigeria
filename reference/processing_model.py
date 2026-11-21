@@ -63,3 +63,54 @@ def predict(model: dict, crop: str, treatment: str, time_h: Optional[float], tem
         return None
     x = feature_vector(model, crop, treatment, time_h, temp_c, metric, baseline_type)
     return model["intercept"] + sum(c * v for c, v in zip(model["coefficients"], x))
+
+
+def _inside(value: Optional[float], rng: Optional[list]) -> bool:
+    if rng is None:
+        return value is None
+    return value is not None and rng[0] <= value <= rng[1]
+
+
+def predict_table(entry_model: dict, treatment: str, treatment_family: str, metric: str,
+                  time_h: Optional[float] = None, temp_c: Optional[float] = None) -> Optional[dict]:
+    """Table candidates (C1-C4): pooled published change for the key, with its citations.
+
+    Returns None for an unknown key or a time/temperature outside the key's published range.
+    The value is pooled across the crops listed in the entry, never one crop's own number.
+    """
+    key_part = treatment if entry_model["key"].startswith("treatment|") else treatment_family
+    e = entry_model["entries"].get(f"{key_part}|{metric}")
+    if e is None:
+        return None
+    for v, rng in ((time_h, e["time_h"]), (temp_c, e["temp_c"])):
+        if v is not None and rng is not None and not rng[0] <= v <= rng[1]:
+            return None
+    return {"value": e["value"], "crops": e["crops"], "citations": e["citations"], "papers": e["papers"]}
+
+
+def predict_c5(model: dict, treatment_family: str, crop_group: str,
+               time_h: Optional[float], temp_c: Optional[float]) -> Optional[float]:
+    """C5 linear model inside the (family, metric) training range; C1 pooled mean outside it."""
+    rng = model["ranges"].get(treatment_family)
+    if rng is None:
+        return model["c1_fallback"].get(f"{treatment_family}|{model['metric']}")
+    if not (_inside(time_h, rng["time_h"]) and _inside(temp_c, rng["temp_c"])):
+        return model["c1_fallback"].get(f"{treatment_family}|{model['metric']}")
+    (tm, ts), (cm, cs) = model["scaler"]["time_h"], model["scaler"]["temp_c"]
+    x = []
+    for name in model["feature_names"]:
+        if name == "time_z":
+            x.append(0.0 if time_h is None else (time_h - tm) / ts)
+        elif name == "time_missing":
+            x.append(1.0 if time_h is None else 0.0)
+        elif name == "temp_z":
+            x.append(0.0 if temp_c is None else (temp_c - cm) / cs)
+        elif name == "temp_missing":
+            x.append(1.0 if temp_c is None else 0.0)
+        elif name.startswith("family="):
+            x.append(1.0 if name[7:] == treatment_family else 0.0)
+        elif name.startswith("crop_group="):
+            x.append(1.0 if name[11:] == crop_group else 0.0)
+        else:
+            raise ValueError(f"unknown feature {name}")
+    return model["intercept"] + sum(c * v for c, v in zip(model["coefficients"], x))

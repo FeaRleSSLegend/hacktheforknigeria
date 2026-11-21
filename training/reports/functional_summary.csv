@@ -23,26 +23,33 @@ cowpea,least_gelation,flour,% w/v,2,5.0,4.0,6.0,1.5,2,adediran2013;arawande2010,
 cowpea,oil_absorption,flour,g/g,2,1.26575,1.1315,1.4,1.24,2,adediran2013;arawande2010,
 cowpea,swelling_capacity,flour,ratio,1,1.5,1.5,1.5,1.0,1,adediran2013,single_source
 cowpea,water_absorption,flour,g/g,6,2.001,0.9,2.51,2.79,4,abiodun2011;adediran2013;arawande2010;makinde2020,outlier_vs_median
+groundnut,bulk_density,flour,g/mL,1,0.72,0.72,0.72,1.0,1,ijarotimi2022,single_source
+groundnut,emulsion_capacity,flour,%,1,28.1,28.1,28.1,1.0,1,ijarotimi2022,single_source
+groundnut,foam_capacity,flour,%,1,4.07,4.07,4.07,1.0,1,ijarotimi2022,single_source
+groundnut,oil_absorption,flour,g/g,1,0.2933,0.2933,0.2933,1.0,1,ijarotimi2022,single_source
+groundnut,water_absorption,flour,g/g,1,0.3003,0.3003,0.3003,1.0,1,ijarotimi2022,single_source
 jack_bean,bulk_density,flour,g/mL,1,0.82,0.82,0.82,1.0,1,odedeji2024,single_source
 jack_bean,emulsion_capacity,flour,%,1,71.73,71.73,71.73,1.0,1,arawande2010,single_source
 jack_bean,emulsion_stability,flour,%,1,13.19,13.19,13.19,1.0,1,arawande2010,single_source
 jack_bean,foam_capacity,flour,%,1,20.67,20.67,20.67,1.0,1,arawande2010,single_source
 jack_bean,foam_stability,flour,%,1,10.33,10.33,10.33,1.0,1,arawande2010,single_source
 jack_bean,least_gelation,flour,% w/v,1,4.0,4.0,4.0,1.0,1,arawande2010,single_source
-jack_bean,oil_absorption,flour,g/g,2,1.1125,1.09,1.135,1.04,2,arawande2010;odedeji2024,
-jack_bean,water_absorption,flour,g/g,2,1.1914500000000001,1.1,1.2829,1.17,2,arawande2010;odedeji2024,
+jack_bean,oil_absorption,flour,g/g,3,1.135,1.09,1.81,1.66,3,arawande2010;kanetro2021;odedeji2024,
+jack_bean,water_absorption,flour,g/g,3,1.21,1.1,1.2829,1.17,3,arawande2010;kanetro2021;odedeji2024,
 melon_seed,foam_capacity,flour,%,1,5.8,5.8,5.8,1.0,1,abulude2006,single_source
 melon_seed,least_gelation,flour,% w/v,2,8.0,6.0,10.0,1.67,2,abulude2006;nzeagwu2018,
 melon_seed,oil_absorption,flour,g/g,2,2.555,0.95,4.16,4.38,2,abulude2006;nzeagwu2018,high_disagreement
 melon_seed,water_absorption,flour,g/g,2,2.31,2.0,2.62,1.31,2,abulude2006;nzeagwu2018,
-pigeon_pea,bulk_density,flour,g/mL,2,0.7150000000000001,0.62,0.81,1.31,2,abiodun2011;okoye2021,
+pigeon_pea,bulk_density,flour,g/mL,4,0.77,0.62,0.87,1.4,4,abiodun2011;akubor2017;okoye2021;sharma2019,
+pigeon_pea,emulsion_activity,flour,%,1,49.73,49.73,49.73,1.0,1,sharma2019,single_source
 pigeon_pea,emulsion_capacity,flour,%,3,28.73,20.93,48.39,2.31,3,arawande2010;okoye2021;oloyo2005,
-pigeon_pea,emulsion_stability,flour,%,2,28.215,13.93,42.5,3.05,2,arawande2010;oloyo2005,high_disagreement
-pigeon_pea,foam_capacity,flour,%,3,9.81,3.53,47.0,13.31,3,arawande2010;okoye2021;oloyo2005,high_disagreement;outlier_vs_median
-pigeon_pea,foam_stability,flour,%,1,3.05,3.05,3.05,1.0,1,arawande2010,single_source
-pigeon_pea,least_gelation,flour,% w/v,2,7.0,6.0,8.0,1.33,2,arawande2010;oloyo2005,
-pigeon_pea,oil_absorption,flour,g/g,2,1.99585,1.4817,2.51,1.69,2,arawande2010;oloyo2005,
-pigeon_pea,water_absorption,flour,g/g,4,1.99885,1.5,4.09,2.73,4,abiodun2011;arawande2010;okoye2021;oloyo2005,outlier_vs_median
+pigeon_pea,emulsion_stability,flour,%,4,38.75,13.93,42.62,3.06,4,akubor2017;arawande2010;oloyo2005;sharma2019,high_disagreement;outlier_vs_median
+pigeon_pea,foam_capacity,flour,%,5,20.75,3.53,47.0,13.31,5,akubor2017;arawande2010;okoye2021;oloyo2005;sharma2019,high_disagreement;outlier_vs_median
+pigeon_pea,foam_stability,flour,%,2,33.345,3.05,63.64,20.87,2,akubor2017;arawande2010,high_disagreement
+pigeon_pea,least_gelation,flour,% w/v,3,6.0,2.0,8.0,4.0,3,akubor2017;arawande2010;oloyo2005,high_disagreement;outlier_vs_median
+pigeon_pea,oil_absorption,flour,g/g,4,1.29085,0.8116,2.51,3.09,4,akubor2017;arawande2010;oloyo2005;sharma2019,high_disagreement
+pigeon_pea,swelling_power,flour,g/g,1,4.7,4.7,4.7,1.0,1,sharma2019,single_source
+pigeon_pea,water_absorption,flour,g/g,6,1.69885,1.2,4.09,3.41,6,abiodun2011;akubor2017;arawande2010;okoye2021;oloyo2005;sharma2019,high_disagreement;outlier_vs_median
 soybean,bulk_density,flour,g/mL,1,0.63,0.63,0.63,1.0,1,onwuzurike2021,single_source
 soybean,foam_capacity,flour,%,1,12.88,12.88,12.88,1.0,1,onwuzurike2021,single_source
 soybean,foam_stability,flour,%,1,24.0,24.0,24.0,1.0,1,onwuzurike2021,single_source

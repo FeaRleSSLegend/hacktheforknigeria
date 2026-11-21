@@ -80,3 +80,49 @@ All values were read from PDF tables by text extraction or from the page image a
 - adeleke2018: Adeleke et al. 2018. 18 whole-flour functional rows for 3 bambara cultivars x 6 properties. WAC and OAC were printed in % and divided by 100 to g/g (`calculated`); WAC 108-139 % means 1.1-1.4 g/g.
 - ogunyinka2017: Ogunyinka et al. 2017. 4 functional rows for African locust bean flour made from FERMENTED seed, not raw (QC flag `processed_flour`). WAC and OAC were left out because the table gives no units.
 - Batch 2 note: the original batch-2 files in training/data/new_rows/ were overwritten by the batch-3 files. Batch 2 was rebuilt from data/ into new_rows/batch2/ (see RECONSTRUCTED.txt); values are unchanged.
+
+## Added Nov 20 (batch 4, training/data/new_rows/batch4/)
+Treatment rows E306-E604 (source ids B4-... in method_note), plus 16 functional rows. All were transcribed from PDF tables (text extraction or page image) and are NOT yet checked against the PDFs.
+data/treatment_experiments.csv now carries derived columns from training/mappings/: baseline_type, treatment_family, crop_group, in_ingredient_table, cumulative_from_raw, stage_order, route, stage_path.
+- bolade2015: cowpea, 4 varieties (IT93K-452-1, IT95K-499s-35, IT97K-568-18, Ewa-oloyin).
+  - 84 rows: household akara, moin-moin and gbegiri steps; trypsin inhibitor, phytate, tannin.
+  - Stages are CUMULATIVE from raw seed (cumulative_from_raw = true). For example, deep_frying = soak > dehull > soak > wet mill > deep fry, not frying alone. Stage order and path are in the table. For pressure cooking (gbegiri route), the exact preceding stage is not stated.
+  - Values are means of three households. Tannin magnitudes are large (about 2000+, mg/100 g as printed); percent change is unit-free.
+- akubor2017: pigeon pea; roasting (paper word: toasting, 120 C 30 min), boiling, germination, fermentation; tannin, trypsin inhibitor; baseline hydrated + dehulled flour; 34 rows + 7 functional rows.
+  - Left out: boiled tannin printed "25 +0.4" (probably 2.5), and toasted foam stability "2. 0e".
+  - Germinated trypsin inhibitor "0.08 +0.7" has an SD larger than the mean.
+- sharma2019: pigeon pea (variety AL 201, Punjab, India); germination at 25/30/35 C for 12-48 h plus a soak-only control; baseline non-germinated flour; 91 rows + 7 functional rows.
+  - Emulsion activity is kept separate from emulsion capacity. The text's emulsion activity range does not match the table.
+  - Foam stability was left out (multi-time-point definition).
+- kewuyemi2024: whole cowpea, germination and fermentation (35 C, 48 h); tannin, oxalate; baseline raw whole flour; 4 rows.
+- pokharel2024: mungbean (Nepal), a DIFFERENT CROP (evidence only, not an ingredient); 8 treatments; tannin, oxalate, phytate, saponin; baseline raw seed (dry basis); 32 rows. Soaking time: the methods say 18 h, the abstract and other sections 12 h; 12 h was used.
+- ojha2020: horse gram (Nepal), a DIFFERENT CROP (evidence only); soaking, roasting, germination, fermentation; bulk density, water and oil absorption; 12 rows.
+  - Water and oil absorption units are not printed (assumed g/g).
+  - Antinutrients appear only in a bar chart (text gives percent reductions only) and were not added.
+- gandhi2022: lentil (India), a DIFFERENT CROP (evidence only); soaking, boiling, germination; functional metrics; 34 rows.
+  - Emulsion was not determined for boiled samples (cells left out).
+  - Tannin and phytate appear only in a figure and were not added.
+- kanetro2021: jack bean (Indonesia); soaking, germination 24/48/72 h; oil and water absorption; 8 rows + 2 functional rows.
+  - Printed as % but the method gives g/g.
+  - Control flour moisture is 13.3 % vs 7 % for treated flour.
+  - Emulsion and foaming values were left out (units unclear).
+- Read but not used: Jaichand 2020 (antinutrients only in figures; baseline soaked), Mashau 2025 (antinutrients only in figures), Adediran 2013 (only jack bean and cowpea blends), the grey pea 2024 paper (WAI/WSI, different measures).
+- Processing models now ship for tannin, phytate and trypsin inhibitor (C3, shrunk mean per treatment), oxalate (ridge) and bulk density (C5, linear, in range only); see reports/candidates.md. C3 values are pooled across crops (including mungbean, lentil or horse gram where listed); every entry in bundle/model.json names its crops and citations.
+
+## Added Nov 21 (batch 5, training/data/new_rows/batch5/, last data batch)
+Treatment rows E605-E682 (source ids B5-... in method_note), plus 5 functional rows. All were transcribed from PDF tables and are NOT yet checked against the PDFs.
+- ijarotimi2022: groundnut kernels (Akure, Nigeria). Groundnut IS an ingredient, so these are same-crop rows.
+  - Treatments: boiling (CGN, 100 C 30 min) and germination (GGN, 4 days) are single treatments. boiling_fermentation (FGN) and germination_boiling_fermentation (GCF) are cumulative from raw (cumulative_from_raw = true) and excluded from model training.
+  - Metrics: tannin, oxalate, phytate, trypsin inhibitor, bulk density, foam capacity, oil and water absorption, emulsion capacity. Baseline raw kernel flour (RGN). 36 rows.
+  - 5 functional rows for raw groundnut flour. WAC and OAC were printed in % and divided by 100 (`calculated`), which gives 0.30 and 0.29 g/g, very low for a flour; check.
+  - Trypsin inhibitor unit is not printed (the table caption says mg/g).
+  - Fermentation is given as 37 C 48 h and also as "3 days" in the text.
+  - Germination temperature is not stated.
+  - Raw foaming capacity of 4.07 % is as printed.
+- nagessa2023: black bean (Phaseolus vulgaris, Mozambique), a DIFFERENT CROP (evidence only). 12 rows of phytate and tannin; baseline untreated raw bean flour.
+  - Treatments: soaking, soaking_alkaline (0.05 % NaHCO3), germination 24 and 48 h, soaking_boiling and soaking_pressure_cooking. The last two are named two-step recipes (soak 12 h then cook), wet_heat family, not cumulative.
+  - Cooking times are printed as 1.47 h and 38 min.
+  - The germination tannin reduction is printed as 66.69 % at 48 h, but the table values give 62.5 %; the table values were used.
+- rizvi2024: lima bean and adzuki bean (India), DIFFERENT CROPS (evidence only). Soaking 12 and 24 h, germination 24/48/72 h; phytate, tannin, trypsin inhibitor; baseline raw grains at 0 h; 30 rows. The steeping time before germination is shown only in Figure 1, which was not read.
+- Read but not used: "Unravelling the Impact of Dive..." (a review).
+- Shipped models now record trained_on_crops and whether they pass the ship rule only thanks to rows from crops that are not ingredients (ships_only_with_different_crop_rows). Such outputs are labelled "estimated from other legumes".

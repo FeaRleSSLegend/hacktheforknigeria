@@ -8,3 +8,15 @@ soaking_roasting,dry_heat,soak then dry roast; kept separate from roasting
 germination,biological,
 fermentation,biological,unspecified fermentation (Sobowale)
 fermentation_lactic,biological,lactic starter (Chude)
+dehulling,mechanical,dehulling only (Pokharel)
+soaking_dehulling_soaking,soaking,soak + dehull + second soak; Bolade stage 3
+soaking_boiling,wet_heat,soak then boil; kept separate from boiling
+soaking_autoclaving,wet_heat,soak then autoclave; kept separate from autoclaving
+wet_milling,multi_step_household,Bolade stage 4: cumulative soak > dehull > soak > wet mill; not milling alone
+deep_frying,multi_step_household,Bolade akara stage 5: cumulative through wet milling then frying; not frying alone
+steaming,multi_step_household,Bolade moin-moin stage 5: cumulative through wet milling then steaming; not steaming alone
+pressure_cooking,multi_step_household,Bolade gbegiri: dehulled seed pressure cooked; cumulative from raw
+soaking_alkaline,soaking,soak in 0.05 % NaHCO3 (Nagessa)
+soaking_pressure_cooking,wet_heat,soak 12 h then pressure cook; named two-step recipe like soaking_boiling
+boiling_fermentation,multi_step_household,Ijarotimi FGN: cumulative boil > ferment from raw; not fermentation alone
+germination_boiling_fermentation,multi_step_household,Ijarotimi GCF: cumulative germinate > boil > ferment from raw

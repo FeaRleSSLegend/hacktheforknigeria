@@ -85,30 +85,25 @@ def fit_scores(application: dict, candidate_ids: list[str], prop_rows: list[dict
     return result
 
 
-def overall_scores(fit: dict[str, float], cost_per_g: dict[str, Optional[float]],
+def overall_scores(fit: dict[str, float], cost_per_g: dict[str, float],
                    protein_density: dict[str, float]) -> dict[str, dict]:
     """Combine fit, cost score (cheaper is better) and protein density into one score, with drivers.
 
-    cost_per_g may be None for a candidate with no price (neither bundled nor user-entered).
-    Such a candidate still ranks: its score uses fit and density only, with those two weights
-    renormalised to sum to 1, and its cost part is None. The cost score is scaled across the
-    priced candidates only. Driver means are taken over the candidates that have that part.
+    Only priced candidates are scored (every cost_per_g must be a number). Unpriced candidates
+    are not scored; the caller ranks them below the priced ones by fit and flags "price needed".
     """
+    if any(v is None for v in cost_per_g.values()):
+        raise ValueError("overall_scores takes priced candidates only")
     cost_s = scale_across(cost_per_g, higher_is_better=False)
     dens_s = scale_across(protein_density, higher_is_better=True)
     ids = list(fit.keys())
     comps = {"fit": {i: fit[i] for i in ids}, "cost": {i: cost_s[i] for i in ids}, "density": {i: dens_s[i] for i in ids}}
-    means = {}
-    for k, v in comps.items():
-        present = [x for x in v.values() if x is not None]
-        means[k] = sum(present) / len(present) if present else None
+    means = {k: sum(v.values()) / len(v) for k, v in comps.items()}
     out = {}
     for i in ids:
-        avail = [k for k in WEIGHTS if comps[k][i] is not None]
-        wsum = sum(WEIGHTS[k] for k in avail)
-        score = sum(WEIGHTS[k] * comps[k][i] for k in avail) / wsum
+        score = sum(WEIGHTS[k] * comps[k][i] for k in WEIGHTS)
         drivers = sorted(
-            ({"name": k, "contribution": WEIGHTS[k] * (comps[k][i] - means[k])} for k in avail),
+            ({"name": k, "contribution": WEIGHTS[k] * (comps[k][i] - means[k])} for k in WEIGHTS),
             key=lambda d: abs(d["contribution"]),
             reverse=True,
         )
