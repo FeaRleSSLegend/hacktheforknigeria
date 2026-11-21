@@ -17,6 +17,7 @@ export interface Plan {
   allergens: string[];
   bodyWeightKg: number | null;
   proteinPerPersonG: number; // used when no body weight is given; the cook's own choice
+  userPrices: Record<string, number>; // naira per kg typed by the cook; kept for this session only
 }
 
 export const DEFAULT_PLAN: Plan = {
@@ -27,6 +28,7 @@ export const DEFAULT_PLAN: Plan = {
   allergens: [],
   bodyWeightKg: null,
   proteinPerPersonG: 20,
+  userPrices: {},
 };
 
 const KEY = "proteinpath.prefs.v1";
@@ -47,6 +49,7 @@ export function toPlanInput(plan: Plan): PlanInput {
     servings: plan.servings,
     targetProteinG: targetProtein(plan),
     allergens: plan.allergens,
+    userPricesNgnPerKg: plan.userPrices,
   };
 }
 

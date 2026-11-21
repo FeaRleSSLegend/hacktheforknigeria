@@ -1,0 +1,80 @@
+{
+ "args": {
+  "input": {
+   "allergens": [],
+   "budgetNgn": 1500,
+   "mode": "pantry",
+   "pantryIds": [],
+   "servings": 4,
+   "targetProteinG": 20
+  },
+  "plantId": "cowpea"
+ },
+ "bundleVersion": "2026-11-21-019dc6d3",
+ "expected": {
+  "bundleVersion": "2026-11-21-019dc6d3",
+  "dishes": [
+   {
+    "candidatesRanked": 2,
+    "dishId": "ekuru",
+    "dryGPerServing": 60,
+    "fit": 1.0,
+    "name": "Ekuru",
+    "priceSource": "bundled",
+    "proteinCostNgn": 321.34,
+    "proteinCostPerPersonNgn": 80.34,
+    "proteinPerPlateG": 13.6,
+    "rankInDish": 1,
+    "score": 0.75,
+    "summaryLine": "Ranked on water holding and gelling for steamed paste."
+   },
+   {
+    "candidatesRanked": 3,
+    "dishId": "moin_moin",
+    "dryGPerServing": 70,
+    "fit": 0.9689,
+    "name": "Moin-moin",
+    "priceSource": "bundled",
+    "proteinCostNgn": 374.9,
+    "proteinCostPerPersonNgn": 93.73,
+    "proteinPerPlateG": 15.8,
+    "rankInDish": 1,
+    "score": 0.7345,
+    "summaryLine": "Ranked on water holding and gelling for a firm pudding."
+   },
+   {
+    "candidatesRanked": 2,
+    "dishId": "gbegiri",
+    "dryGPerServing": 45,
+    "fit": 0.7,
+    "name": "Gbegiri (bean soup)",
+    "priceSource": "bundled",
+    "proteinCostNgn": 241.01,
+    "proteinCostPerPersonNgn": 60.25,
+    "proteinPerPlateG": 10.2,
+    "rankInDish": 1,
+    "score": 0.6,
+    "summaryLine": "Ranked on water holding and creaminess for a smooth soup."
+   },
+   {
+    "candidatesRanked": 3,
+    "dishId": "akara",
+    "dryGPerServing": 50,
+    "fit": 0.6584,
+    "name": "Akara",
+    "priceSource": "bundled",
+    "proteinCostNgn": 267.79,
+    "proteinCostPerPersonNgn": 66.95,
+    "proteinPerPlateG": 11.3,
+    "rankInDish": 1,
+    "score": 0.5792,
+    "summaryLine": "Ranked on foaming and water holding, key for light batter."
+   }
+  ],
+  "excluded": [],
+  "notEnoughData": [],
+  "plantId": "cowpea"
+ },
+ "fn": "dishesForPlant",
+ "name": "plant_dishes_cowpea"
+}

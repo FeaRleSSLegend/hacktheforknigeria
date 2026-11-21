@@ -2,7 +2,8 @@ import fs from "fs";
 import path from "path";
 
 import { loadBundle } from "../src/bundle/loader";
-import { UNREVIEWED_LABEL } from "../src/engine/safety";
+import { safetyGuard } from "../src/engine/safety";
+import { recommendProcessing } from "../src/engine/processing";
 import { suggestDishes } from "../src/engine/suggest";
 import { Bundle } from "../src/engine/types";
 import { preparePlan } from "../src/lib/prepare";
@@ -26,14 +27,19 @@ test("akara with cowpea uses the sourced akara route and passes the guard", () =
   expect(p.findings.map((f) => f.goal)).toEqual(["phytate", "tannin", "trypsin_inhibitor"]);
   expect(p.findings.every((f) => f.option.playbookId === "pb_cowpea_akara_route")).toBe(true);
   expect(p.hiddenCount).toBeGreaterThan(0); // the soak-only route is withheld
-  for (const r of p.hiddenReasons) expect(r.endsWith(UNREVIEWED_LABEL)).toBe(true);
+  const plain = b.safetyRules.map((r) => r.user_text);
+  for (const r of p.hiddenReasons) expect(plain).toContain(r);
   expect(p.wholeBlocked).toEqual([]);
 });
 
-test("every safety message says the rule is not yet reviewed", () => {
+test("safety messages are plain user_text; review status is kept apart", () => {
   const p = preparePlan(b, b.dishes.find((d) => d.id === "egusi_soup"), "groundnut", []);
   expect(p.warnings.length).toBeGreaterThan(0);
-  for (const w of p.warnings) expect(w.endsWith(UNREVIEWED_LABEL)).toBe(true);
+  const plain = b.safetyRules.map((r) => r.user_text);
+  for (const w of p.warnings) expect(plain).toContain(w);
+  const g = safetyGuard(recommendProcessing("groundnut", "phytate", b), { allergens: [] }, b);
+  expect(g.rules.length).toBeGreaterThan(0);
+  expect(g.rules.every((r) => r.reviewed === false)).toBe(true);
 });
 
 test("a plant on the user's allergen list is withheld entirely", () => {

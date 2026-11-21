@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 
 import { loadBundle } from "../src/bundle/loader";
+import { dishesForPlant } from "../src/engine/plant";
 import { recommendProcessing } from "../src/engine/processing";
 import { rankIngredients } from "../src/engine/rank";
 import { safetyGuard } from "../src/engine/safety";
@@ -39,6 +40,8 @@ function run(c: Case, b: Bundle): unknown {
   switch (c.fn) {
     case "suggestDishes":
       return suggestDishes(a.input as PlanInput, b);
+    case "dishesForPlant":
+      return dishesForPlant(a.plantId as string, a.input as PlanInput, b);
     case "rankIngredients":
       return rankIngredients(a.applicationId as string, a.input as PlanInput, b, a.candidateIds as string[] | null);
     case "recommendProcessing":

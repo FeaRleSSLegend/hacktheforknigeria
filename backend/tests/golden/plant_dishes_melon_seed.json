@@ -1,0 +1,31 @@
+{
+ "args": {
+  "input": {
+   "allergens": [],
+   "budgetNgn": 1500,
+   "mode": "pantry",
+   "pantryIds": [],
+   "servings": 4,
+   "targetProteinG": 20
+  },
+  "plantId": "melon_seed"
+ },
+ "bundleVersion": "2026-11-21-019dc6d3",
+ "expected": {
+  "bundleVersion": "2026-11-21-019dc6d3",
+  "dishes": [],
+  "excluded": [],
+  "notEnoughData": [
+   {
+    "dishId": "egusi_soup",
+    "missingNeeds": [
+     "emulsion_capacity"
+    ],
+    "name": "Egusi soup"
+   }
+  ],
+  "plantId": "melon_seed"
+ },
+ "fn": "dishesForPlant",
+ "name": "plant_dishes_melon_seed"
+}

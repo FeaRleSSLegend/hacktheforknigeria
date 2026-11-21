@@ -36,7 +36,7 @@ def test_bundle_and_data_paths_agree(bundle):
     from reference.loader import load_data
     from reference.suggest import suggest_dishes
 
-    dev = load_data(ROOT / "data", ROOT / "bundle" / "model.json")
+    dev = load_data(ROOT.parent / "data", ROOT.parent / "bundle" / "model.json")
     inp = {"mode": "pantry", "pantryIds": ["cowpea"], "budgetNgn": 1500, "servings": 4, "targetProteinG": 20, "allergens": []}
     a, b = suggest_dishes(inp, dev), suggest_dishes(inp, bundle)
     a.pop("bundleVersion"), b.pop("bundleVersion")

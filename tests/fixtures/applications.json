@@ -1,0 +1,1 @@
+[{"id":"test_app","name":"Test application","needs":[{"property":"foaming","direction":"higher","weight":0.5},{"property":"wac","direction":"higher","weight":0.5}],"notes":"TEST ONLY"}]

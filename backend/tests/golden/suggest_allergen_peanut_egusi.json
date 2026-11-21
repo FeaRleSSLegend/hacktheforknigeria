@@ -12,14 +12,14 @@
    "targetProteinG": 20
   }
  },
- "bundleVersion": "2026-11-21-cdefda79",
+ "bundleVersion": "2026-11-21-019dc6d3",
  "expected": {
-  "bundleVersion": "2026-11-21-cdefda79",
+  "bundleVersion": "2026-11-21-019dc6d3",
   "dishes": [],
   "excluded": [
    {
     "id": "egusi_soup",
-    "reason": "no usable protein: groundnut (allergen: peanut); melon_seed (price needed)"
+    "reason": "no usable protein: melon_seed (not enough data: missing emulsion_capacity); groundnut (allergen: peanut)"
    }
   ]
  },

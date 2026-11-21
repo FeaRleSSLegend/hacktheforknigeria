@@ -5,47 +5,51 @@
    "sha256": "cefb234735697d96649956bd1cd4105fac24a9745bca1c810d39d373027a310a"
   },
   "dishes.json": {
-   "bytes": 2845,
-   "sha256": "e8834ef57ddefd1ef42cac31c12eb31744fe21308c4bdf9ebd070c672e5c0525"
+   "bytes": 5498,
+   "sha256": "4cf61085d670d528491d774d4692721a45e118631876458d4b003507bec2c9dc"
   },
   "functional_properties.json": {
    "bytes": 49570,
    "sha256": "c7aee888d574b71e192a5193c1d30fce6767722208323f2316ec162196476ccc"
   },
   "ingredients.json": {
-   "bytes": 5664,
-   "sha256": "bd560fe4ab06551c705f1b1b2ffc5f3c20a43585af957933a0b4ad4efa3c44b5"
+   "bytes": 6040,
+   "sha256": "89a16889dcf9aef2c5893b0292ce0d4724d09c8d9f0c00744a144543971d3a30"
   },
   "model.json": {
-   "bytes": 222,
-   "sha256": "12d2683e92c3130fb46575a82f14f79af6ebe56a49b6fdda0a6cf4b0a4bd352b"
+   "bytes": 30984,
+   "sha256": "fc0b12d78c42cbca94c4023e06cb77d47a81d4dac18db85efc425d9458bf7b9f"
+  },
+  "model_card.json": {
+   "bytes": 1336,
+   "sha256": "ec73d067426107abb60a8875f9928e7cd4c8be09acb410250e7d9ae62f554c20"
   },
   "playbook.json": {
-   "bytes": 28957,
-   "sha256": "dd74eff45e7a0b3dd57cd100870176645fa704a25179c2f8b058e0c007ac68ee"
+   "bytes": 30948,
+   "sha256": "c4ecb1d2e0bd1883c70f1546548cef9cddd514706374b0f41d564ccbe9fef119"
   },
   "reference_values.json": {
    "bytes": 3,
    "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
   },
   "safety_rules.json": {
-   "bytes": 3695,
-   "sha256": "580ea411a2415fa2da1229b3853b7eae2f292288c34db702d3b5c96ed32bfe52"
+   "bytes": 4244,
+   "sha256": "6f5516244ef4b2a61c3211174ffa9ed8a1079bd6ee6604eaf19a7d1395d98265"
   },
   "sides.json": {
-   "bytes": 3,
-   "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+   "bytes": 7112,
+   "sha256": "b69460f10a614c7d06d803a21b21920b5778154922d5bbc451a710e1e0853940"
   },
   "treatment_experiments.json": {
-   "bytes": 457760,
-   "sha256": "f9a31e9b7717b88315722b30e687e79a2e1e2cfe1efc4049e3579cf8950c3a61"
+   "bytes": 622728,
+   "sha256": "faf3287b6d7ebb346a5317b8e10f76958a539038bbc3f6c133d8756c1471e0df"
   },
   "units.json": {
    "bytes": 1691,
    "sha256": "e78b1732e36e9fd229b3cda9bdaaa02b7da625586ef6e79c04281f7c958a46e6"
   }
  },
- "modelIsStub": true,
+ "modelIsStub": false,
  "notes": [
   "Cost covers protein and sides only and excludes oil and spices.",
   "Application weights and dish portions are team estimates.",
@@ -53,5 +57,5 @@
   "Nothing here was lab-tested by the team."
  ],
  "schemaVersion": 1,
- "version": "2026-11-21-cdefda79"
+ "version": "2026-11-21-019dc6d3"
 }

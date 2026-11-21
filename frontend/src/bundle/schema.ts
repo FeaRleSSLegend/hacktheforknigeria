@@ -19,6 +19,7 @@ const composition = z.object({
   price_month: z.string(),
   price_source: z.string(),
   allergen_tags: z.array(z.string()),
+  crop_group: z.enum(["legume", "oilseed"]).optional(), // ingredients only
   quality,
   source: z.string().min(1),
   notes: z.string(),
@@ -55,6 +56,14 @@ const treatment = z.object({
   quote: z.string(),
   method_note: z.string(),
   quality,
+  baseline_type: z.string(),
+  treatment_family: z.string(),
+  crop_group: z.string(),
+  in_ingredient_table: z.boolean().nullable(),
+  cumulative_from_raw: z.boolean().nullable(),
+  stage_order: num,
+  route: z.string(),
+  stage_path: z.string(),
 }).strict();
 
 const application = z.object({
@@ -69,10 +78,15 @@ const dish = z.object({
   name: z.string(),
   application_id: z.string(),
   protein_slot_ids: z.array(z.string()),
-  side_items: z.array(z.object({ id: z.string(), as_sold_g_per_serving: z.number() }).strict()),
+  side_items: z.array(z.object({
+    id: z.string(), as_sold_g_per_serving: z.number(), quality: z.string().optional(), note: z.string().optional(),
+  }).strict()),
   playbook_ids: z.array(z.string()),
   notes: z.string().optional(),
-  summary_line: z.string().optional(),
+  typical_dry_g_per_serving: z.number().positive(),
+  typical_dry_g_quality: z.literal("estimated"),
+  typical_dry_g_note: z.string().min(1),
+  summary_line: z.string().min(1),
 }).strict();
 
 const playbook = z.object({
@@ -88,6 +102,7 @@ const playbook = z.object({
   why: z.string().optional(),
   evidence_level: z.string(),
   sources: z.array(z.string()).min(1),
+  user_text: z.string().min(1),
 }).strict();
 
 const safetyRule = z.object({
@@ -97,7 +112,7 @@ const safetyRule = z.object({
   text: z.string().min(1),
   source: z.string().min(1),
   reviewed: z.boolean(),
-  user_text: z.string().optional(),
+  user_text: z.string().min(1),
 }).strict();
 
 const unit = z.object({
@@ -110,19 +125,48 @@ const unit = z.object({
   use_in_app: z.string(),
 }).strict();
 
-const modelMetric = z.object({
-  ships: z.boolean().optional(),
-  intercept: z.number().optional(),
-  coef: z.record(z.string(), z.number()).optional(),
-  residual_sd: z.number().optional(),
-  ranges: z.record(z.string(), z.object({ time_h: z.tuple([z.number(), z.number()]), temp_c: z.tuple([z.number(), z.number()]) })).optional(),
-  papers: z.array(z.string()).optional(),
-  cv_mae: z.number().optional(),
-  baseline_mae: z.number().optional(),
+const range = z.tuple([z.number(), z.number()]).nullable();
+const modelTableEntry = z.object({
+  value: z.number(),
+  n_rows: z.number(),
+  papers: z.array(z.string()),
+  crops: z.array(z.string()).min(1),
+  citations: z.array(z.string()),
+  time_h: range,
+  temp_c: range,
+  cumulative_from_raw: z.boolean().optional(),
+}).passthrough();
+const modelEntry = z.object({
+  kind: z.string(),
+  key: z.string().optional(),
+  display_label: z.string().optional(),
+  ships_only_with_different_crop_rows: z.boolean().optional(),
+  entries: z.record(z.string(), modelTableEntry).optional(),
 }).passthrough();
 
 // model.json is owned by the AI lane, so unknown keys are allowed there; only the parts we read are typed.
-const model = z.object({ _stub: z.boolean().optional(), note: z.string().optional(), metrics: z.record(z.string(), modelMetric).optional() }).passthrough();
+const model = z.object({
+  _stub: z.boolean().optional(),
+  generated: z.string().optional(),
+  note: z.string().optional(),
+  models: z.record(z.string(), modelEntry).optional(),
+}).passthrough();
+
+const modelCard = z.object({
+  generated: z.string(),
+  unit: z.string(),
+  validation: z.string(),
+  metrics: z.record(z.string(), z.object({
+    model: z.string(),
+    label: z.string(),
+    maeModel: z.number(),
+    maeNoChange: z.number(),
+    papersBetterThanNoChange: z.number().nullable(),
+    nRows: z.number(),
+    nPapers: z.number(),
+    displayLabel: z.string(),
+  }).strict()),
+}).strict();
 
 const manifest = z.object({
   schemaVersion: z.literal(1),
@@ -145,6 +189,7 @@ export const bundleFilesSchema = z.object({
   "units.json": z.array(unit),
   "reference_values.json": z.record(z.string(), z.unknown()),
   "model.json": model,
+  "model_card.json": modelCard.optional(),
 }).strict();
 
 export type BundleFiles = z.infer<typeof bundleFilesSchema>;

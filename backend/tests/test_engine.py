@@ -71,10 +71,13 @@ def test_suggest_basic(data):
     assert [d["dishId"] for d in r["dishes"]] == ["test_dish"]
     d = r["dishes"][0]
     assert d["protein"]["ingredientId"] in {"test_a", "test_b", "test_c"}
-    assert d["proteinPerPlateG"] == 20.0
+    protein = {"test_a": 20, "test_b": 30, "test_c": 10}[d["protein"]["ingredientId"]]
+    assert d["dryGPerServing"] == 100 and d["proteinPerPlateG"] == protein  # 100 g portion x protein per 100 g
+    assert d["proteinCostNgn"] == d["protein"]["costNgn"] and d["costLabel"] == "protein ingredient only, no oil or spices"
     assert "cost excludes oil and spices" in d["flags"]
     reasons = {e["id"]: e["reason"] for e in r["excluded"]}
-    assert reasons["test_dish_nodata"] == "no functional data for this dish"
+    assert reasons["test_dish_nodata"] == ("no usable protein: test_nodata (not enough data: missing foaming, wac); "
+                                          "test_noprice (not enough data: missing foaming, wac)")
     assert "no usable protein" in reasons["test_dish_noprice"]
 
 

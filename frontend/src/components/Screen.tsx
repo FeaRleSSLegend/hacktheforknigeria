@@ -1,76 +1,76 @@
-// Screen shell: back button (pushed screens only) or wordmark, a small connection indicator, a scrolling
-// body and an optional single action pinned to the bottom.
+// Screen shell: a quiet header (wordmark, or a back arrow on pushed screens), a scrolling body and an
+// optional single action pinned above the tab bar. Content is padded so the tab bar never covers it.
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { watchConnection } from "../lib/net";
 import { useAppTheme } from "../theme";
-import { fonts, space, type } from "../theme/tokens";
+import { fonts, space } from "../theme/tokens";
+import { useTabBarInset } from "./TabBar";
+import { useKeyboardVisible } from "./ui";
 
 export function Wordmark() {
   const { custom: c } = useAppTheme();
   return (
-    <View style={styles.wordmark} accessible accessibilityRole="header" accessibilityLabel="ProteinPath">
-      <MaterialCommunityIcons name="leaf" size={20} color={c.primary} style={{ marginRight: 2, marginTop: -6 }} />
-      <Text style={{ fontFamily: fonts.display, fontSize: 24, lineHeight: 30, color: c.onBackground }}>
-        Protein<Text style={{ color: c.primary, fontFamily: fonts.display }}>Path</Text>
-      </Text>
-    </View>
+    <Text accessibilityRole="header" accessibilityLabel="ProteinPath" style={{ fontFamily: fonts.display, fontSize: 26, lineHeight: 30, color: c.onBackground }}>
+      ProteinPath
+    </Text>
   );
 }
 
-/** Small, quiet connection indicator. The app never waits on the network. */
-function ConnectionLabel() {
-  const { custom: c } = useAppTheme();
-  const [online, setOnline] = useState<boolean | null>(null);
-  useEffect(() => watchConnection(setOnline), []);
-  return (
-    <View style={styles.conn} accessible accessibilityLabel={online ? "Online. Works offline too" : "Offline. Everything still works"}>
-      <MaterialCommunityIcons name={online ? "wifi" : "wifi-off"} size={14} color={c.onSurfaceVariant} />
-      <Text style={[type.label, { color: c.onSurfaceVariant }]}>{online ? "Online" : "Works offline"}</Text>
-    </View>
-  );
-}
-
-export function Screen({ children, footer, backLabel }: { children: ReactNode; footer?: ReactNode; backLabel?: string }) {
+export function Screen({ children, footer, backLabel, floating }: { children: ReactNode; footer?: ReactNode; backLabel?: string; floating?: ReactNode }) {
   const { custom: c } = useAppTheme();
   const insets = useSafeAreaInsets();
+  const tabInset = useTabBarInset();
+  const keyboard = useKeyboardVisible();
+  const bottomClear = tabInset > 0 ? tabInset : insets.bottom;
+  const showFooter = !!footer && !keyboard;
   return (
     <View style={{ flex: 1, backgroundColor: c.background, paddingTop: insets.top }}>
-      <View style={styles.bar}>
+      <View style={[styles.bar, { paddingLeft: space.lg + insets.left, paddingRight: space.lg + insets.right }]}>
         {backLabel ? (
           <Pressable
             onPress={() => (router.canGoBack() ? router.back() : router.replace("/"))}
             accessibilityRole="button"
             accessibilityLabel={backLabel}
-            android_ripple={{ color: "rgba(255,255,255,0.12)", borderless: true }}
-            style={({ pressed }) => [styles.back, { backgroundColor: c.surfaceVariant, transform: [{ scale: pressed ? 0.98 : 1 }] }]}
+            hitSlop={8}
+            style={({ pressed }) => [styles.back, { opacity: pressed ? 0.6 : 1 }]}
           >
-            <MaterialCommunityIcons name="chevron-left" size={26} color={c.onBackground} />
+            <MaterialCommunityIcons name="arrow-left" size={26} color={c.onBackground} />
           </Pressable>
         ) : (
           <Wordmark />
         )}
-        <View style={{ flex: 1 }} />
-        <ConnectionLabel />
       </View>
-      <ScrollView contentContainerStyle={[styles.body, { paddingBottom: footer ? 130 : space.xxl }]} keyboardShouldPersistTaps="handled">
+      <ScrollView
+        contentContainerStyle={[
+          styles.body,
+          { paddingLeft: space.lg + insets.left, paddingRight: space.lg + insets.right, paddingBottom: bottomClear + (showFooter ? 96 : floating ? 112 : space.xxl) },
+        ]}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
+        automaticallyAdjustKeyboardInsets
+        showsVerticalScrollIndicator={false}
+      >
         {children}
       </ScrollView>
-      {footer ? <View style={[styles.footer, { paddingBottom: space.md, backgroundColor: c.background }]}>{footer}</View> : null}
+      {floating && !keyboard ? <View style={[styles.floating, { bottom: bottomClear + space.lg, right: space.lg + insets.right }]}>{floating}</View> : null}
+      {showFooter ? (
+        <View style={[styles.footer, { bottom: tabInset > 0 ? tabInset - space.sm : 0, paddingBottom: tabInset > 0 ? space.sm : space.lg + insets.bottom, backgroundColor: c.background }]}>
+          {footer}
+        </View>
+      ) : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  bar: { flexDirection: "row", alignItems: "center", paddingHorizontal: space.lg, minHeight: 64, gap: space.sm },
-  wordmark: { flexDirection: "row", alignItems: "center" },
-  back: { width: 48, height: 48, borderRadius: 16, alignItems: "center", justifyContent: "center", overflow: "hidden" },
-  conn: { flexDirection: "row", alignItems: "center", gap: 4, minHeight: 32 },
-  body: { paddingHorizontal: space.lg, paddingTop: space.sm, gap: space.xl },
-  footer: { position: "absolute", left: 0, right: 0, bottom: 0, paddingHorizontal: space.lg, paddingTop: space.md },
+  bar: { flexDirection: "row", alignItems: "center", minHeight: 60 },
+  back: { width: 48, height: 48, alignItems: "flex-start", justifyContent: "center" },
+  body: { paddingTop: space.sm, gap: space.xxl },
+  footer: { position: "absolute", left: 0, right: 0, paddingHorizontal: space.lg, paddingTop: space.sm },
+  floating: { position: "absolute" },
 });

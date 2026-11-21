@@ -1,0 +1,247 @@
+{
+ "args": {
+  "ctx": {
+   "allergens": []
+  },
+  "result": {
+   "goal": "phytate",
+   "ingredientId": "soybean",
+   "mode": "model",
+   "note": "No published rows for soybean. Estimated from published experiments on the crops named, inside their published range. Not measured on this crop. Rows from other crops are labelled.",
+   "options": [
+    {
+     "conditions": "published range in the pooled rows: time 0.5 h",
+     "cropId": "soybean",
+     "effect": "Estimated change: -41.4% (pooled from african_yam_bean, cowpea, pigeon_pea)",
+     "effectRange": [
+      -63.9,
+      -57.6
+     ],
+     "evidence": "estimated from other legumes (pooled from african_yam_bean, cowpea, pigeon_pea); not measured on soybean; 3 rows; range is the published rows; the estimate is pulled toward the average over all treatments for phytate, so it can sit outside that range",
+     "instruction": "Remove the skins, then Soak in clean water.",
+     "kind": "model",
+     "nRows": 3,
+     "pooledFrom": [
+      "african_yam_bean",
+      "cowpea",
+      "pigeon_pea"
+     ],
+     "sources": [
+      "abiodun2011"
+     ],
+     "tempC": null,
+     "timeH": null,
+     "treatment": "dehulling_soaking"
+    },
+    {
+     "conditions": "published range in the pooled rows: time 0.3333 to 0.5 h; temperature 100 C",
+     "cropId": "soybean",
+     "effect": "Estimated change: -36.0% (pooled from cowpea, groundnut, mungbean)",
+     "effectRange": [
+      -50.4,
+      -33.2
+     ],
+     "evidence": "estimated from other legumes (pooled from cowpea, groundnut, mungbean); not measured on soybean; 5 rows; range is the published rows; the estimate is pulled toward the average over all treatments for phytate, so it can sit outside that range",
+     "instruction": "Boil until fully soft.",
+     "kind": "model",
+     "nRows": 5,
+     "pooledFrom": [
+      "cowpea",
+      "groundnut",
+      "mungbean"
+     ],
+     "sources": [
+      "ijarotimi2022",
+      "makinde2020",
+      "pokharel2024"
+     ],
+     "tempC": null,
+     "timeH": null,
+     "treatment": "boiling"
+    },
+    {
+     "conditions": "published range in the pooled rows: time 13.47 h; temperature 100 C",
+     "cropId": "soybean",
+     "effect": "Estimated change: -31.4% (pooled from black_bean, mungbean)",
+     "effectRange": [
+      -37.0,
+      -33.3
+     ],
+     "evidence": "estimated from other legumes (pooled from black_bean, mungbean); not measured on soybean; 2 rows; range is the published rows; the estimate is pulled toward the average over all treatments for phytate, so it can sit outside that range",
+     "instruction": "Soak in clean water, then boil until fully soft.",
+     "kind": "model",
+     "nRows": 2,
+     "pooledFrom": [
+      "black_bean",
+      "mungbean"
+     ],
+     "sources": [
+      "nagessa2023",
+      "pokharel2024"
+     ],
+     "tempC": null,
+     "timeH": null,
+     "treatment": "soaking_boiling"
+    },
+    {
+     "conditions": null,
+     "cropId": "cowpea",
+     "effect": "Published change in cowpea: -86.7% (median of 4 rows)",
+     "effectRange": [
+      -88.8,
+      -84.6
+     ],
+     "evidence": "published rows, other crop, 4 rows, 1 paper(s); cumulative stages from raw seed, not the effect of this step alone; measured on cowpea, not soybean: estimated for this crop",
+     "instruction": "Fry until fully cooked.",
+     "kind": "published_other_crop",
+     "nRows": 4,
+     "sources": [
+      "bolade2015"
+     ],
+     "tempC": 190.0,
+     "timeH": 0.2,
+     "treatment": "deep_frying"
+    },
+    {
+     "conditions": null,
+     "cropId": "cowpea",
+     "effect": "Published change in cowpea: -84.7% (median of 4 rows)",
+     "effectRange": [
+      -86.9,
+      -81.4
+     ],
+     "evidence": "published rows, other crop, 4 rows, 1 paper(s); cumulative stages from raw seed, not the effect of this step alone; measured on cowpea, not soybean: estimated for this crop",
+     "instruction": "Steam until fully cooked.",
+     "kind": "published_other_crop",
+     "nRows": 4,
+     "sources": [
+      "bolade2015"
+     ],
+     "tempC": 105.0,
+     "timeH": 0.5833,
+     "treatment": "steaming"
+    }
+   ]
+  }
+ },
+ "bundleVersion": "2026-11-21-019dc6d3",
+ "expected": {
+  "allowed": true,
+  "blocked": [
+   "Withheld \"Remove the skins, then Soak in clean water.\": Soaking, sprouting or milling alone is not enough. Always cook beans and groundnuts until fully soft."
+  ],
+  "result": {
+   "goal": "phytate",
+   "ingredientId": "soybean",
+   "mode": "model",
+   "note": "No published rows for soybean. Estimated from published experiments on the crops named, inside their published range. Not measured on this crop. Rows from other crops are labelled.",
+   "options": [
+    {
+     "conditions": "published range in the pooled rows: time 0.3333 to 0.5 h; temperature 100 C",
+     "cropId": "soybean",
+     "effect": "Estimated change: -36.0% (pooled from cowpea, groundnut, mungbean)",
+     "effectRange": [
+      -50.4,
+      -33.2
+     ],
+     "evidence": "estimated from other legumes (pooled from cowpea, groundnut, mungbean); not measured on soybean; 5 rows; range is the published rows; the estimate is pulled toward the average over all treatments for phytate, so it can sit outside that range",
+     "instruction": "Boil until fully soft.",
+     "kind": "model",
+     "nRows": 5,
+     "pooledFrom": [
+      "cowpea",
+      "groundnut",
+      "mungbean"
+     ],
+     "sources": [
+      "ijarotimi2022",
+      "makinde2020",
+      "pokharel2024"
+     ],
+     "tempC": null,
+     "timeH": null,
+     "treatment": "boiling"
+    },
+    {
+     "conditions": "published range in the pooled rows: time 13.47 h; temperature 100 C",
+     "cropId": "soybean",
+     "effect": "Estimated change: -31.4% (pooled from black_bean, mungbean)",
+     "effectRange": [
+      -37.0,
+      -33.3
+     ],
+     "evidence": "estimated from other legumes (pooled from black_bean, mungbean); not measured on soybean; 2 rows; range is the published rows; the estimate is pulled toward the average over all treatments for phytate, so it can sit outside that range",
+     "instruction": "Soak in clean water, then boil until fully soft.",
+     "kind": "model",
+     "nRows": 2,
+     "pooledFrom": [
+      "black_bean",
+      "mungbean"
+     ],
+     "sources": [
+      "nagessa2023",
+      "pokharel2024"
+     ],
+     "tempC": null,
+     "timeH": null,
+     "treatment": "soaking_boiling"
+    },
+    {
+     "conditions": null,
+     "cropId": "cowpea",
+     "effect": "Published change in cowpea: -86.7% (median of 4 rows)",
+     "effectRange": [
+      -88.8,
+      -84.6
+     ],
+     "evidence": "published rows, other crop, 4 rows, 1 paper(s); cumulative stages from raw seed, not the effect of this step alone; measured on cowpea, not soybean: estimated for this crop",
+     "instruction": "Fry until fully cooked.",
+     "kind": "published_other_crop",
+     "nRows": 4,
+     "sources": [
+      "bolade2015"
+     ],
+     "tempC": 190.0,
+     "timeH": 0.2,
+     "treatment": "deep_frying"
+    },
+    {
+     "conditions": null,
+     "cropId": "cowpea",
+     "effect": "Published change in cowpea: -84.7% (median of 4 rows)",
+     "effectRange": [
+      -86.9,
+      -81.4
+     ],
+     "evidence": "published rows, other crop, 4 rows, 1 paper(s); cumulative stages from raw seed, not the effect of this step alone; measured on cowpea, not soybean: estimated for this crop",
+     "instruction": "Steam until fully cooked.",
+     "kind": "published_other_crop",
+     "nRows": 4,
+     "sources": [
+      "bolade2015"
+     ],
+     "tempC": 105.0,
+     "timeH": 0.5833,
+     "treatment": "steaming"
+    }
+   ]
+  },
+  "rules": [
+   {
+    "id": "sr_allergen_peanut_soy",
+    "reviewed": false,
+    "severity": "warn"
+   },
+   {
+    "id": "sr_cook_thoroughly",
+    "reviewed": false,
+    "severity": "block"
+   }
+  ],
+  "warnings": [
+   "Contains groundnut (peanut) or soya. Do not use if anyone eating is allergic to them."
+  ]
+ },
+ "fn": "safetyGuard",
+ "name": "safety_soybean_phytate_model"
+}

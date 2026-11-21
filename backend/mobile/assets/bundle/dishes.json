@@ -16,7 +16,24 @@
    "pigeon_pea",
    "african_yam_bean"
   ],
-  "side_items": []
+  "side_items": [
+   {
+    "as_sold_g_per_serving": 50,
+    "id": "maize_white",
+    "note": "portion estimated by the AI lane (Nov 21); dry maize for pap/ogi; confirm",
+    "quality": "estimated"
+   },
+   {
+    "as_sold_g_per_serving": 50,
+    "id": "tomato",
+    "note": "portion estimated by the AI lane (Nov 21); fresh tomato for a tomato-pepper sauce; confirm",
+    "quality": "estimated"
+   }
+  ],
+  "summary_line": "Ranked on foaming and water holding, key for light batter.",
+  "typical_dry_g_note": "typical portion, estimate, to confirm",
+  "typical_dry_g_per_serving": 50,
+  "typical_dry_g_quality": "estimated"
  },
  {
   "application_id": "steamed_bean_pudding",
@@ -33,7 +50,18 @@
    "pigeon_pea",
    "african_yam_bean"
   ],
-  "side_items": []
+  "side_items": [
+   {
+    "as_sold_g_per_serving": 50,
+    "id": "maize_white",
+    "note": "portion estimated by the AI lane (Nov 21); dry maize for pap/ogi; confirm",
+    "quality": "estimated"
+   }
+  ],
+  "summary_line": "Ranked on water holding and gelling for a firm pudding.",
+  "typical_dry_g_note": "typical portion, estimate, to confirm",
+  "typical_dry_g_per_serving": 70,
+  "typical_dry_g_quality": "estimated"
  },
  {
   "application_id": "steamed_bean_pudding",
@@ -48,7 +76,24 @@
    "cowpea",
    "pigeon_pea"
   ],
-  "side_items": []
+  "side_items": [
+   {
+    "as_sold_g_per_serving": 75,
+    "id": "rice_local",
+    "note": "portion estimated by the AI lane (Nov 21); dry rice as the starch; confirm",
+    "quality": "estimated"
+   },
+   {
+    "as_sold_g_per_serving": 50,
+    "id": "tomato",
+    "note": "portion estimated by the AI lane (Nov 21); fresh tomato as the stew or pepper-sauce base; confirm",
+    "quality": "estimated"
+   }
+  ],
+  "summary_line": "Ranked on water holding and gelling for steamed paste.",
+  "typical_dry_g_note": "typical portion, estimate, to confirm",
+  "typical_dry_g_per_serving": 60,
+  "typical_dry_g_quality": "estimated"
  },
  {
   "application_id": "steamed_bean_pudding",
@@ -63,7 +108,11 @@
   "protein_slot_ids": [
    "bambara"
   ],
-  "side_items": []
+  "side_items": [],
+  "summary_line": "Traditional base; ranked on water holding and gelling.",
+  "typical_dry_g_note": "typical portion, estimate, to confirm",
+  "typical_dry_g_per_serving": 80,
+  "typical_dry_g_quality": "estimated"
  },
  {
   "application_id": "bean_soup_body",
@@ -78,7 +127,18 @@
    "cowpea",
    "pigeon_pea"
   ],
-  "side_items": []
+  "side_items": [
+   {
+    "as_sold_g_per_serving": 80,
+    "id": "garri_white",
+    "note": "portion estimated by the AI lane (Nov 21); dry garri for eba; confirm",
+    "quality": "estimated"
+   }
+  ],
+  "summary_line": "Ranked on water holding and creaminess for a smooth soup.",
+  "typical_dry_g_note": "typical portion, estimate, to confirm",
+  "typical_dry_g_per_serving": 45,
+  "typical_dry_g_quality": "estimated"
  },
  {
   "application_id": "seed_soup_body",
@@ -93,6 +153,17 @@
    "melon_seed",
    "groundnut"
   ],
-  "side_items": []
+  "side_items": [
+   {
+    "as_sold_g_per_serving": 250,
+    "id": "yam",
+    "note": "portion estimated by the AI lane (Nov 21); fresh yam tuber as sold (with peel) for pounded yam; confirm",
+    "quality": "estimated"
+   }
+  ],
+  "summary_line": "Ranked on holding oil and water to thicken soup.",
+  "typical_dry_g_note": "typical portion, estimate, to confirm",
+  "typical_dry_g_per_serving": 35,
+  "typical_dry_g_quality": "estimated"
  }
 ]

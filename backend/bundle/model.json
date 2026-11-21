@@ -1,1 +1,0 @@
-{"_stub": true, "note": "Placeholder. The real bundle/model.json comes from the AI lane (training/run_all.py). Treat it as an opaque JSON file: copy it into the bundle and hash it. Do not train here.", "metrics": {}}

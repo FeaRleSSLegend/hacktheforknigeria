@@ -1,7 +1,12 @@
 """Build the app bundle: data/ + bundle/model.json -> mobile/assets/bundle/*.json + manifest.json.
 
-Usage: python scripts/build_bundle.py [--data data] [--model bundle/model.json]
+Usage: python scripts/build_bundle.py [--data ../data] [--model ../bundle/model.json]
+                                      [--metrics ../reports/metrics.json]
                                       [--out mobile/assets/bundle] [--date YYYY-MM-DD]
+
+Defaults read the real tables in the repo-root data/ and the AI lane's repo-root bundle/model.json.
+model_card.json is copied from reports/metrics.json: for each shipped model, its grouped
+cross-validation error and the no-change baseline (B0) error, unchanged.
 
 Strict: fails (exit 1, nothing written) on unknown or missing columns/keys, missing sources,
 unknown quality values, bad numbers or broken cross-references. Values are carried unchanged
@@ -19,10 +24,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+REPO = ROOT.parent
 sys.path.insert(0, str(ROOT))
 from reference.config import ALLOWED_QUALITY  # noqa: E402
-from reference.tables import (COMPOSITION_NUMERIC, PROPERTY_NUMERIC, TREATMENT_NUMERIC,  # noqa: E402
-                              composition_rows, num, property_rows, treatment_rows)
+from reference.tables import (COMPOSITION_NUMERIC, PROPERTY_NUMERIC, TREATMENT_BOOL,  # noqa: E402
+                              TREATMENT_NUMERIC, composition_rows, flag, num, property_rows, treatment_rows)
 
 SCHEMA_VERSION = 1
 COMPOSITION_COLS = ["ingredient_id", "name", "local_names", "form_sold", "protein_g_per_100g", "fat_g", "energy_kcal",
@@ -30,7 +36,7 @@ COMPOSITION_COLS = ["ingredient_id", "name", "local_names", "form_sold", "protei
                     "quality", "source", "notes"]
 CSV_SPECS = {
     "ingredients.csv": {
-        "columns": COMPOSITION_COLS,
+        "columns": COMPOSITION_COLS[:13] + ["crop_group"] + COMPOSITION_COLS[13:],
         "required": ["ingredient_id", "name", "protein_g_per_100g", "quality", "source"],
         "numeric": COMPOSITION_NUMERIC, "parse": composition_rows, "out": "ingredients.json",
     },
@@ -48,7 +54,8 @@ CSV_SPECS = {
     "treatment_experiments.csv": {
         "columns": ["exp_id", "crop_id", "part", "treatment", "time_h", "temp_c", "ph", "outcome_metric",
                     "baseline_value", "treated_value", "change_pct", "paper_id", "page", "quote", "method_note",
-                    "quality"],
+                    "quality", "baseline_type", "treatment_family", "crop_group", "in_ingredient_table",
+                    "cumulative_from_raw", "stage_order", "route", "stage_path"],
         "required": ["exp_id", "crop_id", "treatment", "outcome_metric", "change_pct", "paper_id", "page", "quote",
                      "quality"],
         "numeric": TREATMENT_NUMERIC, "parse": treatment_rows, "out": "treatment_experiments.json",
@@ -58,15 +65,19 @@ UNITS_COLS = ["unit", "commodity", "kg_per_unit", "basis", "confidence", "source
 FORMS = ("flour", "concentrate", "isolate")
 JSON_KEYS = {
     "applications.json": ({"id", "name", "needs", "notes"}, {"id", "name", "needs", "notes"}),
-    "dishes.json": ({"id", "name", "application_id", "protein_slot_ids", "side_items", "playbook_ids", "notes", "summary_line"},
-                    {"id", "name", "application_id", "protein_slot_ids", "side_items", "playbook_ids"}),
-    "playbook.json": ({"id", "crop_id", "goal", "steps", "conditions", "effect", "why", "evidence_level", "sources"},
-                      {"id", "crop_id", "goal", "steps", "effect", "evidence_level", "sources"}),
+    "dishes.json": ({"id", "name", "application_id", "protein_slot_ids", "side_items", "playbook_ids", "notes",
+                     "typical_dry_g_per_serving", "typical_dry_g_quality", "typical_dry_g_note", "summary_line"},
+                    {"id", "name", "application_id", "protein_slot_ids", "side_items", "playbook_ids",
+                     "typical_dry_g_per_serving", "typical_dry_g_quality", "typical_dry_g_note", "summary_line"}),
+    "playbook.json": ({"id", "crop_id", "goal", "steps", "conditions", "effect", "why", "evidence_level", "sources",
+                       "user_text"},
+                      {"id", "crop_id", "goal", "steps", "effect", "evidence_level", "sources", "user_text"}),
     "safety_rules.json": ({"id", "applies_to", "severity", "text", "source", "reviewed", "user_text"},
-                          {"id", "applies_to", "severity", "text", "source", "reviewed"}),
+                          {"id", "applies_to", "severity", "text", "source", "reviewed", "user_text"}),
 }
 NEED_KEYS = {"property", "direction", "weight"}
 SIDE_KEYS = {"id", "as_sold_g_per_serving"}
+SIDE_KEYS_OPTIONAL = {"quality", "note"}  # batch 6: portions are labelled estimated; the engine ignores them
 EFFECT_KEYS = {"basis", "metrics"}
 EFFECT_METRIC_KEYS = {"n_rows", "min_pct", "median_pct", "max_pct"}
 
@@ -117,6 +128,12 @@ def _csv_table(d: Path, name: str, spec: dict, errors: list) -> list[dict]:
                 num(row.get(c))
             except ValueError:
                 errors.append(f"{name} line {i}: '{c}' value '{row.get(c)}' is not a number")
+        if name == "treatment_experiments.csv":
+            for c in TREATMENT_BOOL:
+                try:
+                    flag(row.get(c))
+                except ValueError:
+                    errors.append(f"{name} line {i}: '{c}' value '{row.get(c)}' is not True or False")
         if name in ("ingredients.csv", "sides.csv"):
             if row.get("quality") == "estimated" and not (row.get("notes") or "").strip():
                 errors.append(f"{name} line {i}: estimated row needs a reason in notes")
@@ -201,6 +218,12 @@ def _validate_json_tables(tables: dict, errors: list):
             errors.append(f"safety_rules.json {r.get('id')}: reviewed must be true or false")
         if not isinstance(r.get("applies_to"), list) or not r.get("applies_to"):
             errors.append(f"safety_rules.json {r.get('id')}: applies_to must be a non-empty list")
+    for d in tables.get("dishes.json") or []:
+        g = d.get("typical_dry_g_per_serving")
+        if not isinstance(g, (int, float)) or isinstance(g, bool) or g <= 0:
+            errors.append(f"dishes.json {d.get('id')}: typical_dry_g_per_serving must be a positive number")
+        if d.get("typical_dry_g_quality") != "estimated":
+            errors.append(f"dishes.json {d.get('id')}: the portion must be labelled estimated")
     refs = tables.get("reference_values.json")
     if refs is not None:
         if not isinstance(refs, dict):
@@ -232,14 +255,38 @@ def _cross_refs(out: dict, errors: list):
             if cid not in ing:
                 errors.append(f"dishes.json {dish['id']}: protein '{cid}' not in ingredients")
         for s in dish["side_items"]:
-            if _check_keys(f"dishes.json {dish['id']} side", s, SIDE_KEYS, SIDE_KEYS, errors) and s["id"] not in ing | sides:
+            if _check_keys(f"dishes.json {dish['id']} side", s, SIDE_KEYS | SIDE_KEYS_OPTIONAL, SIDE_KEYS, errors) and s["id"] not in ing | sides:
                 errors.append(f"dishes.json {dish['id']}: side '{s['id']}' not in sides or ingredients")
         for pid in dish["playbook_ids"]:
             if pid not in pbs:
                 errors.append(f"dishes.json {dish['id']}: playbook id '{pid}' not in playbook")
 
 
-def collect(data_dir: Path, model_path: Path) -> dict:
+def _model_card(metrics: dict, model: dict, errors: list) -> dict:
+    """Per shipped model: grouped-CV error and no-change baseline error, copied from reports/metrics.json."""
+    out = {}
+    for metric in sorted((model.get("models") or {})):
+        c = (metrics.get("candidates_per_metric") or {}).get(metric)
+        if not c or c.get("chosen") not in (c.get("candidates") or {}):
+            errors.append(f"metrics.json: no candidate results for shipped model '{metric}'")
+            continue
+        chosen, b0 = c["candidates"][c["chosen"]], c["candidates"]["B0"]
+        out[metric] = {
+            "model": c["chosen"],
+            "label": chosen.get("label", ""),
+            "maeModel": chosen["mae"],
+            "maeNoChange": b0["mae"],
+            "papersBetterThanNoChange": chosen.get("papers_better_than_b0"),
+            "nRows": c["n_rows"],
+            "nPapers": c["n_papers"],
+            "displayLabel": (c.get("crop_provenance") or {}).get("display_label", ""),
+        }
+    return {"generated": metrics.get("generated", ""), "unit": "percent points of change versus untreated",
+            "validation": "grouped cross-validation by paper (each paper held out in turn)",
+            "metrics": out}
+
+
+def collect(data_dir: Path, model_path: Path, metrics_path: Path | None = None) -> dict:
     """Read and validate everything. Returns {bundle file name: JSON value}. Raises BundleError."""
     errors: list[str] = []
     out = {spec["out"]: _csv_table(data_dir, name, spec, errors) for name, spec in CSV_SPECS.items()}
@@ -253,6 +300,10 @@ def collect(data_dir: Path, model_path: Path) -> dict:
     if model is not None and not isinstance(model, dict):
         errors.append("model.json: expected a JSON object")
     out["model.json"] = model if isinstance(model, dict) else {}
+    if metrics_path is not None:
+        metrics = _json_file(metrics_path.parent, metrics_path.name, errors)
+        if isinstance(metrics, dict):
+            out["model_card.json"] = _model_card(metrics, out["model.json"], errors)
     if not errors:
         _cross_refs(out, errors)
     if errors:
@@ -264,8 +315,8 @@ def _dump(value) -> bytes:
     return (json.dumps(value, ensure_ascii=False, sort_keys=True, indent=1) + "\n").encode("utf-8")
 
 
-def build(data_dir: Path, model_path: Path, out_dir: Path, date: str) -> dict:
-    files = {name: _dump(v) for name, v in sorted(collect(data_dir, model_path).items())}
+def build(data_dir: Path, model_path: Path, out_dir: Path, date: str, metrics_path: Path | None = None) -> dict:
+    files = {name: _dump(v) for name, v in sorted(collect(data_dir, model_path, metrics_path).items())}
     hashes = {name: hashlib.sha256(b).hexdigest() for name, b in files.items()}
     short = hashlib.sha256("".join(f"{n}:{h}\n" for n, h in hashes.items()).encode()).hexdigest()[:8]
     model = json.loads(files["model.json"])
@@ -303,13 +354,14 @@ def build(data_dir: Path, model_path: Path, out_dir: Path, date: str) -> dict:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--data", type=Path, default=ROOT / "data")
-    ap.add_argument("--model", type=Path, default=ROOT / "bundle" / "model.json")
+    ap.add_argument("--data", type=Path, default=REPO / "data")
+    ap.add_argument("--model", type=Path, default=REPO / "bundle" / "model.json")
+    ap.add_argument("--metrics", type=Path, default=REPO / "reports" / "metrics.json")
     ap.add_argument("--out", type=Path, default=ROOT / "mobile" / "assets" / "bundle")
     ap.add_argument("--date", default=datetime.now(timezone.utc).strftime("%Y-%m-%d"))
     args = ap.parse_args(argv)
     try:
-        manifest = build(args.data, args.model, args.out, args.date)
+        manifest = build(args.data, args.model, args.out, args.date, args.metrics)
     except BundleError as e:
         for err in e.errors:
             print("ERROR", err)

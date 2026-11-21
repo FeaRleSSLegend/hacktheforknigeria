@@ -13,4 +13,5 @@ export const bundledFiles: Record<string, unknown> = {
   "units.json": require("../../assets/bundle/units.json"),
   "reference_values.json": require("../../assets/bundle/reference_values.json"),
   "model.json": require("../../assets/bundle/model.json"),
+  "model_card.json": require("../../assets/bundle/model_card.json"),
 };

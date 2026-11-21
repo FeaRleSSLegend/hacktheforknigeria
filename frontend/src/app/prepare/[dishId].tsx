@@ -1,21 +1,22 @@
-// Prepare: up to 5 sourced steps, one caution banner, and the evidence behind a closed "How do we know?".
-// Everything shown passed safetyGuard (src/lib/prepare.ts). Internal rule wording is never rendered:
-// a rule is shown only through its plain user_text field.
-import { useLocalSearchParams } from "expo-router";
+// Prepare: photos, up to 5 sourced steps, one caution, and the evidence behind "How do we know?".
+// Everything shown passed safetyGuard (src/lib/prepare.ts). Rules are shown only through their plain
+// user_text; review status lives on the About page.
+import { router, useLocalSearchParams } from "expo-router";
 import { useMemo } from "react";
-import { StyleSheet, View } from "react-native";
+import { Image, Pressable, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
 import { BundleGate } from "../../components/BundleGate";
 import { Screen } from "../../components/Screen";
-import { Body, Caution, Expander, Hairline, IconTile, Numeral, Reveal, SectionTitle, Small, StateView, Tag } from "../../components/ui";
+import { Body, Caption, Caution, Expander, Hairline, Heading, PhotoStrip, Poster, Reveal, Small, StateView, Tag } from "../../components/ui";
 import { Bundle, ProcessingOption } from "../../engine/types";
-import { dishIcon } from "../../lib/icons";
+import { LOGO_MARK } from "../../lib/brand";
+import { dishPhoto, rawToReady } from "../../lib/photos";
 import { Finding, preparePlan, userText } from "../../lib/prepare";
 import { METRIC_WORDS, effectSentence, isCumulative, plantName, samplesText, studiesLabel } from "../../lib/words";
 import { usePlan } from "../../state/PlanContext";
 import { useAppTheme } from "../../theme";
-import { radius, space, type } from "../../theme/tokens";
+import { fonts, radius, space, type } from "../../theme/tokens";
 
 const FINAL_STEP = "Cook beans until fully soft.";
 const MAX_STEPS = 5;
@@ -39,20 +40,28 @@ function FindingRow({ f, bundle, plantId }: { f: Finding; bundle: Bundle; plantI
       </Body>
       {words.plain ? <Small>{words.plain}</Small> : null}
       <View style={styles.tags}>
-        <Tag icon="book-open-page-variant-outline" label={studiesLabel(o)} tone={other ? "warn" : "plain"} />
-        {other ? <Tag icon="sprout-outline" label={`Measured on ${plantName(bundle, o.cropId).english.toLowerCase()}`} tone="warn" /> : null}
-        {isCumulative(o) ? <Tag icon="layers-outline" label="Includes earlier steps" /> : null}
-        {o.kind === "model" ? <Tag icon="chart-line" label="Predicted, with a range" tone="warn" /> : null}
+        <Tag label={studiesLabel(o)} />
+        {other ? <Tag label={`Measured on ${plantName(bundle, o.cropId).english.toLowerCase()}`} /> : null}
+        {isCumulative(o) ? <Tag label="Includes earlier steps" /> : null}
+        {o.kind === "model" ? <Tag label="Predicted, with a range" /> : null}
       </View>
       <Small>Source: {sourceDetails(bundle, o).join("; ")}.</Small>
-      {o.timeH !== null || o.tempC !== null ? (
-        <Small>
-          As done in the study: {o.timeH !== null ? `${o.timeH} h` : ""}
-          {o.timeH !== null && o.tempC !== null ? " at " : ""}
-          {o.tempC !== null ? `${o.tempC} °C` : ""}.
-        </Small>
-      ) : null}
     </View>
+  );
+}
+
+function AskPopoButton({ dishId, plantId }: { dishId: string; plantId: string }) {
+  const { custom: c } = useAppTheme();
+  return (
+    <Pressable
+      onPress={() => router.push({ pathname: "/ask/[dishId]", params: { dishId, plant: plantId } })}
+      accessibilityRole="button"
+      accessibilityLabel="Ask Popo, the cooking helper, a question about these steps"
+      style={({ pressed }) => [styles.popo, { backgroundColor: c.onBackground, transform: [{ scale: pressed ? 0.96 : 1 }] }]}
+    >
+      <Image source={LOGO_MARK} style={styles.popoMark} resizeMode="contain" accessible={false} />
+      <Text style={[type.bodyStrong, { color: c.background }]}>Ask Popo</Text>
+    </Pressable>
   );
 }
 
@@ -66,77 +75,61 @@ function PrepareBody({ bundle }: { bundle: Bundle }) {
 
   if (!dish || !bundle.ingredients[plantId]) {
     return (
-      <Screen backLabel="Back to results">
-        <StateView kind="empty" title="We could not find that dish" message="Go back and pick a dish from the list." />
+      <Screen backLabel="Back to dish">
+        <StateView kind="empty" title="We could not find that dish" message="Go back and pick a dish." />
       </Screen>
     );
   }
   const plant = plantName(bundle, plantId);
-  const breadcrumb = `${dish.name} · with ${plant.english.toLowerCase()}`;
-  const ruleText = userText(p.firedRules[0]);
+  const cautions = [FINAL_STEP, ...p.firedRules.map(userText).filter((t): t is string => !!t)];
 
   return (
-    <Screen backLabel="Back to results">
+    <Screen backLabel="Back to dish" floating={p.wholeBlocked.length ? undefined : <AskPopoButton dishId={dish.id} plantId={plantId} />}>
       <Reveal>
-        <View style={styles.head}>
-          <IconTile icon={dishIcon(dish.id)} size={64} />
-          <View style={{ flex: 1 }}>
-            <Text accessibilityRole="header" style={[type.display, { color: c.onBackground }]}>
-              How to prepare
-            </Text>
-            <Text style={[type.bodyStrong, { color: c.primary }]}>{breadcrumb}</Text>
-          </View>
-        </View>
+        <Poster source={dishPhoto(dish.id)} height={320}>
+          <Caption>
+            {dish.name.split(" (")[0].toUpperCase()} · WITH {plant.english.toUpperCase()}
+          </Caption>
+          <Heading level="display">How to prepare</Heading>
+        </Poster>
       </Reveal>
 
       {p.wholeBlocked.length ? (
-        <Caution>This plant is on your leave-out list, so we do not show steps for it.</Caution>
+        <Caution lines={["This plant is on your leave-out list, so we do not show steps for it."]} />
       ) : (
         <>
           <Reveal index={1}>
-            <SectionTitle title="Steps" />
-            <View style={[styles.steps, { backgroundColor: c.surface }]}>
+            <PhotoStrip {...rawToReady(dish.id, plantId)} beforeLabel="RAW" afterLabel="READY" />
+          </Reveal>
+
+          <Reveal index={2}>
+            <View>
               {p.steps.slice(0, MAX_STEPS).map((s, i) => (
-                <View key={s}>
-                  {i > 0 ? <View style={[styles.divider, { backgroundColor: c.hairline }]} /> : null}
-                  <View style={styles.step} accessible accessibilityLabel={`Step ${i + 1}. ${s}`}>
-                    <Numeral n={i + 1} />
-                    <Body style={{ flex: 1 }}>{s}</Body>
-                  </View>
+                <View key={s} style={[styles.step, { borderColor: c.hairline }]} accessible accessibilityLabel={`Step ${i + 1}. ${s}`}>
+                  <Text style={[styles.num, { color: c.onBackground }]}>{String(i + 1).padStart(2, "0")}</Text>
+                  <Body style={{ flex: 1 }}>{s}</Body>
                 </View>
               ))}
             </View>
           </Reveal>
 
-          <Reveal index={2}>
-            <Caution>
-              {FINAL_STEP}
-              {ruleText ? ` ${ruleText}` : ""}
-            </Caution>
+          <Reveal index={3}>
+            <Caution lines={cautions} />
           </Reveal>
 
-          <Reveal index={3}>
-            <View style={[styles.evidence, { backgroundColor: c.surface }]}>
-              <Expander title="How do we know?">
-                <View style={{ gap: space.md, paddingTop: space.xs }}>
-                  <Small muted={false}>We only show methods that are safe to follow at home.</Small>
-                  {p.findings.length === 0 ? (
-                    <Small muted={false}>No published results for this plant yet.</Small>
-                  ) : (
-                    p.findings.map((f, i) => (
-                      <View key={f.goal}>
-                        {i > 0 ? <Hairline /> : null}
-                        <FindingRow f={f} bundle={bundle} plantId={plantId} />
-                      </View>
-                    ))
-                  )}
-                  {p.route?.conditions ? <Small>As done in the study: {p.route.conditions}</Small> : null}
-                  <Small>
-                    Changes are compared with raw seeds in the same study. {p.anyModel ? "Some values are predicted, with a range." : "Published results, not a prediction."}
-                  </Small>
+          <Reveal index={4}>
+            <Expander title="How do we know?">
+              <Small muted={false}>We only show methods that are safe to follow at home.</Small>
+              {p.findings.length === 0 ? <Small muted={false}>No published results for this plant yet.</Small> : null}
+              {p.findings.map((f, i) => (
+                <View key={f.goal}>
+                  {i > 0 ? <Hairline /> : null}
+                  <FindingRow f={f} bundle={bundle} plantId={plantId} />
                 </View>
-              </Expander>
-            </View>
+              ))}
+              {p.route?.conditions ? <Small>As done in the study: {p.route.conditions}</Small> : null}
+              <Small>Changes are compared with raw seeds in the same study. {p.anyModel ? "Some values are predicted, with a range." : "Published results, not a prediction."}</Small>
+            </Expander>
           </Reveal>
         </>
       )}
@@ -149,10 +142,9 @@ export default function Prepare() {
 }
 
 const styles = StyleSheet.create({
-  head: { flexDirection: "row", alignItems: "center", gap: space.md },
+  step: { flexDirection: "row", gap: space.lg, alignItems: "flex-start", paddingVertical: space.lg, borderTopWidth: 1 },
+  num: { fontFamily: fonts.display, fontSize: 28, lineHeight: 30, minWidth: 36 },
   tags: { flexDirection: "row", flexWrap: "wrap", gap: space.sm },
-  steps: { borderRadius: radius.card, paddingHorizontal: space.lg, paddingVertical: space.sm },
-  step: { flexDirection: "row", gap: space.md, alignItems: "center", paddingVertical: space.md },
-  divider: { height: 1, marginLeft: 46 },
-  evidence: { borderRadius: radius.card, paddingHorizontal: space.lg, paddingVertical: space.xs },
+  popo: { flexDirection: "row", alignItems: "center", gap: space.sm, minHeight: 52, borderRadius: radius.round, paddingLeft: space.sm, paddingRight: space.lg },
+  popoMark: { width: 36, height: 36 },
 });

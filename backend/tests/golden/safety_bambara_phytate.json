@@ -89,11 +89,11 @@
    ]
   }
  },
- "bundleVersion": "2026-11-21-cdefda79",
+ "bundleVersion": "2026-11-21-019dc6d3",
  "expected": {
   "allowed": true,
   "blocked": [
-   "Withheld \"Ferment in a clean, covered container.\": Soaking, dehulling, milling or sprouting alone does not remove the heat-sensitive anti-nutrients (trypsin inhibitors). Do not present a soak-only, sprout-only or raw-flour preparation as ready to eat. Cook bean and groundnut preparations until they are fully done. (safety rule not yet reviewed by an expert)"
+   "Withheld \"Ferment in a clean, covered container.\": Soaking, sprouting or milling alone is not enough. Always cook beans and groundnuts until fully soft."
   ],
   "result": {
    "goal": "phytate",
@@ -161,9 +161,26 @@
     }
    ]
   },
+  "rules": [
+   {
+    "id": "sr_mould_discard",
+    "reviewed": false,
+    "severity": "warn"
+   },
+   {
+    "id": "sr_fermentation_not_guaranteed",
+    "reviewed": false,
+    "severity": "warn"
+   },
+   {
+    "id": "sr_cook_thoroughly",
+    "reviewed": false,
+    "severity": "block"
+   }
+  ],
   "warnings": [
-   "Discard groundnuts, seeds and grains that look mouldy, discoloured or shrivelled before preparing them. Cooking or fermenting does not make mouldy nuts safe. (safety rule not yet reviewed by an expert)",
-   "Fermentation did not lower anti-nutrients in every published sample. Show the published range for the crop and never promise a fixed reduction. (safety rule not yet reviewed by an expert)"
+   "Throw away mouldy, discoloured or shrivelled nuts and seeds. Cooking does not make them safe.",
+   "Fermenting does not always lower these natural compounds. Results vary from batch to batch."
   ]
  },
  "fn": "safetyGuard",

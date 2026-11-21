@@ -1,0 +1,69 @@
+{
+ "args": {
+  "input": {
+   "allergens": [],
+   "budgetNgn": 1500,
+   "mode": "pantry",
+   "pantryIds": [],
+   "servings": 4,
+   "targetProteinG": 20,
+   "userPricesNgnPerKg": {
+    "bambara": 900
+   }
+  },
+  "plantId": "bambara"
+ },
+ "bundleVersion": "2026-11-21-019dc6d3",
+ "expected": {
+  "bundleVersion": "2026-11-21-019dc6d3",
+  "dishes": [
+   {
+    "candidatesRanked": 1,
+    "dishId": "okpa",
+    "dryGPerServing": 80,
+    "fit": 0.5,
+    "name": "Okpa",
+    "priceSource": "user",
+    "proteinCostNgn": 288.0,
+    "proteinCostPerPersonNgn": 72.0,
+    "proteinPerPlateG": 15.6,
+    "rankInDish": 1,
+    "score": 0.5,
+    "summaryLine": "Traditional base; ranked on water holding and gelling."
+   },
+   {
+    "candidatesRanked": 3,
+    "dishId": "akara",
+    "dryGPerServing": 50,
+    "fit": 0.35,
+    "name": "Akara",
+    "priceSource": "user",
+    "proteinCostNgn": 180.0,
+    "proteinCostPerPersonNgn": 45.0,
+    "proteinPerPlateG": 9.8,
+    "rankInDish": 2,
+    "score": 0.475,
+    "summaryLine": "Ranked on foaming and water holding, key for light batter."
+   },
+   {
+    "candidatesRanked": 3,
+    "dishId": "moin_moin",
+    "dryGPerServing": 70,
+    "fit": 0.2,
+    "name": "Moin-moin",
+    "priceSource": "user",
+    "proteinCostNgn": 252.0,
+    "proteinCostPerPersonNgn": 63.0,
+    "proteinPerPlateG": 13.7,
+    "rankInDish": 2,
+    "score": 0.4,
+    "summaryLine": "Ranked on water holding and gelling for a firm pudding."
+   }
+  ],
+  "excluded": [],
+  "notEnoughData": [],
+  "plantId": "bambara"
+ },
+ "fn": "dishesForPlant",
+ "name": "plant_dishes_bambara_user_price"
+}

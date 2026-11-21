@@ -3,7 +3,7 @@
   "goal": "oxalate_mg100g",
   "ingredientId": "african_yam_bean"
  },
- "bundleVersion": "2026-11-21-cdefda79",
+ "bundleVersion": "2026-11-21-019dc6d3",
  "expected": {
   "goal": "oxalate",
   "ingredientId": "african_yam_bean",

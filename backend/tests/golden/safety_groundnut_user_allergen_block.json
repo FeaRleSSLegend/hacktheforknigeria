@@ -131,16 +131,28 @@
    ]
   }
  },
- "bundleVersion": "2026-11-21-cdefda79",
+ "bundleVersion": "2026-11-21-019dc6d3",
  "expected": {
   "allowed": false,
   "blocked": [
    "groundnut: matches your allergen list (peanut)."
   ],
   "result": null,
+  "rules": [
+   {
+    "id": "sr_mould_discard",
+    "reviewed": false,
+    "severity": "warn"
+   },
+   {
+    "id": "sr_allergen_peanut_soy",
+    "reviewed": false,
+    "severity": "warn"
+   }
+  ],
   "warnings": [
-   "Discard groundnuts, seeds and grains that look mouldy, discoloured or shrivelled before preparing them. Cooking or fermenting does not make mouldy nuts safe. (safety rule not yet reviewed by an expert)",
-   "Contains peanut (groundnut) or soya. Peanuts and soybeans are among the foods that cause allergic reactions. Anyone with an allergy to either should not use this ingredient. (safety rule not yet reviewed by an expert)"
+   "Throw away mouldy, discoloured or shrivelled nuts and seeds. Cooking does not make them safe.",
+   "Contains groundnut (peanut) or soya. Do not use if anyone eating is allergic to them."
   ]
  },
  "fn": "safetyGuard",

@@ -1,0 +1,107 @@
+{
+ "args": {
+  "input": {
+   "allergens": [],
+   "budgetNgn": 1500,
+   "dishId": "gbegiri",
+   "mode": "dish",
+   "pantryIds": [],
+   "servings": 4,
+   "targetProteinG": 20
+  }
+ },
+ "bundleVersion": "2026-11-21-019dc6d3",
+ "expected": {
+  "bundleVersion": "2026-11-21-019dc6d3",
+  "dishes": [
+   {
+    "alternatives": [
+     {
+      "asSoldG": 180,
+      "costNgn": null,
+      "costPerGProtein": null,
+      "costPerPersonNgn": null,
+      "drivers": [],
+      "fit": 0.3,
+      "fitRange": [
+       0.0,
+       1.0
+      ],
+      "flags": [
+       "price needed"
+      ],
+      "ingredientId": "pigeon_pea",
+      "priceSource": null,
+      "proteinPerPlateG": 9.4,
+      "proteinTotalG": 37.4,
+      "quality": {
+       "composition": "estimated",
+       "functional": "calculated+measured",
+       "price": "missing",
+       "weights": "estimated"
+      },
+      "score": null
+     }
+    ],
+    "costLabel": "protein ingredient only, no oil or spices",
+    "dishId": "gbegiri",
+    "dryGPerServing": 45,
+    "flags": [
+     "price needed: pigeon_pea",
+     "cost excludes oil and spices"
+    ],
+    "missingItems": [
+     {
+      "costNgn": 241.01,
+      "id": "cowpea"
+     },
+     {
+      "costNgn": 408.72,
+      "id": "garri_white"
+     }
+    ],
+    "name": "Gbegiri (bean soup)",
+    "notEnoughData": [],
+    "playbookIds": [
+     "pb_cowpea_gbegiri_route",
+     "pb_cowpea_soak_dehull"
+    ],
+    "portionQuality": "estimated",
+    "protein": {
+     "asSoldG": 180,
+     "costNgn": 241.01,
+     "costPerGProtein": 5.9245,
+     "costPerPersonNgn": 60.25,
+     "drivers": [],
+     "fit": 0.7,
+     "fitRange": [
+      0.3,
+      0.7
+     ],
+     "flags": [],
+     "ingredientId": "cowpea",
+     "priceSource": "bundled",
+     "proteinPerPlateG": 10.2,
+     "proteinTotalG": 40.7,
+     "quality": {
+      "composition": "measured",
+      "functional": "calculated+measured",
+      "price": "published (2026-04)",
+      "weights": "estimated"
+     },
+     "score": 0.6
+    },
+    "proteinCostNgn": 241.01,
+    "proteinCostPerPersonNgn": 60.25,
+    "proteinPerPlateG": 10.2,
+    "proteinTotalG": 40.7,
+    "summaryLine": "Ranked on water holding and creaminess for a smooth soup.",
+    "totalCostNgn": 649.73,
+    "totalCostPerPersonNgn": 162.43
+   }
+  ],
+  "excluded": []
+ },
+ "fn": "suggestDishes",
+ "name": "suggest_dish_gbegiri"
+}

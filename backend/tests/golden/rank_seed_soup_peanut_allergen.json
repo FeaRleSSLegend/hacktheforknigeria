@@ -16,38 +16,26 @@
    "targetProteinG": 20
   }
  },
- "bundleVersion": "2026-11-21-cdefda79",
+ "bundleVersion": "2026-11-21-019dc6d3",
  "expected": {
-  "bundleVersion": "2026-11-21-cdefda79",
+  "bundleVersion": "2026-11-21-019dc6d3",
   "excluded": [
    {
     "id": "groundnut",
     "reason": "allergen: peanut"
+   },
+   {
+    "id": "melon_seed",
+    "reason": "not enough data: missing emulsion_capacity"
    }
   ],
-  "items": [
+  "items": [],
+  "notEnoughData": [
    {
-    "asSoldG": 289.9,
-    "costNgn": null,
-    "costPerGProtein": null,
-    "drivers": [],
-    "fit": 0.5,
-    "fitRange": [
-     0.5,
-     0.5
-    ],
-    "flags": [
-     "no data: emulsion_capacity",
-     "price needed"
-    ],
-    "ingredientId": "melon_seed",
-    "quality": {
-     "composition": "measured",
-     "functional": "calculated+measured",
-     "price": "missing",
-     "weights": "estimated"
-    },
-    "score": null
+    "id": "melon_seed",
+    "missingNeeds": [
+     "emulsion_capacity"
+    ]
    }
   ]
  },

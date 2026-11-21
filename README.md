@@ -104,3 +104,40 @@ AGENTS.md          build rules and recorded deviations
 - Plate balance (energy, iron, fat with sides) is not built yet, because the reference values are not sourced.
 
 More detail: [backend/reports/BACKEND_STATUS.md](backend/reports/BACKEND_STATUS.md) and [frontend/FRONTEND_STATUS.md](frontend/FRONTEND_STATUS.md).
+
+## Data and model pipeline (AI lane)
+
+```
+python -m venv .venv && .venv\Scripts\activate        # macOS/Linux: source .venv/bin/activate
+pip install pandas numpy scikit-learn pytest openpyxl
+python training/run_all.py
+```
+
+`run_all.py` runs, in order: inventory, ETL (WAFCT 2019, PulsesDM, PhyFoodComp, NBS prices, units), `scripts/build_tables.py`, `scripts/validate_data.py`, functional-property QC, `scripts/train_processing.py`, the fallback tests, the ranking stability check, and `pytest -q`. It stops at the first failure.
+
+Raw inputs live in `training/data/` (read-only). Outputs:
+- `training/clean/`: cleaned intermediates
+- `training/reports/`: inventory, ETL row counts (`etl_log.md`), cross-checks, QC, `verify_checklist.csv`, `needs_human.md`
+- `data/ingredients.csv`, `data/sides.csv`: generated tables
+- `reports/metrics.md` / `metrics.json`: processing model vs baselines (grouped CV by paper)
+- `reports/ranking_stability.md`, `reports/coverage.json`
+- `bundle/model.json`: shipped processing models (empty until a metric beats its baseline)
+
+## Ask Popo (optional online helper)
+
+Popo answers follow-up questions on the Prepare screen, using only the steps shown there. Every answer is checked; anything with a number or ingredient not in the steps, or a health claim, is replaced by a safe reply. Without this setup Popo still works offline by quoting the matching steps.
+
+1. On the laptop, give the service Claude credentials (`ant auth login`, or set `ANTHROPIC_API_KEY`), then start it so the phone can reach it:
+   ```
+   cd backend
+   .venvScriptsactivate
+   pip install -r requirements.txt
+   uvicorn service.main:app --host 0.0.0.0 --port 8000
+   ```
+2. Start the app pointing at the laptop's Wi-Fi address (find it with `ipconfig`):
+   ```
+   cd frontend
+   set EXPO_PUBLIC_POPO_URL=http://192.168.x.x:8000
+   npx expo start
+   ```
+Never put the API key in the app.

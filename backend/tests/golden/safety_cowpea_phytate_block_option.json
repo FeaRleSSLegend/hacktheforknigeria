@@ -190,11 +190,11 @@
    ]
   }
  },
- "bundleVersion": "2026-11-21-cdefda79",
+ "bundleVersion": "2026-11-21-019dc6d3",
  "expected": {
   "allowed": true,
   "blocked": [
-   "Withheld \"Soak the beans briefly. Remove the skins by hand. Soak again if the recipe needs a paste.\": Soaking, dehulling, milling or sprouting alone does not remove the heat-sensitive anti-nutrients (trypsin inhibitors). Do not present a soak-only, sprout-only or raw-flour preparation as ready to eat. Cook bean and groundnut preparations until they are fully done. (safety rule not yet reviewed by an expert)"
+   "Withheld \"Soak the beans briefly. Remove the skins by hand. Soak again if the recipe needs a paste.\": Soaking, sprouting or milling alone is not enough. Always cook beans and groundnuts until fully soft."
   ],
   "result": {
    "goal": "phytate",
@@ -361,6 +361,13 @@
     }
    ]
   },
+  "rules": [
+   {
+    "id": "sr_cook_thoroughly",
+    "reviewed": false,
+    "severity": "block"
+   }
+  ],
   "warnings": []
  },
  "fn": "safetyGuard",

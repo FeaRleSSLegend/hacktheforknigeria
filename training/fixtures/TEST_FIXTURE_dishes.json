@@ -1,0 +1,22 @@
+[
+ {
+  "id": "TEST_FIXTURE_akara",
+  "name": "TEST FIXTURE: akara-style bean fritters",
+  "application_id": "TEST_FIXTURE_akara_batter",
+  "protein_slot_ids": [
+   "cowpea",
+   "bambara",
+   "pigeon_pea",
+   "african_yam_bean",
+   "jack_bean",
+   "soybean"
+  ],
+  "side_items": [],
+  "playbook_ids": [],
+  "notes": "TEST FIXTURE. No sides, so no side portions are invented.",
+  "typical_dry_g_per_serving": 100,
+  "typical_dry_g_quality": "estimated",
+  "typical_dry_g_note": "TEST ONLY",
+  "summary_line": "TEST ONLY"
+ }
+]

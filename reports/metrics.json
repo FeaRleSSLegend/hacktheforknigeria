@@ -1,0 +1,3513 @@
+{
+  "generated": "2026-11-21",
+  "source": "data/treatment_experiments.csv",
+  "rule": {
+    "min_rows": 30,
+    "min_papers": 3,
+    "must_beat": "min(B0, B1) grouped-CV MAE"
+  },
+  "rows_used": 558,
+  "rows_excluded_zero_baseline": 0,
+  "rows_excluded_needs_human": 22,
+  "rows_excluded_cumulative_stages": 102,
+  "features": "crop, treatment, baseline type (one-hot); time_h, temp_c, time^2, time x temp (standardised)",
+  "per_metric": {
+    "bulk_density": {
+      "n_rows": 51,
+      "n_papers": 8,
+      "n_crops": 5,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 24,
+      "cv_run": true,
+      "mae_model": 7.988112288366321,
+      "mae_b0": 10.70816411293635,
+      "mae_b1": 8.458504418889245,
+      "r2_model": -0.12949407839493965,
+      "residual_sd": 11.141556448192663,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "sharma2019"
+          ],
+          "alpha": 1.0,
+          "n_test": 13,
+          "n_test_in_training_range": 0,
+          "mae_model": 2.892770004422852,
+          "mae_b0": 11.582670203359859,
+          "mae_b1": 5.12885501329391
+        },
+        {
+          "test_papers": [
+            "sobowale2025"
+          ],
+          "alpha": 1.0,
+          "n_test": 12,
+          "n_test_in_training_range": 0,
+          "mae_model": 4.719055338843867,
+          "mae_b0": 11.054536513611872,
+          "mae_b1": 3.853562290886122
+        },
+        {
+          "test_papers": [
+            "makinde2020"
+          ],
+          "alpha": 0.1,
+          "n_test": 9,
+          "n_test_in_training_range": 0,
+          "mae_model": 10.247758456280387,
+          "mae_b0": 5.465511173273729,
+          "mae_b1": 11.722681585695286
+        },
+        {
+          "test_papers": [
+            "abioye2014",
+            "ojha2020"
+          ],
+          "alpha": 100.0,
+          "n_test": 8,
+          "n_test_in_training_range": 0,
+          "mae_model": 8.003832686610863,
+          "mae_b0": 6.894841269841269,
+          "mae_b1": 9.162864629613996
+        },
+        {
+          "test_papers": [
+            "abiodun2011",
+            "akubor2017",
+            "ijarotimi2022"
+          ],
+          "alpha": 100.0,
+          "n_test": 9,
+          "n_test_in_training_range": 0,
+          "mae_model": 17.433173887072055,
+          "mae_b0": 17.615432026059953,
+          "mae_b1": 15.517645710191971
+        }
+      ],
+      "shipped": true,
+      "reason": "ridge passes the ship rule and has the lowest error"
+    },
+    "bulk_density_packed": {
+      "n_rows": 9,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 3,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "dispersibility": {
+      "n_rows": 12,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 12,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "emulsion_activity": {
+      "n_rows": 13,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 0,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "emulsion_capacity": {
+      "n_rows": 12,
+      "n_papers": 3,
+      "n_crops": 3,
+      "rows_missing_time": 6,
+      "rows_missing_temp": 7,
+      "cv_run": true,
+      "mae_model": 19.00460959933109,
+      "mae_b0": 10.756841226719429,
+      "mae_b1": 11.451640190441855,
+      "r2_model": -1.244145244611035,
+      "residual_sd": 21.622064629392106,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "mubaiwa2018"
+          ],
+          "alpha": 100.0,
+          "n_test": 6,
+          "n_test_in_training_range": 0,
+          "mae_model": 20.44611963221638,
+          "mae_b0": 13.397462424571913,
+          "mae_b1": 12.893863624428421
+        },
+        {
+          "test_papers": [
+            "gandhi2022"
+          ],
+          "alpha": 0.01,
+          "n_test": 4,
+          "n_test_in_training_range": 0,
+          "mae_model": 12.213371287319365,
+          "mae_b0": 5.243725061094009,
+          "mae_b1": 5.839356722037142
+        },
+        {
+          "test_papers": [
+            "ijarotimi2022"
+          ],
+          "alpha": 0.01,
+          "n_test": 2,
+          "n_test_in_training_range": 0,
+          "mae_model": 28.26255612469865,
+          "mae_b0": 13.861209964412808,
+          "mae_b1": 18.34953682529158
+        }
+      ],
+      "shipped": false,
+      "reason": "12 rows; at least 30 needed"
+    },
+    "emulsion_stability": {
+      "n_rows": 23,
+      "n_papers": 3,
+      "n_crops": 2,
+      "rows_missing_time": 6,
+      "rows_missing_temp": 8,
+      "cv_run": true,
+      "mae_model": 63.620680008206925,
+      "mae_b0": 28.246589734358572,
+      "mae_b1": 18.51453189968062,
+      "r2_model": -3.8034886172528317,
+      "residual_sd": 45.67991872518886,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "sharma2019"
+          ],
+          "alpha": 10.0,
+          "n_test": 13,
+          "n_test_in_training_range": 0,
+          "mae_model": 84.78052991873135,
+          "mae_b0": 29.22607659820236,
+          "mae_b1": 17.436770313887177
+        },
+        {
+          "test_papers": [
+            "mubaiwa2018"
+          ],
+          "alpha": 100.0,
+          "n_test": 6,
+          "n_test_in_training_range": 0,
+          "mae_model": 36.84121634957438,
+          "mae_b0": 23.193523257031302,
+          "mae_b1": 14.241142304650353
+        },
+        {
+          "test_papers": [
+            "akubor2017"
+          ],
+          "alpha": 0.01,
+          "n_test": 4,
+          "n_test_in_training_range": 0,
+          "mae_model": 35.020363286951365,
+          "mae_b0": 32.64285714285714,
+          "mae_b1": 28.427341446054733
+        }
+      ],
+      "shipped": false,
+      "reason": "23 rows; at least 30 needed"
+    },
+    "energy": {
+      "n_rows": 1,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 1,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "fat": {
+      "n_rows": 4,
+      "n_papers": 2,
+      "n_crops": 4,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 4,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "2 paper(s); grouped cross-validation needs at least 3"
+    },
+    "fibre": {
+      "n_rows": 1,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 1,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "foam_capacity": {
+      "n_rows": 50,
+      "n_papers": 8,
+      "n_crops": 6,
+      "rows_missing_time": 9,
+      "rows_missing_temp": 24,
+      "cv_run": true,
+      "mae_model": 54.04135390740548,
+      "mae_b0": 46.44324831702188,
+      "mae_b1": 57.096401230193834,
+      "r2_model": -0.5169580545182602,
+      "residual_sd": 67.45760176282944,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "sharma2019"
+          ],
+          "alpha": 100.0,
+          "n_test": 13,
+          "n_test_in_training_range": 0,
+          "mae_model": 82.09144992765144,
+          "mae_b0": 80.93635030177701,
+          "mae_b1": 85.01642360293683
+        },
+        {
+          "test_papers": [
+            "sobowale2025"
+          ],
+          "alpha": 10.0,
+          "n_test": 12,
+          "n_test_in_training_range": 0,
+          "mae_model": 34.48198922757553,
+          "mae_b0": 37.90071935233225,
+          "mae_b1": 51.598089477996204
+        },
+        {
+          "test_papers": [
+            "abulude2006",
+            "mubaiwa2018"
+          ],
+          "alpha": 1.0,
+          "n_test": 9,
+          "n_test_in_training_range": 0,
+          "mae_model": 37.099067628521475,
+          "mae_b0": 38.03130111357577,
+          "mae_b1": 30.45095211235798
+        },
+        {
+          "test_papers": [
+            "gandhi2022",
+            "ijarotimi2022"
+          ],
+          "alpha": 100.0,
+          "n_test": 8,
+          "n_test_in_training_range": 0,
+          "mae_model": 35.31089147393695,
+          "mae_b0": 33.62676456731384,
+          "mae_b1": 46.363231008304595
+        },
+        {
+          "test_papers": [
+            "abioye2014",
+            "akubor2017"
+          ],
+          "alpha": 0.1,
+          "n_test": 8,
+          "n_test_in_training_range": 0,
+          "mae_model": 75.58952939146374,
+          "mae_b0": 25.485675392414187,
+          "mae_b1": 60.68313298223747
+        }
+      ],
+      "shipped": false,
+      "reason": "no candidate passes: MAE 54.04 not <= 90% of B0 46.44; better than B0 on only 3 of 8 papers"
+    },
+    "foam_stability": {
+      "n_rows": 15,
+      "n_papers": 3,
+      "n_crops": 3,
+      "rows_missing_time": 6,
+      "rows_missing_temp": 8,
+      "cv_run": true,
+      "mae_model": 33.806928798278925,
+      "mae_b0": 35.496847748780716,
+      "mae_b1": 30.322404342554993,
+      "r2_model": 0.0027625348229426416,
+      "residual_sd": 41.890327944972974,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "mubaiwa2018"
+          ],
+          "alpha": 100.0,
+          "n_test": 6,
+          "n_test_in_training_range": 0,
+          "mae_model": 42.85288391701177,
+          "mae_b0": 36.36394079432054,
+          "mae_b1": 36.32174670149354
+        },
+        {
+          "test_papers": [
+            "gandhi2022"
+          ],
+          "alpha": 0.01,
+          "n_test": 6,
+          "n_test_in_training_range": 0,
+          "mae_model": 21.416070922497813,
+          "mae_b0": 23.572919830512035,
+          "mae_b1": 17.507804339528636
+        },
+        {
+          "test_papers": [
+            "akubor2017"
+          ],
+          "alpha": 0.01,
+          "n_test": 3,
+          "n_test_in_training_range": 0,
+          "mae_model": 40.496734312375466,
+          "mae_b0": 57.61051749423842,
+          "mae_b1": 43.95291963073061
+        }
+      ],
+      "shipped": false,
+      "reason": "15 rows; at least 30 needed"
+    },
+    "iron": {
+      "n_rows": 4,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 0,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "ivpd": {
+      "n_rows": 1,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 1,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "least_gelation": {
+      "n_rows": 13,
+      "n_papers": 3,
+      "n_crops": 3,
+      "rows_missing_time": 9,
+      "rows_missing_temp": 11,
+      "cv_run": true,
+      "mae_model": 20.949967635800483,
+      "mae_b0": 16.602564102564102,
+      "mae_b1": 28.824786324786324,
+      "r2_model": -0.1470705115620008,
+      "residual_sd": 32.98186540632373,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "mubaiwa2018"
+          ],
+          "alpha": 100.0,
+          "n_test": 6,
+          "n_test_in_training_range": 0,
+          "mae_model": 21.63016703175012,
+          "mae_b0": 15.972222222222221,
+          "mae_b1": 15.972222222222221
+        },
+        {
+          "test_papers": [
+            "akubor2017"
+          ],
+          "alpha": 100.0,
+          "n_test": 4,
+          "n_test_in_training_range": 0,
+          "mae_model": 27.41816691942913,
+          "mae_b0": 25.0,
+          "mae_b1": 34.861111111111114
+        },
+        {
+          "test_papers": [
+            "abulude2006"
+          ],
+          "alpha": 100.0,
+          "n_test": 3,
+          "n_test_in_training_range": 0,
+          "mae_model": 10.965303132396343,
+          "mae_b0": 6.666666666666667,
+          "mae_b1": 46.48148148148149
+        }
+      ],
+      "shipped": false,
+      "reason": "13 rows; at least 30 needed"
+    },
+    "oil_absorption": {
+      "n_rows": 57,
+      "n_papers": 9,
+      "n_crops": 7,
+      "rows_missing_time": 4,
+      "rows_missing_temp": 25,
+      "cv_run": true,
+      "mae_model": 17.277416034377143,
+      "mae_b0": 15.965252303893473,
+      "mae_b1": 17.87998166016365,
+      "r2_model": -0.0893955222368128,
+      "residual_sd": 25.87284508940021,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "sharma2019"
+          ],
+          "alpha": 100.0,
+          "n_test": 13,
+          "n_test_in_training_range": 0,
+          "mae_model": 10.728421970576761,
+          "mae_b0": 9.937635060848473,
+          "mae_b1": 14.63271478747272
+        },
+        {
+          "test_papers": [
+            "sobowale2025"
+          ],
+          "alpha": 100.0,
+          "n_test": 12,
+          "n_test_in_training_range": 0,
+          "mae_model": 20.699677349790147,
+          "mae_b0": 16.98141032291359,
+          "mae_b1": 10.614364670153654
+        },
+        {
+          "test_papers": [
+            "ijarotimi2022",
+            "makinde2020"
+          ],
+          "alpha": 100.0,
+          "n_test": 11,
+          "n_test_in_training_range": 0,
+          "mae_model": 8.238127246336095,
+          "mae_b0": 8.727542062796378,
+          "mae_b1": 21.77195340833617
+        },
+        {
+          "test_papers": [
+            "akubor2017",
+            "gandhi2022"
+          ],
+          "alpha": 100.0,
+          "n_test": 10,
+          "n_test_in_training_range": 0,
+          "mae_model": 20.48085777726178,
+          "mae_b0": 17.035292543668085,
+          "mae_b1": 17.490915278945423
+        },
+        {
+          "test_papers": [
+            "abulude2006",
+            "kanetro2021",
+            "ojha2020"
+          ],
+          "alpha": 100.0,
+          "n_test": 11,
+          "n_test_in_training_range": 0,
+          "mae_model": 27.41082933292752,
+          "mae_b0": 28.245210320772152,
+          "mae_b1": 26.105513279016975
+        }
+      ],
+      "shipped": false,
+      "reason": "no candidate passes: MAE 17.28 not <= 90% of B0 15.97; better than B0 on only 2 of 9 papers"
+    },
+    "oxalate": {
+      "n_rows": 41,
+      "n_papers": 8,
+      "n_crops": 6,
+      "rows_missing_time": 3,
+      "rows_missing_temp": 24,
+      "cv_run": true,
+      "mae_model": 33.79037438525358,
+      "mae_b0": 48.336650184543174,
+      "mae_b1": 39.757566613078794,
+      "r2_model": -0.1523414842776747,
+      "residual_sd": 58.606486720992095,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "sobowale2025"
+          ],
+          "alpha": 10.0,
+          "n_test": 12,
+          "n_test_in_training_range": 0,
+          "mae_model": 70.59904685050081,
+          "mae_b0": 65.6993986577171,
+          "mae_b1": 65.34446233218593
+        },
+        {
+          "test_papers": [
+            "makinde2020"
+          ],
+          "alpha": 10.0,
+          "n_test": 9,
+          "n_test_in_training_range": 0,
+          "mae_model": 9.1746174526481,
+          "mae_b0": 32.43364822312191,
+          "mae_b1": 19.578219786469244
+        },
+        {
+          "test_papers": [
+            "pokharel2024"
+          ],
+          "alpha": 10.0,
+          "n_test": 8,
+          "n_test_in_training_range": 0,
+          "mae_model": 22.928164091547984,
+          "mae_b0": 49.55651543128462,
+          "mae_b1": 33.247088878544375
+        },
+        {
+          "test_papers": [
+            "abioye2014",
+            "ijarotimi2022"
+          ],
+          "alpha": 1.0,
+          "n_test": 6,
+          "n_test_in_training_range": 0,
+          "mae_model": 25.530067365209053,
+          "mae_b0": 38.52918116747232,
+          "mae_b1": 23.763803358628888
+        },
+        {
+          "test_papers": [
+            "abiodun2011",
+            "chude2018",
+            "kewuyemi2024"
+          ],
+          "alpha": 10.0,
+          "n_test": 6,
+          "n_test_in_training_range": 0,
+          "mae_model": 19.839918931985988,
+          "mae_b0": 45.646638201742775,
+          "mae_b1": 43.52719564860795
+        }
+      ],
+      "shipped": true,
+      "reason": "ridge passes the ship rule and has the lowest error"
+    },
+    "phytate": {
+      "n_rows": 43,
+      "n_papers": 8,
+      "n_crops": 9,
+      "rows_missing_time": 3,
+      "rows_missing_temp": 18,
+      "cv_run": true,
+      "mae_model": 13.568546945159635,
+      "mae_b0": 30.136000812382807,
+      "mae_b1": 16.746937097199826,
+      "r2_model": -0.29764909808892015,
+      "residual_sd": 16.992080307163395,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "rizvi2024"
+          ],
+          "alpha": 100.0,
+          "n_test": 10,
+          "n_test_in_training_range": 0,
+          "mae_model": 13.793683478015542,
+          "mae_b0": 26.745303721910112,
+          "mae_b1": 13.391112144897225
+        },
+        {
+          "test_papers": [
+            "makinde2020"
+          ],
+          "alpha": 100.0,
+          "n_test": 9,
+          "n_test_in_training_range": 0,
+          "mae_model": 12.284241682408172,
+          "mae_b0": 29.37589510519024,
+          "mae_b1": 9.937922433950071
+        },
+        {
+          "test_papers": [
+            "pokharel2024"
+          ],
+          "alpha": 0.01,
+          "n_test": 8,
+          "n_test_in_training_range": 0,
+          "mae_model": 11.904898118366791,
+          "mae_b0": 31.901993488045452,
+          "mae_b1": 14.702724095419669
+        },
+        {
+          "test_papers": [
+            "ijarotimi2022",
+            "nagessa2023"
+          ],
+          "alpha": 100.0,
+          "n_test": 8,
+          "n_test_in_training_range": 0,
+          "mae_model": 9.54371882306768,
+          "mae_b0": 26.51578260823642,
+          "mae_b1": 15.239940102766967
+        },
+        {
+          "test_papers": [
+            "abiodun2011",
+            "abioye2014",
+            "chude2018"
+          ],
+          "alpha": 10.0,
+          "n_test": 8,
+          "n_test_in_training_range": 0,
+          "mae_model": 20.420446648569936,
+          "mae_b0": 37.083716624549055,
+          "mae_b1": 32.15306977994707
+        }
+      ],
+      "shipped": false,
+      "reason": "C3 (shrunk mean per treatment x metric) ships instead: lower error"
+    },
+    "polyphenols": {
+      "n_rows": 1,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 1,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "protein": {
+      "n_rows": 8,
+      "n_papers": 3,
+      "n_crops": 4,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 4,
+      "cv_run": true,
+      "mae_model": 13.523563622641827,
+      "mae_b0": 8.029830803518475,
+      "mae_b1": 8.029830803518475,
+      "r2_model": -2.493704475976637,
+      "residual_sd": 16.350253347612178,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "abioye2014"
+          ],
+          "alpha": 0.01,
+          "n_test": 4,
+          "n_test_in_training_range": 0,
+          "mae_model": 13.352732928566603,
+          "mae_b0": 1.8779342723004668,
+          "mae_b1": 1.8779342723004668
+        },
+        {
+          "test_papers": [
+            "abiodun2011"
+          ],
+          "alpha": 0.01,
+          "n_test": 3,
+          "n_test_in_training_range": 0,
+          "mae_model": 17.43978763017938,
+          "mae_b0": 17.14614926682813,
+          "mae_b1": 17.14614926682813
+        },
+        {
+          "test_papers": [
+            "chude2018"
+          ],
+          "alpha": 100.0,
+          "n_test": 1,
+          "n_test_in_training_range": 0,
+          "mae_model": 2.458214376330055,
+          "mae_b0": 5.288461538461545,
+          "mae_b1": 5.288461538461545
+        }
+      ],
+      "shipped": false,
+      "reason": "8 rows; at least 30 needed"
+    },
+    "saponin": {
+      "n_rows": 11,
+      "n_papers": 2,
+      "n_crops": 4,
+      "rows_missing_time": 3,
+      "rows_missing_temp": 7,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "2 paper(s); grouped cross-validation needs at least 3"
+    },
+    "starch_solubility": {
+      "n_rows": 9,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 3,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "swelling_capacity": {
+      "n_rows": 4,
+      "n_papers": 1,
+      "n_crops": 1,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 0,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "swelling_index": {
+      "n_rows": 3,
+      "n_papers": 1,
+      "n_crops": 3,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 3,
+      "cv_run": false,
+      "shipped": false,
+      "reason": "1 paper(s); grouped cross-validation needs at least 3"
+    },
+    "swelling_power": {
+      "n_rows": 40,
+      "n_papers": 4,
+      "n_crops": 3,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 15,
+      "cv_run": true,
+      "mae_model": 26.53136748762423,
+      "mae_b0": 18.36756351754313,
+      "mae_b1": 23.13516262396665,
+      "r2_model": -2.4898475727055036,
+      "residual_sd": 40.72743182697234,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "sharma2019"
+          ],
+          "alpha": 100.0,
+          "n_test": 13,
+          "n_test_in_training_range": 0,
+          "mae_model": 7.709286384687942,
+          "mae_b0": 12.422258592471362,
+          "mae_b1": 6.789129915232665
+        },
+        {
+          "test_papers": [
+            "sobowale2025"
+          ],
+          "alpha": 100.0,
+          "n_test": 12,
+          "n_test_in_training_range": 0,
+          "mae_model": 9.68932067385135,
+          "mae_b0": 12.057937573426488,
+          "mae_b1": 12.057937573426488
+        },
+        {
+          "test_papers": [
+            "makinde2020"
+          ],
+          "alpha": 1.0,
+          "n_test": 9,
+          "n_test_in_training_range": 0,
+          "mae_model": 68.1516082922711,
+          "mae_b0": 27.272836344984356,
+          "mae_b1": 50.44546859078733
+        },
+        {
+          "test_papers": [
+            "gandhi2022"
+          ],
+          "alpha": 100.0,
+          "n_test": 6,
+          "n_test_in_training_range": 0,
+          "mae_model": 38.5662756312283,
+          "mae_b0": 30.510400168936755,
+          "mae_b1": 39.74055797707291
+        }
+      ],
+      "shipped": false,
+      "reason": "no candidate passes: MAE 26.53 not <= 90% of B0 18.37; better than B0 on only 2 of 4 papers"
+    },
+    "tannin": {
+      "n_rows": 44,
+      "n_papers": 9,
+      "n_crops": 9,
+      "rows_missing_time": 3,
+      "rows_missing_temp": 20,
+      "cv_run": true,
+      "mae_model": 16.649919838568685,
+      "mae_b0": 46.32871021862214,
+      "mae_b1": 27.036616212964194,
+      "r2_model": -0.18088104279323547,
+      "residual_sd": 21.364548178081726,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "rizvi2024"
+          ],
+          "alpha": 100.0,
+          "n_test": 10,
+          "n_test_in_training_range": 0,
+          "mae_model": 27.145154093533762,
+          "mae_b0": 27.864779874213838,
+          "mae_b1": 23.203823808580562
+        },
+        {
+          "test_papers": [
+            "makinde2020"
+          ],
+          "alpha": 100.0,
+          "n_test": 9,
+          "n_test_in_training_range": 0,
+          "mae_model": 9.209243400020599,
+          "mae_b0": 50.28467919680071,
+          "mae_b1": 12.89208647673813
+        },
+        {
+          "test_papers": [
+            "chude2018",
+            "pokharel2024"
+          ],
+          "alpha": 100.0,
+          "n_test": 9,
+          "n_test_in_training_range": 0,
+          "mae_model": 11.044259034926295,
+          "mae_b0": 47.349639362127725,
+          "mae_b1": 29.694421955911487
+        },
+        {
+          "test_papers": [
+            "kewuyemi2024",
+            "nagessa2023"
+          ],
+          "alpha": 100.0,
+          "n_test": 8,
+          "n_test_in_training_range": 0,
+          "mae_model": 17.31211332619843,
+          "mae_b0": 53.78264401476252,
+          "mae_b1": 31.411571131930057
+        },
+        {
+          "test_papers": [
+            "abiodun2011",
+            "akubor2017",
+            "ijarotimi2022"
+          ],
+          "alpha": 100.0,
+          "n_test": 8,
+          "n_test_in_training_range": 0,
+          "mae_model": 17.5458129296969,
+          "mae_b0": 56.35567896609747,
+          "mae_b1": 40.37521629191647
+        }
+      ],
+      "shipped": true,
+      "reason": "ridge passes the ship rule and has the lowest error"
+    },
+    "trypsin_inhibitor": {
+      "n_rows": 24,
+      "n_papers": 6,
+      "n_crops": 7,
+      "rows_missing_time": 0,
+      "rows_missing_temp": 11,
+      "cv_run": true,
+      "mae_model": 19.66785033102297,
+      "mae_b0": 54.79887580706915,
+      "mae_b1": 31.443846286666915,
+      "r2_model": 0.07086382817275683,
+      "residual_sd": 25.111955058364487,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "rizvi2024"
+          ],
+          "alpha": 100.0,
+          "n_test": 10,
+          "n_test_in_training_range": 0,
+          "mae_model": 18.634530874269316,
+          "mae_b0": 49.460686914561464,
+          "mae_b1": 17.525722684958353
+        },
+        {
+          "test_papers": [
+            "akubor2017"
+          ],
+          "alpha": 10.0,
+          "n_test": 4,
+          "n_test_in_training_range": 0,
+          "mae_model": 21.47801439070443,
+          "mae_b0": 67.88888888888889,
+          "mae_b1": 43.391786678491584
+        },
+        {
+          "test_papers": [
+            "abioye2014"
+          ],
+          "alpha": 100.0,
+          "n_test": 4,
+          "n_test_in_training_range": 0,
+          "mae_model": 28.074930706030926,
+          "mae_b0": 72.72727272727272,
+          "mae_b1": 27.272727272727273
+        },
+        {
+          "test_papers": [
+            "abiodun2011"
+          ],
+          "alpha": 10.0,
+          "n_test": 3,
+          "n_test_in_training_range": 0,
+          "mae_model": 9.09961874711233,
+          "mae_b0": 47.5,
+          "mae_b1": 47.5
+        },
+        {
+          "test_papers": [
+            "chude2018",
+            "ijarotimi2022"
+          ],
+          "alpha": 10.0,
+          "n_test": 3,
+          "n_test_in_training_range": 0,
+          "mae_model": 20.05748752452654,
+          "mae_b0": 38.53383458646616,
+          "mae_b1": 51.41234274184899
+        }
+      ],
+      "shipped": false,
+      "reason": "24 rows; at least 30 needed"
+    },
+    "water_absorption": {
+      "n_rows": 64,
+      "n_papers": 11,
+      "n_crops": 8,
+      "rows_missing_time": 4,
+      "rows_missing_temp": 28,
+      "cv_run": true,
+      "mae_model": 22.54168520063228,
+      "mae_b0": 19.13570165859832,
+      "mae_b1": 20.752523461342427,
+      "r2_model": -0.5112242842495904,
+      "residual_sd": 29.45539928643965,
+      "n_test_in_training_range": 0,
+      "folds": [
+        {
+          "test_papers": [
+            "sharma2019"
+          ],
+          "alpha": 100.0,
+          "n_test": 13,
+          "n_test_in_training_range": 0,
+          "mae_model": 26.385804707497485,
+          "mae_b0": 11.836743413498256,
+          "mae_b1": 19.150654836970467
+        },
+        {
+          "test_papers": [
+            "ijarotimi2022",
+            "sobowale2025"
+          ],
+          "alpha": 100.0,
+          "n_test": 14,
+          "n_test_in_training_range": 0,
+          "mae_model": 11.769481050941295,
+          "mae_b0": 15.763850409552678,
+          "mae_b1": 11.763997707063922
+        },
+        {
+          "test_papers": [
+            "abulude2006",
+            "makinde2020"
+          ],
+          "alpha": 10.0,
+          "n_test": 12,
+          "n_test_in_training_range": 0,
+          "mae_model": 25.747452149331917,
+          "mae_b0": 18.472216419500285,
+          "mae_b1": 24.04420543420414
+        },
+        {
+          "test_papers": [
+            "abiodun2011",
+            "akubor2017",
+            "gandhi2022"
+          ],
+          "alpha": 1.0,
+          "n_test": 13,
+          "n_test_in_training_range": 0,
+          "mae_model": 34.38596608781953,
+          "mae_b0": 33.5569283551407,
+          "mae_b1": 34.798988050192236
+        },
+        {
+          "test_papers": [
+            "abioye2014",
+            "kanetro2021",
+            "ojha2020"
+          ],
+          "alpha": 100.0,
+          "n_test": 12,
+          "n_test_in_training_range": 0,
+          "mae_model": 14.907722666348619,
+          "mae_b0": 16.017222532520424,
+          "mae_b1": 14.465809240287987
+        }
+      ],
+      "shipped": false,
+      "reason": "no candidate passes: MAE 22.54 not <= 90% of B0 19.14"
+    }
+  },
+  "candidates_per_metric": {
+    "bulk_density": {
+      "n_rows": 51,
+      "n_papers": 8,
+      "n_crops": 5,
+      "cv_run": true,
+      "candidates": {
+        "B0": {
+          "label": "no change",
+          "mae": 10.70816411293635,
+          "per_paper_mae": {
+            "abiodun2011": 17.93,
+            "abioye2014": 0.6,
+            "akubor2017": 14.73,
+            "ijarotimi2022": 22.92,
+            "makinde2020": 5.47,
+            "ojha2020": 13.19,
+            "sharma2019": 11.58,
+            "sobowale2025": 11.05
+          },
+          "per_paper_mae_range": [
+            0.5952380952380958,
+            22.91666666666667
+          ],
+          "papers_better_than_b0": 0,
+          "bin_accuracy": 0.2549019607843137,
+          "passes": false,
+          "reason": "baseline"
+        },
+        "C1": {
+          "label": "mean per family x metric",
+          "mae": 9.025686120432175,
+          "per_paper_mae": {
+            "abiodun2011": 20.83,
+            "abioye2014": 11.59,
+            "akubor2017": 9.58,
+            "ijarotimi2022": 20.69,
+            "makinde2020": 14.75,
+            "ojha2020": 8.31,
+            "sharma2019": 4.57,
+            "sobowale2025": 3.86
+          },
+          "per_paper_mae_range": [
+            3.8595364216465633,
+            20.8313246825991
+          ],
+          "papers_better_than_b0": 5,
+          "passes": true,
+          "reason": "passes the ship rule"
+        },
+        "C2": {
+          "label": "median per family x metric",
+          "mae": 8.972877832126464,
+          "per_paper_mae": {
+            "abiodun2011": 20.83,
+            "abioye2014": 11.17,
+            "akubor2017": 9.77,
+            "ijarotimi2022": 20.17,
+            "makinde2020": 14.75,
+            "ojha2020": 8.97,
+            "sharma2019": 4.38,
+            "sobowale2025": 3.78
+          },
+          "per_paper_mae_range": [
+            3.7849488616798737,
+            20.8313246825991
+          ],
+          "papers_better_than_b0": 5,
+          "passes": true,
+          "reason": "passes the ship rule"
+        },
+        "C3": {
+          "label": "shrunk mean per treatment x metric",
+          "mae": 8.145774301580847,
+          "per_paper_mae": {
+            "abiodun2011": 27.11,
+            "abioye2014": 11.53,
+            "akubor2017": 9.28,
+            "ijarotimi2022": 22.82,
+            "makinde2020": 6.44,
+            "ojha2020": 4.14,
+            "sharma2019": 5.62,
+            "sobowale2025": 4.81
+          },
+          "per_paper_mae_range": [
+            4.142353276754179,
+            27.107115840971755
+          ],
+          "papers_better_than_b0": 5,
+          "passes": true,
+          "reason": "passes the ship rule"
+        },
+        "C4": {
+          "label": "direction and size bin",
+          "mae": 8.408916762790387,
+          "per_paper_mae": {
+            "abiodun2011": 24.88,
+            "abioye2014": 13.2,
+            "akubor2017": 8.06,
+            "ijarotimi2022": 20.19,
+            "makinde2020": 8.98,
+            "ojha2020": 8.81,
+            "sharma2019": 4.38,
+            "sobowale2025": 4.65
+          },
+          "per_paper_mae_range": [
+            4.379967420662534,
+            24.878259548499482
+          ],
+          "papers_better_than_b0": 5,
+          "bin_accuracy": 0.5686274509803921,
+          "direction_accuracy": 0.6274509803921569,
+          "passes": true,
+          "reason": "passes the ship rule"
+        },
+        "C5": {
+          "label": "linear in time, temp, crop group (in range only)",
+          "mae": 8.461331280170032,
+          "per_paper_mae": {
+            "abiodun2011": 20.83,
+            "abioye2014": 11.59,
+            "akubor2017": 9.58,
+            "ijarotimi2022": 19.5,
+            "makinde2020": 11.72,
+            "ojha2020": 8.9,
+            "sharma2019": 4.57,
+            "sobowale2025": 3.73
+          },
+          "per_paper_mae_range": [
+            3.733389283432319,
+            20.8313246825991
+          ],
+          "papers_better_than_b0": 5,
+          "share_predicted_by_linear_part": 0.3333333333333333,
+          "passes": true,
+          "reason": "passes the ship rule"
+        },
+        "R": {
+          "label": "ridge (crop, treatment, time^2, baseline type)",
+          "mae": 7.988112288366321,
+          "per_paper_mae": {
+            "abiodun2011": 26.36,
+            "abioye2014": 9.72,
+            "akubor2017": 8.65,
+            "ijarotimi2022": 21.6,
+            "makinde2020": 10.25,
+            "ojha2020": 6.29,
+            "sharma2019": 2.89,
+            "sobowale2025": 4.72
+          },
+          "per_paper_mae_range": [
+            2.892770004422852,
+            26.361535709919064
+          ],
+          "papers_better_than_b0": 5,
+          "passes": true,
+          "reason": "passes the ship rule"
+        }
+      },
+      "chosen": "R",
+      "crop_provenance": {
+        "trained_on_crops": [
+          "african_yam_bean",
+          "cowpea",
+          "groundnut",
+          "horse_gram",
+          "pigeon_pea"
+        ],
+        "trained_on_crops_not_in_ingredient_table": [
+          "horse_gram"
+        ],
+        "trained_on_rows_from_other_crops": 4,
+        "ships_only_with_different_crop_rows": true,
+        "display_label": "estimated from other legumes"
+      }
+    },
+    "emulsion_capacity": {
+      "n_rows": 12,
+      "n_papers": 3,
+      "n_crops": 3,
+      "cv_run": true,
+      "candidates": {
+        "B0": {
+          "label": "no change",
+          "mae": 10.756841226719429,
+          "per_paper_mae": {
+            "gandhi2022": 5.24,
+            "ijarotimi2022": 13.86,
+            "mubaiwa2018": 13.4
+          },
+          "per_paper_mae_range": [
+            5.243725061094009,
+            13.861209964412808
+          ],
+          "papers_better_than_b0": 0,
+          "bin_accuracy": 0.4166666666666667,
+          "passes": false,
+          "reason": "baseline"
+        },
+        "C1": {
+          "label": "mean per family x metric",
+          "mae": 11.451640190441855,
+          "per_paper_mae": {
+            "gandhi2022": 5.84,
+            "ijarotimi2022": 18.35,
+            "mubaiwa2018": 12.89
+          },
+          "per_paper_mae_range": [
+            5.8393567220371425,
+            18.34953682529158
+          ],
+          "papers_better_than_b0": 1,
+          "passes": false,
+          "reason": "12 rows < 30; MAE 11.45 not <= 90% of B0 10.76; better than B0 on only 1 of 3 papers"
+        },
+        "C2": {
+          "label": "median per family x metric",
+          "mae": 11.451640190441855,
+          "per_paper_mae": {
+            "gandhi2022": 5.84,
+            "ijarotimi2022": 18.35,
+            "mubaiwa2018": 12.89
+          },
+          "per_paper_mae_range": [
+            5.8393567220371425,
+            18.34953682529158
+          ],
+          "papers_better_than_b0": 1,
+          "passes": false,
+          "reason": "12 rows < 30; MAE 11.45 not <= 90% of B0 10.76; better than B0 on only 1 of 3 papers"
+        },
+        "C3": {
+          "label": "shrunk mean per treatment x metric",
+          "mae": 15.997737504729022,
+          "per_paper_mae": {
+            "gandhi2022": 9.44,
+            "ijarotimi2022": 18.12,
+            "mubaiwa2018": 19.66
+          },
+          "per_paper_mae_range": [
+            9.438126476055341,
+            19.664084438210242
+          ],
+          "papers_better_than_b0": 0,
+          "passes": false,
+          "reason": "12 rows < 30; MAE 16.00 not <= 90% of B0 10.76; better than B0 on only 0 of 3 papers"
+        },
+        "C4": {
+          "label": "direction and size bin",
+          "mae": 11.643912513234866,
+          "per_paper_mae": {
+            "gandhi2022": 6.42,
+            "ijarotimi2022": 18.35,
+            "mubaiwa2018": 12.89
+          },
+          "per_paper_mae_range": [
+            6.416173690416173,
+            18.34953682529158
+          ],
+          "papers_better_than_b0": 1,
+          "bin_accuracy": 0.16666666666666666,
+          "direction_accuracy": 0.16666666666666666,
+          "passes": false,
+          "reason": "12 rows < 30; MAE 11.64 not <= 90% of B0 10.76; better than B0 on only 1 of 3 papers"
+        },
+        "C5": {
+          "label": "linear in time, temp, crop group (in range only)",
+          "mae": 11.451640190441855,
+          "per_paper_mae": {
+            "gandhi2022": 5.84,
+            "ijarotimi2022": 18.35,
+            "mubaiwa2018": 12.89
+          },
+          "per_paper_mae_range": [
+            5.8393567220371425,
+            18.34953682529158
+          ],
+          "papers_better_than_b0": 1,
+          "share_predicted_by_linear_part": 0.0,
+          "passes": false,
+          "reason": "12 rows < 30; MAE 11.45 not <= 90% of B0 10.76; better than B0 on only 1 of 3 papers"
+        },
+        "R": {
+          "label": "ridge (crop, treatment, time^2, baseline type)",
+          "mae": 19.00460959933109,
+          "per_paper_mae": {
+            "gandhi2022": 12.21,
+            "ijarotimi2022": 28.26,
+            "mubaiwa2018": 20.45
+          },
+          "per_paper_mae_range": [
+            12.213371287319365,
+            28.26255612469865
+          ],
+          "papers_better_than_b0": 0,
+          "passes": false,
+          "reason": "12 rows < 30; MAE 19.00 not <= 90% of B0 10.76; better than B0 on only 0 of 3 papers"
+        }
+      },
+      "chosen": null
+    },
+    "emulsion_stability": {
+      "n_rows": 23,
+      "n_papers": 3,
+      "n_crops": 2,
+      "cv_run": true,
+      "candidates": {
+        "B0": {
+          "label": "no change",
+          "mae": 28.246589734358572,
+          "per_paper_mae": {
+            "akubor2017": 32.64,
+            "mubaiwa2018": 23.19,
+            "sharma2019": 29.23
+          },
+          "per_paper_mae_range": [
+            23.193523257031302,
+            32.642857142857146
+          ],
+          "papers_better_than_b0": 0,
+          "bin_accuracy": 0.17391304347826086,
+          "passes": false,
+          "reason": "baseline"
+        },
+        "C1": {
+          "label": "mean per family x metric",
+          "mae": 36.7034996354018,
+          "per_paper_mae": {
+            "akubor2017": 31.77,
+            "mubaiwa2018": 14.28,
+            "sharma2019": 48.57
+          },
+          "per_paper_mae_range": [
+            14.283767805346683,
+            48.569324292053544
+          ],
+          "papers_better_than_b0": 2,
+          "passes": false,
+          "reason": "23 rows < 30; MAE 36.70 not <= 90% of B0 28.25"
+        },
+        "C2": {
+          "label": "median per family x metric",
+          "mae": 36.33559199773099,
+          "per_paper_mae": {
+            "akubor2017": 29.65,
+            "mubaiwa2018": 14.28,
+            "sharma2019": 48.57
+          },
+          "per_paper_mae_range": [
+            14.283767805346683,
+            48.569324292053544
+          ],
+          "papers_better_than_b0": 2,
+          "passes": false,
+          "reason": "23 rows < 30; MAE 36.34 not <= 90% of B0 28.25"
+        },
+        "C3": {
+          "label": "shrunk mean per treatment x metric",
+          "mae": 36.43792902190668,
+          "per_paper_mae": {
+            "akubor2017": 27.13,
+            "mubaiwa2018": 35.49,
+            "sharma2019": 39.74
+          },
+          "per_paper_mae_range": [
+            27.130126849613653,
+            39.73791111182764
+          ],
+          "papers_better_than_b0": 1,
+          "passes": false,
+          "reason": "23 rows < 30; MAE 36.44 not <= 90% of B0 28.25; better than B0 on only 1 of 3 papers"
+        },
+        "C4": {
+          "label": "direction and size bin",
+          "mae": 58.46626523413498,
+          "per_paper_mae": {
+            "akubor2017": 26.18,
+            "mubaiwa2018": 14.28,
+            "sharma2019": 88.79
+          },
+          "per_paper_mae_range": [
+            14.283767805346683,
+            88.7915633035638
+          ],
+          "papers_better_than_b0": 2,
+          "bin_accuracy": 0.21739130434782608,
+          "direction_accuracy": 0.30434782608695654,
+          "passes": false,
+          "reason": "23 rows < 30; MAE 58.47 not <= 90% of B0 28.25"
+        },
+        "C5": {
+          "label": "linear in time, temp, crop group (in range only)",
+          "mae": 36.7034996354018,
+          "per_paper_mae": {
+            "akubor2017": 31.77,
+            "mubaiwa2018": 14.28,
+            "sharma2019": 48.57
+          },
+          "per_paper_mae_range": [
+            14.283767805346683,
+            48.569324292053544
+          ],
+          "papers_better_than_b0": 2,
+          "share_predicted_by_linear_part": 0.0,
+          "passes": false,
+          "reason": "23 rows < 30; MAE 36.70 not <= 90% of B0 28.25"
+        },
+        "R": {
+          "label": "ridge (crop, treatment, time^2, baseline type)",
+          "mae": 63.620680008206925,
+          "per_paper_mae": {
+            "akubor2017": 35.02,
+            "mubaiwa2018": 36.84,
+            "sharma2019": 84.78
+          },
+          "per_paper_mae_range": [
+            35.020363286951365,
+            84.78052991873135
+          ],
+          "papers_better_than_b0": 0,
+          "passes": false,
+          "reason": "23 rows < 30; MAE 63.62 not <= 90% of B0 28.25; better than B0 on only 0 of 3 papers"
+        }
+      },
+      "chosen": null
+    },
+    "foam_capacity": {
+      "n_rows": 50,
+      "n_papers": 8,
+      "n_crops": 6,
+      "cv_run": true,
+      "candidates": {
+        "B0": {
+          "label": "no change",
+          "mae": 46.44324831702188,
+          "per_paper_mae": {
+            "abioye2014": 10.9,
+            "abulude2006": 16.09,
+            "akubor2017": 40.07,
+            "gandhi2022": 35.42,
+            "ijarotimi2022": 28.26,
+            "mubaiwa2018": 49.0,
+            "sharma2019": 80.94,
+            "sobowale2025": 37.9
+          },
+          "per_paper_mae_range": [
+            10.899061628201874,
+            80.93635030177701
+          ],
+          "papers_better_than_b0": 0,
+          "bin_accuracy": 0.1,
+          "passes": false,
+          "reason": "baseline"
+        },
+        "C1": {
+          "label": "mean per family x metric",
+          "mae": 47.03940721370226,
+          "per_paper_mae": {
+            "abioye2014": 59.62,
+            "abulude2006": 37.39,
+            "akubor2017": 47.67,
+            "gandhi2022": 33.81,
+            "ijarotimi2022": 63.61,
+            "mubaiwa2018": 24.83,
+            "sharma2019": 70.74,
+            "sobowale2025": 34.34
+          },
+          "per_paper_mae_range": [
+            24.82887378812583,
+            70.7364590668297
+          ],
+          "papers_better_than_b0": 4,
+          "passes": false,
+          "reason": "MAE 47.04 not <= 90% of B0 46.44; better than B0 on only 4 of 8 papers"
+        },
+        "C2": {
+          "label": "median per family x metric",
+          "mae": 49.88420315088543,
+          "per_paper_mae": {
+            "abioye2014": 65.83,
+            "abulude2006": 47.34,
+            "akubor2017": 51.42,
+            "gandhi2022": 31.07,
+            "ijarotimi2022": 62.38,
+            "mubaiwa2018": 24.86,
+            "sharma2019": 76.88,
+            "sobowale2025": 35.29
+          },
+          "per_paper_mae_range": [
+            24.860338273537447,
+            76.87575126084137
+          ],
+          "papers_better_than_b0": 4,
+          "passes": false,
+          "reason": "MAE 49.88 not <= 90% of B0 46.44; better than B0 on only 4 of 8 papers"
+        },
+        "C3": {
+          "label": "shrunk mean per treatment x metric",
+          "mae": 55.92635009917028,
+          "per_paper_mae": {
+            "abioye2014": 68.11,
+            "abulude2006": 34.78,
+            "akubor2017": 61.73,
+            "gandhi2022": 46.2,
+            "ijarotimi2022": 47.64,
+            "mubaiwa2018": 54.7,
+            "sharma2019": 82.68,
+            "sobowale2025": 33.09
+          },
+          "per_paper_mae_range": [
+            33.090566744841965,
+            82.68157346615206
+          ],
+          "papers_better_than_b0": 1,
+          "passes": false,
+          "reason": "MAE 55.93 not <= 90% of B0 46.44; better than B0 on only 1 of 8 papers"
+        },
+        "C4": {
+          "label": "direction and size bin",
+          "mae": 66.52254594052516,
+          "per_paper_mae": {
+            "abioye2014": 91.67,
+            "abulude2006": 62.07,
+            "akubor2017": 56.6,
+            "gandhi2022": 26.85,
+            "ijarotimi2022": 104.47,
+            "mubaiwa2018": 24.86,
+            "sharma2019": 94.22,
+            "sobowale2025": 66.9
+          },
+          "per_paper_mae_range": [
+            24.860338273537447,
+            104.47146894134846
+          ],
+          "papers_better_than_b0": 2,
+          "bin_accuracy": 0.24,
+          "direction_accuracy": 0.48,
+          "passes": false,
+          "reason": "MAE 66.52 not <= 90% of B0 46.44; better than B0 on only 2 of 8 papers"
+        },
+        "C5": {
+          "label": "linear in time, temp, crop group (in range only)",
+          "mae": 47.03940721370226,
+          "per_paper_mae": {
+            "abioye2014": 59.62,
+            "abulude2006": 37.39,
+            "akubor2017": 47.67,
+            "gandhi2022": 33.81,
+            "ijarotimi2022": 63.61,
+            "mubaiwa2018": 24.83,
+            "sharma2019": 70.74,
+            "sobowale2025": 34.34
+          },
+          "per_paper_mae_range": [
+            24.82887378812583,
+            70.7364590668297
+          ],
+          "papers_better_than_b0": 4,
+          "share_predicted_by_linear_part": 0.0,
+          "passes": false,
+          "reason": "MAE 47.04 not <= 90% of B0 46.44; better than B0 on only 4 of 8 papers"
+        },
+        "R": {
+          "label": "ridge (crop, treatment, time^2, baseline type)",
+          "mae": 54.04135390740548,
+          "per_paper_mae": {
+            "abioye2014": 113.12,
+            "abulude2006": 17.78,
+            "akubor2017": 38.06,
+            "gandhi2022": 36.51,
+            "ijarotimi2022": 31.71,
+            "mubaiwa2018": 46.76,
+            "sharma2019": 82.09,
+            "sobowale2025": 34.48
+          },
+          "per_paper_mae_range": [
+            17.779355222666762,
+            113.11734962147608
+          ],
+          "papers_better_than_b0": 3,
+          "passes": false,
+          "reason": "MAE 54.04 not <= 90% of B0 46.44; better than B0 on only 3 of 8 papers"
+        }
+      },
+      "chosen": null
+    },
+    "foam_stability": {
+      "n_rows": 15,
+      "n_papers": 3,
+      "n_crops": 3,
+      "cv_run": true,
+      "candidates": {
+        "B0": {
+          "label": "no change",
+          "mae": 35.496847748780716,
+          "per_paper_mae": {
+            "akubor2017": 57.61,
+            "gandhi2022": 23.57,
+            "mubaiwa2018": 36.36
+          },
+          "per_paper_mae_range": [
+            23.572919830512035,
+            57.61051749423842
+          ],
+          "papers_better_than_b0": 0,
+          "bin_accuracy": 0.13333333333333333,
+          "passes": false,
+          "reason": "baseline"
+        },
+        "C1": {
+          "label": "mean per family x metric",
+          "mae": 31.466541399303015,
+          "per_paper_mae": {
+            "akubor2017": 40.64,
+            "gandhi2022": 22.02,
+            "mubaiwa2018": 36.32
+          },
+          "per_paper_mae_range": [
+            22.022665505193135,
+            40.64388258314174
+          ],
+          "papers_better_than_b0": 3,
+          "passes": false,
+          "reason": "15 rows < 30"
+        },
+        "C2": {
+          "label": "median per family x metric",
+          "mae": 31.466541399303015,
+          "per_paper_mae": {
+            "akubor2017": 40.64,
+            "gandhi2022": 22.02,
+            "mubaiwa2018": 36.32
+          },
+          "per_paper_mae_range": [
+            22.022665505193135,
+            40.64388258314174
+          ],
+          "papers_better_than_b0": 3,
+          "passes": false,
+          "reason": "15 rows < 30"
+        },
+        "C3": {
+          "label": "shrunk mean per treatment x metric",
+          "mae": 32.888080857071415,
+          "per_paper_mae": {
+            "akubor2017": 46.35,
+            "gandhi2022": 19.67,
+            "mubaiwa2018": 39.37
+          },
+          "per_paper_mae_range": [
+            19.67073404067828,
+            46.35044644569023
+          ],
+          "papers_better_than_b0": 2,
+          "passes": false,
+          "reason": "15 rows < 30; MAE 32.89 not <= 90% of B0 35.50"
+        },
+        "C4": {
+          "label": "direction and size bin",
+          "mae": 37.96427126298178,
+          "per_paper_mae": {
+            "akubor2017": 39.1,
+            "gandhi2022": 39.04,
+            "mubaiwa2018": 36.32
+          },
+          "per_paper_mae_range": [
+            36.32174670149354,
+            39.09883947661558
+          ],
+          "papers_better_than_b0": 2,
+          "bin_accuracy": 0.2,
+          "direction_accuracy": 0.4666666666666667,
+          "passes": false,
+          "reason": "15 rows < 30; MAE 37.96 not <= 90% of B0 35.50"
+        },
+        "C5": {
+          "label": "linear in time, temp, crop group (in range only)",
+          "mae": 31.466541399303015,
+          "per_paper_mae": {
+            "akubor2017": 40.64,
+            "gandhi2022": 22.02,
+            "mubaiwa2018": 36.32
+          },
+          "per_paper_mae_range": [
+            22.022665505193135,
+            40.64388258314174
+          ],
+          "papers_better_than_b0": 3,
+          "share_predicted_by_linear_part": 0.0,
+          "passes": false,
+          "reason": "15 rows < 30"
+        },
+        "R": {
+          "label": "ridge (crop, treatment, time^2, baseline type)",
+          "mae": 33.806928798278925,
+          "per_paper_mae": {
+            "akubor2017": 40.5,
+            "gandhi2022": 21.42,
+            "mubaiwa2018": 42.85
+          },
+          "per_paper_mae_range": [
+            21.416070922497813,
+            42.85288391701177
+          ],
+          "papers_better_than_b0": 2,
+          "passes": false,
+          "reason": "15 rows < 30; MAE 33.81 not <= 90% of B0 35.50"
+        }
+      },
+      "chosen": null
+    },
+    "least_gelation": {
+      "n_rows": 13,
+      "n_papers": 3,
+      "n_crops": 3,
+      "cv_run": true,
+      "candidates": {
+        "B0": {
+          "label": "no change",
+          "mae": 16.602564102564102,
+          "per_paper_mae": {
+            "abulude2006": 6.67,
+            "akubor2017": 25.0,
+            "mubaiwa2018": 15.97
+          },
+          "per_paper_mae_range": [
+            6.666666666666667,
+            25.0
+          ],
+          "papers_better_than_b0": 0,
+          "bin_accuracy": 0.5384615384615384,
+          "passes": false,
+          "reason": "baseline"
+        },
+        "C1": {
+          "label": "mean per family x metric",
+          "mae": 23.01282051282051,
+          "per_paper_mae": {
+            "abulude2006": 25.56,
+            "akubor2017": 31.67,
+            "mubaiwa2018": 15.97
+          },
+          "per_paper_mae_range": [
+            15.972222222222221,
+            31.666666666666664
+          ],
+          "papers_better_than_b0": 0,
+          "passes": false,
+          "reason": "13 rows < 30; MAE 23.01 not <= 90% of B0 16.60; better than B0 on only 0 of 3 papers"
+        },
+        "C2": {
+          "label": "median per family x metric",
+          "mae": 21.987179487179485,
+          "per_paper_mae": {
+            "abulude2006": 23.33,
+            "akubor2017": 30.0,
+            "mubaiwa2018": 15.97
+          },
+          "per_paper_mae_range": [
+            15.972222222222221,
+            30.0
+          ],
+          "papers_better_than_b0": 0,
+          "passes": false,
+          "reason": "13 rows < 30; MAE 21.99 not <= 90% of B0 16.60; better than B0 on only 0 of 3 papers"
+        },
+        "C3": {
+          "label": "shrunk mean per treatment x metric",
+          "mae": 23.801774449095873,
+          "per_paper_mae": {
+            "abulude2006": 17.17,
+            "akubor2017": 29.5,
+            "mubaiwa2018": 23.32
+          },
+          "per_paper_mae_range": [
+            17.17013888888889,
+            29.499421296296298
+          ],
+          "papers_better_than_b0": 0,
+          "passes": false,
+          "reason": "13 rows < 30; MAE 23.80 not <= 90% of B0 16.60; better than B0 on only 0 of 3 papers"
+        },
+        "C4": {
+          "label": "direction and size bin",
+          "mae": 18.14102564102564,
+          "per_paper_mae": {
+            "abulude2006": 6.67,
+            "akubor2017": 30.0,
+            "mubaiwa2018": 15.97
+          },
+          "per_paper_mae_range": [
+            6.666666666666667,
+            30.0
+          ],
+          "papers_better_than_b0": 0,
+          "bin_accuracy": 0.46153846153846156,
+          "direction_accuracy": 0.46153846153846156,
+          "passes": false,
+          "reason": "13 rows < 30; MAE 18.14 not <= 90% of B0 16.60; better than B0 on only 0 of 3 papers"
+        },
+        "C5": {
+          "label": "linear in time, temp, crop group (in range only)",
+          "mae": 23.130220920140832,
+          "per_paper_mae": {
+            "abulude2006": 26.06,
+            "akubor2017": 31.67,
+            "mubaiwa2018": 15.97
+          },
+          "per_paper_mae_range": [
+            15.972222222222221,
+            31.666666666666664
+          ],
+          "papers_better_than_b0": 0,
+          "share_predicted_by_linear_part": 0.38461538461538464,
+          "passes": false,
+          "reason": "13 rows < 30; MAE 23.13 not <= 90% of B0 16.60; better than B0 on only 0 of 3 papers"
+        },
+        "R": {
+          "label": "ridge (crop, treatment, time^2, baseline type)",
+          "mae": 20.949967635800483,
+          "per_paper_mae": {
+            "abulude2006": 10.97,
+            "akubor2017": 27.42,
+            "mubaiwa2018": 21.63
+          },
+          "per_paper_mae_range": [
+            10.965303132396343,
+            27.41816691942913
+          ],
+          "papers_better_than_b0": 0,
+          "passes": false,
+          "reason": "13 rows < 30; MAE 20.95 not <= 90% of B0 16.60; better than B0 on only 0 of 3 papers"
+        }
+      },
+      "chosen": null
+    },
+    "oil_absorption": {
+      "n_rows": 57,
+      "n_papers": 9,
+      "n_crops": 7,
+      "cv_run": true,
+      "candidates": {
+        "B0": {
+          "label": "no change",
+          "mae": 15.965252303893473,
+          "per_paper_mae": {
+            "abulude2006": 64.21,
+            "akubor2017": 38.64,
+            "gandhi2022": 2.63,
+            "ijarotimi2022": 6.85,
+            "kanetro2021": 2.35,
+            "makinde2020": 9.14,
+            "ojha2020": 27.17,
+            "sharma2019": 9.94,
+            "sobowale2025": 16.98
+          },
+          "per_paper_mae_range": [
+            2.34806629834254,
+            64.21052631578948
+          ],
+          "papers_better_than_b0": 0,
+          "bin_accuracy": 0.3333333333333333,
+          "passes": false,
+          "reason": "baseline"
+        },
+        "C1": {
+          "label": "mean per family x metric",
+          "mae": 16.28570457230825,
+          "per_paper_mae": {
+            "abulude2006": 58.51,
+            "akubor2017": 37.09,
+            "gandhi2022": 6.28,
+            "ijarotimi2022": 23.57,
+            "kanetro2021": 4.95,
+            "makinde2020": 18.24,
+            "ojha2020": 25.82,
+            "sharma2019": 5.02,
+            "sobowale2025": 13.92
+          },
+          "per_paper_mae_range": [
+            4.946423082970668,
+            58.511129697992224
+          ],
+          "papers_better_than_b0": 5,
+          "passes": false,
+          "reason": "MAE 16.29 not <= 90% of B0 15.97"
+        },
+        "C2": {
+          "label": "median per family x metric",
+          "mae": 15.863524684246064,
+          "per_paper_mae": {
+            "abulude2006": 63.49,
+            "akubor2017": 41.72,
+            "gandhi2022": 4.08,
+            "ijarotimi2022": 19.06,
+            "kanetro2021": 4.96,
+            "makinde2020": 16.97,
+            "ojha2020": 24.46,
+            "sharma2019": 4.59,
+            "sobowale2025": 12.85
+          },
+          "per_paper_mae_range": [
+            4.08219838376511,
+            63.486906459632586
+          ],
+          "papers_better_than_b0": 4,
+          "passes": false,
+          "reason": "MAE 15.86 not <= 90% of B0 15.97; better than B0 on only 4 of 9 papers"
+        },
+        "C3": {
+          "label": "shrunk mean per treatment x metric",
+          "mae": 17.19425940336729,
+          "per_paper_mae": {
+            "abulude2006": 62.61,
+            "akubor2017": 41.24,
+            "gandhi2022": 2.12,
+            "ijarotimi2022": 13.71,
+            "kanetro2021": 1.95,
+            "makinde2020": 11.0,
+            "ojha2020": 24.19,
+            "sharma2019": 13.89,
+            "sobowale2025": 16.92
+          },
+          "per_paper_mae_range": [
+            1.9455540744315676,
+            62.60657009590171
+          ],
+          "papers_better_than_b0": 5,
+          "passes": false,
+          "reason": "MAE 17.19 not <= 90% of B0 15.97"
+        },
+        "C4": {
+          "label": "direction and size bin",
+          "mae": 18.093128546392744,
+          "per_paper_mae": {
+            "abulude2006": 66.05,
+            "akubor2017": 37.61,
+            "gandhi2022": 11.37,
+            "ijarotimi2022": 11.61,
+            "kanetro2021": 6.19,
+            "makinde2020": 32.57,
+            "ojha2020": 22.38,
+            "sharma2019": 4.64,
+            "sobowale2025": 10.3
+          },
+          "per_paper_mae_range": [
+            4.637850284468793,
+            66.04902635494666
+          ],
+          "papers_better_than_b0": 4,
+          "bin_accuracy": 0.40350877192982454,
+          "direction_accuracy": 0.5614035087719298,
+          "passes": false,
+          "reason": "MAE 18.09 not <= 90% of B0 15.97; better than B0 on only 4 of 9 papers"
+        },
+        "C5": {
+          "label": "linear in time, temp, crop group (in range only)",
+          "mae": 16.28394997615213,
+          "per_paper_mae": {
+            "abulude2006": 58.51,
+            "akubor2017": 37.09,
+            "gandhi2022": 6.28,
+            "ijarotimi2022": 23.57,
+            "kanetro2021": 4.95,
+            "makinde2020": 18.24,
+            "ojha2020": 25.79,
+            "sharma2019": 5.02,
+            "sobowale2025": 13.92
+          },
+          "per_paper_mae_range": [
+            4.946423082970668,
+            58.511129697992224
+          ],
+          "papers_better_than_b0": 5,
+          "share_predicted_by_linear_part": 0.017543859649122806,
+          "passes": false,
+          "reason": "MAE 16.28 not <= 90% of B0 15.97"
+        },
+        "R": {
+          "label": "ridge (crop, treatment, time^2, baseline type)",
+          "mae": 17.277416034377143,
+          "per_paper_mae": {
+            "abulude2006": 65.74,
+            "akubor2017": 47.07,
+            "gandhi2022": 2.75,
+            "ijarotimi2022": 11.46,
+            "kanetro2021": 2.38,
+            "makinde2020": 7.52,
+            "ojha2020": 23.69,
+            "sharma2019": 10.73,
+            "sobowale2025": 20.7
+          },
+          "per_paper_mae_range": [
+            2.382016888402907,
+            65.74424576198008
+          ],
+          "papers_better_than_b0": 2,
+          "passes": false,
+          "reason": "MAE 17.28 not <= 90% of B0 15.97; better than B0 on only 2 of 9 papers"
+        }
+      },
+      "chosen": null
+    },
+    "oxalate": {
+      "n_rows": 41,
+      "n_papers": 8,
+      "n_crops": 6,
+      "cv_run": true,
+      "candidates": {
+        "B0": {
+          "label": "no change",
+          "mae": 48.336650184543174,
+          "per_paper_mae": {
+            "abiodun2011": 42.03,
+            "abioye2014": 28.09,
+            "chude2018": 70.27,
+            "ijarotimi2022": 59.4,
+            "kewuyemi2024": 38.76,
+            "makinde2020": 32.43,
+            "pokharel2024": 49.56,
+            "sobowale2025": 65.7
+          },
+          "per_paper_mae_range": [
+            28.094523630907727,
+            70.27027027027027
+          ],
+          "papers_better_than_b0": 0,
+          "bin_accuracy": 0.024390243902439025,
+          "passes": false,
+          "reason": "baseline"
+        },
+        "C1": {
+          "label": "mean per family x metric",
+          "mae": 40.552181027138225,
+          "per_paper_mae": {
+            "abiodun2011": 22.59,
+            "abioye2014": 32.71,
+            "chude2018": 73.8,
+            "ijarotimi2022": 36.85,
+            "kewuyemi2024": 42.29,
+            "makinde2020": 20.96,
+            "pokharel2024": 25.65,
+            "sobowale2025": 69.84
+          },
+          "per_paper_mae_range": [
+            20.95909437688443,
+            73.79507372640892
+          ],
+          "papers_better_than_b0": 4,
+          "passes": false,
+          "reason": "better than B0 on only 4 of 8 papers"
+        },
+        "C2": {
+          "label": "median per family x metric",
+          "mae": 38.23100496612785,
+          "per_paper_mae": {
+            "abiodun2011": 22.59,
+            "abioye2014": 21.87,
+            "chude2018": 43.98,
+            "ijarotimi2022": 20.67,
+            "kewuyemi2024": 12.47,
+            "makinde2020": 22.29,
+            "pokharel2024": 25.76,
+            "sobowale2025": 74.61
+          },
+          "per_paper_mae_range": [
+            12.46877559445507,
+            74.60894122069547
+          ],
+          "papers_better_than_b0": 7,
+          "passes": true,
+          "reason": "passes the ship rule"
+        },
+        "C3": {
+          "label": "shrunk mean per treatment x metric",
+          "mae": 36.154246054782575,
+          "per_paper_mae": {
+            "abiodun2011": 24.56,
+            "abioye2014": 21.87,
+            "chude2018": 51.98,
+            "ijarotimi2022": 29.97,
+            "kewuyemi2024": 30.32,
+            "makinde2020": 8.67,
+            "pokharel2024": 30.24,
+            "sobowale2025": 69.06
+          },
+          "per_paper_mae_range": [
+            8.671833705103897,
+            69.05584963111902
+          ],
+          "papers_better_than_b0": 7,
+          "passes": true,
+          "reason": "passes the ship rule"
+        },
+        "C4": {
+          "label": "direction and size bin",
+          "mae": 37.1718380537818,
+          "per_paper_mae": {
+            "abiodun2011": 22.59,
+            "abioye2014": 25.17,
+            "chude2018": 28.49,
+            "ijarotimi2022": 7.89,
+            "kewuyemi2024": 11.38,
+            "makinde2020": 22.29,
+            "pokharel2024": 25.62,
+            "sobowale2025": 73.58
+          },
+          "per_paper_mae_range": [
+            7.892920227826895,
+            73.58448397856539
+          ],
+          "papers_better_than_b0": 7,
+          "bin_accuracy": 0.21951219512195122,
+          "direction_accuracy": 0.8292682926829268,
+          "passes": true,
+          "reason": "passes the ship rule"
+        },
+        "C5": {
+          "label": "linear in time, temp, crop group (in range only)",
+          "mae": 41.39121847155751,
+          "per_paper_mae": {
+            "abiodun2011": 22.59,
+            "abioye2014": 32.71,
+            "chude2018": 68.83,
+            "ijarotimi2022": 36.85,
+            "kewuyemi2024": 42.29,
+            "makinde2020": 20.96,
+            "pokharel2024": 26.31,
+            "sobowale2025": 72.68
+          },
+          "per_paper_mae_range": [
+            20.95909437688443,
+            72.68314899411341
+          ],
+          "papers_better_than_b0": 5,
+          "share_predicted_by_linear_part": 0.36585365853658536,
+          "passes": true,
+          "reason": "passes the ship rule"
+        },
+        "R": {
+          "label": "ridge (crop, treatment, time^2, baseline type)",
+          "mae": 33.79037438525358,
+          "per_paper_mae": {
+            "abiodun2011": 25.34,
+            "abioye2014": 14.55,
+            "chude2018": 32.08,
+            "ijarotimi2022": 47.49,
+            "kewuyemi2024": 5.47,
+            "makinde2020": 9.17,
+            "pokharel2024": 22.93,
+            "sobowale2025": 70.6
+          },
+          "per_paper_mae_range": [
+            5.472336059523849,
+            70.59904685050081
+          ],
+          "papers_better_than_b0": 7,
+          "passes": true,
+          "reason": "passes the ship rule"
+        }
+      },
+      "chosen": "R",
+      "crop_provenance": {
+        "trained_on_crops": [
+          "african_yam_bean",
+          "bambara",
+          "cowpea",
+          "groundnut",
+          "mungbean",
+          "pigeon_pea"
+        ],
+        "trained_on_crops_not_in_ingredient_table": [
+          "mungbean"
+        ],
+        "trained_on_rows_from_other_crops": 8,
+        "ships_only_with_different_crop_rows": false,
+        "display_label": "predicted, pooled from listed crops"
+      }
+    },
+    "phytate": {
+      "n_rows": 43,
+      "n_papers": 8,
+      "n_crops": 9,
+      "cv_run": true,
+      "candidates": {
+        "B0": {
+          "label": "no change",
+          "mae": 30.136000812382807,
+          "per_paper_mae": {
+            "abiodun2011": 60.43,
+            "abioye2014": 21.24,
+            "chude2018": 30.41,
+            "ijarotimi2022": 20.47,
+            "makinde2020": 29.38,
+            "nagessa2023": 28.53,
+            "pokharel2024": 31.9,
+            "rizvi2024": 26.75
+          },
+          "per_paper_mae_range": [
+            20.47461368653422,
+            60.43092480837148
+          ],
+          "papers_better_than_b0": 0,
+          "bin_accuracy": 0.046511627906976744,
+          "passes": false,
+          "reason": "baseline"
+        },
+        "C1": {
+          "label": "mean per family x metric",
+          "mae": 13.990810404008524,
+          "per_paper_mae": {
+            "abiodun2011": 41.92,
+            "abioye2014": 11.38,
+            "chude2018": 0.15,
+            "ijarotimi2022": 19.0,
+            "makinde2020": 11.06,
+            "nagessa2023": 5.93,
+            "pokharel2024": 6.61,
+            "rizvi2024": 20.41
+          },
+          "per_paper_mae_range": [
+            0.1460506001509998,
+            41.924706644056336
+          ],
+          "papers_better_than_b0": 8,
+          "passes": true,
+          "reason": "passes the ship rule"
+        },
+        "C2": {
+          "label": "median per family x metric",
+          "mae": 13.47346328792217,
+          "per_paper_mae": {
+            "abiodun2011": 42.63,
+            "abioye2014": 13.62,
+            "chude2018": 4.34,
+            "ijarotimi2022": 19.64,
+            "makinde2020": 11.06,
+            "nagessa2023": 3.97,
+            "pokharel2024": 6.27,
+            "rizvi2024": 17.98
+          },
+          "per_paper_mae_range": [
+            3.968102073365234,
+            42.63188174617053
+          ],
+          "papers_better_than_b0": 8,
+          "passes": true,
+          "reason": "passes the ship rule"
+        },
+        "C3": {
+          "label": "shrunk mean per treatment x metric",
+          "mae": 11.397229901251864,
+          "per_paper_mae": {
+            "abiodun2011": 32.15,
+            "abioye2014": 11.25,
+            "chude2018": 2.13,
+            "ijarotimi2022": 17.75,
+            "makinde2020": 11.23,
+            "nagessa2023": 4.62,
+            "pokharel2024": 5.4,
+            "rizvi2024": 13.91
+          },
+          "per_paper_mae_range": [
+            2.1254108999570285,
+            32.14787398673547
+          ],
+          "papers_better_than_b0": 8,
+          "passes": true,
+          "reason": "passes the ship rule"
+        },
+        "C4": {
+          "label": "direction and size bin",
+          "mae": 17.12286712925768,
+          "per_paper_mae": {
+            "abiodun2011": 47.74,
+            "abioye2014": 13.72,
+            "chude2018": 4.54,
+            "ijarotimi2022": 20.31,
+            "makinde2020": 11.06,
+            "nagessa2023": 14.8,
+            "pokharel2024": 7.71,
+            "rizvi2024": 24.3
+          },
+          "per_paper_mae_range": [
+            4.5389066994595915,
+            47.735337993062494
+          ],
+          "papers_better_than_b0": 8,
+          "bin_accuracy": 0.5348837209302325,
+          "direction_accuracy": 0.9302325581395349,
+          "passes": true,
+          "reason": "passes the ship rule"
+        },
+        "C5": {
+          "label": "linear in time, temp, crop group (in range only)",
+          "mae": 14.376050127996184,
+          "per_paper_mae": {
+            "abiodun2011": 41.92,
+            "abioye2014": 11.38,
+            "chude2018": 20.21,
+            "ijarotimi2022": 18.74,
+            "makinde2020": 11.06,
+            "nagessa2023": 5.81,
+            "pokharel2024": 6.88,
+            "rizvi2024": 19.97
+          },
+          "per_paper_mae_range": [
+            5.81025579319839,
+            41.924706644056336
+          ],
+          "papers_better_than_b0": 8,
+          "share_predicted_by_linear_part": 0.20930232558139536,
+          "passes": true,
+          "reason": "passes the ship rule"
+        },
+        "R": {
+          "label": "ridge (crop, treatment, time^2, baseline type)",
+          "mae": 13.568546945159635,
+          "per_paper_mae": {
+            "abiodun2011": 34.24,
+            "abioye2014": 12.65,
+            "chude2018": 10.04,
+            "ijarotimi2022": 21.34,
+            "makinde2020": 12.28,
+            "nagessa2023": 5.61,
+            "pokharel2024": 11.9,
+            "rizvi2024": 13.79
+          },
+          "per_paper_mae_range": [
+            5.612096676961353,
+            34.242355892203726
+          ],
+          "papers_better_than_b0": 7,
+          "passes": true,
+          "reason": "passes the ship rule"
+        }
+      },
+      "chosen": "C3",
+      "crop_provenance": {
+        "trained_on_crops": [
+          "adzuki_bean",
+          "african_yam_bean",
+          "bambara",
+          "black_bean",
+          "cowpea",
+          "groundnut",
+          "lima_bean",
+          "mungbean",
+          "pigeon_pea"
+        ],
+        "trained_on_crops_not_in_ingredient_table": [
+          "adzuki_bean",
+          "black_bean",
+          "lima_bean",
+          "mungbean"
+        ],
+        "trained_on_rows_from_other_crops": 24,
+        "ships_only_with_different_crop_rows": true,
+        "display_label": "estimated from other legumes"
+      }
+    },
+    "protein": {
+      "n_rows": 8,
+      "n_papers": 3,
+      "n_crops": 4,
+      "cv_run": true,
+      "candidates": {
+        "B0": {
+          "label": "no change",
+          "mae": 8.029830803518475,
+          "per_paper_mae": {
+            "abiodun2011": 17.15,
+            "abioye2014": 1.88,
+            "chude2018": 5.29
+          },
+          "per_paper_mae_range": [
+            1.8779342723004668,
+            17.14614926682813
+          ],
+          "papers_better_than_b0": 0,
+          "bin_accuracy": 0.5,
+          "passes": false,
+          "reason": "baseline"
+        },
+        "C1": {
+          "label": "mean per family x metric",
+          "mae": 9.29495359152859,
+          "per_paper_mae": {
+            "abiodun2011": 17.15,
+            "abioye2014": 4.58,
+            "chude2018": 4.58
+          },
+          "per_paper_mae_range": [
+            4.584236186348864,
+            17.14614926682813
+          ],
+          "papers_better_than_b0": 1,
+          "passes": false,
+          "reason": "8 rows < 30; MAE 9.29 not <= 90% of B0 8.03; better than B0 on only 1 of 3 papers"
+        },
+        "C2": {
+          "label": "median per family x metric",
+          "mae": 9.382981760542673,
+          "per_paper_mae": {
+            "abiodun2011": 17.15,
+            "abioye2014": 4.58,
+            "chude2018": 5.29
+          },
+          "per_paper_mae_range": [
+            4.584236186348864,
+            17.14614926682813
+          ],
+          "papers_better_than_b0": 1,
+          "passes": false,
+          "reason": "8 rows < 30; MAE 9.38 not <= 90% of B0 8.03; better than B0 on only 1 of 3 papers"
+        },
+        "C3": {
+          "label": "shrunk mean per treatment x metric",
+          "mae": 12.86844257463446,
+          "per_paper_mae": {
+            "abiodun2011": 15.53,
+            "abioye2014": 13.48,
+            "chude2018": 2.46
+          },
+          "per_paper_mae_range": [
+            2.4623026342434713,
+            15.525076677445675
+          ],
+          "papers_better_than_b0": 2,
+          "passes": false,
+          "reason": "8 rows < 30; MAE 12.87 not <= 90% of B0 8.03"
+        },
+        "C4": {
+          "label": "direction and size bin",
+          "mae": 9.382981760542673,
+          "per_paper_mae": {
+            "abiodun2011": 17.15,
+            "abioye2014": 4.58,
+            "chude2018": 5.29
+          },
+          "per_paper_mae_range": [
+            4.584236186348864,
+            17.14614926682813
+          ],
+          "papers_better_than_b0": 1,
+          "bin_accuracy": 0.0,
+          "direction_accuracy": 0.0,
+          "passes": false,
+          "reason": "8 rows < 30; MAE 9.38 not <= 90% of B0 8.03; better than B0 on only 1 of 3 papers"
+        },
+        "C5": {
+          "label": "linear in time, temp, crop group (in range only)",
+          "mae": 9.29495359152859,
+          "per_paper_mae": {
+            "abiodun2011": 17.15,
+            "abioye2014": 4.58,
+            "chude2018": 4.58
+          },
+          "per_paper_mae_range": [
+            4.584236186348864,
+            17.14614926682813
+          ],
+          "papers_better_than_b0": 1,
+          "share_predicted_by_linear_part": 0.0,
+          "passes": false,
+          "reason": "8 rows < 30; MAE 9.29 not <= 90% of B0 8.03; better than B0 on only 1 of 3 papers"
+        },
+        "R": {
+          "label": "ridge (crop, treatment, time^2, baseline type)",
+          "mae": 13.523563622641827,
+          "per_paper_mae": {
+            "abiodun2011": 17.44,
+            "abioye2014": 13.35,
+            "chude2018": 2.46
+          },
+          "per_paper_mae_range": [
+            2.458214376330055,
+            17.43978763017938
+          ],
+          "papers_better_than_b0": 1,
+          "passes": false,
+          "reason": "8 rows < 30; MAE 13.52 not <= 90% of B0 8.03; better than B0 on only 1 of 3 papers"
+        }
+      },
+      "chosen": null
+    },
+    "swelling_power": {
+      "n_rows": 40,
+      "n_papers": 4,
+      "n_crops": 3,
+      "cv_run": true,
+      "candidates": {
+        "B0": {
+          "label": "no change",
+          "mae": 18.36756351754313,
+          "per_paper_mae": {
+            "gandhi2022": 30.51,
+            "makinde2020": 27.27,
+            "sharma2019": 12.42,
+            "sobowale2025": 12.06
+          },
+          "per_paper_mae_range": [
+            12.057937573426488,
+            30.510400168936755
+          ],
+          "papers_better_than_b0": 0,
+          "bin_accuracy": 0.1,
+          "passes": false,
+          "reason": "baseline"
+        },
+        "C1": {
+          "label": "mean per family x metric",
+          "mae": 27.783199386895923,
+          "per_paper_mae": {
+            "gandhi2022": 36.98,
+            "makinde2020": 73.62,
+            "sharma2019": 8.32,
+            "sobowale2025": 9.9
+          },
+          "per_paper_mae_range": [
+            8.320148465236027,
+            73.6181008365903
+          ],
+          "papers_better_than_b0": 2,
+          "passes": false,
+          "reason": "MAE 27.78 not <= 90% of B0 18.37; better than B0 on only 2 of 4 papers"
+        },
+        "C2": {
+          "label": "median per family x metric",
+          "mae": 27.348695083322934,
+          "per_paper_mae": {
+            "gandhi2022": 36.65,
+            "makinde2020": 73.62,
+            "sharma2019": 7.29,
+            "sobowale2025": 9.73
+          },
+          "per_paper_mae_range": [
+            7.289446893458352,
+            73.6181008365903
+          ],
+          "papers_better_than_b0": 2,
+          "passes": false,
+          "reason": "MAE 27.35 not <= 90% of B0 18.37; better than B0 on only 2 of 4 papers"
+        },
+        "C3": {
+          "label": "shrunk mean per treatment x metric",
+          "mae": 17.86295565312384,
+          "per_paper_mae": {
+            "gandhi2022": 39.09,
+            "makinde2020": 30.98,
+            "sharma2019": 6.87,
+            "sobowale2025": 9.32
+          },
+          "per_paper_mae_range": [
+            6.868737552501546,
+            39.093260623757175
+          ],
+          "papers_better_than_b0": 2,
+          "passes": false,
+          "reason": "MAE 17.86 not <= 90% of B0 18.37; better than B0 on only 2 of 4 papers"
+        },
+        "C4": {
+          "label": "direction and size bin",
+          "mae": 27.672880607503657,
+          "per_paper_mae": {
+            "gandhi2022": 39.43,
+            "makinde2020": 73.62,
+            "sharma2019": 7.0,
+            "sobowale2025": 9.73
+          },
+          "per_paper_mae_range": [
+            7.001405162968907,
+            73.6181008365903
+          ],
+          "papers_better_than_b0": 2,
+          "bin_accuracy": 0.45,
+          "direction_accuracy": 0.5,
+          "passes": false,
+          "reason": "MAE 27.67 not <= 90% of B0 18.37; better than B0 on only 2 of 4 papers"
+        },
+        "C5": {
+          "label": "linear in time, temp, crop group (in range only)",
+          "mae": 27.783199386895923,
+          "per_paper_mae": {
+            "gandhi2022": 36.98,
+            "makinde2020": 73.62,
+            "sharma2019": 8.32,
+            "sobowale2025": 9.9
+          },
+          "per_paper_mae_range": [
+            8.320148465236027,
+            73.6181008365903
+          ],
+          "papers_better_than_b0": 2,
+          "share_predicted_by_linear_part": 0.0,
+          "passes": false,
+          "reason": "MAE 27.78 not <= 90% of B0 18.37; better than B0 on only 2 of 4 papers"
+        },
+        "R": {
+          "label": "ridge (crop, treatment, time^2, baseline type)",
+          "mae": 26.53136748762423,
+          "per_paper_mae": {
+            "gandhi2022": 38.57,
+            "makinde2020": 68.15,
+            "sharma2019": 7.71,
+            "sobowale2025": 9.69
+          },
+          "per_paper_mae_range": [
+            7.709286384687942,
+            68.1516082922711
+          ],
+          "papers_better_than_b0": 2,
+          "passes": false,
+          "reason": "MAE 26.53 not <= 90% of B0 18.37; better than B0 on only 2 of 4 papers"
+        }
+      },
+      "chosen": null
+    },
+    "tannin": {
+      "n_rows": 44,
+      "n_papers": 9,
+      "n_crops": 9,
+      "cv_run": true,
+      "candidates": {
+        "B0": {
+          "label": "no change",
+          "mae": 46.32871021862214,
+          "per_paper_mae": {
+            "abiodun2011": 67.25,
+            "akubor2017": 62.05,
+            "chude2018": 55.93,
+            "ijarotimi2022": 31.46,
+            "kewuyemi2024": 29.97,
+            "makinde2020": 50.28,
+            "nagessa2023": 61.72,
+            "pokharel2024": 46.28,
+            "rizvi2024": 27.86
+          },
+          "per_paper_mae_range": [
+            27.864779874213838,
+            67.25441222175874
+          ],
+          "papers_better_than_b0": 0,
+          "bin_accuracy": 0.045454545454545456,
+          "passes": false,
+          "reason": "baseline"
+        },
+        "C1": {
+          "label": "mean per family x metric",
+          "mae": 20.083069816709834,
+          "per_paper_mae": {
+            "abiodun2011": 43.11,
+            "akubor2017": 20.1,
+            "chude2018": 10.32,
+            "ijarotimi2022": 18.57,
+            "kewuyemi2024": 15.87,
+            "makinde2020": 10.16,
+            "nagessa2023": 18.11,
+            "pokharel2024": 15.95,
+            "rizvi2024": 28.71
+          },
+          "per_paper_mae_range": [
+            10.164778240578919,
+            43.1057662073294
+          ],
+          "papers_better_than_b0": 8,
+          "passes": true,
+          "reason": "passes the ship rule"
+        },
+        "C2": {
+          "label": "median per family x metric",
+          "mae": 22.021699113009845,
+          "per_paper_mae": {
+            "abiodun2011": 51.83,
+            "akubor2017": 19.32,
+            "chude2018": 7.24,
+            "ijarotimi2022": 20.41,
+            "kewuyemi2024": 18.72,
+            "makinde2020": 10.16,
+            "nagessa2023": 20.93,
+            "pokharel2024": 18.02,
+            "rizvi2024": 30.88
+          },
+          "per_paper_mae_range": [
+            7.240614604783779,
+            51.833851474095205
+          ],
+          "papers_better_than_b0": 8,
+          "passes": true,
+          "reason": "passes the ship rule"
+        },
+        "C3": {
+          "label": "shrunk mean per treatment x metric",
+          "mae": 17.26354040732463,
+          "per_paper_mae": {
+            "abiodun2011": 23.15,
+            "akubor2017": 19.87,
+            "chude2018": 9.87,
+            "ijarotimi2022": 16.15,
+            "kewuyemi2024": 15.34,
+            "makinde2020": 9.67,
+            "nagessa2023": 19.5,
+            "pokharel2024": 11.65,
+            "rizvi2024": 26.05
+          },
+          "per_paper_mae_range": [
+            9.665807478817499,
+            26.048176614080337
+          ],
+          "papers_better_than_b0": 9,
+          "passes": true,
+          "reason": "passes the ship rule"
+        },
+        "C4": {
+          "label": "direction and size bin",
+          "mae": 22.262251365071634,
+          "per_paper_mae": {
+            "abiodun2011": 24.98,
+            "akubor2017": 24.08,
+            "chude2018": 4.34,
+            "ijarotimi2022": 19.98,
+            "kewuyemi2024": 29.37,
+            "makinde2020": 11.14,
+            "nagessa2023": 15.42,
+            "pokharel2024": 25.01,
+            "rizvi2024": 33.65
+          },
+          "per_paper_mae_range": [
+            4.337057616458807,
+            33.64675655151509
+          ],
+          "papers_better_than_b0": 8,
+          "bin_accuracy": 0.29545454545454547,
+          "direction_accuracy": 0.9318181818181818,
+          "passes": true,
+          "reason": "passes the ship rule"
+        },
+        "C5": {
+          "label": "linear in time, temp, crop group (in range only)",
+          "mae": 20.008581115813637,
+          "per_paper_mae": {
+            "abiodun2011": 43.11,
+            "akubor2017": 20.1,
+            "chude2018": 10.27,
+            "ijarotimi2022": 18.57,
+            "kewuyemi2024": 15.87,
+            "makinde2020": 10.16,
+            "nagessa2023": 17.61,
+            "pokharel2024": 15.89,
+            "rizvi2024": 28.73
+          },
+          "per_paper_mae_range": [
+            10.164778240578919,
+            43.1057662073294
+          ],
+          "papers_better_than_b0": 8,
+          "share_predicted_by_linear_part": 0.18181818181818182,
+          "passes": true,
+          "reason": "passes the ship rule"
+        },
+        "R": {
+          "label": "ridge (crop, treatment, time^2, baseline type)",
+          "mae": 16.649919838568685,
+          "per_paper_mae": {
+            "abiodun2011": 24.59,
+            "akubor2017": 12.12,
+            "chude2018": 9.3,
+            "ijarotimi2022": 15.12,
+            "kewuyemi2024": 15.48,
+            "makinde2020": 9.21,
+            "nagessa2023": 17.92,
+            "pokharel2024": 11.26,
+            "rizvi2024": 27.15
+          },
+          "per_paper_mae_range": [
+            9.209243400020599,
+            27.14515409353377
+          ],
+          "papers_better_than_b0": 9,
+          "passes": true,
+          "reason": "passes the ship rule"
+        }
+      },
+      "chosen": "R",
+      "crop_provenance": {
+        "trained_on_crops": [
+          "adzuki_bean",
+          "african_yam_bean",
+          "bambara",
+          "black_bean",
+          "cowpea",
+          "groundnut",
+          "lima_bean",
+          "mungbean",
+          "pigeon_pea"
+        ],
+        "trained_on_crops_not_in_ingredient_table": [
+          "adzuki_bean",
+          "black_bean",
+          "lima_bean",
+          "mungbean"
+        ],
+        "trained_on_rows_from_other_crops": 24,
+        "ships_only_with_different_crop_rows": true,
+        "display_label": "estimated from other legumes"
+      }
+    },
+    "trypsin_inhibitor": {
+      "n_rows": 24,
+      "n_papers": 6,
+      "n_crops": 7,
+      "cv_run": true,
+      "candidates": {
+        "B0": {
+          "label": "no change",
+          "mae": 54.79887580706915,
+          "per_paper_mae": {
+            "abiodun2011": 47.5,
+            "abioye2014": 72.73,
+            "akubor2017": 67.89,
+            "chude2018": 60.71,
+            "ijarotimi2022": 27.44,
+            "rizvi2024": 49.46
+          },
+          "per_paper_mae_range": [
+            27.44360902255639,
+            72.72727272727272
+          ],
+          "papers_better_than_b0": 0,
+          "bin_accuracy": 0.0,
+          "passes": false,
+          "reason": "baseline"
+        },
+        "C1": {
+          "label": "mean per family x metric",
+          "mae": 22.398390737455703,
+          "per_paper_mae": {
+            "abiodun2011": 20.8,
+            "abioye2014": 27.27,
+            "akubor2017": 27.62,
+            "chude2018": 10.14,
+            "ijarotimi2022": 46.87,
+            "rizvi2024": 15.17
+          },
+          "per_paper_mae_range": [
+            10.14299294387196,
+            46.87391919541135
+          ],
+          "papers_better_than_b0": 5,
+          "passes": false,
+          "reason": "24 rows < 30"
+        },
+        "C2": {
+          "label": "median per family x metric",
+          "mae": 22.77470953397199,
+          "per_paper_mae": {
+            "abiodun2011": 18.56,
+            "abioye2014": 27.27,
+            "akubor2017": 28.51,
+            "chude2018": 11.25,
+            "ijarotimi2022": 47.43,
+            "rizvi2024": 16.17
+          },
+          "per_paper_mae_range": [
+            11.247942482224559,
+            47.426393964587646
+          ],
+          "papers_better_than_b0": 5,
+          "passes": false,
+          "reason": "24 rows < 30"
+        },
+        "C3": {
+          "label": "shrunk mean per treatment x metric",
+          "mae": 21.987858083036723,
+          "per_paper_mae": {
+            "abiodun2011": 8.34,
+            "abioye2014": 28.25,
+            "akubor2017": 29.47,
+            "chude2018": 3.59,
+            "ijarotimi2022": 36.04,
+            "rizvi2024": 19.61
+          },
+          "per_paper_mae_range": [
+            3.5918325899875754,
+            36.044090724863366
+          ],
+          "papers_better_than_b0": 5,
+          "passes": false,
+          "reason": "24 rows < 30"
+        },
+        "C4": {
+          "label": "direction and size bin",
+          "mae": 23.409119737176706,
+          "per_paper_mae": {
+            "abiodun2011": 18.05,
+            "abioye2014": 27.27,
+            "akubor2017": 23.77,
+            "chude2018": 12.41,
+            "ijarotimi2022": 48.0,
+            "rizvi2024": 19.51
+          },
+          "per_paper_mae_range": [
+            12.405100207647962,
+            48.00497282729934
+          ],
+          "papers_better_than_b0": 5,
+          "bin_accuracy": 0.6666666666666666,
+          "direction_accuracy": 0.9583333333333334,
+          "passes": false,
+          "reason": "24 rows < 30"
+        },
+        "C5": {
+          "label": "linear in time, temp, crop group (in range only)",
+          "mae": 22.512697809675302,
+          "per_paper_mae": {
+            "abiodun2011": 20.8,
+            "abioye2014": 27.27,
+            "akubor2017": 27.62,
+            "chude2018": 6.04,
+            "ijarotimi2022": 50.3,
+            "rizvi2024": 15.17
+          },
+          "per_paper_mae_range": [
+            6.037858127309249,
+            50.29817147032786
+          ],
+          "papers_better_than_b0": 5,
+          "share_predicted_by_linear_part": 0.08333333333333333,
+          "passes": false,
+          "reason": "24 rows < 30"
+        },
+        "R": {
+          "label": "ridge (crop, treatment, time^2, baseline type)",
+          "mae": 19.66785033102297,
+          "per_paper_mae": {
+            "abiodun2011": 9.1,
+            "abioye2014": 28.07,
+            "akubor2017": 21.48,
+            "chude2018": 0.19,
+            "ijarotimi2022": 29.99,
+            "rizvi2024": 18.63
+          },
+          "per_paper_mae_range": [
+            0.1852564116892097,
+            29.993603080945203
+          ],
+          "papers_better_than_b0": 5,
+          "passes": false,
+          "reason": "24 rows < 30"
+        }
+      },
+      "chosen": null
+    },
+    "water_absorption": {
+      "n_rows": 64,
+      "n_papers": 11,
+      "n_crops": 8,
+      "cv_run": true,
+      "candidates": {
+        "B0": {
+          "label": "no change",
+          "mae": 19.13570165859832,
+          "per_paper_mae": {
+            "abiodun2011": 56.11,
+            "abioye2014": 5.72,
+            "abulude2006": 37.5,
+            "akubor2017": 24.38,
+            "gandhi2022": 28.4,
+            "ijarotimi2022": 10.74,
+            "kanetro2021": 24.38,
+            "makinde2020": 12.13,
+            "ojha2020": 17.95,
+            "sharma2019": 11.84,
+            "sobowale2025": 16.6
+          },
+          "per_paper_mae_range": [
+            5.722784359587116,
+            56.11111111111111
+          ],
+          "papers_better_than_b0": 0,
+          "bin_accuracy": 0.1875,
+          "passes": false,
+          "reason": "baseline"
+        },
+        "C1": {
+          "label": "mean per family x metric",
+          "mae": 22.702808981674348,
+          "per_paper_mae": {
+            "abiodun2011": 45.13,
+            "abioye2014": 7.39,
+            "abulude2006": 56.46,
+            "akubor2017": 28.11,
+            "gandhi2022": 22.73,
+            "ijarotimi2022": 2.93,
+            "kanetro2021": 17.53,
+            "makinde2020": 19.09,
+            "ojha2020": 20.93,
+            "sharma2019": 24.29,
+            "sobowale2025": 18.55
+          },
+          "per_paper_mae_range": [
+            2.9261633091353905,
+            56.456889298531024
+          ],
+          "papers_better_than_b0": 4,
+          "passes": false,
+          "reason": "MAE 22.70 not <= 90% of B0 19.14; better than B0 on only 4 of 11 papers"
+        },
+        "C2": {
+          "label": "median per family x metric",
+          "mae": 25.23718793136532,
+          "per_paper_mae": {
+            "abiodun2011": 51.84,
+            "abioye2014": 5.14,
+            "abulude2006": 56.51,
+            "akubor2017": 25.63,
+            "gandhi2022": 23.33,
+            "ijarotimi2022": 8.36,
+            "kanetro2021": 19.42,
+            "makinde2020": 23.08,
+            "ojha2020": 19.51,
+            "sharma2019": 26.88,
+            "sobowale2025": 24.79
+          },
+          "per_paper_mae_range": [
+            5.141883778686533,
+            56.50894630061296
+          ],
+          "papers_better_than_b0": 5,
+          "passes": false,
+          "reason": "MAE 25.24 not <= 90% of B0 19.14; better than B0 on only 5 of 11 papers"
+        },
+        "C3": {
+          "label": "shrunk mean per treatment x metric",
+          "mae": 19.34006956095393,
+          "per_paper_mae": {
+            "abiodun2011": 52.27,
+            "abioye2014": 3.2,
+            "abulude2006": 46.91,
+            "akubor2017": 31.21,
+            "gandhi2022": 24.34,
+            "ijarotimi2022": 2.64,
+            "kanetro2021": 23.63,
+            "makinde2020": 8.54,
+            "ojha2020": 13.57,
+            "sharma2019": 21.19,
+            "sobowale2025": 12.52
+          },
+          "per_paper_mae_range": [
+            2.637192132697763,
+            52.269358338573596
+          ],
+          "papers_better_than_b0": 8,
+          "passes": false,
+          "reason": "MAE 19.34 not <= 90% of B0 19.14"
+        },
+        "C4": {
+          "label": "direction and size bin",
+          "mae": 28.9511533174466,
+          "per_paper_mae": {
+            "abiodun2011": 53.69,
+            "abioye2014": 6.78,
+            "abulude2006": 44.72,
+            "akubor2017": 24.82,
+            "gandhi2022": 27.86,
+            "ijarotimi2022": 10.92,
+            "kanetro2021": 29.56,
+            "makinde2020": 17.35,
+            "ojha2020": 36.91,
+            "sharma2019": 37.25,
+            "sobowale2025": 28.0
+          },
+          "per_paper_mae_range": [
+            6.777215640412884,
+            53.68969605691121
+          ],
+          "papers_better_than_b0": 2,
+          "bin_accuracy": 0.109375,
+          "direction_accuracy": 0.265625,
+          "passes": false,
+          "reason": "MAE 28.95 not <= 90% of B0 19.14; better than B0 on only 2 of 11 papers"
+        },
+        "C5": {
+          "label": "linear in time, temp, crop group (in range only)",
+          "mae": 22.125078429363555,
+          "per_paper_mae": {
+            "abiodun2011": 45.13,
+            "abioye2014": 7.39,
+            "abulude2006": 56.46,
+            "akubor2017": 28.11,
+            "gandhi2022": 22.73,
+            "ijarotimi2022": 2.93,
+            "kanetro2021": 17.53,
+            "makinde2020": 14.98,
+            "ojha2020": 20.93,
+            "sharma2019": 24.29,
+            "sobowale2025": 18.55
+          },
+          "per_paper_mae_range": [
+            2.9261633091353905,
+            56.456889298531024
+          ],
+          "papers_better_than_b0": 4,
+          "share_predicted_by_linear_part": 0.046875,
+          "passes": false,
+          "reason": "MAE 22.13 not <= 90% of B0 19.14; better than B0 on only 4 of 11 papers"
+        },
+        "R": {
+          "label": "ridge (crop, treatment, time^2, baseline type)",
+          "mae": 22.54168520063228,
+          "per_paper_mae": {
+            "abiodun2011": 55.34,
+            "abioye2014": 8.23,
+            "abulude2006": 57.36,
+            "akubor2017": 35.58,
+            "gandhi2022": 23.11,
+            "ijarotimi2022": 6.78,
+            "kanetro2021": 22.81,
+            "makinde2020": 15.21,
+            "ojha2020": 13.69,
+            "sharma2019": 26.39,
+            "sobowale2025": 12.6
+          },
+          "per_paper_mae_range": [
+            6.783005658964109,
+            57.35592339024131
+          ],
+          "papers_better_than_b0": 6,
+          "passes": false,
+          "reason": "MAE 22.54 not <= 90% of B0 19.14"
+        }
+      },
+      "chosen": null
+    }
+  },
+  "candidates_antinutrient_family": {
+    "n_rows": 164,
+    "n_papers": 11,
+    "n_crops": 9,
+    "cv_run": true,
+    "candidates": {
+      "B0": {
+        "label": "no change",
+        "mae": 41.67504173020348,
+        "per_paper_mae": {
+          "abiodun2011": 46.65,
+          "abioye2014": 40.69,
+          "akubor2017": 65.39,
+          "chude2018": 54.65,
+          "ijarotimi2022": 34.7,
+          "kewuyemi2024": 34.37,
+          "makinde2020": 37.36,
+          "nagessa2023": 45.12,
+          "pokharel2024": 35.04,
+          "rizvi2024": 34.69,
+          "sobowale2025": 65.7
+        },
+        "per_paper_mae_range": [
+          34.367566487738294,
+          65.6993986577171
+        ],
+        "papers_better_than_b0": 0,
+        "bin_accuracy": 0.03048780487804878,
+        "passes": false,
+        "reason": "baseline"
+      },
+      "C1": {
+        "label": "mean per family x metric",
+        "mae": 24.522308529609035,
+        "per_paper_mae": {
+          "abiodun2011": 29.88,
+          "abioye2014": 21.24,
+          "akubor2017": 27.24,
+          "chude2018": 29.64,
+          "ijarotimi2022": 25.28,
+          "kewuyemi2024": 31.17,
+          "makinde2020": 15.8,
+          "nagessa2023": 15.13,
+          "pokharel2024": 15.23,
+          "rizvi2024": 21.78,
+          "sobowale2025": 75.33
+        },
+        "per_paper_mae_range": [
+          15.131755940728263,
+          75.32712765456263
+        ],
+        "papers_better_than_b0": 10,
+        "passes": true,
+        "reason": "passes the ship rule"
+      },
+      "C2": {
+        "label": "median per family x metric",
+        "mae": 25.001633490038895,
+        "per_paper_mae": {
+          "abiodun2011": 31.2,
+          "abioye2014": 22.26,
+          "akubor2017": 28.86,
+          "chude2018": 25.61,
+          "ijarotimi2022": 27.1,
+          "kewuyemi2024": 19.17,
+          "makinde2020": 16.25,
+          "nagessa2023": 18.04,
+          "pokharel2024": 15.8,
+          "rizvi2024": 21.74,
+          "sobowale2025": 77.39
+        },
+        "per_paper_mae_range": [
+          15.798179312381707,
+          77.39031957936588
+        ],
+        "papers_better_than_b0": 10,
+        "passes": true,
+        "reason": "passes the ship rule"
+      },
+      "C3": {
+        "label": "shrunk mean per treatment x metric",
+        "mae": 20.75195975134976,
+        "per_paper_mae": {
+          "abiodun2011": 18.95,
+          "abioye2014": 20.67,
+          "akubor2017": 25.8,
+          "chude2018": 25.88,
+          "ijarotimi2022": 21.61,
+          "kewuyemi2024": 26.27,
+          "makinde2020": 9.9,
+          "nagessa2023": 13.29,
+          "pokharel2024": 13.14,
+          "rizvi2024": 20.12,
+          "sobowale2025": 69.34
+        },
+        "per_paper_mae_range": [
+          9.903906560570885,
+          69.34094565741948
+        ],
+        "papers_better_than_b0": 10,
+        "passes": true,
+        "reason": "passes the ship rule"
+      },
+      "C4": {
+        "label": "direction and size bin",
+        "mae": 26.45226623963826,
+        "per_paper_mae": {
+          "abiodun2011": 30.72,
+          "abioye2014": 23.54,
+          "akubor2017": 26.55,
+          "chude2018": 24.84,
+          "ijarotimi2022": 27.24,
+          "kewuyemi2024": 20.39,
+          "makinde2020": 16.56,
+          "nagessa2023": 18.61,
+          "pokharel2024": 17.73,
+          "rizvi2024": 25.82,
+          "sobowale2025": 81.09
+        },
+        "per_paper_mae_range": [
+          16.558269175365037,
+          81.09463554566152
+        ],
+        "papers_better_than_b0": 10,
+        "bin_accuracy": 0.3780487804878049,
+        "direction_accuracy": 0.8658536585365854,
+        "passes": true,
+        "reason": "passes the ship rule"
+      },
+      "C5": {
+        "label": "linear in time, temp, crop group (in range only)",
+        "mae": 25.107504210616657,
+        "per_paper_mae": {
+          "abiodun2011": 29.88,
+          "abioye2014": 21.24,
+          "akubor2017": 27.24,
+          "chude2018": 33.76,
+          "ijarotimi2022": 27.09,
+          "kewuyemi2024": 31.17,
+          "makinde2020": 15.8,
+          "nagessa2023": 14.73,
+          "pokharel2024": 15.44,
+          "rizvi2024": 21.63,
+          "sobowale2025": 80.59
+        },
+        "per_paper_mae_range": [
+          14.727578267564331,
+          80.58661235050691
+        ],
+        "papers_better_than_b0": 10,
+        "share_predicted_by_linear_part": 0.18292682926829268,
+        "passes": true,
+        "reason": "passes the ship rule"
+      }
+    }
+  },
+  "ship_rule": ">= 30 rows, >= 3 papers, MAE <= 90% of B0 and better than B0 on more than half of the held-out papers; ridge must also beat B1; lowest-error passing candidate ships",
+  "pooled_antinutrients_exploratory": {
+    "n_rows": 164,
+    "n_papers": 11,
+    "n_crops": 9,
+    "rows_missing_time": 12,
+    "rows_missing_temp": 81,
+    "cv_run": true,
+    "mae_model": 22.256953969377864,
+    "mae_b0": 41.67504173020348,
+    "mae_b1": 27.700753881817523,
+    "r2_model": -0.0600049671943379,
+    "residual_sd": 35.63722621451058,
+    "n_test_in_training_range": 0,
+    "folds": [
+      {
+        "test_papers": [
+          "pokharel2024"
+        ],
+        "alpha": 10.0,
+        "n_test": 32,
+        "n_test_in_training_range": 0,
+        "mae_model": 16.03175276380719,
+        "mae_b0": 35.03933643527078,
+        "mae_b1": 22.197232643183305
+      },
+      {
+        "test_papers": [
+          "kewuyemi2024",
+          "rizvi2024"
+        ],
+        "alpha": 10.0,
+        "n_test": 34,
+        "n_test_in_training_range": 0,
+        "mae_model": 14.3676717151673,
+        "mae_b0": 34.65229326640609,
+        "mae_b1": 15.64135297554916
+      },
+      {
+        "test_papers": [
+          "akubor2017",
+          "makinde2020"
+        ],
+        "alpha": 100.0,
+        "n_test": 34,
+        "n_test_in_training_range": 0,
+        "mae_model": 18.373828471998536,
+        "mae_b0": 43.13404130692404,
+        "mae_b1": 18.96961310564323
+      },
+      {
+        "test_papers": [
+          "abiodun2011",
+          "chude2018",
+          "nagessa2023"
+        ],
+        "alpha": 100.0,
+        "n_test": 32,
+        "n_test_in_training_range": 0,
+        "mae_model": 21.21114073594738,
+        "mae_b0": 47.32820154210712,
+        "mae_b1": 40.53872785789659
+      },
+      {
+        "test_papers": [
+          "abioye2014",
+          "ijarotimi2022",
+          "sobowale2025"
+        ],
+        "alpha": 10.0,
+        "n_test": 32,
+        "n_test_in_training_range": 0,
+        "mae_model": 42.03615164444328,
+        "mae_b0": 48.569070405751674,
+        "mae_b1": 42.45625168196801
+      }
+    ],
+    "shipped": false,
+    "reason": "beats the better baseline in grouped cross-validation; not shipped: pooling needs human approval",
+    "exploratory": true,
+    "metrics_pooled": [
+      "oxalate",
+      "phytate",
+      "polyphenols",
+      "saponin",
+      "tannin",
+      "trypsin_inhibitor"
+    ],
+    "n_rows_including_needs_human": 186,
+    "n_papers_including_needs_human": 11
+  },
+  "shipped_metrics": [
+    "bulk_density",
+    "oxalate",
+    "phytate",
+    "tannin"
+  ],
+  "comparison_with_cumulative_rows": {
+    "rows": 660,
+    "chosen": {
+      "bulk_density": "R",
+      "emulsion_capacity": null,
+      "emulsion_stability": null,
+      "foam_capacity": null,
+      "foam_stability": null,
+      "least_gelation": null,
+      "oil_absorption": null,
+      "oxalate": "R",
+      "phytate": "C3",
+      "protein": null,
+      "swelling_power": null,
+      "tannin": "C3",
+      "trypsin_inhibitor": "C3",
+      "water_absorption": null
+    },
+    "mae_chosen": {
+      "bulk_density": 8.467869685783137,
+      "emulsion_capacity": null,
+      "emulsion_stability": null,
+      "foam_capacity": null,
+      "foam_stability": null,
+      "least_gelation": null,
+      "oil_absorption": null,
+      "oxalate": 31.899832637016118,
+      "phytate": 22.837737323885914,
+      "protein": null,
+      "swelling_power": null,
+      "tannin": 21.371093101689265,
+      "trypsin_inhibitor": 27.828741340753577,
+      "water_absorption": null
+    },
+    "mae_b0": {
+      "bulk_density": 11.3785059283811,
+      "emulsion_capacity": 9.5683956828922,
+      "emulsion_stability": 28.246589734358572,
+      "foam_capacity": 44.84596972459815,
+      "foam_stability": 35.496847748780716,
+      "least_gelation": 16.602564102564102,
+      "oil_absorption": 15.7910096414108,
+      "oxalate": 48.84241186506625,
+      "phytate": 43.73497800498524,
+      "protein": 8.029830803518475,
+      "swelling_power": 18.36756351754313,
+      "tannin": 54.97706093788985,
+      "trypsin_inhibitor": 54.09328630884121,
+      "water_absorption": 18.59770922597266
+    }
+  }
+}

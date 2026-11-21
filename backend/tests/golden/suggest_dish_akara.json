@@ -10,42 +10,19 @@
    "targetProteinG": 20
   }
  },
- "bundleVersion": "2026-11-21-cdefda79",
+ "bundleVersion": "2026-11-21-019dc6d3",
  "expected": {
-  "bundleVersion": "2026-11-21-cdefda79",
+  "bundleVersion": "2026-11-21-019dc6d3",
   "dishes": [
    {
     "alternatives": [
      {
-      "asSoldG": 390.2,
+      "asSoldG": 200,
       "costNgn": null,
       "costPerGProtein": null,
+      "costPerPersonNgn": null,
       "drivers": [],
-      "fit": 0.8391,
-      "fitRange": [
-       0.7035,
-       0.9746
-      ],
-      "flags": [
-       "no data: foam_stability",
-       "no data: oil_absorption",
-       "price needed"
-      ],
-      "ingredientId": "african_yam_bean",
-      "quality": {
-       "composition": "estimated",
-       "functional": "calculated+measured",
-       "price": "missing",
-       "weights": "estimated"
-      },
-      "score": null
-     },
-     {
-      "asSoldG": 384.6,
-      "costNgn": null,
-      "costPerGProtein": null,
-      "drivers": [],
-      "fit": 0.3517,
+      "fit": 0.4228,
       "fitRange": [
        0.0,
        0.9597
@@ -54,6 +31,9 @@
        "price needed"
       ],
       "ingredientId": "pigeon_pea",
+      "priceSource": null,
+      "proteinPerPlateG": 10.4,
+      "proteinTotalG": 41.6,
       "quality": {
        "composition": "estimated",
        "functional": "calculated+measured",
@@ -63,19 +43,23 @@
       "score": null
      },
      {
-      "asSoldG": 410.3,
+      "asSoldG": 200,
       "costNgn": null,
       "costPerGProtein": null,
+      "costPerPersonNgn": null,
       "drivers": [],
       "fit": 0.35,
       "fitRange": [
        0.2938,
-       0.435
+       0.48
       ],
       "flags": [
        "price needed"
       ],
       "ingredientId": "bambara",
+      "priceSource": null,
+      "proteinPerPlateG": 9.8,
+      "proteinTotalG": 39.0,
       "quality": {
        "composition": "measured",
        "functional": "calculated+measured",
@@ -85,46 +69,76 @@
       "score": null
      }
     ],
+    "costLabel": "protein ingredient only, no oil or spices",
     "dishId": "akara",
+    "dryGPerServing": 50,
     "flags": [
-     "price needed: african_yam_bean, pigeon_pea, bambara",
+     "not enough data: african_yam_bean",
+     "price needed: pigeon_pea, bambara",
      "cost excludes oil and spices"
     ],
     "missingItems": [
      {
-      "costNgn": 872.91,
+      "costNgn": 267.79,
       "id": "cowpea"
+     },
+     {
+      "costNgn": 233.86,
+      "id": "maize_white"
+     },
+     {
+      "costNgn": 222.23,
+      "id": "tomato"
      }
     ],
     "name": "Akara",
+    "notEnoughData": [
+     {
+      "id": "african_yam_bean",
+      "missingNeeds": [
+       "foam_stability",
+       "oil_absorption"
+      ]
+     }
+    ],
     "playbookIds": [
      "pb_cowpea_akara_route",
      "pb_cowpea_soak_dehull",
      "pb_bambara_roast_caution",
      "pb_pigeon_pea_germinate"
     ],
+    "portionQuality": "estimated",
     "protein": {
-     "asSoldG": 354.0,
-     "costNgn": 872.91,
-     "costPerGProtein": 10.9113,
+     "asSoldG": 200,
+     "costNgn": 267.79,
+     "costPerGProtein": 5.9245,
+     "costPerPersonNgn": 66.95,
      "drivers": [],
-     "fit": 0.5292,
+     "fit": 0.6584,
      "fitRange": [
-      0.0676,
+      0.1071,
       0.7149
      ],
      "flags": [],
      "ingredientId": "cowpea",
+     "priceSource": "bundled",
+     "proteinPerPlateG": 11.3,
+     "proteinTotalG": 45.2,
      "quality": {
       "composition": "measured",
       "functional": "calculated+measured",
-      "price": "published (2025-02)",
+      "price": "published (2026-04)",
       "weights": "estimated"
      },
-     "score": 0.5146
+     "score": 0.5792
     },
-    "proteinPerPlateG": 20,
-    "totalCostNgn": 872.91
+    "proteinCostNgn": 267.79,
+    "proteinCostPerPersonNgn": 66.95,
+    "proteinPerPlateG": 11.3,
+    "proteinTotalG": 45.2,
+    "summaryLine": "Ranked on foaming and water holding, key for light batter.",
+    "totalCostNgn": 723.88,
+    "totalCostPerPersonNgn": 180.98
    }
   ],
   "excluded": []

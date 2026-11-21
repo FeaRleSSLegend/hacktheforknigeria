@@ -20,6 +20,7 @@ from reference.processing import recommend_processing  # noqa: E402
 from reference.rank import rank_ingredients  # noqa: E402
 from reference.safety import safety_guard  # noqa: E402
 from reference.suggest import suggest_dishes  # noqa: E402
+from reference.plant import dishes_for_plant  # noqa: E402
 
 
 def plan(**kw) -> dict:
@@ -32,6 +33,10 @@ CASES = [
     ("suggest_pantry_cowpea", "suggestDishes", {"input": plan(pantryIds=["cowpea"])}),
     ("suggest_pantry_empty", "suggestDishes", {"input": plan()}),
     ("suggest_dish_akara", "suggestDishes", {"input": plan(mode="dish", dishId="akara")}),
+    ("suggest_dish_moin_moin", "suggestDishes", {"input": plan(mode="dish", dishId="moin_moin")}),
+    ("suggest_dish_gbegiri", "suggestDishes", {"input": plan(mode="dish", dishId="gbegiri")}),
+    ("suggest_user_price_okpa", "suggestDishes",
+     {"input": plan(mode="dish", dishId="okpa", userPricesNgnPerKg={"bambara": 2000})}),
     ("suggest_budget_too_low", "suggestDishes", {"input": plan(budgetNgn=500)}),
     ("suggest_allergen_peanut_egusi", "suggestDishes",
      {"input": plan(mode="dish", dishId="egusi_soup", allergens=["peanut"])}),
@@ -39,10 +44,18 @@ CASES = [
      {"applicationId": "akara_batter", "input": plan(allergens=["soy"]), "candidateIds": None}),
     ("rank_seed_soup_peanut_allergen", "rankIngredients",
      {"applicationId": "seed_soup_body", "input": plan(allergens=["peanut"]), "candidateIds": ["melon_seed", "groundnut"]}),
+    ("plant_dishes_cowpea", "dishesForPlant", {"plantId": "cowpea", "input": plan()}),
+    ("plant_dishes_bambara_user_price", "dishesForPlant",
+     {"plantId": "bambara", "input": plan(userPricesNgnPerKg={"bambara": 900})}),
+    ("plant_dishes_groundnut_allergen", "dishesForPlant", {"plantId": "groundnut", "input": plan(allergens=["peanut"])}),
+    ("plant_dishes_melon_seed", "dishesForPlant", {"plantId": "melon_seed", "input": plan()}),
     ("processing_cowpea_phytate", "recommendProcessing", {"ingredientId": "cowpea", "goal": "phytate"}),
     ("processing_bambara_phytate_thin", "recommendProcessing", {"ingredientId": "bambara", "goal": "phytate"}),
-    ("processing_melon_seed_tannin_other_crops", "recommendProcessing", {"ingredientId": "melon_seed", "goal": "tannin"}),
+    ("processing_melon_seed_tannin_no_data", "recommendProcessing", {"ingredientId": "melon_seed", "goal": "tannin"}),
+    ("processing_melon_seed_phytate_no_pooled", "recommendProcessing", {"ingredientId": "melon_seed", "goal": "phytate"}),
     ("processing_ayb_oxalate_alias_goal", "recommendProcessing", {"ingredientId": "african_yam_bean", "goal": "oxalate_mg100g"}),
+    ("processing_soybean_phytate_model", "recommendProcessing", {"ingredientId": "soybean", "goal": "phytate"}),
+    ("processing_cowpea_tannin_model_not_used", "recommendProcessing", {"ingredientId": "cowpea", "goal": "tannin"}),
 ]
 # safetyGuard cases take a processing result from the engine as input.
 SAFETY_CASES = [
@@ -50,12 +63,15 @@ SAFETY_CASES = [
     ("safety_groundnut_phytate_warn", "groundnut", "phytate", {"allergens": []}),
     ("safety_groundnut_user_allergen_block", "groundnut", "phytate", {"allergens": ["peanut"]}),
     ("safety_bambara_phytate", "bambara", "phytate", {"allergens": []}),
+    ("safety_soybean_phytate_model", "soybean", "phytate", {"allergens": []}),
 ]
 
 
 def run_case(fn: str, args: dict, data: dict):
     if fn == "suggestDishes":
         return suggest_dishes(args["input"], data)
+    if fn == "dishesForPlant":
+        return dishes_for_plant(args["plantId"], args["input"], data)
     if fn == "rankIngredients":
         return rank_ingredients(args["applicationId"], args["input"], data, args.get("candidateIds"))
     if fn == "recommendProcessing":

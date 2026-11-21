@@ -1,0 +1,2 @@
+ingredient_id,price_ngn_per_kg,price_month,price_source,unit_check,note
+cowpea,1338.93,2026-04,"NBS Selected Food Price Watch April 2026 via press report (ThisDay, 2 Jun 2026), verify against the NBS table",per kg: press reports quote brown beans sold loose per kilogramme (national average 1338.93 in April 2026 against 1325.85 in March),Replaces the Feb 2025 NBS 'Beans Brown' price (2465.96). Decided by the team on Nov 21. Not yet checked against the NBS table itself.

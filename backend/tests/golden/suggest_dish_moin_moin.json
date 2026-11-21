@@ -1,0 +1,142 @@
+{
+ "args": {
+  "input": {
+   "allergens": [],
+   "budgetNgn": 1500,
+   "dishId": "moin_moin",
+   "mode": "dish",
+   "pantryIds": [],
+   "servings": 4,
+   "targetProteinG": 20
+  }
+ },
+ "bundleVersion": "2026-11-21-019dc6d3",
+ "expected": {
+  "bundleVersion": "2026-11-21-019dc6d3",
+  "dishes": [
+   {
+    "alternatives": [
+     {
+      "asSoldG": 280,
+      "costNgn": null,
+      "costPerGProtein": null,
+      "costPerPersonNgn": null,
+      "drivers": [],
+      "fit": 0.4882,
+      "fitRange": [
+       0.075,
+       0.988
+      ],
+      "flags": [
+       "price needed"
+      ],
+      "ingredientId": "pigeon_pea",
+      "priceSource": null,
+      "proteinPerPlateG": 14.6,
+      "proteinTotalG": 58.2,
+      "quality": {
+       "composition": "estimated",
+       "functional": "calculated+measured",
+       "price": "missing",
+       "weights": "estimated"
+      },
+      "score": null
+     },
+     {
+      "asSoldG": 280,
+      "costNgn": null,
+      "costPerGProtein": null,
+      "costPerPersonNgn": null,
+      "drivers": [],
+      "fit": 0.2,
+      "fitRange": [
+       0.1947,
+       0.4866
+      ],
+      "flags": [
+       "price needed"
+      ],
+      "ingredientId": "bambara",
+      "priceSource": null,
+      "proteinPerPlateG": 13.7,
+      "proteinTotalG": 54.6,
+      "quality": {
+       "composition": "measured",
+       "functional": "calculated+measured",
+       "price": "missing",
+       "weights": "estimated"
+      },
+      "score": null
+     }
+    ],
+    "costLabel": "protein ingredient only, no oil or spices",
+    "dishId": "moin_moin",
+    "dryGPerServing": 70,
+    "flags": [
+     "not enough data: african_yam_bean",
+     "price needed: pigeon_pea, bambara",
+     "cost excludes oil and spices"
+    ],
+    "missingItems": [
+     {
+      "costNgn": 374.9,
+      "id": "cowpea"
+     },
+     {
+      "costNgn": 233.86,
+      "id": "maize_white"
+     }
+    ],
+    "name": "Moin-moin",
+    "notEnoughData": [
+     {
+      "id": "african_yam_bean",
+      "missingNeeds": [
+       "least_gelation",
+       "emulsion_capacity"
+      ]
+     }
+    ],
+    "playbookIds": [
+     "pb_cowpea_moinmoin_route",
+     "pb_cowpea_soak_dehull"
+    ],
+    "portionQuality": "estimated",
+    "protein": {
+     "asSoldG": 280,
+     "costNgn": 374.9,
+     "costPerGProtein": 5.9245,
+     "costPerPersonNgn": 93.73,
+     "drivers": [],
+     "fit": 0.9689,
+     "fitRange": [
+      0.4398,
+      0.9689
+     ],
+     "flags": [],
+     "ingredientId": "cowpea",
+     "priceSource": "bundled",
+     "proteinPerPlateG": 15.8,
+     "proteinTotalG": 63.3,
+     "quality": {
+      "composition": "measured",
+      "functional": "calculated+measured",
+      "price": "published (2026-04)",
+      "weights": "estimated"
+     },
+     "score": 0.7345
+    },
+    "proteinCostNgn": 374.9,
+    "proteinCostPerPersonNgn": 93.73,
+    "proteinPerPlateG": 15.8,
+    "proteinTotalG": 63.3,
+    "summaryLine": "Ranked on water holding and gelling for a firm pudding.",
+    "totalCostNgn": 608.76,
+    "totalCostPerPersonNgn": 152.2
+   }
+  ],
+  "excluded": []
+ },
+ "fn": "suggestDishes",
+ "name": "suggest_dish_moin_moin"
+}

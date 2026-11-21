@@ -5,6 +5,8 @@ Run: uvicorn service.main:app --port 8000      (from backend/)
   GET  /bundle/latest       {version, sha256, url}: sha256 is of manifest.json; manifest lists each file's sha256
   GET  /bundle/files/{name} a file listed in the manifest (or the manifest itself)
   POST /explain             {"result": <engine output>} -> {text, source, rejected}
+  POST /ask                 {"context": <prepare-screen content>, "history": [...], "question": "..."}
+                            -> {answer, source: "llm" | "template", rejected}  (Popo, see service/popo.py)
 
 No accounts, no analytics, request bodies are not logged. /explain takes engine output only
 (ingredient ids and numbers, never personal data). No LLM is wired in: get_rewriter() returns None,
@@ -15,13 +17,14 @@ import hashlib
 import json
 import os
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Literal, Optional
 
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.responses import Response
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from service.guard import check_text, ingredient_vocabulary, template_sentence
+from service.popo import FALLBACK_TEXT, MAX_HISTORY_TURNS, MAX_QUESTION_CHARS, PopoUnavailable, check_answer, make_claude_asker
 
 ROOT = Path(__file__).resolve().parent.parent
 BUNDLE_DIR = Path(os.environ.get("PP_BUNDLE_DIR", ROOT / "mobile" / "assets" / "bundle"))
@@ -51,6 +54,21 @@ def get_rewriter() -> Optional[Callable[[dict], str]]:
 
 class ExplainIn(BaseModel):
     result: dict[str, Any]
+
+
+def get_asker() -> Optional[Callable[[dict, list[dict], str], str]]:
+    return make_claude_asker()
+
+
+class Turn(BaseModel):
+    role: Literal["user", "assistant"]
+    text: str = Field(max_length=2000)
+
+
+class AskIn(BaseModel):
+    context: dict[str, Any]
+    history: list[Turn] = Field(default_factory=list, max_length=MAX_HISTORY_TURNS * 2)
+    question: str = Field(min_length=1, max_length=MAX_QUESTION_CHARS)
 
 
 @app.get("/health")
@@ -90,3 +108,20 @@ def explain(body: ExplainIn, rewriter: Optional[Callable[[dict], str]] = Depends
     if reasons:
         return {"text": fallback, "source": "template", "rejected": reasons}
     return {"text": text, "source": "llm", "rejected": []}
+
+
+@app.post("/ask")
+def ask(body: AskIn, asker: Optional[Callable[[dict, list[dict], str], str]] = Depends(get_asker)):
+    """Popo. Answers only from the given context; every answer passes the guard or is replaced."""
+    if asker is None:
+        return {"answer": FALLBACK_TEXT, "source": "template", "rejected": ["Popo is not connected to Claude on this service"]}
+    try:
+        answer = asker(body.context, [t.model_dump() for t in body.history], body.question.strip())
+    except PopoUnavailable as e:
+        return {"answer": FALLBACK_TEXT, "source": "template", "rejected": [str(e)]}
+    if not answer:
+        return {"answer": FALLBACK_TEXT, "source": "template", "rejected": ["empty answer"]}
+    reasons = check_answer(answer, body.context, _vocab())
+    if reasons:
+        return {"answer": FALLBACK_TEXT, "source": "template", "rejected": reasons}
+    return {"answer": answer, "source": "llm", "rejected": []}

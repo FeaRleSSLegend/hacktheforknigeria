@@ -9,22 +9,22 @@
    "targetProteinG": 20
   }
  },
- "bundleVersion": "2026-11-21-cdefda79",
+ "bundleVersion": "2026-11-21-019dc6d3",
  "expected": {
-  "bundleVersion": "2026-11-21-cdefda79",
+  "bundleVersion": "2026-11-21-019dc6d3",
   "dishes": [],
   "excluded": [
    {
     "id": "akara",
-    "reason": "over budget (need 873 NGN to buy)"
+    "reason": "over budget (need 724 NGN to buy)"
    },
    {
     "id": "moin_moin",
-    "reason": "over budget (need 873 NGN to buy)"
+    "reason": "over budget (need 609 NGN to buy)"
    },
    {
     "id": "ekuru",
-    "reason": "over budget (need 873 NGN to buy)"
+    "reason": "over budget (need 1170 NGN to buy)"
    },
    {
     "id": "okpa",
@@ -32,11 +32,11 @@
    },
    {
     "id": "gbegiri",
-    "reason": "over budget (need 873 NGN to buy)"
+    "reason": "over budget (need 650 NGN to buy)"
    },
    {
     "id": "egusi_soup",
-    "reason": "no usable protein: melon_seed (price needed); groundnut (price needed)"
+    "reason": "no usable protein: melon_seed (not enough data: missing emulsion_capacity); groundnut (price needed)"
    }
   ]
  },

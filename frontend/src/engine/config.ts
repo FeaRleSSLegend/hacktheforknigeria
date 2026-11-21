@@ -38,9 +38,7 @@ export const DEFAULT_DIRECTION: Record<string, Direction> = {
 };
 export const FALLBACK_MAX_SAME_CROP = 3;
 export const FALLBACK_MAX_OTHER_CROP = 2;
-export const MODEL_GRID_STEPS = 5;
 export const MODEL_TOP_K = 3;
-export const INTERVAL_Z = 1.96;
 
 export const HEAT_STEPS = [
   "boiling", "roasting", "autoclaving", "steaming", "frying", "deep_frying",

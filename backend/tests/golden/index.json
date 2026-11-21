@@ -1,20 +1,31 @@
 {
- "bundleVersion": "2026-11-21-cdefda79",
+ "bundleVersion": "2026-11-21-019dc6d3",
  "cases": [
   "suggest_pantry_cowpea",
   "suggest_pantry_empty",
   "suggest_dish_akara",
+  "suggest_dish_moin_moin",
+  "suggest_dish_gbegiri",
+  "suggest_user_price_okpa",
   "suggest_budget_too_low",
   "suggest_allergen_peanut_egusi",
   "rank_akara_all_soy_allergen",
   "rank_seed_soup_peanut_allergen",
+  "plant_dishes_cowpea",
+  "plant_dishes_bambara_user_price",
+  "plant_dishes_groundnut_allergen",
+  "plant_dishes_melon_seed",
   "processing_cowpea_phytate",
   "processing_bambara_phytate_thin",
-  "processing_melon_seed_tannin_other_crops",
+  "processing_melon_seed_tannin_no_data",
+  "processing_melon_seed_phytate_no_pooled",
   "processing_ayb_oxalate_alias_goal",
+  "processing_soybean_phytate_model",
+  "processing_cowpea_tannin_model_not_used",
   "safety_cowpea_phytate_block_option",
   "safety_groundnut_phytate_warn",
   "safety_groundnut_user_allergen_block",
-  "safety_bambara_phytate"
+  "safety_bambara_phytate",
+  "safety_soybean_phytate_model"
  ]
 }
