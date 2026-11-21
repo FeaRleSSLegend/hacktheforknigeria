@@ -237,9 +237,15 @@ export interface RankedItem {
   quality: { composition: string; price: string; functional: string; weights: string };
 }
 
+export interface NotEnoughData {
+  id: string;
+  missingNeeds: string[];
+}
+
 export interface RankedResult {
   items: RankedItem[];
   excluded: Excluded[];
+  notEnoughData: NotEnoughData[];
   bundleVersion: string;
 }
 
@@ -250,6 +256,7 @@ export interface DishSuggestion {
   protein: RankedItem;
   alternatives: RankedItem[];
   missingItems: { id: string; costNgn: number }[];
+  notEnoughData: NotEnoughData[];
   dryGPerServing: number;
   portionQuality: string;
   proteinPerPlateG: number;

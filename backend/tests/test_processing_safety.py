@@ -37,8 +37,10 @@ def proc_data(data, rows, model=None):
 def test_rank_unpriced_is_never_headline(data):
     r = rank_ingredients("test_app", base_input(), data, ["test_noprice", "test_a", "test_nodata"])
     assert [i["ingredientId"] for i in r["items"]] == ["test_a"]
-    assert {e["id"]: e["reason"] for e in r["excluded"]} == {
-        "test_noprice": "no functional data for this dish", "test_nodata": "no functional data for this dish"}
+    missing = "not enough data: missing foaming, wac"
+    assert {e["id"]: e["reason"] for e in r["excluded"]} == {"test_noprice": missing, "test_nodata": missing}
+    assert r["notEnoughData"] == [{"id": "test_noprice", "missingNeeds": ["foaming", "wac"]},
+                                  {"id": "test_nodata", "missingNeeds": ["foaming", "wac"]}]
 
 
 def test_rank_unpriced_with_data_flagged_price_needed(data):
@@ -193,3 +195,13 @@ def test_plant_of_another_group_borrows_no_evidence(data):
     data["ingredients"]["test_a"] = dict(data["ingredients"]["test_a"], crop_group="oilseed")
     r = recommend_processing("test_a", "phytate", proc_data(data, OTHER, TABLE))
     assert r["mode"] == "fallback" and r["options"] == [] and r["note"] == "No published data for this plant."
+
+
+
+def test_rank_plant_missing_one_need_is_not_scored(data):
+    props = [r for r in data["properties"] if not (r["ingredient_id"] == "test_b" and r["property"] == "wac")]
+    r = rank_ingredients("test_app", base_input(), dict(data, properties=props), ["test_a", "test_b", "test_c"])
+    assert "test_b" not in [i["ingredientId"] for i in r["items"]]
+    assert r["notEnoughData"] == [{"id": "test_b", "missingNeeds": ["wac"]}]
+    full = rank_ingredients("test_app", base_input(), data, ["test_a", "test_c"])
+    assert {i["ingredientId"]: i["fit"] for i in r["items"]} == {i["ingredientId"]: i["fit"] for i in full["items"]}

@@ -25,7 +25,6 @@ export function plantLabel(bundle: Bundle, id: string): string {
 export function plainReason(bundle: Bundle, reason: string): string {
   const budget = reason.match(/^over budget \(need (\d+) NGN to buy\)$/);
   if (budget) return `Needs about ${naira(Number(budget[1]))} to buy, more than your budget.`;
-  if (reason === "no functional data for this dish") return "No published data yet on how these plants behave in this dish.";
   if (reason.startsWith("no usable protein: ")) {
     const parts = reason.slice("no usable protein: ".length).split("; ");
     const priced: string[] = [];
@@ -37,6 +36,9 @@ export function plainReason(bundle: Bundle, reason: string): string {
       const name = plantName(bundle, m[1]).english.toLowerCase();
       if (m[2] === "price needed") priced.push(name);
       else if (m[2].startsWith("allergen")) allergic.push(name);
+      else if (m[2].startsWith("not enough data: missing ")) {
+        other.push(`not enough published data on ${name} (${m[2].slice("not enough data: missing ".length).replace(/_/g, " ")})`);
+      }
       else other.push(`${name}: ${m[2]}`);
     }
     const out: string[] = [];

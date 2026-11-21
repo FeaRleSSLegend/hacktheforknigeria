@@ -23,35 +23,19 @@
    {
     "id": "groundnut",
     "reason": "allergen: peanut"
+   },
+   {
+    "id": "melon_seed",
+    "reason": "not enough data: missing emulsion_capacity"
    }
   ],
-  "items": [
+  "items": [],
+  "notEnoughData": [
    {
-    "asSoldG": 289.9,
-    "costNgn": null,
-    "costPerGProtein": null,
-    "costPerPersonNgn": null,
-    "drivers": [],
-    "fit": 0.5,
-    "fitRange": [
-     0.5,
-     0.5
-    ],
-    "flags": [
-     "no data: emulsion_capacity",
-     "price needed"
-    ],
-    "ingredientId": "melon_seed",
-    "priceSource": null,
-    "proteinPerPlateG": 20,
-    "proteinTotalG": 80,
-    "quality": {
-     "composition": "measured",
-     "functional": "calculated+measured",
-     "price": "missing",
-     "weights": "estimated"
-    },
-    "score": null
+    "id": "melon_seed",
+    "missingNeeds": [
+     "emulsion_capacity"
+    ]
    }
   ]
  },

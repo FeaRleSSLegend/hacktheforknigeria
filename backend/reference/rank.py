@@ -4,9 +4,10 @@ Pure function. Keys are camelCase to match PROJECT.md section 8.
 
 Rules:
 - Allergen matches and missing protein values are excluded with a reason.
-- A candidate with no functional value for any need is excluded ("no functional data for this dish").
-- A candidate with some needs missing is kept, its fit is computed on the needs that have data,
-  and it carries a "no data: <property>" flag per missing need.
+- Complete coverage (PROJECT.md section 7, same rule as the root reference engine): a candidate is
+  ranked only if it has a value for every need of the application. A candidate missing any need is
+  not scored; it goes to notEnoughData with the needs it misses and is excluded with
+  "not enough data: missing <needs>". Fit is scaled across the ranked candidates only.
 - A candidate with no price is ranked by fit only: score and cost fields are null and it carries
   "price needed". Priced items always sort before unpriced ones, so an unpriced item is never the
   headline pick.
@@ -19,7 +20,7 @@ from .config import DEFAULT_FORM, DRIVER_TEXT, MONEY_DP, SCORE_DP
 from .scoring import fit_scores, overall_scores
 from .sizing import as_sold_g, cost_ngn
 
-NO_FUNCTIONAL_DATA = "no functional data for this dish"
+NOT_ENOUGH_DATA = "not enough data"
 PRICE_NEEDED = "price needed"
 
 
@@ -59,7 +60,8 @@ def rank_ingredients(application_id: str, inp: dict, data: dict, candidate_ids: 
     version = data.get("version", "dev")
     app = data["applications"].get(application_id)
     if app is None:
-        return {"items": [], "excluded": [{"id": application_id, "reason": "unknown application"}], "bundleVersion": version}
+        return {"items": [], "excluded": [{"id": application_id, "reason": "unknown application"}], "notEnoughData": [],
+                "bundleVersion": version}
 
     ids = list(candidate_ids) if candidate_ids is not None else list(data["ingredients"])
     allergens = set(inp.get("allergens", []))
@@ -79,12 +81,14 @@ def rank_ingredients(application_id: str, inp: dict, data: dict, candidate_ids: 
             cands.append(cid)
 
     fits = fit_scores(app, cands, data["properties"]) if cands else {}
-    ranked = []
+    ranked, not_enough = [], []
     for cid in cands:
-        if fits[cid]["fit"] is None:
-            excluded.append({"id": cid, "reason": NO_FUNCTIONAL_DATA})
-        else:
+        if fits[cid]["ranked"]:
             ranked.append(cid)
+        else:
+            missing = fits[cid]["missingNeeds"]
+            not_enough.append({"id": cid, "missingNeeds": missing})
+            excluded.append({"id": cid, "reason": f"{NOT_ENOUGH_DATA}: missing " + ", ".join(missing)})
 
     ing = data["ingredients"]
     if dry_g_per_serving is not None:
@@ -107,7 +111,7 @@ def rank_ingredients(application_id: str, inp: dict, data: dict, candidate_ids: 
     items = []
     for c in ranked:
         f = fits[c]
-        flags = [f"no data: {p}" for p in f["missingNeeds"]]
+        flags = []
         is_priced = c in scores
         if not is_priced:
             flags.append(PRICE_NEEDED)
@@ -136,4 +140,4 @@ def rank_ingredients(application_id: str, inp: dict, data: dict, candidate_ids: 
         })
 
     items.sort(key=lambda i: (i["score"] is None, -(i["score"] or 0.0), -i["fit"], i["ingredientId"]))
-    return {"items": items, "excluded": excluded, "bundleVersion": version}
+    return {"items": items, "excluded": excluded, "notEnoughData": not_enough, "bundleVersion": version}

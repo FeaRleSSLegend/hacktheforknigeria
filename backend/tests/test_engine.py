@@ -76,7 +76,8 @@ def test_suggest_basic(data):
     assert d["proteinCostNgn"] == d["protein"]["costNgn"] and d["costLabel"] == "protein ingredient only, no oil or spices"
     assert "cost excludes oil and spices" in d["flags"]
     reasons = {e["id"]: e["reason"] for e in r["excluded"]}
-    assert reasons["test_dish_nodata"] == "no functional data for this dish"
+    assert reasons["test_dish_nodata"] == ("no usable protein: test_nodata (not enough data: missing foaming, wac); "
+                                          "test_noprice (not enough data: missing foaming, wac)")
     assert "no usable protein" in reasons["test_dish_noprice"]
 
 

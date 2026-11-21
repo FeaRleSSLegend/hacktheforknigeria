@@ -22,35 +22,7 @@
       "costPerGProtein": null,
       "costPerPersonNgn": null,
       "drivers": [],
-      "fit": 0.756,
-      "fitRange": [
-       0.5504,
-       0.9615
-      ],
-      "flags": [
-       "no data: least_gelation",
-       "no data: emulsion_capacity",
-       "price needed"
-      ],
-      "ingredientId": "african_yam_bean",
-      "priceSource": null,
-      "proteinPerPlateG": 14.3,
-      "proteinTotalG": 57.4,
-      "quality": {
-       "composition": "estimated",
-       "functional": "calculated+measured",
-       "price": "missing",
-       "weights": "estimated"
-      },
-      "score": null
-     },
-     {
-      "asSoldG": 280,
-      "costNgn": null,
-      "costPerGProtein": null,
-      "costPerPersonNgn": null,
-      "drivers": [],
-      "fit": 0.4577,
+      "fit": 0.4882,
       "fitRange": [
        0.075,
        0.988
@@ -79,7 +51,7 @@
       "fit": 0.2,
       "fitRange": [
        0.1947,
-       0.4673
+       0.4866
       ],
       "flags": [
        "price needed"
@@ -101,7 +73,8 @@
     "dishId": "moin_moin",
     "dryGPerServing": 70,
     "flags": [
-     "price needed: african_yam_bean, pigeon_pea, bambara",
+     "not enough data: african_yam_bean",
+     "price needed: pigeon_pea, bambara",
      "cost excludes oil and spices"
     ],
     "missingItems": [
@@ -115,6 +88,15 @@
      }
     ],
     "name": "Moin-moin",
+    "notEnoughData": [
+     {
+      "id": "african_yam_bean",
+      "missingNeeds": [
+       "least_gelation",
+       "emulsion_capacity"
+      ]
+     }
+    ],
     "playbookIds": [
      "pb_cowpea_moinmoin_route",
      "pb_cowpea_soak_dehull"
@@ -126,9 +108,9 @@
      "costPerGProtein": 5.9245,
      "costPerPersonNgn": 93.73,
      "drivers": [],
-     "fit": 0.9136,
+     "fit": 0.9689,
      "fitRange": [
-      0.4229,
+      0.4398,
       0.9689
      ],
      "flags": [],
@@ -142,7 +124,7 @@
       "price": "published (2026-04)",
       "weights": "estimated"
      },
-     "score": 0.7068
+     "score": 0.7345
     },
     "proteinCostNgn": 374.9,
     "proteinCostPerPersonNgn": 93.73,

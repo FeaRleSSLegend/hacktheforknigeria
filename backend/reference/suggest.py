@@ -4,7 +4,7 @@ Input and output keys are camelCase so golden fixtures match the TypeScript engi
 Pure function: takes the loaded data dict, does no I/O.
 """
 from .config import MONEY_DP
-from .rank import NO_FUNCTIONAL_DATA, PRICE_NEEDED, price_of, rank_ingredients, user_prices
+from .rank import PRICE_NEEDED, price_of, rank_ingredients, user_prices
 from .sizing import cost_ngn
 
 COST_NOTE = "cost excludes oil and spices"
@@ -30,18 +30,12 @@ def suggest_dishes(inp: dict, data: dict) -> dict:
 
         dry = dish["typical_dry_g_per_serving"]
         ranked = rank_ingredients(dish["application_id"], inp, data, dish["protein_slot_ids"], dry)
-        why = {e["id"]: e["reason"] for e in ranked["excluded"] if e["reason"] != NO_FUNCTIONAL_DATA}
-        for cid in dish["protein_slot_ids"]:
-            ing = data["ingredients"].get(cid)
-            if cid not in why and ing is not None and price_of(cid, ing, prices)[0] is None:
-                why[cid] = PRICE_NEEDED
-        if len(why) == len(dish["protein_slot_ids"]):
-            excluded.append({"id": dish["id"], "reason": "no usable protein: " + "; ".join(f"{k} ({v})" for k, v in why.items())})
-            continue
-
         priced = [i for i in ranked["items"] if i["score"] is not None]
         if not priced:
-            excluded.append({"id": dish["id"], "reason": NO_FUNCTIONAL_DATA})
+            why = {e["id"]: e["reason"] for e in ranked["excluded"]}
+            why.update({i["ingredientId"]: PRICE_NEEDED for i in ranked["items"]})
+            excluded.append({"id": dish["id"], "reason": "no usable protein: " + "; ".join(
+                f"{k} ({why[k]})" for k in dish["protein_slot_ids"] if k in why)})
             continue
 
         owned = [i for i in priced if i["ingredientId"] in pantry]
@@ -66,9 +60,8 @@ def suggest_dishes(inp: dict, data: dict) -> dict:
             excluded.append({"id": dish["id"], "reason": f"over budget (need {round(missing_cost)} NGN to buy)"})
             continue
 
-        no_data = [f.removeprefix("no data: ") for f in best["flags"] if f.startswith("no data: ")]
-        if no_data:
-            flags.append("partial functional data: " + ", ".join(no_data))
+        if ranked["notEnoughData"]:
+            flags.append("not enough data: " + ", ".join(n["id"] for n in ranked["notEnoughData"]))
         unpriced = [i["ingredientId"] for i in ranked["items"] if i["score"] is None]
         if unpriced:
             flags.append("price needed: " + ", ".join(unpriced))
@@ -81,6 +74,7 @@ def suggest_dishes(inp: dict, data: dict) -> dict:
             "protein": best,
             "alternatives": [i for i in ranked["items"] if i is not best],
             "missingItems": missing,
+            "notEnoughData": ranked["notEnoughData"],
             "dryGPerServing": dry,
             "portionQuality": dish["typical_dry_g_quality"],
             "proteinPerPlateG": best["proteinPerPlateG"],

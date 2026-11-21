@@ -1,7 +1,7 @@
 // suggestDishes. Port of backend/reference/suggest.py. Pure.
 import { MONEY_DP } from "./config";
 import { cmpTuple, pyRound, pyRoundInt, sum } from "./num";
-import { NO_FUNCTIONAL_DATA, PRICE_NEEDED, priceOf, rankIngredients, userPrices } from "./rank";
+import { PRICE_NEEDED, priceOf, rankIngredients, userPrices } from "./rank";
 import { costNgn } from "./scoring";
 import { Bundle, DishSuggestion, Excluded, PlanInput, SuggestResult } from "./types";
 
@@ -25,19 +25,13 @@ export function suggestDishes(input: PlanInput, bundle: Bundle): SuggestResult {
     }
     const dry = dish.typical_dry_g_per_serving;
     const ranked = rankIngredients(dish.application_id, input, bundle, dish.protein_slot_ids, dry);
-    const why = new Map<string, string>();
-    for (const e of ranked.excluded) if (e.reason !== NO_FUNCTIONAL_DATA) why.set(e.id, e.reason);
-    for (const cid of dish.protein_slot_ids) {
-      const ing = bundle.ingredients[cid];
-      if (!why.has(cid) && ing && priceOf(cid, ing, prices)[0] === null) why.set(cid, PRICE_NEEDED);
-    }
-    if (why.size === dish.protein_slot_ids.length) {
-      excluded.push({ id: dish.id, reason: "no usable protein: " + [...why].map(([k, v]) => `${k} (${v})`).join("; ") });
-      continue;
-    }
     const priced = ranked.items.filter((i) => i.score !== null);
     if (!priced.length) {
-      excluded.push({ id: dish.id, reason: NO_FUNCTIONAL_DATA });
+      const why = new Map<string, string>();
+      for (const e of ranked.excluded) why.set(e.id, e.reason);
+      for (const i of ranked.items) why.set(i.ingredientId, PRICE_NEEDED);
+      const parts = dish.protein_slot_ids.filter((k) => why.has(k)).map((k) => `${k} (${why.get(k)})`);
+      excluded.push({ id: dish.id, reason: "no usable protein: " + parts.join("; ") });
       continue;
     }
     const owned = priced.filter((i) => pantry.has(i.ingredientId));
@@ -65,8 +59,7 @@ export function suggestDishes(input: PlanInput, bundle: Bundle): SuggestResult {
       excluded.push({ id: dish.id, reason: `over budget (need ${pyRoundInt(missingCost)} NGN to buy)` });
       continue;
     }
-    const noData = best.flags.filter((f) => f.startsWith("no data: ")).map((f) => f.slice("no data: ".length));
-    if (noData.length) flags.push("partial functional data: " + noData.join(", "));
+    if (ranked.notEnoughData.length) flags.push("not enough data: " + ranked.notEnoughData.map((n) => n.id).join(", "));
     const unpriced = ranked.items.filter((i) => i.score === null).map((i) => i.ingredientId);
     if (unpriced.length) flags.push("price needed: " + unpriced.join(", "));
     flags.push(COST_NOTE);
@@ -78,6 +71,7 @@ export function suggestDishes(input: PlanInput, bundle: Bundle): SuggestResult {
       protein: best,
       alternatives: ranked.items.filter((i) => i !== best),
       missingItems: missing,
+      notEnoughData: ranked.notEnoughData,
       dryGPerServing: dry,
       portionQuality: dish.typical_dry_g_quality,
       proteinPerPlateG: best.proteinPerPlateG,

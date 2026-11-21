@@ -2,9 +2,9 @@
 import { DEFAULT_FORM, DRIVER_TEXT, MONEY_DP, SCORE_DP } from "./config";
 import { cmpTuple, pyRound } from "./num";
 import { asSoldG, costNgn, Driver, fitScores, overallScores } from "./scoring";
-import { Bundle, CompositionRow, Excluded, PlanInput, PropertyRow, RankedItem, RankedResult } from "./types";
+import { Bundle, CompositionRow, Excluded, NotEnoughData, PlanInput, PropertyRow, RankedItem, RankedResult } from "./types";
 
-export const NO_FUNCTIONAL_DATA = "no functional data for this dish";
+export const NOT_ENOUGH_DATA = "not enough data";
 export const PRICE_NEEDED = "price needed";
 
 export function userPrices(input: PlanInput): Record<string, number> {
@@ -41,7 +41,7 @@ export function rankIngredients(
 ): RankedResult {
   const version = bundle.version;
   const app = bundle.applications[applicationId];
-  if (!app) return { items: [], excluded: [{ id: applicationId, reason: "unknown application" }], bundleVersion: version };
+  if (!app) return { items: [], excluded: [{ id: applicationId, reason: "unknown application" }], notEnoughData: [], bundleVersion: version };
 
   const ids = candidateIds ?? bundle.ingredientOrder;
   const allergens = new Set(input.allergens);
@@ -61,9 +61,15 @@ export function rankIngredients(
 
   const fits = cands.length ? fitScores(app, cands, bundle.properties) : {};
   const ranked: string[] = [];
+  const notEnoughData: NotEnoughData[] = [];
   for (const cid of cands) {
-    if (fits[cid].fit === null) excluded.push({ id: cid, reason: NO_FUNCTIONAL_DATA });
-    else ranked.push(cid);
+    if (fits[cid].ranked) {
+      ranked.push(cid);
+    } else {
+      const missing = fits[cid].missingNeeds;
+      notEnoughData.push({ id: cid, missingNeeds: missing });
+      excluded.push({ id: cid, reason: `${NOT_ENOUGH_DATA}: missing ${missing.join(", ")}` });
+    }
   }
 
   const ing = bundle.ingredients;
@@ -101,7 +107,7 @@ export function rankIngredients(
   const needProps = app.needs.map((n) => n.property);
   const items: RankedItem[] = ranked.map((c) => {
     const f = fits[c];
-    const flags = f.missingNeeds.map((p) => `no data: ${p}`);
+    const flags: string[] = [];
     const isPriced = c in scores;
     if (!isPriced) flags.push(PRICE_NEEDED);
     const range = f.fitRange as [number, number];
@@ -131,5 +137,5 @@ export function rankIngredients(
   items.sort((a, b) =>
     cmpTuple([a.score === null ? 1 : 0, -(a.score ?? 0), -a.fit, a.ingredientId], [b.score === null ? 1 : 0, -(b.score ?? 0), -b.fit, b.ingredientId]),
   );
-  return { items, excluded, bundleVersion: version };
+  return { items, excluded, notEnoughData, bundleVersion: version };
 }

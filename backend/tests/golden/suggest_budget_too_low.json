@@ -36,7 +36,7 @@
    },
    {
     "id": "egusi_soup",
-    "reason": "no usable protein: melon_seed (price needed); groundnut (price needed)"
+    "reason": "no usable protein: melon_seed (not enough data: missing emulsion_capacity); groundnut (price needed)"
    }
   ]
  },

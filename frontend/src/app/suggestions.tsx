@@ -9,20 +9,17 @@ import { BundleGate } from "../components/BundleGate";
 import { LimitsLink, Screen } from "../components/Screen";
 import { Bar, Body, Card, Expander, Heading, Reveal, Small, StateView, Tag } from "../components/ui";
 import { suggestDishes } from "../engine/suggest";
-import { Bundle, DishSuggestion, RankedItem } from "../engine/types";
+import { Bundle, DishSuggestion } from "../engine/types";
 import { dishIcon } from "../lib/icons";
 import { joinAnd, naira, plainReason, plantLabel, plantName } from "../lib/words";
 import { toPlanInput, usePlan } from "../state/PlanContext";
 import { useAppTheme } from "../theme";
 import { radius, space, type } from "../theme/tokens";
 
-const noDataProps = (i: RankedItem) => i.flags.filter((f) => f.startsWith("no data: ")).map((f) => f.slice(9).replace(/_/g, " "));
-
 function DishCard({ d, bundle, index, servings, allergens }: { d: DishSuggestion; bundle: Bundle; index: number; servings: number; allergens: string[] }) {
   const { custom: c } = useAppTheme();
   const plant = plantName(bundle, d.protein.ingredientId);
   const plantShort = (plant.local ?? plant.english).toLowerCase();
-  const missingData = noDataProps(d.protein);
   const unpriced = d.alternatives.filter((a) => a.score === null);
   const dish = bundle.dishes.find((x) => x.id === d.dishId);
   const leftOut = (dish?.protein_slot_ids ?? []).filter((id) => bundle.ingredients[id]?.allergen_tags.some((t) => allergens.includes(t)));
@@ -73,7 +70,7 @@ function DishCard({ d, bundle, index, servings, allergens }: { d: DishSuggestion
           </Body>
 
           <View style={styles.tags}>
-            {missingData.length ? <Tag icon="help-circle-outline" label="Some data missing" tone="warn" /> : <Tag icon="book-check-outline" label="Published values" tone="good" />}
+            <Tag icon="book-check-outline" label="Published values" tone="good" />
             {d.protein.quality.composition === "estimated" ? <Tag icon="approximately-equal" label="Some values estimated" /> : null}
             {owned ? <Tag icon="basket-check-outline" label="Already in your kitchen" tone="good" /> : null}
             {unpriced.length ? <Tag icon="tag-off-outline" label={`Price needed for ${unpriced.length} other plant${unpriced.length === 1 ? "" : "s"}`} /> : null}
@@ -91,22 +88,22 @@ function DishCard({ d, bundle, index, servings, allergens }: { d: DishSuggestion
                 Fit compares published values (foaming, water and oil holding and others) of each plant for this dish. Score from {d.protein.fitRange[0].toFixed(2)} to{" "}
                 {d.protein.fitRange[1].toFixed(2)} across the published samples. The weights for each property are our team estimate.
               </Small>
-              {missingData.length ? <Small muted={false}>No published value yet for: {missingData.join(", ")}.</Small> : null}
               {d.protein.costPerGProtein !== null ? (
                 <Small muted={false}>
                   {d.protein.asSoldG} g of dry {plant.english.toLowerCase()} for your group ({d.proteinTotalG} g protein). About {naira(d.protein.costPerGProtein)} per gram of
                   protein. Price {d.protein.quality.price}. With the sides, about {naira(d.totalCostNgn)} for the group.
                 </Small>
               ) : null}
-              {d.alternatives.map((a) => {
-                const nd = noDataProps(a);
-                const bits = [a.score === null ? "price needed" : `${naira(a.costNgn ?? 0)}`, nd.length ? `no data for ${nd.join(", ")}` : null].filter(Boolean);
-                return (
-                  <Small key={a.ingredientId} muted={false}>
-                    Also suits it: {plantLabel(bundle, a.ingredientId)}, fit {a.fit.toFixed(2)} ({bits.join("; ")})
-                  </Small>
-                );
-              })}
+              {d.alternatives.map((a) => (
+                <Small key={a.ingredientId} muted={false}>
+                  Also suits it: {plantLabel(bundle, a.ingredientId)}, fit {a.fit.toFixed(2)} ({a.score === null ? "price needed" : naira(a.costNgn ?? 0)})
+                </Small>
+              ))}
+              {d.notEnoughData.map((n) => (
+                <Small key={n.id} muted={false}>
+                  Not enough data to rank {plantLabel(bundle, n.id)}: no published value for {joinAnd(n.missingNeeds.map((m) => m.replace(/_/g, " ")))}.
+                </Small>
+              ))}
             </View>
           </Expander>
 

@@ -19,7 +19,7 @@
   "excluded": [
    {
     "id": "egusi_soup",
-    "reason": "no usable protein: groundnut (allergen: peanut); melon_seed (price needed)"
+    "reason": "no usable protein: melon_seed (not enough data: missing emulsion_capacity); groundnut (allergen: peanut)"
    }
   ]
  },

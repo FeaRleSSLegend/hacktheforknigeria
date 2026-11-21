@@ -46,47 +46,42 @@ def scale_across(values: dict[str, Optional[float]], higher_is_better: bool = Tr
 def fit_scores(application: dict, candidate_ids: list[str], prop_rows: list[dict], form: str = DEFAULT_FORM) -> dict[str, dict]:
     """Weighted functional fit per candidate, with a range and a record of missing needs.
 
-    Needs with no value for a candidate are skipped for that candidate and flagged;
-    the fit is renormalised over the needs that have data. A candidate with no data
-    for any need gets fit None.
+    Complete-coverage rule: a candidate is ranked only if it has a value for every need of
+    the application. A candidate missing any need gets fit None, ranked False and the missing
+    needs named; fit is never computed over a subset of needs. Scaling to 0-1 uses only the
+    ranked candidates, so an unranked one cannot move the others' scores.
     """
     needs = application["needs"]
-    per_need = {}
-    for need in needs:
-        prop = need["property"]
-        aggs = {cid: aggregate_property(prop_rows, cid, prop, form) for cid in candidate_ids}
-        meds = {cid: (a[0] if a else None) for cid, a in aggs.items()}
-        present = [v for v in meds.values() if v is not None]
-        higher = need["direction"] == "higher"
-        if present:
-            lo, hi = min(present), max(present)
-        per_need[prop] = (aggs, lo if present else None, hi if present else None, higher, need["weight"])
+    aggs = {n["property"]: {cid: aggregate_property(prop_rows, cid, n["property"], form) for cid in candidate_ids}
+            for n in needs}
+    missing = {cid: [n["property"] for n in needs if aggs[n["property"]][cid] is None] for cid in candidate_ids}
+    ranked = [cid for cid in candidate_ids if not missing[cid]]
+    wsum = sum(n["weight"] for n in needs)
 
-    result: dict[str, dict] = {}
-    for cid in candidate_ids:
-        num = num_lo = num_hi = wsum = 0.0
-        missing = []
-        for prop, (aggs, lo, hi, higher, w) in per_need.items():
-            a = aggs[cid]
-            if a is None or lo is None:
-                missing.append(prop)
-                continue
-            d = _scale(a[0], lo, hi)
-            d_lo, d_hi = _scale(a[1], lo, hi), _scale(a[2], lo, hi)
+    result: dict[str, dict] = {
+        cid: {"fit": None, "fitRange": None, "missingNeeds": missing[cid], "ranked": False}
+        for cid in candidate_ids if missing[cid]
+    }
+    if not ranked or wsum <= 0:
+        for cid in ranked:
+            result[cid] = {"fit": None, "fitRange": None, "missingNeeds": [], "ranked": False}
+        return result
+    acc = {cid: [0.0, 0.0, 0.0] for cid in ranked}
+    for n in needs:
+        prop, w, higher = n["property"], n["weight"], n["direction"] == "higher"
+        meds = [aggs[prop][cid][0] for cid in ranked]
+        lo, hi = min(meds), max(meds)
+        for cid in ranked:
+            med, vmin, vmax, _ = aggs[prop][cid]
+            d, d_lo, d_hi = _scale(med, lo, hi), _scale(vmin, lo, hi), _scale(vmax, lo, hi)
             if not higher:
                 d, d_lo, d_hi = 1 - d, 1 - d_hi, 1 - d_lo
-            num += w * d
-            num_lo += w * d_lo
-            num_hi += w * d_hi
-            wsum += w
-        if wsum == 0:
-            result[cid] = {"fit": None, "fitRange": None, "missingNeeds": missing}
-        else:
-            result[cid] = {
-                "fit": num / wsum,
-                "fitRange": (num_lo / wsum, num_hi / wsum),
-                "missingNeeds": missing,
-            }
+            acc[cid][0] += w * d
+            acc[cid][1] += w * d_lo
+            acc[cid][2] += w * d_hi
+    for cid in ranked:
+        f, f_lo, f_hi = (v / wsum for v in acc[cid])
+        result[cid] = {"fit": f, "fitRange": (f_lo, f_hi), "missingNeeds": [], "ranked": True}
     return result
 
 

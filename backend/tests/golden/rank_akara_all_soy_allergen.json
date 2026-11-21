@@ -20,6 +20,22 @@
    {
     "id": "soybean",
     "reason": "allergen: soy"
+   },
+   {
+    "id": "african_yam_bean",
+    "reason": "not enough data: missing foam_stability, oil_absorption"
+   },
+   {
+    "id": "groundnut",
+    "reason": "not enough data: missing foam_stability"
+   },
+   {
+    "id": "melon_seed",
+    "reason": "not enough data: missing foam_stability"
+   },
+   {
+    "id": "african_locust_bean",
+    "reason": "not enough data: missing water_absorption, oil_absorption"
    }
   ],
   "items": [
@@ -29,10 +45,10 @@
     "costPerGProtein": 5.9245,
     "costPerPersonNgn": 118.49,
     "drivers": [],
-    "fit": 0.6205,
+    "fit": 0.6655,
     "fitRange": [
-     0.313,
-     0.7943
+     0.1071,
+     0.7215
     ],
     "flags": [],
     "ingredientId": "cowpea",
@@ -45,35 +61,7 @@
      "price": "published (2026-04)",
      "weights": "estimated"
     },
-    "score": 0.5602
-   },
-   {
-    "asSoldG": 390.2,
-    "costNgn": null,
-    "costPerGProtein": null,
-    "costPerPersonNgn": null,
-    "drivers": [],
-    "fit": 0.8791,
-    "fitRange": [
-     0.8369,
-     0.9212
-    ],
-    "flags": [
-     "no data: foam_stability",
-     "no data: oil_absorption",
-     "price needed"
-    ],
-    "ingredientId": "african_yam_bean",
-    "priceSource": null,
-    "proteinPerPlateG": 20,
-    "proteinTotalG": 80,
-    "quality": {
-     "composition": "estimated",
-     "functional": "calculated+measured",
-     "price": "missing",
-     "weights": "estimated"
-    },
-    "score": null
+    "score": 0.5828
    },
    {
     "asSoldG": 384.6,
@@ -81,10 +69,10 @@
     "costPerGProtein": null,
     "costPerPersonNgn": null,
     "drivers": [],
-    "fit": 0.5645,
+    "fit": 0.457,
     "fitRange": [
-     0.1383,
-     0.9542
+     0.0,
+     0.9597
     ],
     "flags": [
      "price needed"
@@ -107,10 +95,10 @@
     "costPerGProtein": null,
     "costPerPersonNgn": null,
     "drivers": [],
-    "fit": 0.5422,
+    "fit": 0.4132,
     "fitRange": [
-     0.4314,
-     0.612
+     0.2958,
+     0.5416
     ],
     "flags": [
      "price needed"
@@ -133,10 +121,10 @@
     "costPerGProtein": null,
     "costPerPersonNgn": null,
     "drivers": [],
-    "fit": 0.4257,
+    "fit": 0.2432,
     "fitRange": [
-     0.3496,
-     0.4405
+     0.1912,
+     0.2858
     ],
     "flags": [
      "price needed"
@@ -152,88 +140,34 @@
      "weights": "estimated"
     },
     "score": null
+   }
+  ],
+  "notEnoughData": [
+   {
+    "id": "african_yam_bean",
+    "missingNeeds": [
+     "foam_stability",
+     "oil_absorption"
+    ]
    },
    {
-    "asSoldG": 289.9,
-    "costNgn": null,
-    "costPerGProtein": null,
-    "costPerPersonNgn": null,
-    "drivers": [],
-    "fit": 0.3731,
-    "fitRange": [
-     0.3186,
-     0.5401
-    ],
-    "flags": [
-     "no data: foam_stability",
-     "price needed"
-    ],
-    "ingredientId": "melon_seed",
-    "priceSource": null,
-    "proteinPerPlateG": 20,
-    "proteinTotalG": 80,
-    "quality": {
-     "composition": "measured",
-     "functional": "calculated+measured",
-     "price": "missing",
-     "weights": "estimated"
-    },
-    "score": null
+    "id": "groundnut",
+    "missingNeeds": [
+     "foam_stability"
+    ]
    },
    {
-    "asSoldG": 357.1,
-    "costNgn": null,
-    "costPerGProtein": null,
-    "costPerPersonNgn": null,
-    "drivers": [],
-    "fit": 0.2353,
-    "fitRange": [
-     0.2353,
-     0.2353
-    ],
-    "flags": [
-     "no data: foam_stability",
-     "price needed"
-    ],
-    "ingredientId": "groundnut",
-    "priceSource": null,
-    "proteinPerPlateG": 20,
-    "proteinTotalG": 80,
-    "quality": {
-     "composition": "measured",
-     "functional": "calculated+measured",
-     "price": "missing",
-     "weights": "estimated"
-    },
-    "score": null
+    "id": "melon_seed",
+    "missingNeeds": [
+     "foam_stability"
+    ]
    },
    {
-    "asSoldG": 275.9,
-    "costNgn": null,
-    "costPerGProtein": null,
-    "costPerPersonNgn": null,
-    "drivers": [],
-    "fit": 0.1288,
-    "fitRange": [
-     0.1288,
-     0.1288
-    ],
-    "flags": [
-     "no data: water_absorption",
-     "no data: oil_absorption",
-     "price needed"
-    ],
-    "ingredientId": "african_locust_bean",
-    "priceSource": null,
-    "proteinPerPlateG": 20,
-    "proteinTotalG": 80,
-    "quality": {
-     "composition": "estimated",
-     "functional": "measured",
-     "price": "missing",
-     "weights": "estimated"
-    },
-    "score": null
+    "id": "african_locust_bean",
+    "missingNeeds": [
+     "water_absorption",
+     "oil_absorption"
+    ]
    }
   ]
  },
