@@ -23,7 +23,7 @@ Checks run on Nov 21 at about 09:40 WAT:
 | `npx jest` | 28 of 28 pass across 4 suites: parity (all 15 golden cases plus the index check), engine, prepare logic, and screen smoke tests |
 | `npx expo-doctor` | 20 of 20 checks pass |
 | `npx expo export --platform android` | bundles (5.3 MB Hermes bundle), so every import and route resolves |
-| design linter (`jayvelski-skill`) | 0 findings |
+| visual check | every screen rendered with `expo start --web` and captured in headless Edge at phone width |
 | **Expo Go on a phone, airplane mode** | **NOT DONE YET.** It needs a human with a phone: run `npx expo start`, scan the QR code, load once, then turn airplane mode on and go through Start, Suggestions, Akara, Prepare and About. |
 
 
@@ -41,7 +41,7 @@ Checks run on Nov 21 at about 09:40 WAT:
   - Blocked methods are not shown, and one line says why. Warnings appear as friendly cards. Every safety message ends with "(safety rule not yet reviewed by an expert)". A plant on the user's allergen list is withheld entirely.
 - **About and limits**: one tap from every screen and also linked from a banner. It covers counts of measured, calculated and estimated values (from the bundle); not lab-tested by us; differing methods; estimated weights and portions; unreviewed safety rules; no health claims; a model card ("Preparation advice comes from published experiments, not a prediction" when the model is a stub); "plate balance coming"; sources; and the bundle version and date.
 - **Offline**: all data is bundled. The only network-related code is `src/lib/net.ts`, which listens to NetInfo with reachability probing turned off, so it sends no requests. The top bar shows "Works offline" or "Online".
-- **Design**: a warm MD3 theme for light and dark (`src/theme/`) with 48 dp targets, system font scaling and fade-and-slide reveals that switch off under reduced motion. The design linter from `jayvelski-skill` (`python jayvelski-skill/scripts/lint_design.py src`) reports 0 findings.
+- **Design (redesigned 11:00, food-app style)**: dark-first look modelled on a reference vegan food-app design (style only; no name, logo or artwork copied). Near-black base, vivid green #1ED561, deep green #0B6B44 blocks, warm yellow #F4C756 for cautions. Chunky display type (Baloo 2) with Outfit body text, both bundled in the app (OFL licence) so nothing downloads. Glowing icon tiles stand in for food photos, with round category tiles, a promo-style "Honest numbers" banner, green full-width actions and numbered step circles. A live "Top pick for your choices" card on Start is computed by the engine. 48 dp targets, reduced motion respected. Checked by rendering every screen in headless Edge (screenshots, not a phone).
 
 ## Cut or not done
 
@@ -49,7 +49,7 @@ Checks run on Nov 21 at about 09:40 WAT:
 - **The smoke tests mock navigation** (`expo-router`) and use a small stand-in for Reanimated. Reanimated 4.7's own Jest mock fails to load in this setup, and expo-router's testing library then falls back to an empty mock. So the screen-to-screen navigation is tested as "the right route is pushed with the right params", not as a full router run.
 - **Bundle updates** (stretch) were not built, as instructed. `src/lib/net.ts` only listens to the connection state.
 - **No Plate screen**, because `reference_values.json` is empty. About and limits says plate balance is coming.
-- **Dark mode** is built from the same tokens, but nobody has checked it by eye on a device.
+- **Light theme dropped**: the app is dark-only, following the reference design. Text contrast was chosen for at least 4.5:1, but readability in direct sunlight has not been checked on a phone.
 - **Backend note:** property `ph` is carried as raw text in the bundle (the backend validates it as a number but does not convert it). The app schema accepts it as shipped. Worth fixing in `build_bundle.py` at the next rebuild (then rerun `make_fixtures.py` and `node scripts/sync-bundle.js`).
 
 ## Deviations
