@@ -15,7 +15,17 @@ npx expo start                  # scan the QR code with Expo Go
 
 ## What works
 
-VERIFICATION_RESULTS
+Checks run on Nov 21 at about 09:40 WAT:
+
+| Check | Result |
+|---|---|
+| `npx tsc --noEmit` | clean |
+| `npx jest` | 28 of 28 pass across 4 suites: parity (all 15 golden cases plus the index check), engine, prepare logic, and screen smoke tests |
+| `npx expo-doctor` | 20 of 20 checks pass |
+| `npx expo export --platform android` | bundles (5.3 MB Hermes bundle), so every import and route resolves |
+| design linter (`jayvelski-skill`) | 0 findings |
+| **Expo Go on a phone, airplane mode** | **NOT DONE YET.** It needs a human with a phone: run `npx expo start`, scan the QR code, load once, then turn airplane mode on and go through Start, Suggestions, Akara, Prepare and About. |
+
 
 - **Engine (`src/engine/`)**: a pure TypeScript port of `suggestDishes`, `rankIngredients`, `recommendProcessing` and `safetyGuard`. Constants are in `config.ts`. Python's rounding (exact value, ties to even, negative zero) is reproduced in `num.ts`, so the outputs match the fixtures exactly.
 - **Parity**: `__tests__/parity.test.ts` loads every file in `backend/tests/golden/` (15 cases) and requires identical output.
@@ -35,7 +45,12 @@ VERIFICATION_RESULTS
 
 ## Cut or not done
 
-CUTS
+- **Not run on a real phone yet.** The screens are covered by Jest smoke tests that render each real screen with the bundled data. That is not a device test.
+- **The smoke tests mock navigation** (`expo-router`) and use a small stand-in for Reanimated. Reanimated 4.7's own Jest mock fails to load in this setup, and expo-router's testing library then falls back to an empty mock. So the screen-to-screen navigation is tested as "the right route is pushed with the right params", not as a full router run.
+- **Bundle updates** (stretch) were not built, as instructed. `src/lib/net.ts` only listens to the connection state.
+- **No Plate screen**, because `reference_values.json` is empty. About and limits says plate balance is coming.
+- **Dark mode** is built from the same tokens, but nobody has checked it by eye on a device.
+- **Backend note:** property `ph` is carried as raw text in the bundle (the backend validates it as a number but does not convert it). The app schema accepts it as shipped. Worth fixing in `build_bundle.py` at the next rebuild (then rerun `make_fixtures.py` and `node scripts/sync-bundle.js`).
 
 ## Deviations
 
