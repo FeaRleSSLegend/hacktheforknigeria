@@ -1,0 +1,56 @@
+{
+ "args": {
+  "applicationId": "seed_soup_body",
+  "candidateIds": [
+   "melon_seed",
+   "groundnut"
+  ],
+  "input": {
+   "allergens": [
+    "peanut"
+   ],
+   "budgetNgn": 1500,
+   "mode": "pantry",
+   "pantryIds": [],
+   "servings": 4,
+   "targetProteinG": 20
+  }
+ },
+ "bundleVersion": "2026-11-21-cdefda79",
+ "expected": {
+  "bundleVersion": "2026-11-21-cdefda79",
+  "excluded": [
+   {
+    "id": "groundnut",
+    "reason": "allergen: peanut"
+   }
+  ],
+  "items": [
+   {
+    "asSoldG": 289.9,
+    "costNgn": null,
+    "costPerGProtein": null,
+    "drivers": [],
+    "fit": 0.5,
+    "fitRange": [
+     0.5,
+     0.5
+    ],
+    "flags": [
+     "no data: emulsion_capacity",
+     "price needed"
+    ],
+    "ingredientId": "melon_seed",
+    "quality": {
+     "composition": "measured",
+     "functional": "calculated+measured",
+     "price": "missing",
+     "weights": "estimated"
+    },
+    "score": null
+   }
+  ]
+ },
+ "fn": "rankIngredients",
+ "name": "rank_seed_soup_peanut_allergen"
+}

@@ -1,0 +1,55 @@
+{
+ "args": {
+  "goal": "tannin",
+  "ingredientId": "melon_seed"
+ },
+ "bundleVersion": "2026-11-21-cdefda79",
+ "expected": {
+  "goal": "tannin",
+  "ingredientId": "melon_seed",
+  "mode": "fallback",
+  "note": "No prediction available. These are published results from the cited papers, not predictions. Few published rows for melon_seed; rows from other crops are labelled.",
+  "options": [
+   {
+    "conditions": null,
+    "cropId": "cowpea",
+    "effect": "Published change in cowpea: -97.7% (median of 4 rows)",
+    "effectRange": [
+     -98.3,
+     -97.3
+    ],
+    "evidence": "published rows, other crop, 4 rows, 1 paper(s); cumulative stages from raw seed, not the effect of this step alone; measured on cowpea, not melon_seed: estimated for this crop",
+    "instruction": "Fry until fully cooked.",
+    "kind": "published_other_crop",
+    "nRows": 4,
+    "sources": [
+     "bolade2015"
+    ],
+    "tempC": 190.0,
+    "timeH": 0.2,
+    "treatment": "deep_frying"
+   },
+   {
+    "conditions": null,
+    "cropId": "cowpea",
+    "effect": "Published change in cowpea: -96.8% (median of 4 rows)",
+    "effectRange": [
+     -97.4,
+     -96.5
+    ],
+    "evidence": "published rows, other crop, 4 rows, 1 paper(s); cumulative stages from raw seed, not the effect of this step alone; measured on cowpea, not melon_seed: estimated for this crop",
+    "instruction": "Steam until fully cooked.",
+    "kind": "published_other_crop",
+    "nRows": 4,
+    "sources": [
+     "bolade2015"
+    ],
+    "tempC": 105.0,
+    "timeH": 0.5833,
+    "treatment": "steaming"
+   }
+  ]
+ },
+ "fn": "recommendProcessing",
+ "name": "processing_melon_seed_tannin_other_crops"
+}

@@ -1,0 +1,251 @@
+{
+ "args": {
+  "ctx": {
+   "allergens": []
+  },
+  "result": {
+   "goal": "phytate",
+   "ingredientId": "groundnut",
+   "mode": "fallback",
+   "note": "No prediction available. These are published results from the cited papers, not predictions.",
+   "options": [
+    {
+     "conditions": "As measured in the study (ijarotimi2022): kernels cooked 100 C for 30 min, oven-dried 60 C for 20 h, milled. One flour sample, one value per metric.",
+     "cropId": "groundnut",
+     "effect": "Published change: -36.3% (median of 1 row)",
+     "effectRange": [
+      -36.3,
+      -36.3
+     ],
+     "evidence": "published rows, same crop, one study, 9 rows",
+     "instruction": "Wash the kernels. Boil until cooked through. Dry and mill to flour.",
+     "kind": "playbook",
+     "nRows": 1,
+     "playbookId": "pb_groundnut_boil",
+     "sources": [
+      "ijarotimi2022 (see data/SOURCES.md)"
+     ],
+     "tempC": null,
+     "timeH": null,
+     "treatment": "boiling_cooking_milling"
+    },
+    {
+     "conditions": "As measured in the study (ijarotimi2022): cooked 100 C 30 min, wrapped in plantain leaves and fermented naturally at 37 C for 48 h (the text also says 3 days), dried 60 C 20 h. Cumulative from raw. One value per metric.",
+     "cropId": "groundnut",
+     "effect": "Published change: -9.1% (median of 1 row)",
+     "effectRange": [
+      -9.1,
+      -9.1
+     ],
+     "evidence": "published rows, same crop, one study, 9 rows; cumulative stages",
+     "instruction": "Boil the kernels, then wrap them and let them ferment, then dry and mill.",
+     "kind": "playbook",
+     "nRows": 1,
+     "playbookId": "pb_groundnut_cook_ferment",
+     "sources": [
+      "ijarotimi2022 (see data/SOURCES.md)"
+     ],
+     "tempC": null,
+     "timeH": null,
+     "treatment": "boiling_fermentation_milling"
+    },
+    {
+     "conditions": "As measured in the study (ijarotimi2022): steeped in hypochlorite solution 30 min, soaked 6 h, germinated 4 days (temperature not stated), dried 60 C 20 h, milled. One value per metric.",
+     "cropId": "groundnut",
+     "effect": "Published change: +4.6% (median of 1 row)",
+     "effectRange": [
+      4.6,
+      4.6
+     ],
+     "evidence": "published rows, same crop, one study, 9 rows",
+     "instruction": "Soak the kernels, then let them sprout for several days. Dry and mill to flour.",
+     "kind": "playbook",
+     "nRows": 1,
+     "playbookId": "pb_groundnut_germinate",
+     "sources": [
+      "ijarotimi2022 (see data/SOURCES.md)"
+     ],
+     "tempC": null,
+     "timeH": null,
+     "treatment": "soaking_germination_milling"
+    },
+    {
+     "conditions": null,
+     "cropId": "groundnut",
+     "effect": "Published change: -36.3% (median of 1 row)",
+     "effectRange": [
+      -36.3,
+      -36.3
+     ],
+     "evidence": "published rows, same crop, 1 row, 1 paper(s)",
+     "instruction": "Boil until fully soft.",
+     "kind": "published_same_crop",
+     "nRows": 1,
+     "sources": [
+      "ijarotimi2022"
+     ],
+     "tempC": 100.0,
+     "timeH": 0.5,
+     "treatment": "boiling"
+    },
+    {
+     "conditions": null,
+     "cropId": "groundnut",
+     "effect": "Published change: -31.8% (median of 1 row)",
+     "effectRange": [
+      -31.8,
+      -31.8
+     ],
+     "evidence": "published rows, same crop, 1 row, 1 paper(s); cumulative stages from raw seed, not the effect of this step alone",
+     "instruction": "Let the seeds sprout, then boil until fully soft, then ferment in a clean, covered container.",
+     "kind": "published_same_crop",
+     "nRows": 1,
+     "sources": [
+      "ijarotimi2022"
+     ],
+     "tempC": 37.0,
+     "timeH": 96.0,
+     "treatment": "germination_boiling_fermentation"
+    },
+    {
+     "conditions": null,
+     "cropId": "groundnut",
+     "effect": "Published change: -9.1% (median of 1 row)",
+     "effectRange": [
+      -9.1,
+      -9.1
+     ],
+     "evidence": "published rows, same crop, 1 row, 1 paper(s); cumulative stages from raw seed, not the effect of this step alone",
+     "instruction": "Boil until fully soft, then ferment in a clean, covered container.",
+     "kind": "published_same_crop",
+     "nRows": 1,
+     "sources": [
+      "ijarotimi2022"
+     ],
+     "tempC": 37.0,
+     "timeH": 48.0,
+     "treatment": "boiling_fermentation"
+    }
+   ]
+  }
+ },
+ "bundleVersion": "2026-11-21-cdefda79",
+ "expected": {
+  "allowed": true,
+  "blocked": [
+   "Withheld \"Soak the kernels, then let them sprout for several days. Dry and mill to flour.\": Soaking, dehulling, milling or sprouting alone does not remove the heat-sensitive anti-nutrients (trypsin inhibitors). Do not present a soak-only, sprout-only or raw-flour preparation as ready to eat. Cook bean and groundnut preparations until they are fully done. (safety rule not yet reviewed by an expert)"
+  ],
+  "result": {
+   "goal": "phytate",
+   "ingredientId": "groundnut",
+   "mode": "fallback",
+   "note": "No prediction available. These are published results from the cited papers, not predictions.",
+   "options": [
+    {
+     "conditions": "As measured in the study (ijarotimi2022): kernels cooked 100 C for 30 min, oven-dried 60 C for 20 h, milled. One flour sample, one value per metric.",
+     "cropId": "groundnut",
+     "effect": "Published change: -36.3% (median of 1 row)",
+     "effectRange": [
+      -36.3,
+      -36.3
+     ],
+     "evidence": "published rows, same crop, one study, 9 rows",
+     "instruction": "Wash the kernels. Boil until cooked through. Dry and mill to flour.",
+     "kind": "playbook",
+     "nRows": 1,
+     "playbookId": "pb_groundnut_boil",
+     "sources": [
+      "ijarotimi2022 (see data/SOURCES.md)"
+     ],
+     "tempC": null,
+     "timeH": null,
+     "treatment": "boiling_cooking_milling"
+    },
+    {
+     "conditions": "As measured in the study (ijarotimi2022): cooked 100 C 30 min, wrapped in plantain leaves and fermented naturally at 37 C for 48 h (the text also says 3 days), dried 60 C 20 h. Cumulative from raw. One value per metric.",
+     "cropId": "groundnut",
+     "effect": "Published change: -9.1% (median of 1 row)",
+     "effectRange": [
+      -9.1,
+      -9.1
+     ],
+     "evidence": "published rows, same crop, one study, 9 rows; cumulative stages",
+     "instruction": "Boil the kernels, then wrap them and let them ferment, then dry and mill.",
+     "kind": "playbook",
+     "nRows": 1,
+     "playbookId": "pb_groundnut_cook_ferment",
+     "sources": [
+      "ijarotimi2022 (see data/SOURCES.md)"
+     ],
+     "tempC": null,
+     "timeH": null,
+     "treatment": "boiling_fermentation_milling"
+    },
+    {
+     "conditions": null,
+     "cropId": "groundnut",
+     "effect": "Published change: -36.3% (median of 1 row)",
+     "effectRange": [
+      -36.3,
+      -36.3
+     ],
+     "evidence": "published rows, same crop, 1 row, 1 paper(s)",
+     "instruction": "Boil until fully soft.",
+     "kind": "published_same_crop",
+     "nRows": 1,
+     "sources": [
+      "ijarotimi2022"
+     ],
+     "tempC": 100.0,
+     "timeH": 0.5,
+     "treatment": "boiling"
+    },
+    {
+     "conditions": null,
+     "cropId": "groundnut",
+     "effect": "Published change: -31.8% (median of 1 row)",
+     "effectRange": [
+      -31.8,
+      -31.8
+     ],
+     "evidence": "published rows, same crop, 1 row, 1 paper(s); cumulative stages from raw seed, not the effect of this step alone",
+     "instruction": "Let the seeds sprout, then boil until fully soft, then ferment in a clean, covered container.",
+     "kind": "published_same_crop",
+     "nRows": 1,
+     "sources": [
+      "ijarotimi2022"
+     ],
+     "tempC": 37.0,
+     "timeH": 96.0,
+     "treatment": "germination_boiling_fermentation"
+    },
+    {
+     "conditions": null,
+     "cropId": "groundnut",
+     "effect": "Published change: -9.1% (median of 1 row)",
+     "effectRange": [
+      -9.1,
+      -9.1
+     ],
+     "evidence": "published rows, same crop, 1 row, 1 paper(s); cumulative stages from raw seed, not the effect of this step alone",
+     "instruction": "Boil until fully soft, then ferment in a clean, covered container.",
+     "kind": "published_same_crop",
+     "nRows": 1,
+     "sources": [
+      "ijarotimi2022"
+     ],
+     "tempC": 37.0,
+     "timeH": 48.0,
+     "treatment": "boiling_fermentation"
+    }
+   ]
+  },
+  "warnings": [
+   "Discard groundnuts, seeds and grains that look mouldy, discoloured or shrivelled before preparing them. Cooking or fermenting does not make mouldy nuts safe. (safety rule not yet reviewed by an expert)",
+   "Contains peanut (groundnut) or soya. Peanuts and soybeans are among the foods that cause allergic reactions. Anyone with an allergy to either should not use this ingredient. (safety rule not yet reviewed by an expert)",
+   "Fermentation did not lower anti-nutrients in every published sample. Show the published range for the crop and never promise a fixed reduction. (safety rule not yet reviewed by an expert)"
+  ]
+ },
+ "fn": "safetyGuard",
+ "name": "safety_groundnut_phytate_warn"
+}

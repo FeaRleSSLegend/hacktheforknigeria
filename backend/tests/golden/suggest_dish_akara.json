@@ -1,0 +1,134 @@
+{
+ "args": {
+  "input": {
+   "allergens": [],
+   "budgetNgn": 1500,
+   "dishId": "akara",
+   "mode": "dish",
+   "pantryIds": [],
+   "servings": 4,
+   "targetProteinG": 20
+  }
+ },
+ "bundleVersion": "2026-11-21-cdefda79",
+ "expected": {
+  "bundleVersion": "2026-11-21-cdefda79",
+  "dishes": [
+   {
+    "alternatives": [
+     {
+      "asSoldG": 390.2,
+      "costNgn": null,
+      "costPerGProtein": null,
+      "drivers": [],
+      "fit": 0.8391,
+      "fitRange": [
+       0.7035,
+       0.9746
+      ],
+      "flags": [
+       "no data: foam_stability",
+       "no data: oil_absorption",
+       "price needed"
+      ],
+      "ingredientId": "african_yam_bean",
+      "quality": {
+       "composition": "estimated",
+       "functional": "calculated+measured",
+       "price": "missing",
+       "weights": "estimated"
+      },
+      "score": null
+     },
+     {
+      "asSoldG": 384.6,
+      "costNgn": null,
+      "costPerGProtein": null,
+      "drivers": [],
+      "fit": 0.3517,
+      "fitRange": [
+       0.0,
+       0.9597
+      ],
+      "flags": [
+       "price needed"
+      ],
+      "ingredientId": "pigeon_pea",
+      "quality": {
+       "composition": "estimated",
+       "functional": "calculated+measured",
+       "price": "missing",
+       "weights": "estimated"
+      },
+      "score": null
+     },
+     {
+      "asSoldG": 410.3,
+      "costNgn": null,
+      "costPerGProtein": null,
+      "drivers": [],
+      "fit": 0.35,
+      "fitRange": [
+       0.2938,
+       0.435
+      ],
+      "flags": [
+       "price needed"
+      ],
+      "ingredientId": "bambara",
+      "quality": {
+       "composition": "measured",
+       "functional": "calculated+measured",
+       "price": "missing",
+       "weights": "estimated"
+      },
+      "score": null
+     }
+    ],
+    "dishId": "akara",
+    "flags": [
+     "price needed: african_yam_bean, pigeon_pea, bambara",
+     "cost excludes oil and spices"
+    ],
+    "missingItems": [
+     {
+      "costNgn": 872.91,
+      "id": "cowpea"
+     }
+    ],
+    "name": "Akara",
+    "playbookIds": [
+     "pb_cowpea_akara_route",
+     "pb_cowpea_soak_dehull",
+     "pb_bambara_roast_caution",
+     "pb_pigeon_pea_germinate"
+    ],
+    "protein": {
+     "asSoldG": 354.0,
+     "costNgn": 872.91,
+     "costPerGProtein": 10.9113,
+     "drivers": [],
+     "fit": 0.5292,
+     "fitRange": [
+      0.0676,
+      0.7149
+     ],
+     "flags": [],
+     "ingredientId": "cowpea",
+     "quality": {
+      "composition": "measured",
+      "functional": "calculated+measured",
+      "price": "published (2025-02)",
+      "weights": "estimated"
+     },
+     "score": 0.5146
+    },
+    "proteinPerPlateG": 20,
+    "totalCostNgn": 872.91
+   }
+  ],
+  "excluded": []
+ },
+ "fn": "suggestDishes",
+ "name": "suggest_dish_akara"
+}

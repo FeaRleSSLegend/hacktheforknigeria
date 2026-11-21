@@ -1,0 +1,133 @@
+{
+ "args": {
+  "goal": "oxalate_mg100g",
+  "ingredientId": "african_yam_bean"
+ },
+ "bundleVersion": "2026-11-21-cdefda79",
+ "expected": {
+  "goal": "oxalate",
+  "ingredientId": "african_yam_bean",
+  "mode": "fallback",
+  "note": "No prediction available. These are published results from the cited papers, not predictions. Few published rows for african_yam_bean; rows from other crops are labelled.",
+  "options": [
+   {
+    "conditions": "As measured in the study (abioye2014): soaked 9 h, germinated at 25 C for 24, 48, 72 and 96 h; baseline is the 0 h sample. Four rows per metric.",
+    "cropId": "african_yam_bean",
+    "effect": "Published change: -31.2% (median of 4 rows)",
+    "effectRange": [
+     -50.0,
+     0.0
+    ],
+    "evidence": "published rows, same crop, one study, 32 rows",
+    "instruction": "Soak, then sprout, dry and mill.",
+    "kind": "playbook",
+    "nRows": 4,
+    "playbookId": "pb_african_yam_bean_germinate",
+    "sources": [
+     "abioye2014 (see data/SOURCES.md)"
+    ],
+    "tempC": null,
+    "timeH": null,
+    "treatment": "soaking_germination_milling"
+   },
+   {
+    "conditions": "As measured in the study (abiodun2011): steamed 5 min, dehulled, soaked 30 min, oven-dried, milled. One value per metric.",
+    "cropId": "african_yam_bean",
+    "effect": "Published change: -17.1% (median of 1 row)",
+    "effectRange": [
+     -17.1,
+     -17.1
+    ],
+    "evidence": "published rows, same crop, one study, 10 rows",
+    "instruction": "Steam briefly, remove the skins, soak.",
+    "kind": "playbook",
+    "nRows": 1,
+    "playbookId": "pb_african_yam_bean_dehull_soak",
+    "sources": [
+     "abiodun2011 (see data/SOURCES.md)"
+    ],
+    "tempC": null,
+    "timeH": null,
+    "treatment": "steaming_dehulling_soaking"
+   },
+   {
+    "conditions": null,
+    "cropId": "african_yam_bean",
+    "effect": "Published change: -50.0% (median of 1 row)",
+    "effectRange": [
+     -50.0,
+     -50.0
+    ],
+    "evidence": "published rows, same crop, 1 row, 1 paper(s)",
+    "instruction": "Let the seeds sprout.",
+    "kind": "published_same_crop",
+    "nRows": 1,
+    "sources": [
+     "abioye2014"
+    ],
+    "tempC": 25.0,
+    "timeH": 72.0,
+    "treatment": "germination"
+   },
+   {
+    "conditions": null,
+    "cropId": "african_yam_bean",
+    "effect": "Published change: -17.1% (median of 1 row)",
+    "effectRange": [
+     -17.1,
+     -17.1
+    ],
+    "evidence": "published rows, same crop, 1 row, 1 paper(s)",
+    "instruction": "Remove the skins, then Soak in clean water.",
+    "kind": "published_same_crop",
+    "nRows": 1,
+    "sources": [
+     "abiodun2011"
+    ],
+    "tempC": null,
+    "timeH": 0.5,
+    "treatment": "dehulling_soaking"
+   },
+   {
+    "conditions": null,
+    "cropId": "groundnut",
+    "effect": "Published change in groundnut: -72.9% (median of 1 row)",
+    "effectRange": [
+     -72.9,
+     -72.9
+    ],
+    "evidence": "published rows, other crop, 1 row, 1 paper(s); measured on groundnut, not african_yam_bean: estimated for this crop",
+    "instruction": "Boil until fully soft.",
+    "kind": "published_other_crop",
+    "nRows": 1,
+    "sources": [
+     "ijarotimi2022"
+    ],
+    "tempC": 100.0,
+    "timeH": 0.5,
+    "treatment": "boiling"
+   },
+   {
+    "conditions": null,
+    "cropId": "mungbean",
+    "effect": "Published change in mungbean: -70.8% (median of 1 row)",
+    "effectRange": [
+     -70.8,
+     -70.8
+    ],
+    "evidence": "published rows, other crop, 1 row, 1 paper(s); measured on mungbean, not african_yam_bean: estimated for this crop",
+    "instruction": "Soak in clean water, then cook under pressure until fully soft.",
+    "kind": "published_other_crop",
+    "nRows": 1,
+    "sources": [
+     "pokharel2024"
+    ],
+    "tempC": 121.0,
+    "timeH": 0.25,
+    "treatment": "soaking_autoclaving"
+   }
+  ]
+ },
+ "fn": "recommendProcessing",
+ "name": "processing_ayb_oxalate_alias_goal"
+}

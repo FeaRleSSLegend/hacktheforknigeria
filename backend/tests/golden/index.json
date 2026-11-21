@@ -1,0 +1,20 @@
+{
+ "bundleVersion": "2026-11-21-cdefda79",
+ "cases": [
+  "suggest_pantry_cowpea",
+  "suggest_pantry_empty",
+  "suggest_dish_akara",
+  "suggest_budget_too_low",
+  "suggest_allergen_peanut_egusi",
+  "rank_akara_all_soy_allergen",
+  "rank_seed_soup_peanut_allergen",
+  "processing_cowpea_phytate",
+  "processing_bambara_phytate_thin",
+  "processing_melon_seed_tannin_other_crops",
+  "processing_ayb_oxalate_alias_goal",
+  "safety_cowpea_phytate_block_option",
+  "safety_groundnut_phytate_warn",
+  "safety_groundnut_user_allergen_block",
+  "safety_bambara_phytate"
+ ]
+}

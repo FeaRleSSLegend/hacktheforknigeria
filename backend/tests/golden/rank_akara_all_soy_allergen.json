@@ -1,0 +1,210 @@
+{
+ "args": {
+  "applicationId": "akara_batter",
+  "candidateIds": null,
+  "input": {
+   "allergens": [
+    "soy"
+   ],
+   "budgetNgn": 1500,
+   "mode": "pantry",
+   "pantryIds": [],
+   "servings": 4,
+   "targetProteinG": 20
+  }
+ },
+ "bundleVersion": "2026-11-21-cdefda79",
+ "expected": {
+  "bundleVersion": "2026-11-21-cdefda79",
+  "excluded": [
+   {
+    "id": "soybean",
+    "reason": "allergen: soy"
+   }
+  ],
+  "items": [
+   {
+    "asSoldG": 354.0,
+    "costNgn": 872.91,
+    "costPerGProtein": 10.9113,
+    "drivers": [],
+    "fit": 0.6205,
+    "fitRange": [
+     0.313,
+     0.7943
+    ],
+    "flags": [],
+    "ingredientId": "cowpea",
+    "quality": {
+     "composition": "measured",
+     "functional": "calculated+measured",
+     "price": "published (2025-02)",
+     "weights": "estimated"
+    },
+    "score": 0.5602
+   },
+   {
+    "asSoldG": 390.2,
+    "costNgn": null,
+    "costPerGProtein": null,
+    "drivers": [],
+    "fit": 0.8791,
+    "fitRange": [
+     0.8369,
+     0.9212
+    ],
+    "flags": [
+     "no data: foam_stability",
+     "no data: oil_absorption",
+     "price needed"
+    ],
+    "ingredientId": "african_yam_bean",
+    "quality": {
+     "composition": "estimated",
+     "functional": "calculated+measured",
+     "price": "missing",
+     "weights": "estimated"
+    },
+    "score": null
+   },
+   {
+    "asSoldG": 384.6,
+    "costNgn": null,
+    "costPerGProtein": null,
+    "drivers": [],
+    "fit": 0.5645,
+    "fitRange": [
+     0.1383,
+     0.9542
+    ],
+    "flags": [
+     "price needed"
+    ],
+    "ingredientId": "pigeon_pea",
+    "quality": {
+     "composition": "estimated",
+     "functional": "calculated+measured",
+     "price": "missing",
+     "weights": "estimated"
+    },
+    "score": null
+   },
+   {
+    "asSoldG": 410.3,
+    "costNgn": null,
+    "costPerGProtein": null,
+    "drivers": [],
+    "fit": 0.5422,
+    "fitRange": [
+     0.4314,
+     0.612
+    ],
+    "flags": [
+     "price needed"
+    ],
+    "ingredientId": "bambara",
+    "quality": {
+     "composition": "measured",
+     "functional": "calculated+measured",
+     "price": "missing",
+     "weights": "estimated"
+    },
+    "score": null
+   },
+   {
+    "asSoldG": 332.0,
+    "costNgn": null,
+    "costPerGProtein": null,
+    "drivers": [],
+    "fit": 0.4257,
+    "fitRange": [
+     0.3496,
+     0.4405
+    ],
+    "flags": [
+     "price needed"
+    ],
+    "ingredientId": "jack_bean",
+    "quality": {
+     "composition": "estimated",
+     "functional": "calculated+measured",
+     "price": "missing",
+     "weights": "estimated"
+    },
+    "score": null
+   },
+   {
+    "asSoldG": 289.9,
+    "costNgn": null,
+    "costPerGProtein": null,
+    "drivers": [],
+    "fit": 0.3731,
+    "fitRange": [
+     0.3186,
+     0.5401
+    ],
+    "flags": [
+     "no data: foam_stability",
+     "price needed"
+    ],
+    "ingredientId": "melon_seed",
+    "quality": {
+     "composition": "measured",
+     "functional": "calculated+measured",
+     "price": "missing",
+     "weights": "estimated"
+    },
+    "score": null
+   },
+   {
+    "asSoldG": 357.1,
+    "costNgn": null,
+    "costPerGProtein": null,
+    "drivers": [],
+    "fit": 0.2353,
+    "fitRange": [
+     0.2353,
+     0.2353
+    ],
+    "flags": [
+     "no data: foam_stability",
+     "price needed"
+    ],
+    "ingredientId": "groundnut",
+    "quality": {
+     "composition": "measured",
+     "functional": "calculated+measured",
+     "price": "missing",
+     "weights": "estimated"
+    },
+    "score": null
+   },
+   {
+    "asSoldG": 275.9,
+    "costNgn": null,
+    "costPerGProtein": null,
+    "drivers": [],
+    "fit": 0.1288,
+    "fitRange": [
+     0.1288,
+     0.1288
+    ],
+    "flags": [
+     "no data: water_absorption",
+     "no data: oil_absorption",
+     "price needed"
+    ],
+    "ingredientId": "african_locust_bean",
+    "quality": {
+     "composition": "estimated",
+     "functional": "measured",
+     "price": "missing",
+     "weights": "estimated"
+    },
+    "score": null
+   }
+  ]
+ },
+ "fn": "rankIngredients",
+ "name": "rank_akara_all_soy_allergen"
+}

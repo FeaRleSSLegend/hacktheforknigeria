@@ -1,0 +1,45 @@
+{
+ "args": {
+  "input": {
+   "allergens": [],
+   "budgetNgn": 500,
+   "mode": "pantry",
+   "pantryIds": [],
+   "servings": 4,
+   "targetProteinG": 20
+  }
+ },
+ "bundleVersion": "2026-11-21-cdefda79",
+ "expected": {
+  "bundleVersion": "2026-11-21-cdefda79",
+  "dishes": [],
+  "excluded": [
+   {
+    "id": "akara",
+    "reason": "over budget (need 873 NGN to buy)"
+   },
+   {
+    "id": "moin_moin",
+    "reason": "over budget (need 873 NGN to buy)"
+   },
+   {
+    "id": "ekuru",
+    "reason": "over budget (need 873 NGN to buy)"
+   },
+   {
+    "id": "okpa",
+    "reason": "no usable protein: bambara (price needed)"
+   },
+   {
+    "id": "gbegiri",
+    "reason": "over budget (need 873 NGN to buy)"
+   },
+   {
+    "id": "egusi_soup",
+    "reason": "no usable protein: melon_seed (price needed); groundnut (price needed)"
+   }
+  ]
+ },
+ "fn": "suggestDishes",
+ "name": "suggest_budget_too_low"
+}

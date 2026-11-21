@@ -1,0 +1,28 @@
+{
+ "args": {
+  "input": {
+   "allergens": [
+    "peanut"
+   ],
+   "budgetNgn": 1500,
+   "dishId": "egusi_soup",
+   "mode": "dish",
+   "pantryIds": [],
+   "servings": 4,
+   "targetProteinG": 20
+  }
+ },
+ "bundleVersion": "2026-11-21-cdefda79",
+ "expected": {
+  "bundleVersion": "2026-11-21-cdefda79",
+  "dishes": [],
+  "excluded": [
+   {
+    "id": "egusi_soup",
+    "reason": "no usable protein: groundnut (allergen: peanut); melon_seed (price needed)"
+   }
+  ]
+ },
+ "fn": "suggestDishes",
+ "name": "suggest_allergen_peanut_egusi"
+}
