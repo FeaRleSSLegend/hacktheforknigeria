@@ -1,7 +1,0 @@
-unit,commodity,kg_per_unit,basis,confidence,source,use_in_app
-mudu,rice (milled),1.075,lab-measured mean volume 1463 ml; Bida northern Nigeria; 1962,measured_but_old_single_location,Sluyters 1962 Neth J Agric Sci 10(4) via library.wur.nl,reference_only
-mudu,paddy rice,0.602,lab-measured mean volume 1493 ml; Bida; 1962,measured_but_old_single_location,same,reference_only
-mudu,beans and grains (trade rule of thumb),1.52,50 kg bag is about 33 mudu (50/33); 25 kg is about 16; 100 kg is about 66,estimated_trade_convention,naijapricemarket.blogspot.com 2024 (several trade sites repeat it),default_until_weighed
-mudu,grains general (online converter),2.5,unreferenced; converter says range 1.5 to 3 kg,unverified,calculators-ng.pages.dev,do_not_use
-mudu,grains small Abuja (press),0.17,Guardian Nigeria article,conflicts_with_lab_and_trade_figures,guardian.ng traditional measurements article,do_not_use
-mudu,grains large Kano (press),0.32,Guardian Nigeria article,conflicts_with_lab_and_trade_figures,same,do_not_use

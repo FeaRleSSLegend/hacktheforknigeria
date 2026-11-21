@@ -25,7 +25,7 @@ function AboutBody({ bundle }: { bundle: Bundle }) {
     const fq = count(bundle.properties, (r) => r.quality);
     const tq = count(bundle.treatments, (r) => r.quality);
     const papers = new Set([...bundle.properties.map((r) => r.paper_id), ...bundle.treatments.map((r) => r.paper_id)]);
-    const shipped = Object.entries(bundle.model.metrics ?? {}).filter(([, m]) => m.ships === true);
+    const shipped = Object.entries(bundle.model.models ?? {});
     const unreviewed = bundle.safetyRules.filter((r) => !r.reviewed).length;
     const compSources = [...new Set(ings.map((i) => i.source))];
     const priceSources = [...new Set(priced.map((i) => `${i.price_source} (${i.price_month})`))];
@@ -96,8 +96,9 @@ function AboutBody({ bundle }: { bundle: Bundle }) {
           ) : (
             facts.shipped.map(([metric, m]) => (
               <Body key={metric}>
-                {metric.replace(/_/g, " ")}: small linear model, tested on papers it had not seen
-                {m.cv_mae !== undefined && m.baseline_mae !== undefined ? ` (error ${m.cv_mae} against ${m.baseline_mae} for the simple baseline)` : ""}.
+                {metric.replace(/_/g, " ")}: {m.kind === "ridge" ? "small linear model" : "pooled average of published results"}, tested on papers it had not
+                seen and kept only because it beat the simple baseline{m.display_label ? ` (${m.display_label})` : ""}. Shown only when there are no
+                published results for the plant itself.
               </Body>
             ))
           )}

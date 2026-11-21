@@ -43,6 +43,8 @@ CASES = [
     ("processing_bambara_phytate_thin", "recommendProcessing", {"ingredientId": "bambara", "goal": "phytate"}),
     ("processing_melon_seed_tannin_other_crops", "recommendProcessing", {"ingredientId": "melon_seed", "goal": "tannin"}),
     ("processing_ayb_oxalate_alias_goal", "recommendProcessing", {"ingredientId": "african_yam_bean", "goal": "oxalate_mg100g"}),
+    ("processing_soybean_phytate_model", "recommendProcessing", {"ingredientId": "soybean", "goal": "phytate"}),
+    ("processing_cowpea_tannin_model_not_used", "recommendProcessing", {"ingredientId": "cowpea", "goal": "tannin"}),
 ]
 # safetyGuard cases take a processing result from the engine as input.
 SAFETY_CASES = [
@@ -50,6 +52,7 @@ SAFETY_CASES = [
     ("safety_groundnut_phytate_warn", "groundnut", "phytate", {"allergens": []}),
     ("safety_groundnut_user_allergen_block", "groundnut", "phytate", {"allergens": ["peanut"]}),
     ("safety_bambara_phytate", "bambara", "phytate", {"allergens": []}),
+    ("safety_soybean_phytate_model", "soybean", "phytate", {"allergens": []}),
 ]
 
 

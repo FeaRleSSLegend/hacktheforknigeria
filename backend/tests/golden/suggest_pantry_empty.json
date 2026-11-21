@@ -9,74 +9,10 @@
    "targetProteinG": 20
   }
  },
- "bundleVersion": "2026-11-21-cdefda79",
+ "bundleVersion": "2026-11-21-48c617ec",
  "expected": {
-  "bundleVersion": "2026-11-21-cdefda79",
+  "bundleVersion": "2026-11-21-48c617ec",
   "dishes": [
-   {
-    "alternatives": [
-     {
-      "asSoldG": 384.6,
-      "costNgn": null,
-      "costPerGProtein": null,
-      "drivers": [],
-      "fit": 0.0,
-      "fitRange": [
-       0.0,
-       1.0
-      ],
-      "flags": [
-       "price needed"
-      ],
-      "ingredientId": "pigeon_pea",
-      "quality": {
-       "composition": "estimated",
-       "functional": "calculated+measured",
-       "price": "missing",
-       "weights": "estimated"
-      },
-      "score": null
-     }
-    ],
-    "dishId": "ekuru",
-    "flags": [
-     "price needed: pigeon_pea",
-     "cost excludes oil and spices"
-    ],
-    "missingItems": [
-     {
-      "costNgn": 872.91,
-      "id": "cowpea"
-     }
-    ],
-    "name": "Ekuru",
-    "playbookIds": [
-     "pb_cowpea_moinmoin_route",
-     "pb_cowpea_soak_dehull"
-    ],
-    "protein": {
-     "asSoldG": 354.0,
-     "costNgn": 872.91,
-     "costPerGProtein": 10.9113,
-     "drivers": [],
-     "fit": 1.0,
-     "fitRange": [
-      0.2,
-      1.0
-     ],
-     "flags": [],
-     "ingredientId": "cowpea",
-     "quality": {
-      "composition": "measured",
-      "functional": "calculated+measured",
-      "price": "published (2025-02)",
-      "weights": "estimated"
-     },
-     "score": 0.75
-    },
-    "proteinPerPlateG": 20,
-    "totalCostNgn": 872.91
-   },
    {
     "alternatives": [
      {
@@ -157,6 +93,10 @@
      {
       "costNgn": 872.91,
       "id": "cowpea"
+     },
+     {
+      "costNgn": 233.86,
+      "id": "maize_white"
      }
     ],
     "name": "Moin-moin",
@@ -185,7 +125,7 @@
      "score": 0.7068
     },
     "proteinPerPlateG": 20,
-    "totalCostNgn": 872.91
+    "totalCostNgn": 1106.77
    },
    {
     "alternatives": [
@@ -221,6 +161,10 @@
      {
       "costNgn": 872.91,
       "id": "cowpea"
+     },
+     {
+      "costNgn": 408.72,
+      "id": "garri_white"
      }
     ],
     "name": "Gbegiri (bean soup)",
@@ -249,7 +193,7 @@
      "score": 0.6
     },
     "proteinPerPlateG": 20,
-    "totalCostNgn": 872.91
+    "totalCostNgn": 1281.63
    },
    {
     "alternatives": [
@@ -331,6 +275,14 @@
      {
       "costNgn": 872.91,
       "id": "cowpea"
+     },
+     {
+      "costNgn": 233.86,
+      "id": "maize_white"
+     },
+     {
+      "costNgn": 222.23,
+      "id": "tomato"
      }
     ],
     "name": "Akara",
@@ -361,10 +313,14 @@
      "score": 0.5146
     },
     "proteinPerPlateG": 20,
-    "totalCostNgn": 872.91
+    "totalCostNgn": 1329.0
    }
   ],
   "excluded": [
+   {
+    "id": "ekuru",
+    "reason": "over budget (need 1722 NGN to buy)"
+   },
    {
     "id": "okpa",
     "reason": "no usable protein: bambara (price needed)"

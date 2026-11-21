@@ -2,29 +2,36 @@
 
 Pure function. Two modes (PROJECT.md sections 7 and 8):
 
-- "model": only when model.json marks the metric as shipped AND the entry has the linear format
-  below AND the crop has a training range. Grid search inside the observed range (no extrapolation),
-  top options with +-1.96 x residual SD intervals.
 - "fallback": published results, never predictions. Order: playbook entries for this crop, then
   grouped published rows for this crop, then (only when same-crop rows are thin) labelled rows from
   other crops. Rows the paper reports as cumulative stages are labelled so.
+- "model": only when the crop has NO same-crop published evidence for the goal (no playbook entry,
+  no row) and bundle model.json["models"][goal] covers it. Same-crop rows always come first and a
+  pooled prediction is never shown next to them (team decision, Nov 20). Model options are followed
+  by labelled other-crop rows as supporting evidence.
 
-Expected model.json metric entry (anything else falls back safely):
-  {"ships": true, "intercept": float, "coef": {"crop=<id>": f, "treatment=<t>": f, "time_h": f,
-   "temp_c": f, "time_h^2": f, "time_h*temp_c": f}, "residual_sd": float,
-   "ranges": {"<crop>|<treatment>": {"time_h": [lo, hi], "temp_c": [lo, hi]}},
-   optional "papers": [..], "cv_mae": f, "baseline_mae": f}
+model.json format (written by scripts/train_processing.py at the repo root):
+  {"models": {"<metric>": entry}}. Read here: tables keyed "treatment|metric" (C3), entries
+  {"<treatment>|<metric>": {"value", "n_rows", "papers", "crops", "citations", "time_h", "temp_c",
+  "cumulative_from_raw"}}: a pooled published change across the listed crops, never one crop's own
+  number; the range shown is the min and max of the cited rows. Labelled with the crops and, when
+  "ships_only_with_different_crop_rows" is true, "estimated from other legumes".
+  Ridge entries predict only for a crop and treatment they were trained on; those pairs always have
+  same-crop rows, so under the same-crop-first rule a ridge never surfaces here and is not read.
+  Other kinds (C1, C2, C4 family tables, C5) are not read either; the result falls back.
 """
 from statistics import median
 
 from .config import (DEFAULT_DIRECTION, FALLBACK_MAX_OTHER_CROP, FALLBACK_MAX_SAME_CROP, HEAT_STEPS,
-                     INTERVAL_Z, METRIC_ALIASES, MODEL_GRID_STEPS, MODEL_TOP_K, STEP_INSTRUCTIONS, STEP_KEYWORDS)
+                     METRIC_ALIASES, MODEL_TOP_K, STEP_INSTRUCTIONS, STEP_KEYWORDS)
 
 def _rows(n: int) -> str:
     return f"{n} row" if n == 1 else f"{n} rows"
 
 
 FALLBACK_NOTE = "No prediction available. These are published results from the cited papers, not predictions."
+MODEL_NOTE = ("Estimated from published experiments on the crops named, inside their published range. "
+              "Not measured on this crop.")
 _KNOWN_STEPS = sorted(set(STEP_INSTRUCTIONS) | set(HEAT_STEPS), key=len, reverse=True)
 
 
@@ -122,7 +129,8 @@ def _row_groups(rows: list[dict], ingredient_id: str, direction: str | None) -> 
         changes = [r["change_pct"] for r in rs]
         papers = sorted({r["paper_id"] for r in rs})
         med = round(median(changes), 1)
-        cumulative = any("cumulative" in (r.get("method_note") or "").lower() for r in rs)
+        cumulative = any(r.get("cumulative_from_raw") is True
+                         or "cumulative" in (r.get("method_note") or "").lower() for r in rs)
         same = crop == ingredient_id
         evidence = f"published rows, {'same crop' if same else 'other crop'}, {_rows(len(rs))}, {len(papers)} paper(s)"
         if cumulative:
@@ -157,75 +165,93 @@ def _row_groups(rows: list[dict], ingredient_id: str, direction: str | None) -> 
     return picked
 
 
-def _grid(lo: float, hi: float) -> list[float]:
-    if hi <= lo:
-        return [lo]
-    step = (hi - lo) / (MODEL_GRID_STEPS - 1)
-    return [lo + i * step for i in range(MODEL_GRID_STEPS)]
+def _model_label(spec: dict, crops: list[str]) -> str:
+    pooled = ", ".join(crops)
+    if spec.get("ships_only_with_different_crop_rows"):
+        return f"estimated from other legumes (pooled from {pooled})"
+    return f"predicted, pooled from {pooled}"
 
 
-def _model_options(ingredient_id: str, spec: dict, direction: str | None) -> list[dict]:
-    if not all(k in spec for k in ("intercept", "coef", "residual_sd", "ranges")):
+def _range_text(name: str, rng: list | None, unit: str) -> str | None:
+    if rng is None:
+        return None
+    lo, hi = rng
+    return f"{name} {lo:g} {unit}" if lo == hi else f"{name} {lo:g} to {hi:g} {unit}"
+
+
+def _table_options(ingredient_id: str, goal: str, spec: dict, rows: list[dict],
+                   direction: str | None) -> list[dict]:
+    if not str(spec.get("key", "")).startswith("treatment|"):
         return []
-    coef, sd = spec["coef"], spec["residual_sd"]
-    evidence = "small linear model, validated on unseen papers"
-    if "cv_mae" in spec and "baseline_mae" in spec:
-        evidence += f" (grouped CV MAE {spec['cv_mae']} vs baseline {spec['baseline_mae']})"
-    best_per_treatment = []
-    for key in sorted(spec["ranges"]):
-        crop, _, treatment = key.partition("|")
-        if crop != ingredient_id:
+    change = {r["exp_id"]: r["change_pct"] for r in rows}
+    opts = []
+    for key in sorted(spec.get("entries", {})):
+        treatment, _, metric = key.partition("|")
+        if metric != goal:
             continue
-        rng = spec["ranges"][key]
-        cands = []
-        for t in _grid(*rng["time_h"]):
-            for c in _grid(*rng["temp_c"]):
-                x = {f"crop={crop}": 1.0, f"treatment={treatment}": 1.0, "time_h": t, "temp_c": c,
-                     "time_h^2": t * t, "time_h*temp_c": t * c}
-                pred = spec["intercept"] + sum(coef.get(k, 0.0) * v for k, v in x.items())
-                cands.append((_effect_key(direction, pred), t, c, pred))
-        _, t, c, pred = min(cands)
-        best_per_treatment.append({
+        e = spec["entries"][key]
+        cited = [change[x] for x in e["citations"] if change.get(x) is not None]
+        value = e["value"]
+        rng = [round(min(cited), 1), round(max(cited), 1)] if cited else [round(value, 1), round(value, 1)]
+        crops = list(e["crops"])
+        evidence = (f"{_model_label(spec, crops)}; not measured on {ingredient_id}; {_rows(e['n_rows'])}; "
+                    f"range is the published rows; the estimate is pulled toward the average over all treatments "
+                    f"for {goal}, so it can sit outside that range")
+        if e.get("cumulative_from_raw"):
+            evidence += "; includes cumulative stages from raw seed"
+        conditions = "; ".join(x for x in (_range_text("time", e.get("time_h"), "h"),
+                                            _range_text("temperature", e.get("temp_c"), "C")) if x)
+        opts.append({
             "kind": "model",
-            "cropId": crop,
+            "cropId": ingredient_id,
+            "pooledFrom": crops,
             "treatment": treatment,
-            "timeH": round(t, 2),
-            "tempC": round(c, 1),
+            "timeH": None,
+            "tempC": None,
             "instruction": instruction_for(treatment),
-            "conditions": "inside the published range for this crop and treatment",
-            "effect": f"Predicted change: {pred:+.1f}%",
-            "effectRange": [round(pred - INTERVAL_Z * sd, 1), round(pred + INTERVAL_Z * sd, 1)],
-            "nRows": None,
-            "sources": list(spec.get("papers", [])),
+            "conditions": f"published range in the pooled rows: {conditions}" if conditions else None,
+            "effect": f"Estimated change: {value:+.1f}% (pooled from {', '.join(crops)})",
+            "effectRange": rng,
+            "nRows": e["n_rows"],
+            "sources": list(e["papers"]),
             "evidence": evidence,
-            "_key": _effect_key(direction, pred),
+            "_key": _effect_key(direction, value),
         })
-    best_per_treatment.sort(key=lambda o: (o["_key"], o["treatment"]))
-    for o in best_per_treatment:
+    return opts
+
+
+def _model_options(ingredient_id: str, goal: str, spec: dict, rows: list[dict],
+                   direction: str | None) -> list[dict]:
+    opts = _table_options(ingredient_id, goal, spec, rows, direction)
+    opts.sort(key=lambda o: (o["_key"], o["treatment"]))
+    for o in opts:
         del o["_key"]
-    return best_per_treatment[:MODEL_TOP_K]
+    return opts[:MODEL_TOP_K]
 
 
 def recommend_processing(ingredient_id: str, goal: str, data: dict, direction: str | None = None) -> dict:
     goal = canonical_metric(goal)
     d = _direction(goal, direction)
-    spec = (data.get("model") or {}).get("metrics", {}).get(goal) or {}
-    note_prefix = ""
-    if spec.get("ships") is True:
-        opts = _model_options(ingredient_id, spec, d)
-        if opts:
-            return {"mode": "model", "ingredientId": ingredient_id, "goal": goal, "options": opts,
-                    "note": "Predicted by a small model inside the published range. Ranges are 95% intervals from cross-validation."}
-        note_prefix = "The model does not cover this crop inside its training range. "
-
     rows = [r for r in data.get("treatments", [])
             if canonical_metric(r["outcome_metric"]) == goal and r.get("change_pct") is not None]
+    playbook = _playbook_options(ingredient_id, goal, data, d)
     same = _row_groups([r for r in rows if r["crop_id"] == ingredient_id], ingredient_id, d)[:FALLBACK_MAX_SAME_CROP]
     other = []
     if len(same) < FALLBACK_MAX_SAME_CROP:
         other = _row_groups([r for r in rows if r["crop_id"] != ingredient_id], ingredient_id, d)[:FALLBACK_MAX_OTHER_CROP]
-    options = _playbook_options(ingredient_id, goal, data, d) + same + other
-    note = note_prefix + FALLBACK_NOTE
+
+    spec = ((data.get("model") or {}).get("models") or {}).get(goal)
+    if spec and not playbook and not same:
+        opts = _model_options(ingredient_id, goal, spec, rows, d)
+        if opts:
+            note = f"No published rows for {ingredient_id}. {MODEL_NOTE}"
+            if other:
+                note += " Rows from other crops are labelled."
+            return {"mode": "model", "ingredientId": ingredient_id, "goal": goal, "options": opts + other,
+                    "note": note}
+
+    options = playbook + same + other
+    note = FALLBACK_NOTE
     if other:
         note += f" Few published rows for {ingredient_id}; rows from other crops are labelled."
     if not options:

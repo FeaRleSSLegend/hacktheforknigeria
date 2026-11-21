@@ -99,28 +99,49 @@ def test_no_rows_says_so(data):
     assert r["options"] == [] and "No published rows" in r["note"]
 
 
-MODEL = {"metrics": {"phytate": {
-    "ships": True, "intercept": -10.0, "coef": {"time_h": -1.0, "treatment=boiling": -5.0}, "residual_sd": 2.0,
-    "ranges": {"test_a|boiling": {"time_h": [1, 3], "temp_c": [100, 100]}}, "papers": ["p1"]}}}
+# Synthetic model.json in the AI lane's format (TEST ONLY values).
+TABLE = {"models": {"phytate": {
+    "kind": "C3", "key": "treatment|outcome_metric", "display_label": "estimated from other legumes",
+    "ships_only_with_different_crop_rows": True,
+    "entries": {"boiling|phytate": {"value": -30.0, "n_rows": 2, "papers": ["p1", "p2"], "crops": ["test_b", "other"],
+                                    "citations": ["1", "2"], "time_h": [0.5, 1.0], "temp_c": [100.0, 100.0],
+                                    "cumulative_from_raw": False},
+                "soaking|phytate": {"value": -10.0, "n_rows": 1, "papers": ["p1"], "crops": ["test_b"],
+                                    "citations": ["3"], "time_h": [12.0, 12.0], "temp_c": None,
+                                    "cumulative_from_raw": True},
+                "boiling|tannin": {"value": -99.0, "n_rows": 1, "papers": ["p9"], "crops": ["test_b"],
+                                   "citations": ["9"], "time_h": None, "temp_c": None, "cumulative_from_raw": False}}}}}
+OTHER = [row("1", "test_b", "boiling", -40, t=0.5, c=100), row("2", "test_b", "boiling", -20, paper="p2", t=1, c=100),
+         row("3", "test_b", "soaking", -10, t=12)]
 
 
-def test_model_mode_stays_inside_range(data):
-    r = recommend_processing("test_a", "phytate", proc_data(data, [], MODEL))
-    assert r["mode"] == "model"
-    o = r["options"][0]
-    assert o["timeH"] == 3 and o["tempC"] == 100  # best inside [1, 3], never beyond
-    assert o["effect"] == "Predicted change: -18.0%" and o["effectRange"] == [-21.9, -14.1]
+def test_table_model_used_only_without_same_crop_rows(data):
+    r = recommend_processing("test_a", "phytate", proc_data(data, OTHER, TABLE))
+    assert r["mode"] == "model" and "Not measured on this crop" in r["note"]
+    first, second = r["options"][0], r["options"][1]
+    assert first["kind"] == "model" and first["treatment"] == "boiling" and first["cropId"] == "test_a"
+    assert first["pooledFrom"] == ["test_b", "other"]
+    assert first["effect"] == "Estimated change: -30.0% (pooled from test_b, other)"
+    assert first["effectRange"] == [-40.0, -20.0]  # min and max of the cited published rows
+    assert first["evidence"].startswith("estimated from other legumes (pooled from test_b, other); not measured on test_a")
+    assert first["conditions"] == "published range in the pooled rows: time 0.5 to 1 h; temperature 100 C"
+    assert "cumulative" in second["evidence"]
+    assert all(o["kind"] != "model" or "tannin" not in o["effect"] for o in r["options"])
+    assert r["options"][-1]["kind"] == "published_other_crop"
 
 
-def test_model_for_other_crop_falls_back(data):
-    r = recommend_processing("test_b", "phytate", proc_data(data, [], MODEL))
-    assert r["mode"] == "fallback" and r["note"].startswith("The model does not cover")
+def test_same_crop_rows_win_over_model(data):
+    rows = OTHER + [row("4", "test_a", "roasting", -5)]
+    r = recommend_processing("test_a", "phytate", proc_data(data, rows, TABLE))
+    assert r["mode"] == "fallback" and r["options"][0]["kind"] == "published_same_crop"
 
 
-def test_unrecognised_or_unshipped_model_falls_back(data):
-    for spec in ({"ships": True}, {**MODEL["metrics"]["phytate"], "ships": False}):
-        r = recommend_processing("test_a", "phytate", proc_data(data, [], {"metrics": {"phytate": spec}}))
+def test_unread_model_kinds_fall_back(data):
+    for spec in ({"kind": "ridge", "training_ranges": {}}, {"kind": "C1", "key": "treatment_family|outcome_metric",
+                                                             "entries": TABLE["models"]["phytate"]["entries"]}):
+        r = recommend_processing("test_a", "phytate", proc_data(data, OTHER, {"models": {"phytate": spec}}))
         assert r["mode"] == "fallback"
+
 
 
 # safetyGuard

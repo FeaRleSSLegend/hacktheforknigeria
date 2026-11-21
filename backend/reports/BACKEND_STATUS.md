@@ -5,13 +5,19 @@ Branch `backend-lane`. Everything below runs from `backend/` with the venv activ
 ## Rebuild everything (exact commands)
 
 ```
-python -m venv .venv && .venv\Scripts\activate          # macOS/Linux: source .venv/bin/activate
-pip install -r requirements.txt
-python scripts/validate_data.py                         # 0 errors, 9 warnings (8 prices missing, sides empty)
-python scripts/build_bundle.py --date 2026-11-21        # -> mobile/assets/bundle/*.json + manifest.json
-python scripts/make_fixtures.py                         # -> tests/golden/*.json (15 cases)
-python -m pytest -q                                     # 62 passed
+python -m venv .venv && .venv\Scripts\activate          # repo root; macOS/Linux: source .venv/bin/activate
+pip install -r backend/requirements.txt
+python scripts/validate_data.py                         # repo root: validates data/ (0 errors, 8 price warnings)
+cd backend
+python scripts/build_bundle.py --date 2026-11-21        # ../data + ../bundle/model.json -> mobile/assets/bundle
+python scripts/make_fixtures.py                         # -> tests/golden/*.json (18 cases)
+python -m pytest -q                                     # 65 passed
+cd ../frontend && node scripts/sync-bundle.js           # copy the bundle into the app, hashes checked
 ```
+
+Or run everything from the repo root with `python training/run_all.py`.
+
+Update, Nov 21 (integration): the bundle is now built from the real repo-root data and the AI lane's model.json; see the integration entry under Deviations in the root AGENTS.md. The stub-era notes below about `bundle/model.json` and empty `sides.csv` are out of date.
 
 Optional service: `uvicorn service.main:app --port 8000`.
 

@@ -1,14 +1,16 @@
 // recommendProcessing. Port of backend/reference/processing.py. Pure.
-// "fallback" = published results only (never predictions); "model" only for a shipped metric in the
-// documented linear format, inside the observed range for that crop and treatment.
+// "fallback" = published results only (never predictions). "model" only when the crop has no
+// same-crop published evidence for the goal and a shipped pooled table (C3) covers it; the
+// pooled value names its crops and is never shown next to same-crop rows.
 import {
-  DEFAULT_DIRECTION, Direction, FALLBACK_MAX_OTHER_CROP, FALLBACK_MAX_SAME_CROP, HEAT_STEPS, INTERVAL_Z,
-  METRIC_ALIASES, MODEL_GRID_STEPS, MODEL_TOP_K, STEP_INSTRUCTIONS, STEP_KEYWORDS,
+  DEFAULT_DIRECTION, Direction, FALLBACK_MAX_OTHER_CROP, FALLBACK_MAX_SAME_CROP, HEAT_STEPS,
+  METRIC_ALIASES, MODEL_TOP_K, STEP_INSTRUCTIONS, STEP_KEYWORDS,
 } from "./config";
-import { cmpStr, cmpTuple, median, pyRound, signedFixed } from "./num";
-import { Bundle, ModelMetricSpec, ProcessingOption, ProcessingResult, TreatmentRow } from "./types";
+import { cmpStr, cmpTuple, median, pyG, pyRound, signedFixed } from "./num";
+import { Bundle, ModelEntry, ProcessingOption, ProcessingResult, TreatmentRow } from "./types";
 
 export const FALLBACK_NOTE = "No prediction available. These are published results from the cited papers, not predictions.";
+export const MODEL_NOTE = "Estimated from published experiments on the crops named, inside their published range. Not measured on this crop.";
 
 const KNOWN_STEPS = [...new Set([...Object.keys(STEP_INSTRUCTIONS), ...HEAT_STEPS])].sort((a, b) => b.length - a.length);
 
@@ -116,7 +118,7 @@ function rowGroups(rows: TreatmentRow[], ingredientId: string, d: Direction | un
     const changes = rs.map((r) => r.change_pct as number);
     const papers = [...new Set(rs.map((r) => r.paper_id))].sort(cmpStr);
     const med = pyRound(median(changes), 1);
-    const cumulative = rs.some((r) => (r.method_note || "").toLowerCase().includes("cumulative"));
+    const cumulative = rs.some((r) => r.cumulative_from_raw === true || (r.method_note || "").toLowerCase().includes("cumulative"));
     const same = crop === ingredientId;
     let evidence = `published rows, ${same ? "same crop" : "other crop"}, ${rowsText(rs.length)}, ${papers.length} paper(s)`;
     if (cumulative) evidence += "; cumulative stages from raw seed, not the effect of this step alone";
@@ -154,84 +156,84 @@ function rowGroups(rows: TreatmentRow[], ingredientId: string, d: Direction | un
   return picked;
 }
 
-function grid(lo: number, hi: number): number[] {
-  if (hi <= lo) return [lo];
-  const step = (hi - lo) / (MODEL_GRID_STEPS - 1);
-  return Array.from({ length: MODEL_GRID_STEPS }, (_, i) => lo + i * step);
+function modelLabel(spec: ModelEntry, crops: string[]): string {
+  const pooled = crops.join(", ");
+  return spec.ships_only_with_different_crop_rows
+    ? `estimated from other legumes (pooled from ${pooled})`
+    : `predicted, pooled from ${pooled}`;
 }
 
-function modelOptions(ingredientId: string, spec: ModelMetricSpec, d: Direction | undefined): ProcessingOption[] {
-  const { intercept, coef, residual_sd: sd, ranges } = spec;
-  if (intercept === undefined || !coef || sd === undefined || !ranges) return [];
-  let evidence = "small linear model, validated on unseen papers";
-  if (spec.cv_mae !== undefined && spec.baseline_mae !== undefined) {
-    evidence += ` (grouped CV MAE ${spec.cv_mae} vs baseline ${spec.baseline_mae})`;
-  }
-  const best: { o: ProcessingOption; key: number }[] = [];
-  for (const key of Object.keys(ranges).sort(cmpStr)) {
-    const i = key.indexOf("|");
-    const crop = i === -1 ? key : key.slice(0, i);
-    const treatment = i === -1 ? "" : key.slice(i + 1);
-    if (crop !== ingredientId) continue;
-    const rng = ranges[key];
-    let top: [number, number, number, number] | null = null;
-    for (const t of grid(rng.time_h[0], rng.time_h[1])) {
-      for (const c of grid(rng.temp_c[0], rng.temp_c[1])) {
-        const x: Record<string, number> = {
-          [`crop=${crop}`]: 1, [`treatment=${treatment}`]: 1, time_h: t, temp_c: c, "time_h^2": t * t, "time_h*temp_c": t * c,
-        };
-        let pred = intercept;
-        for (const [k, v] of Object.entries(x)) pred += (coef[k] ?? 0) * v;
-        const cand: [number, number, number, number] = [effectKey(d, pred), t, c, pred];
-        if (top === null || cmpTuple(cand, top) < 0) top = cand;
-      }
-    }
-    if (!top) continue;
-    const [k, t, c, pred] = top;
-    best.push({
-      key: k,
+function rangeText(name: string, rng: [number, number] | null | undefined, unit: string): string | null {
+  if (!rng) return null;
+  const [lo, hi] = rng;
+  return lo === hi ? `${name} ${pyG(lo)} ${unit}` : `${name} ${pyG(lo)} to ${pyG(hi)} ${unit}`;
+}
+
+function modelOptions(ingredientId: string, goal: string, spec: ModelEntry, rows: TreatmentRow[], d: Direction | undefined): ProcessingOption[] {
+  if (!(spec.key ?? "").startsWith("treatment|")) return [];
+  const change = new Map<string, number | null>(rows.map((r) => [r.exp_id, r.change_pct]));
+  const entries = spec.entries ?? {};
+  const opts: { o: ProcessingOption; key: number }[] = [];
+  for (const k of Object.keys(entries).sort(cmpStr)) {
+    const i = k.indexOf("|");
+    const treatment = i === -1 ? k : k.slice(0, i);
+    const metric = i === -1 ? "" : k.slice(i + 1);
+    if (metric !== goal) continue;
+    const e = entries[k];
+    const cited = e.citations.map((x) => change.get(x)).filter((v): v is number => v !== undefined && v !== null);
+    const effectRange: [number, number] = cited.length
+      ? [pyRound(Math.min(...cited), 1), pyRound(Math.max(...cited), 1)]
+      : [pyRound(e.value, 1), pyRound(e.value, 1)];
+    const crops = [...e.crops];
+    let evidence = `${modelLabel(spec, crops)}; not measured on ${ingredientId}; ${rowsText(e.n_rows)}; `
+      + `range is the published rows; the estimate is pulled toward the average over all treatments for ${goal}, so it can sit outside that range`;
+    if (e.cumulative_from_raw) evidence += "; includes cumulative stages from raw seed";
+    const conditions = [rangeText("time", e.time_h, "h"), rangeText("temperature", e.temp_c, "C")].filter((x): x is string => !!x).join("; ");
+    opts.push({
+      key: effectKey(d, e.value),
       o: {
         kind: "model",
-        cropId: crop,
+        cropId: ingredientId,
+        pooledFrom: crops,
         treatment,
-        timeH: pyRound(t, 2),
-        tempC: pyRound(c, 1),
+        timeH: null,
+        tempC: null,
         instruction: instructionFor(treatment),
-        conditions: "inside the published range for this crop and treatment",
-        effect: `Predicted change: ${signedFixed(pred, 1)}%`,
-        effectRange: [pyRound(pred - INTERVAL_Z * sd, 1), pyRound(pred + INTERVAL_Z * sd, 1)],
-        nRows: null,
-        sources: [...(spec.papers ?? [])],
+        conditions: conditions ? `published range in the pooled rows: ${conditions}` : null,
+        effect: `Estimated change: ${signedFixed(e.value, 1)}% (pooled from ${crops.join(", ")})`,
+        effectRange,
+        nRows: e.n_rows,
+        sources: [...e.papers],
         evidence,
       },
     });
   }
-  best.sort((a, b) => cmpTuple([a.key, a.o.treatment], [b.key, b.o.treatment]));
-  return best.slice(0, MODEL_TOP_K).map((b) => b.o);
+  opts.sort((a, b) => cmpTuple([a.key, a.o.treatment], [b.key, b.o.treatment]));
+  return opts.slice(0, MODEL_TOP_K).map((x) => x.o);
 }
 
 export function recommendProcessing(ingredientId: string, goalIn: string, bundle: Bundle, dir?: Direction | null): ProcessingResult {
   const goal = canonicalMetric(goalIn);
   const d = direction(goal, dir);
-  const spec = bundle.model.metrics?.[goal] ?? {};
-  let notePrefix = "";
-  if (spec.ships === true) {
-    const opts = modelOptions(ingredientId, spec, d);
-    if (opts.length) {
-      return {
-        mode: "model", ingredientId, goal, options: opts,
-        note: "Predicted by a small model inside the published range. Ranges are 95% intervals from cross-validation.",
-      };
-    }
-    notePrefix = "The model does not cover this crop inside its training range. ";
-  }
   const rows = bundle.treatments.filter((r) => canonicalMetric(r.outcome_metric) === goal && r.change_pct !== null);
+  const playbook = playbookOptions(ingredientId, goal, bundle, d);
   const same = rowGroups(rows.filter((r) => r.crop_id === ingredientId), ingredientId, d).slice(0, FALLBACK_MAX_SAME_CROP);
   const other = same.length < FALLBACK_MAX_SAME_CROP
     ? rowGroups(rows.filter((r) => r.crop_id !== ingredientId), ingredientId, d).slice(0, FALLBACK_MAX_OTHER_CROP)
     : [];
-  const options = [...playbookOptions(ingredientId, goal, bundle, d), ...same, ...other];
-  let note = notePrefix + FALLBACK_NOTE;
+
+  const spec = bundle.model.models?.[goal];
+  if (spec && !playbook.length && !same.length) {
+    const opts = modelOptions(ingredientId, goal, spec, rows, d);
+    if (opts.length) {
+      let note = `No published rows for ${ingredientId}. ${MODEL_NOTE}`;
+      if (other.length) note += " Rows from other crops are labelled.";
+      return { mode: "model", ingredientId, goal, options: [...opts, ...other], note };
+    }
+  }
+
+  const options = [...playbook, ...same, ...other];
+  let note = FALLBACK_NOTE;
   if (other.length) note += ` Few published rows for ${ingredientId}; rows from other crops are labelled.`;
   if (!options.length) note += ` No published rows for ${goal}.`;
   return { mode: "fallback", ingredientId, goal, options, note };

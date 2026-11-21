@@ -92,6 +92,7 @@ test("Prepare for akara shows sourced steps, evidence and unreviewed safety note
 test("About and limits states the honest facts", async () => {
   await wrap(<About />);
   expect(await screen.findByText("Nothing here was tested in a lab by us")).toBeTruthy();
-  expect(screen.getByText(/Preparation advice comes from published experiments, not a prediction/)).toBeTruthy();
+  expect(screen.getByText(/phytate: pooled average of published results/)).toBeTruthy();
+  expect(screen.getByText(/tannin: small linear model/)).toBeTruthy();
   expect(screen.getByText(/Plate balance .* is coming/)).toBeTruthy();
 });

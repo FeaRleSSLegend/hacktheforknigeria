@@ -27,6 +27,19 @@ export function signedFixed(x: number, n: number): string {
   return s.startsWith("-") ? s : `+${s}`;
 }
 
+/** Python's f"{x:g}" (6 significant digits, trailing zeros dropped). */
+export function pyG(x: number): string {
+  if (x === 0) return Object.is(x, -0) ? "-0" : "0";
+  const [mant, expStr] = x.toExponential(5).split("e");
+  const exp = Number(expStr);
+  if (exp < -4 || exp >= 6) {
+    const m = mant.includes(".") ? mant.replace(/0+$/, "").replace(/\.$/, "") : mant;
+    return `${m}e${exp < 0 ? "-" : "+"}${String(Math.abs(exp)).padStart(2, "0")}`;
+  }
+  const fixed = x.toFixed(Math.max(0, 5 - exp));
+  return fixed.includes(".") ? fixed.replace(/0+$/, "").replace(/\.$/, "") : fixed;
+}
+
 /** Python's round(x) -> int, as a string. */
 export function pyRoundInt(x: number): string {
   const v = Number(pyFixed(x, 0));

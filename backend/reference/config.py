@@ -43,9 +43,7 @@ DEFAULT_DIRECTION = {
 }
 FALLBACK_MAX_SAME_CROP = 3
 FALLBACK_MAX_OTHER_CROP = 2
-MODEL_GRID_STEPS = 5  # grid points per axis inside the observed range (no extrapolation)
 MODEL_TOP_K = 3
-INTERVAL_Z = 1.96
 
 # Treatment steps that apply heat. Used by the safety guard and to word instructions.
 HEAT_STEPS = ("boiling", "roasting", "autoclaving", "steaming", "frying", "deep_frying",

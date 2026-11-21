@@ -55,6 +55,14 @@ const treatment = z.object({
   quote: z.string(),
   method_note: z.string(),
   quality,
+  baseline_type: z.string(),
+  treatment_family: z.string(),
+  crop_group: z.string(),
+  in_ingredient_table: z.boolean().nullable(),
+  cumulative_from_raw: z.boolean().nullable(),
+  stage_order: num,
+  route: z.string(),
+  stage_path: z.string(),
 }).strict();
 
 const application = z.object({
@@ -69,7 +77,9 @@ const dish = z.object({
   name: z.string(),
   application_id: z.string(),
   protein_slot_ids: z.array(z.string()),
-  side_items: z.array(z.object({ id: z.string(), as_sold_g_per_serving: z.number() }).strict()),
+  side_items: z.array(z.object({
+    id: z.string(), as_sold_g_per_serving: z.number(), quality: z.string().optional(), note: z.string().optional(),
+  }).strict()),
   playbook_ids: z.array(z.string()),
   notes: z.string().optional(),
 }).strict();
@@ -108,19 +118,32 @@ const unit = z.object({
   use_in_app: z.string(),
 }).strict();
 
-const modelMetric = z.object({
-  ships: z.boolean().optional(),
-  intercept: z.number().optional(),
-  coef: z.record(z.string(), z.number()).optional(),
-  residual_sd: z.number().optional(),
-  ranges: z.record(z.string(), z.object({ time_h: z.tuple([z.number(), z.number()]), temp_c: z.tuple([z.number(), z.number()]) })).optional(),
-  papers: z.array(z.string()).optional(),
-  cv_mae: z.number().optional(),
-  baseline_mae: z.number().optional(),
+const range = z.tuple([z.number(), z.number()]).nullable();
+const modelTableEntry = z.object({
+  value: z.number(),
+  n_rows: z.number(),
+  papers: z.array(z.string()),
+  crops: z.array(z.string()).min(1),
+  citations: z.array(z.string()),
+  time_h: range,
+  temp_c: range,
+  cumulative_from_raw: z.boolean().optional(),
+}).passthrough();
+const modelEntry = z.object({
+  kind: z.string(),
+  key: z.string().optional(),
+  display_label: z.string().optional(),
+  ships_only_with_different_crop_rows: z.boolean().optional(),
+  entries: z.record(z.string(), modelTableEntry).optional(),
 }).passthrough();
 
 // model.json is owned by the AI lane, so unknown keys are allowed there; only the parts we read are typed.
-const model = z.object({ _stub: z.boolean().optional(), note: z.string().optional(), metrics: z.record(z.string(), modelMetric).optional() }).passthrough();
+const model = z.object({
+  _stub: z.boolean().optional(),
+  generated: z.string().optional(),
+  note: z.string().optional(),
+  models: z.record(z.string(), modelEntry).optional(),
+}).passthrough();
 
 const manifest = z.object({
   schemaVersion: z.literal(1),

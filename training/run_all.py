@@ -1,7 +1,9 @@
 """One command for the AI lane: python training/run_all.py
 
 Order: inventory, batch ingest (data/treatment_experiments.csv, data/functional_properties.csv), ETL, build tables, validate, QC, train, fallback tests, ranking stability,
-pytest -q, then the backend's build_bundle.py and make_fixtures.py if they exist.
+pytest -q, then the backend lane in backend/: build_bundle.py (data/ + bundle/model.json ->
+backend/mobile/assets/bundle), make_fixtures.py (backend/tests/golden) and the backend pytest.
+Afterwards copy the bundle into the app (`node frontend/scripts/sync-bundle.js`) and run `npx jest` in frontend/.
 Every step runs as `python -I <script>`; the first failure stops the run.
 """
 import json
@@ -30,12 +32,16 @@ STEPS = [
     ("dish ranking report", ["training/dish_report.py"]),
     ("pytest", ["-m", "pytest", "-q"]),
 ]
-BACKEND = ["scripts/build_bundle.py", "scripts/make_fixtures.py"]
+BACKEND = [
+    ("build bundle (backend)", ["scripts/build_bundle.py"]),
+    ("make fixtures (backend)", ["scripts/make_fixtures.py"]),
+    ("pytest (backend)", ["-m", "pytest", "-q"]),
+]
 
 
-def run(name: str, args: list[str]) -> None:
+def run(name: str, args: list[str], cwd: Path = ROOT) -> None:
     print(f"\n=== {name} ===", flush=True)
-    r = subprocess.run([sys.executable, "-I", *args], cwd=ROOT)
+    r = subprocess.run([sys.executable, "-I", *args], cwd=cwd)
     if r.returncode != 0:
         print(f"\nFAILED at step '{name}' (exit {r.returncode})")
         sys.exit(r.returncode)
@@ -56,13 +62,10 @@ def main():
     for name, args in STEPS:
         run(name, args)
     write_log_md()
-    missing = [s for s in BACKEND if not (ROOT / s).exists()]
-    for s in BACKEND:
-        if (ROOT / s).exists():
-            run(s, [s])
-    if missing:
-        print(f"\nNot run (backend lane, not written yet): {', '.join(missing)}. Stopping here.")
-    print("\nAI lane run complete. Reports: training/reports/, reports/metrics.md, reports/ranking_stability.md")
+    for name, args in BACKEND:
+        run(name, args, cwd=ROOT / "backend")
+    print("\nRun complete. Reports: training/reports/, reports/metrics.md, reports/ranking_stability.md. "
+          "Next: node frontend/scripts/sync-bundle.js, then npx jest in frontend/.")
 
 
 if __name__ == "__main__":

@@ -53,6 +53,14 @@ export interface TreatmentRow {
   quote: string;
   method_note: string;
   quality: Quality;
+  baseline_type: string;
+  treatment_family: string;
+  crop_group: string;
+  in_ingredient_table: boolean | null;
+  cumulative_from_raw: boolean | null;
+  stage_order: number | null;
+  route: string;
+  stage_path: string;
 }
 
 export interface Need {
@@ -73,7 +81,7 @@ export interface Dish {
   name: string;
   application_id: string;
   protein_slot_ids: string[];
-  side_items: { id: string; as_sold_g_per_serving: number }[];
+  side_items: { id: string; as_sold_g_per_serving: number; quality?: string; note?: string }[];
   playbook_ids: string[];
   notes?: string;
 }
@@ -106,21 +114,32 @@ export interface SafetyRule {
   reviewed: boolean;
 }
 
-export interface ModelMetricSpec {
-  ships?: boolean;
-  intercept?: number;
-  coef?: Record<string, number>;
-  residual_sd?: number;
-  ranges?: Record<string, { time_h: [number, number]; temp_c: [number, number] }>;
-  papers?: string[];
-  cv_mae?: number;
-  baseline_mae?: number;
+/** One entry of a pooled table model (C3: key "treatment|metric"). */
+export interface ModelTableEntry {
+  value: number;
+  n_rows: number;
+  papers: string[];
+  crops: string[];
+  citations: string[];
+  time_h: [number, number] | null;
+  temp_c: [number, number] | null;
+  cumulative_from_raw?: boolean;
+}
+
+/** A shipped model in bundle model.json["models"]. Only the parts the engine reads are typed. */
+export interface ModelEntry {
+  kind: string;
+  key?: string;
+  display_label?: string;
+  ships_only_with_different_crop_rows?: boolean;
+  entries?: Record<string, ModelTableEntry>;
 }
 
 export interface ModelFile {
   _stub?: boolean;
+  generated?: string;
   note?: string;
-  metrics?: Record<string, ModelMetricSpec>;
+  models?: Record<string, ModelEntry>;
 }
 
 export interface Manifest {
@@ -216,6 +235,7 @@ export interface ProcessingOption {
   kind: OptionKind;
   playbookId?: string;
   cropId: string;
+  pooledFrom?: string[];
   treatment: string;
   timeH: number | null;
   tempC: number | null;

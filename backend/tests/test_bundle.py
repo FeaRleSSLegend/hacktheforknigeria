@@ -9,13 +9,15 @@ from reference.loader import load_bundle
 from scripts.build_bundle import BundleError, build
 
 ROOT = Path(__file__).resolve().parent.parent
-MODEL = ROOT / "bundle" / "model.json"
+REPO = ROOT.parent
+DATA = REPO / "data"
+MODEL = REPO / "bundle" / "model.json"
 
 
 @pytest.fixture
 def data_copy(tmp_path):
     d = tmp_path / "data"
-    shutil.copytree(ROOT / "data", d)
+    shutil.copytree(DATA, d)
     return d
 
 
@@ -25,7 +27,7 @@ def _build(data_dir, out, date="2026-11-21"):
 
 def test_build_writes_manifest_with_matching_hashes(tmp_path):
     out = tmp_path / "bundle"
-    m = _build(ROOT / "data", out)
+    m = _build(DATA, out)
     assert m["version"].startswith("2026-11-21-")
     for name, info in m["files"].items():
         b = (out / name).read_bytes()
@@ -35,15 +37,15 @@ def test_build_writes_manifest_with_matching_hashes(tmp_path):
 
 
 def test_build_is_deterministic(tmp_path):
-    _build(ROOT / "data", tmp_path / "a")
-    _build(ROOT / "data", tmp_path / "b")
+    _build(DATA, tmp_path / "a")
+    _build(DATA, tmp_path / "b")
     for f in (tmp_path / "a").iterdir():
         assert f.read_bytes() == (tmp_path / "b" / f.name).read_bytes()
 
 
 def test_values_carried_unchanged(tmp_path):
     out = tmp_path / "bundle"
-    _build(ROOT / "data", out)
+    _build(DATA, out)
     ing = {r["ingredient_id"]: r for r in json.loads((out / "ingredients.json").read_text(encoding="utf-8"))}
     assert ing["cowpea"]["price_ngn_per_kg"] == 2465.96
     assert ing["bambara"]["price_ngn_per_kg"] is None  # missing stays missing

@@ -16,7 +16,20 @@
    "pigeon_pea",
    "african_yam_bean"
   ],
-  "side_items": []
+  "side_items": [
+   {
+    "as_sold_g_per_serving": 50,
+    "id": "maize_white",
+    "note": "portion estimated by the AI lane (Nov 21); dry maize for pap/ogi; confirm",
+    "quality": "estimated"
+   },
+   {
+    "as_sold_g_per_serving": 50,
+    "id": "tomato",
+    "note": "portion estimated by the AI lane (Nov 21); fresh tomato for a tomato-pepper sauce; confirm",
+    "quality": "estimated"
+   }
+  ]
  },
  {
   "application_id": "steamed_bean_pudding",
@@ -33,7 +46,14 @@
    "pigeon_pea",
    "african_yam_bean"
   ],
-  "side_items": []
+  "side_items": [
+   {
+    "as_sold_g_per_serving": 50,
+    "id": "maize_white",
+    "note": "portion estimated by the AI lane (Nov 21); dry maize for pap/ogi; confirm",
+    "quality": "estimated"
+   }
+  ]
  },
  {
   "application_id": "steamed_bean_pudding",
@@ -48,7 +68,20 @@
    "cowpea",
    "pigeon_pea"
   ],
-  "side_items": []
+  "side_items": [
+   {
+    "as_sold_g_per_serving": 75,
+    "id": "rice_local",
+    "note": "portion estimated by the AI lane (Nov 21); dry rice as the starch; confirm",
+    "quality": "estimated"
+   },
+   {
+    "as_sold_g_per_serving": 50,
+    "id": "tomato",
+    "note": "portion estimated by the AI lane (Nov 21); fresh tomato as the stew or pepper-sauce base; confirm",
+    "quality": "estimated"
+   }
+  ]
  },
  {
   "application_id": "steamed_bean_pudding",
@@ -78,7 +111,14 @@
    "cowpea",
    "pigeon_pea"
   ],
-  "side_items": []
+  "side_items": [
+   {
+    "as_sold_g_per_serving": 80,
+    "id": "garri_white",
+    "note": "portion estimated by the AI lane (Nov 21); dry garri for eba; confirm",
+    "quality": "estimated"
+   }
+  ]
  },
  {
   "application_id": "seed_soup_body",
@@ -93,6 +133,13 @@
    "melon_seed",
    "groundnut"
   ],
-  "side_items": []
+  "side_items": [
+   {
+    "as_sold_g_per_serving": 250,
+    "id": "yam",
+    "note": "portion estimated by the AI lane (Nov 21); fresh yam tuber as sold (with peel) for pounded yam; confirm",
+    "quality": "estimated"
+   }
+  ]
  }
 ]

@@ -31,7 +31,7 @@ function sourceDetails(bundle: Bundle, o: ProcessingOption): string[] {
 function FindingRow({ f, bundle, plantId }: { f: Finding; bundle: Bundle; plantId: string }) {
   const words = METRIC_WORDS[f.goal] ?? { name: f.goal.replace(/_/g, " "), plain: "" };
   const o = f.option;
-  const other = o.cropId !== plantId;
+  const other = o.cropId !== plantId || !!o.pooledFrom;
   return (
     <View style={{ gap: space.sm }}>
       <Body strong>
@@ -40,7 +40,13 @@ function FindingRow({ f, bundle, plantId }: { f: Finding; bundle: Bundle; plantI
       {words.plain ? <Small>{words.plain}</Small> : null}
       <View style={styles.tags}>
         <Tag icon="book-open-page-variant-outline" label={studiesLabel(o)} tone={other ? "warn" : "plain"} />
-        {other ? <Tag icon="sprout-outline" label={`Measured on ${plantName(bundle, o.cropId).english.toLowerCase()}`} tone="warn" /> : null}
+        {other ? (
+          <Tag
+            icon="sprout-outline"
+            label={o.pooledFrom ? `Not measured on ${plantName(bundle, plantId).english.toLowerCase()}` : `Measured on ${plantName(bundle, o.cropId).english.toLowerCase()}`}
+            tone="warn"
+          />
+        ) : null}
         {isCumulative(o) ? <Tag icon="layers-outline" label="Includes earlier steps" /> : null}
       </View>
       <Expander title="Paper and table" icon="file-document-outline">

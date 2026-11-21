@@ -10,9 +10,9 @@
    "targetProteinG": 20
   }
  },
- "bundleVersion": "2026-11-21-cdefda79",
+ "bundleVersion": "2026-11-21-48c617ec",
  "expected": {
-  "bundleVersion": "2026-11-21-cdefda79",
+  "bundleVersion": "2026-11-21-48c617ec",
   "dishes": [
    {
     "alternatives": [
@@ -94,6 +94,14 @@
      {
       "costNgn": 872.91,
       "id": "cowpea"
+     },
+     {
+      "costNgn": 233.86,
+      "id": "maize_white"
+     },
+     {
+      "costNgn": 222.23,
+      "id": "tomato"
      }
     ],
     "name": "Akara",
@@ -124,7 +132,7 @@
      "score": 0.5146
     },
     "proteinPerPlateG": 20,
-    "totalCostNgn": 872.91
+    "totalCostNgn": 1329.0
    }
   ],
   "excluded": []
