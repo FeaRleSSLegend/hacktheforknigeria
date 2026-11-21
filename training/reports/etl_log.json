@@ -88,5 +88,12 @@
     "dropped": {},
     "rows_out": 121,
     "notes": "groups: 56; single_source: 32; high_disagreement: [['bambara', 'least_gelation'], ['melon_seed', 'oil_absorption'], ['pigeon_pea', 'emulsion_stability'], ['pigeon_pea', 'foam_capacity'], ['pigeon_pea', 'foam_stability'], ['pigeon_pea', 'least_gelation'], ['pigeon_pea', 'oil_absorption'], ['pigeon_pea', 'water_absorption']]; duplicates: 0; unit/form errors: 0"
+  },
+  {
+    "step": "check_playbook",
+    "rows_in": 18,
+    "dropped": {},
+    "rows_out": 120,
+    "notes": "120 entry-metric effect blocks recomputed; mismatches: 0"
   }
 ]

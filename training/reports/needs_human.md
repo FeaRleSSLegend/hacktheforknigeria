@@ -82,3 +82,29 @@ Each item: the question, what the pipeline does now, and the options. Nothing be
 37. **Rizvi 2024:** the steeping time before germination is only in Figure 1, which was not read. Soak and germination rows are each against raw grains.
 38. **Read but not used:** the "Unravelling the Impact of Dive..." review.
 39. **Models that pass only thanks to other crops.** Under the unchanged rule, phytate (C3), tannin (ridge) and bulk density (ridge) ship, but none of them would pass on ingredient-crop rows alone (`ships_only_with_different_crop_rows: true`). The app labels their output "estimated from other legumes". Oxalate (ridge) also passes on ingredient crops alone. Trypsin inhibitor still has too few non-cumulative rows (24) to ship.
+
+## Batch 6: applications, dishes, playbook, safety rules (Nov 21)
+
+40. **All application weights are team estimates**; confirm them with a mentor before the demo. The akara weights assume foaming, water holding and low flour oil absorption matter most. Flour oil absorption is not frying oil uptake.
+41. **Dish list and protein slots are judgement calls.** Jack bean is deliberately not a slot in any dish.
+42. **Safety rules are all `reviewed: false`** and need a food scientist. Two need decisions:
+    - `sr_cook_thoroughly` is `block` (it withholds soak-only, sprout-only or raw-flour results).
+    - `sr_jack_bean_caution` is `warn` (consider `block`).
+    - Also: `sr_fermentation_not_guaranteed` cites the Sobowale tannin range (-93.0 to +300.8 %). Those rows are marked NEEDS_HUMAN and excluded from training (item 17). The rule's own source text says they are not spot-checked; keep or replace that citation once the PDF is checked.
+43. **Rules still without a source (not added):** infants and young children, pregnancy, kidney-stone or oxalate-restricted diets, home-fermentation hygiene.
+44. **`reference_values.json` is still empty.** It needs a source for every number (for example the WHO/FAO/UNU protein requirement). Hide any label without a source.
+45. **ijarotimi2022 Table 6:** tannin and trypsin inhibitor show the same percent change within the cooked sample (-34.42 vs -34.43) and within the cooked-fermented sample (-29.28 vs -29.27), as if one column were copied. Check Table 6 in the PDF.
+46. **Playbook conditions** (times, temperatures) are shown only as "as measured in the study"; the app must not present them as safety thresholds.
+47. **Side portions are estimates by the AI lane** (each side item carries `quality: estimated` and a note); confirm them:
+    - akara: maize_white 50 g (dry maize for pap/ogi), tomato 50 g (tomato-pepper sauce)
+    - moin_moin: maize_white 50 g (pap/ogi); the intent names no vegetable or sauce, so none was added
+    - ekuru: rice_local 75 g dry (the starch), tomato 50 g (stew or pepper-sauce base)
+    - gbegiri: garri_white 80 g dry (eba); the intent names no vegetable, so none was added
+    - egusi_soup: yam 250 g fresh tuber as sold (pounded yam)
+    - okpa: no side; its notes give no side intent
+    - Not in sides.csv, so left out: bread and amala (yam flour), and leafy vegetables for egusi soup (intent "plus vegetables").
+48. **The batch-6 prompt's expected gaps are out of date.** Bambara now has flour functional values (adeleke2018, mubaiwa2018), so akara, moin-moin and okpa rank bambara (with "price needed"); it is not a "no data" case. What remains:
+    - African yam bean lacks foam stability and oil absorption (akara) and least gelation and emulsion capacity (moin-moin).
+    - Melon seed lacks emulsion capacity, so egusi soup ranks groundnut alone. Groundnut's water and oil absorption (0.30 and 0.29 g/g, item 35) look implausibly low; check before trusting that dish.
+    - Only one candidate can be ranked for okpa (single slot) and egusi soup.
+    - In every dish only cowpea is priced; the other ranked proteins show "price needed".

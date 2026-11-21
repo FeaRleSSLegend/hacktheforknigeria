@@ -23,9 +23,11 @@ STEPS = [
     ("build tables", ["scripts/build_tables.py"]),
     ("validate", ["scripts/validate_data.py"]),
     ("qc functional", ["training/etl/qc_functional.py"]),
+    ("check playbook effects", ["training/etl/check_playbook.py"]),
     ("train processing", ["scripts/train_processing.py"]),
     ("fallback tests", ["-m", "pytest", "-q", "tests/test_processing_fallback.py"]),
     ("ranking stability", ["training/ranking_stability.py"]),
+    ("dish ranking report", ["training/dish_report.py"]),
     ("pytest", ["-m", "pytest", "-q"]),
 ]
 BACKEND = ["scripts/build_bundle.py", "scripts/make_fixtures.py"]

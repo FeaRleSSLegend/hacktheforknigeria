@@ -110,6 +110,30 @@ def main(data_dir):
     for rule in json_tables.get("safety_rules.json", []):
         if not rule.get("source"):
             errors.append(f"safety_rules.json {rule.get('id')}: source is required")
+        if not isinstance(rule.get("reviewed"), bool):
+            errors.append(f"safety_rules.json {rule.get('id')}: reviewed must be true or false")
+        elif rule["reviewed"]:
+            warnings.append(f"safety_rules.json {rule.get('id')}: marked reviewed; confirm a human did this")
+        if rule.get("severity") not in ("block", "warn"):
+            errors.append(f"safety_rules.json {rule.get('id')}: severity must be block or warn")
+    props = {r["property"] for r in tables.get("functional_properties.csv", [])}
+    for a in json_tables.get("applications.json", []):
+        wsum = sum(float(n.get("weight", 0)) for n in a.get("needs", []))
+        if abs(wsum - 1.0) > 1e-9:
+            errors.append(f"applications.json {a.get('id')}: weights sum to {wsum}, not 1")
+        for need in a.get("needs", []):
+            if need.get("property") not in props:
+                errors.append(f"applications.json {a.get('id')}: property '{need.get('property')}' not in functional_properties.csv")
+    playbook_ids = {p.get("id") for p in json_tables.get("playbook.json", [])}
+    for dish in json_tables.get("dishes.json", []):
+        for pid in dish.get("playbook_ids", []):
+            if pid not in playbook_ids:
+                errors.append(f"dishes.json {dish.get('id')}: playbook_id '{pid}' not in playbook.json")
+    for p in json_tables.get("playbook.json", []):
+        if p.get("crop_id") not in ing_ids:
+            errors.append(f"playbook.json {p.get('id')}: crop_id '{p.get('crop_id')}' not in ingredients.csv")
+        if not p.get("sources"):
+            errors.append(f"playbook.json {p.get('id')}: sources required")
 
     fp = tables.get("functional_properties.csv", [])
     te = tables.get("treatment_experiments.csv", [])

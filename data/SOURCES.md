@@ -126,3 +126,8 @@ Treatment rows E605-E682 (source ids B5-... in method_note), plus 5 functional r
 - rizvi2024: lima bean and adzuki bean (India), DIFFERENT CROPS (evidence only). Soaking 12 and 24 h, germination 24/48/72 h; phytate, tannin, trypsin inhibitor; baseline raw grains at 0 h; 30 rows. The steeping time before germination is shown only in Figure 1, which was not read.
 - Read but not used: "Unravelling the Impact of Dive..." (a review).
 - Shipped models now record trained_on_crops and whether they pass the ship rule only thanks to rows from crops that are not ingredients (ships_only_with_different_crop_rows). Such outputs are labelled "estimated from other legumes".
+
+## Added Nov 21 (batch 6: applications, dishes, playbook, safety rules)
+- data/applications.json, dishes.json, playbook.json and safety_rules.json were drafted by the team and loaded unchanged (byte-identical to the batch-6 files). Application weights are ESTIMATED team judgement. All safety rules are `reviewed: false`.
+- Playbook effect numbers were recomputed from data/treatment_experiments.csv by training/etl/check_playbook.py (rows selected via training/mappings/playbook_row_filters.csv). All 120 entry-metric blocks agree within 0.1 percent point.
+- dishes.json side_items (the only edit) were added by the AI lane from data/sides.csv. Each portion (`as_sold_g_per_serving`) is an ESTIMATE marked `quality: estimated` with a note; see training/reports/needs_human.md item 47.

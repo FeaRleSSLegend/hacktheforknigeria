@@ -13,3 +13,4 @@
 | build_ingredients | 9 | none | 9 | priced: 1; estimated: 4 |
 | build_sides | 9 | none | 9 | priced: 9; vegetable oil left out of costing |
 | qc_functional | 121 | none | 121 | groups: 56; single_source: 32; high_disagreement: [['bambara', 'least_gelation'], ['melon_seed', 'oil_absorption'], ['pigeon_pea', 'emulsion_stability'], ['pigeon_pea', 'foam_capacity'], ['pigeon_pea', 'foam_stability'], ['pigeon_pea', 'least_gelation'], ['pigeon_pea', 'oil_absorption'], ['pigeon_pea', 'water_absorption']]; duplicates: 0; unit/form errors: 0 |
+| check_playbook | 18 | none | 120 | 120 entry-metric effect blocks recomputed; mismatches: 0 |
