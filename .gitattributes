@@ -1,0 +1,3 @@
+# Generated, hashed files: keep bytes exact (sha256 in manifest.json)
+backend/mobile/assets/bundle/** -text
+backend/tests/golden/** -text
