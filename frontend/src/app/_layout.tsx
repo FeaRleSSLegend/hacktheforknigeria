@@ -29,6 +29,7 @@ export default function RootLayout() {
               <Stack.Screen name="(tabs)" />
               <Stack.Screen name="suggestions" />
               <Stack.Screen name="prepare/[dishId]" />
+              <Stack.Screen name="plant/[plantId]" />
             </Stack>
           </PlanProvider>
         </BundleProvider>

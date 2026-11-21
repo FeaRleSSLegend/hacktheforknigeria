@@ -8,6 +8,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import About from "../src/app/(tabs)/about";
 import Dishes from "../src/app/(tabs)/dishes";
 import Start from "../src/app/(tabs)/index";
+import Plant from "../src/app/plant/[plantId]";
 import Prepare from "../src/app/prepare/[dishId]";
 import Suggestions from "../src/app/suggestions";
 import { BundleProvider } from "../src/state/BundleContext";
@@ -143,4 +144,13 @@ test("Dishes tab lists every dish and opens results for the one picked", async (
   expect(row.props.accessibilityRole).toBe("radio");
   await act(async () => fireEvent.press(row));
   expect(mockPush).toHaveBeenCalledWith("/suggestions");
+});
+
+test("Plant view lists the dishes cowpea suits with protein-only price", async () => {
+  mockParams = { plantId: "cowpea" };
+  await wrap(<Plant />);
+  expect(await screen.findByText("What this plant is good for", {}, { timeout: 5000 })).toBeTruthy();
+  expect(screen.getByText("Akara")).toBeTruthy();
+  expect(screen.getAllByText(/^₦[0-9,]+ total for 4 people \(₦[0-9,]+ each\)$/).length).toBe(4);
+  expect(screen.getByLabelText("Back")).toBeTruthy();
 });

@@ -106,6 +106,14 @@ function DishCard({ d, bundle, index, servings, allergens }: { d: DishSuggestion
           </View>
         </Expander>
 
+        <Pressable
+          onPress={() => router.push({ pathname: "/plant/[plantId]", params: { plantId: d.protein.ingredientId } })}
+          accessibilityRole="link"
+          accessibilityLabel={`What ${plantLabel(bundle, d.protein.ingredientId)} is good for`}
+          style={{ minHeight: 48, justifyContent: "center" }}
+        >
+          <Text style={[type.bodyStrong, { color: c.primary }]}>{`What ${plantLabel(bundle, d.protein.ingredientId)} is good for`}</Text>
+        </Pressable>
         <PrimaryButton label="See how to prepare" onPress={open} icon="chef-hat" a11yLabel={`See how to prepare ${d.name}`} />
       </View>
     </Reveal>
