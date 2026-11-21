@@ -2,7 +2,7 @@
 // only options the guard kept are used. Pure.
 import { recommendProcessing } from "../engine/processing";
 import { safetyGuard } from "../engine/safety";
-import { Bundle, Dish, PlaybookEntry, ProcessingOption } from "../engine/types";
+import { Bundle, Dish, PlaybookEntry, ProcessingOption, SafetyRule } from "../engine/types";
 
 export const PREPARE_GOALS = ["phytate", "tannin", "trypsin_inhibitor"] as const;
 
@@ -20,6 +20,8 @@ export interface PreparePlan {
   hiddenReasons: string[];
   wholeBlocked: string[];
   anyModel: boolean;
+  /** Rules that fired (block first), so the UI can show each rule's plain user_text only. */
+  firedRules: SafetyRule[];
 }
 
 export function preparePlan(bundle: Bundle, dish: Dish | undefined, plantId: string, allergens: string[]): PreparePlan {
@@ -68,5 +70,18 @@ export function preparePlan(bundle: Bundle, dish: Dish | undefined, plantId: str
     if (option) findings.push({ goal, option });
   }
 
-  return { steps, route, findings, warnings, hiddenCount: hidden.size, hiddenReasons, wholeBlocked, anyModel };
+  const messages = [...warnings, ...hiddenReasons, ...wholeBlocked];
+  const firedRules = bundle.safetyRules
+    .filter((r) => messages.some((m) => m.startsWith(r.text)))
+    .sort((a, b) => (a.severity === b.severity ? 0 : a.severity === "block" ? -1 : 1));
+  return { steps, route, findings, warnings, hiddenCount: hidden.size, hiddenReasons, wholeBlocked, anyModel, firedRules };
+}
+
+const MAX_USER_TEXT_WORDS = 20;
+
+/** The plain, user-facing sentence of a rule, or nothing if the data has none (or it is too long). */
+export function userText(rule: SafetyRule | undefined): string | null {
+  const t = rule?.user_text?.trim();
+  if (!t || t.split(/\s+/).length > MAX_USER_TEXT_WORDS) return null;
+  return t;
 }

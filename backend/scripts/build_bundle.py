@@ -58,11 +58,11 @@ UNITS_COLS = ["unit", "commodity", "kg_per_unit", "basis", "confidence", "source
 FORMS = ("flour", "concentrate", "isolate")
 JSON_KEYS = {
     "applications.json": ({"id", "name", "needs", "notes"}, {"id", "name", "needs", "notes"}),
-    "dishes.json": ({"id", "name", "application_id", "protein_slot_ids", "side_items", "playbook_ids", "notes"},
+    "dishes.json": ({"id", "name", "application_id", "protein_slot_ids", "side_items", "playbook_ids", "notes", "summary_line"},
                     {"id", "name", "application_id", "protein_slot_ids", "side_items", "playbook_ids"}),
     "playbook.json": ({"id", "crop_id", "goal", "steps", "conditions", "effect", "why", "evidence_level", "sources"},
                       {"id", "crop_id", "goal", "steps", "effect", "evidence_level", "sources"}),
-    "safety_rules.json": ({"id", "applies_to", "severity", "text", "source", "reviewed"},
+    "safety_rules.json": ({"id", "applies_to", "severity", "text", "source", "reviewed", "user_text"},
                           {"id", "applies_to", "severity", "text", "source", "reviewed"}),
 }
 NEED_KEYS = {"property", "direction", "weight"}

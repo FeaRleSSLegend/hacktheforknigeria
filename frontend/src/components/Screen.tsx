@@ -1,5 +1,5 @@
-// Screen shell: round icon buttons either side of a centred wordmark, connection status, scrolling
-// body, and an optional single green action pinned to the bottom.
+// Screen shell: back button (pushed screens only) or wordmark, a small connection indicator, a scrolling
+// body and an optional single action pinned to the bottom.
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { ReactNode, useEffect, useState } from "react";
@@ -10,7 +10,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { watchConnection } from "../lib/net";
 import { useAppTheme } from "../theme";
 import { fonts, space, type } from "../theme/tokens";
-import { Banner, IconName } from "./ui";
 
 export function Wordmark() {
   const { custom: c } = useAppTheme();
@@ -24,79 +23,54 @@ export function Wordmark() {
   );
 }
 
-function RoundButton({ icon, label, onPress }: { icon: IconName; label: string; onPress: () => void }) {
-  const { custom: c } = useAppTheme();
-  return (
-    <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={label} hitSlop={6} style={({ pressed }) => [styles.roundBtn, { backgroundColor: c.surfaceVariant, opacity: pressed ? 0.7 : 1 }]}>
-      <MaterialCommunityIcons name={icon} size={22} color={c.onBackground} />
-    </Pressable>
-  );
-}
-
-export function ConnectionLabel() {
+/** Small, quiet connection indicator. The app never waits on the network. */
+function ConnectionLabel() {
   const { custom: c } = useAppTheme();
   const [online, setOnline] = useState<boolean | null>(null);
   useEffect(() => watchConnection(setOnline), []);
-  const label = online ? "Online. Works offline too" : "Offline. Everything still works";
   return (
-    <View style={styles.conn} accessible accessibilityLabel={label}>
-      <View style={[styles.connDot, { backgroundColor: c.primaryContainer }]}>
-        <MaterialCommunityIcons name={online ? "wifi" : "wifi-off"} size={14} color={c.primary} />
-      </View>
-      <View>
-        <Text style={[type.label, { color: c.onSurfaceVariant, fontSize: 11 }]}>Data on this phone</Text>
-        <Text style={[type.label, { color: c.onBackground }]}>{online ? "Online" : "Works offline"}</Text>
-      </View>
+    <View style={styles.conn} accessible accessibilityLabel={online ? "Online. Works offline too" : "Offline. Everything still works"}>
+      <MaterialCommunityIcons name={online ? "wifi" : "wifi-off"} size={14} color={c.onSurfaceVariant} />
+      <Text style={[type.label, { color: c.onSurfaceVariant }]}>{online ? "Online" : "Works offline"}</Text>
     </View>
   );
 }
 
-export function Screen({ children, footer, showBack = true, showStatus = false }: { children: ReactNode; footer?: ReactNode; showBack?: boolean; showStatus?: boolean }) {
+export function Screen({ children, footer, backLabel }: { children: ReactNode; footer?: ReactNode; backLabel?: string }) {
   const { custom: c } = useAppTheme();
   const insets = useSafeAreaInsets();
-  const canBack = showBack && router.canGoBack();
   return (
     <View style={{ flex: 1, backgroundColor: c.background, paddingTop: insets.top }}>
       <View style={styles.bar}>
-        {canBack ? <RoundButton icon="chevron-left" label="Go back" onPress={() => router.back()} /> : <View style={styles.roundBtnSpace} />}
-        <View style={{ flex: 1, alignItems: "center" }}>
+        {backLabel ? (
+          <Pressable
+            onPress={() => (router.canGoBack() ? router.back() : router.replace("/"))}
+            accessibilityRole="button"
+            accessibilityLabel={backLabel}
+            android_ripple={{ color: "rgba(255,255,255,0.12)", borderless: true }}
+            style={({ pressed }) => [styles.back, { backgroundColor: c.surfaceVariant, transform: [{ scale: pressed ? 0.98 : 1 }] }]}
+          >
+            <MaterialCommunityIcons name="chevron-left" size={26} color={c.onBackground} />
+          </Pressable>
+        ) : (
           <Wordmark />
-        </View>
-        <RoundButton icon="information-variant" label="About and limits" onPress={() => router.push("/about")} />
+        )}
+        <View style={{ flex: 1 }} />
+        <ConnectionLabel />
       </View>
-      {showStatus ? (
-        <View style={{ paddingHorizontal: space.lg, paddingBottom: space.sm }}>
-          <ConnectionLabel />
-        </View>
-      ) : null}
-      <ScrollView contentContainerStyle={[styles.body, { paddingBottom: footer ? 130 : space.xxl + insets.bottom }]} keyboardShouldPersistTaps="handled">
+      <ScrollView contentContainerStyle={[styles.body, { paddingBottom: footer ? 130 : space.xxl }]} keyboardShouldPersistTaps="handled">
         {children}
       </ScrollView>
-      {footer ? <View style={[styles.footer, { paddingBottom: space.lg + insets.bottom, backgroundColor: c.background }]}>{footer}</View> : null}
+      {footer ? <View style={[styles.footer, { paddingBottom: space.md, backgroundColor: c.background }]}>{footer}</View> : null}
     </View>
-  );
-}
-
-/** Banner link to the limits page, shown on the main screens. */
-export function LimitsLink() {
-  return (
-    <Banner
-      icon="scale-balance"
-      title="Honest numbers"
-      body="Published and estimated values, not lab-tested by us."
-      action="See the limits"
-      onPress={() => router.push("/about")}
-    />
   );
 }
 
 const styles = StyleSheet.create({
   bar: { flexDirection: "row", alignItems: "center", paddingHorizontal: space.lg, minHeight: 64, gap: space.sm },
   wordmark: { flexDirection: "row", alignItems: "center" },
-  roundBtn: { width: 48, height: 48, borderRadius: 16, alignItems: "center", justifyContent: "center" },
-  roundBtnSpace: { width: 48, height: 48 },
-  conn: { flexDirection: "row", alignItems: "center", gap: space.sm, minHeight: 40 },
-  connDot: { width: 32, height: 32, borderRadius: 10, alignItems: "center", justifyContent: "center" },
+  back: { width: 48, height: 48, borderRadius: 16, alignItems: "center", justifyContent: "center", overflow: "hidden" },
+  conn: { flexDirection: "row", alignItems: "center", gap: 4, minHeight: 32 },
   body: { paddingHorizontal: space.lg, paddingTop: space.sm, gap: space.xl },
   footer: { position: "absolute", left: 0, right: 0, bottom: 0, paddingHorizontal: space.lg, paddingTop: space.md },
 });

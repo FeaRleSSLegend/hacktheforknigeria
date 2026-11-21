@@ -72,6 +72,7 @@ const dish = z.object({
   side_items: z.array(z.object({ id: z.string(), as_sold_g_per_serving: z.number() }).strict()),
   playbook_ids: z.array(z.string()),
   notes: z.string().optional(),
+  summary_line: z.string().optional(),
 }).strict();
 
 const playbook = z.object({
@@ -96,6 +97,7 @@ const safetyRule = z.object({
   text: z.string().min(1),
   source: z.string().min(1),
   reviewed: z.boolean(),
+  user_text: z.string().optional(),
 }).strict();
 
 const unit = z.object({

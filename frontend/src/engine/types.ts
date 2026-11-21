@@ -76,6 +76,7 @@ export interface Dish {
   side_items: { id: string; as_sold_g_per_serving: number }[];
   playbook_ids: string[];
   notes?: string;
+  summary_line?: string;
 }
 
 export interface PlaybookMetric {
@@ -104,6 +105,7 @@ export interface SafetyRule {
   text: string;
   source: string;
   reviewed: boolean;
+  user_text?: string;
 }
 
 export interface ModelMetricSpec {

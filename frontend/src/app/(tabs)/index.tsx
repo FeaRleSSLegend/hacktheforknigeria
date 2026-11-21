@@ -1,22 +1,22 @@
-// Start: two ways in (what I have / what I want to make), budget, people, allergens.
+// Cook tab (start): two ways in, the kitchen checklist, budget, people, allergens, one main button.
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { useMemo, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { useState } from "react";
+import { Pressable, StyleSheet, View } from "react-native";
 import { Text, TextInput } from "react-native-paper";
 
-import { BundleGate } from "../components/BundleGate";
-import { LimitsLink, Screen } from "../components/Screen";
-import { Body, CircleTile, Expander, Glow, Heading, HeroTile, IconName, Meta, PrimaryButton, Reveal, SectionTitle, Small } from "../components/ui";
-import { suggestDishes } from "../engine/suggest";
-import { Bundle } from "../engine/types";
-import { dishIcon } from "../lib/icons";
-import { naira, plantLabel, plantName } from "../lib/words";
-import { toPlanInput, usePlan } from "../state/PlanContext";
-import { useAppTheme } from "../theme";
-import { radius, space, type } from "../theme/tokens";
+import { BundleGate } from "../../components/BundleGate";
+import { Screen } from "../../components/Screen";
+import { Body, CheckRow, Expander, Glow, Heading, IconName, PrimaryButton, Reveal, SectionTitle, Small } from "../../components/ui";
+import { Bundle } from "../../engine/types";
+import { dishIcon } from "../../lib/icons";
+import { plantName } from "../../lib/words";
+import { usePlan } from "../../state/PlanContext";
+import { useAppTheme } from "../../theme";
+import { radius, space, type } from "../../theme/tokens";
 
 const BUDGET_PRESETS = [1000, 1500, 2000, 3000];
+const RIPPLE = { color: "rgba(255,255,255,0.12)" };
 
 function Choice({ icon, title, hint, selected, onPress }: { icon: IconName; title: string; hint: string; selected: boolean; onPress: () => void }) {
   const { custom: c } = useAppTheme();
@@ -25,13 +25,12 @@ function Choice({ icon, title, hint, selected, onPress }: { icon: IconName; titl
       onPress={onPress}
       accessibilityRole="radio"
       accessibilityState={{ selected }}
-      accessibilityLabel={`${title}. ${hint}`}
+      accessibilityLabel={`${title} ${hint}`}
+      android_ripple={RIPPLE}
       style={({ pressed }) => [styles.choice, { backgroundColor: selected ? c.primaryContainer : c.surface, borderColor: selected ? c.primary : c.surface, transform: [{ scale: pressed ? 0.98 : 1 }] }]}
     >
       {selected ? <Glow size={180} style={{ right: -60, top: -60 }} strength={1.5} /> : null}
-      <View style={[styles.choiceIcon, { backgroundColor: selected ? "rgba(10,11,13,0.35)" : c.surfaceVariant }]}>
-        <MaterialCommunityIcons name={icon} size={26} color={c.primary} />
-      </View>
+      <MaterialCommunityIcons name={icon} size={28} color={c.primary} />
       <Text style={[type.heading, { color: c.onBackground }]}>{title}</Text>
       <Text style={[type.small, { color: selected ? c.onBackground : c.onSurfaceVariant }]}>{hint}</Text>
     </Pressable>
@@ -48,7 +47,9 @@ function Stepper({ value, onChange, min, max, label, unit }: { value: number; on
         disabled={off}
         accessibilityRole="button"
         accessibilityLabel={a11y}
-        style={({ pressed }) => [styles.stepBtn, { backgroundColor: delta > 0 ? c.primary : c.surfaceVariant, opacity: off ? 0.4 : pressed ? 0.75 : 1 }]}
+        accessibilityState={{ disabled: off }}
+        android_ripple={RIPPLE}
+        style={({ pressed }) => [styles.stepBtn, { backgroundColor: delta > 0 ? c.primary : c.surfaceVariant, opacity: off ? 0.4 : 1, transform: [{ scale: pressed ? 0.98 : 1 }] }]}
       >
         <MaterialCommunityIcons name={icon} size={24} color={delta > 0 ? c.onPrimary : c.onBackground} />
       </Pressable>
@@ -57,10 +58,8 @@ function Stepper({ value, onChange, min, max, label, unit }: { value: number; on
   return (
     <View style={styles.stepper}>
       {btn(-1, "minus", `Fewer ${label}`)}
-      <View style={{ alignItems: "center", minWidth: 84 }}>
-        <Text style={[type.display, { color: c.onBackground }]} accessibilityLabel={`${value} ${unit}`}>
-          {value}
-        </Text>
+      <View style={{ alignItems: "center", flex: 1 }} accessible accessibilityLabel={`${value} ${unit}`} accessibilityLiveRegion="polite">
+        <Text style={[type.display, { color: c.onBackground }]}>{value}</Text>
         <Text style={[type.label, { color: c.onSurfaceVariant }]}>{unit}</Text>
       </View>
       {btn(1, "plus", `More ${label}`)}
@@ -76,29 +75,6 @@ function allergenOptions(bundle: Bundle): { tag: string; label: string }[] {
   return [...byTag].map(([tag, names]) => ({ tag, label: names.join(", ") }));
 }
 
-function TopPick({ bundle }: { bundle: Bundle }) {
-  const { custom: c } = useAppTheme();
-  const { plan } = usePlan();
-  const top = useMemo(() => suggestDishes(toPlanInput(plan), bundle).dishes[0], [plan, bundle]);
-  if (!top) return null;
-  return (
-    <Pressable onPress={() => router.push("/suggestions")} accessibilityRole="button" accessibilityLabel={`Top pick: ${top.name} with ${plantLabel(bundle, top.protein.ingredientId)}, ${naira(top.totalCostNgn)}`}>
-      <HeroTile icon={dishIcon(top.dishId)} height={200} />
-      <View style={styles.pickRow}>
-        <View style={{ flex: 1 }}>
-          <Meta icon="star-four-points" label="Top pick for your choices" />
-          <Text style={[type.title, { color: c.onBackground, marginTop: 2 }]}>{top.name}</Text>
-          <Small>with {plantLabel(bundle, top.protein.ingredientId)}</Small>
-        </View>
-        <View style={{ alignItems: "flex-end" }}>
-          <Text style={[type.title, { color: c.primary }]}>{naira(top.totalCostNgn)}</Text>
-          <Small>protein only</Small>
-        </View>
-      </View>
-    </Pressable>
-  );
-}
-
 function StartBody({ bundle }: { bundle: Bundle }) {
   const { custom: c } = useAppTheme();
   const { plan, update } = usePlan();
@@ -106,66 +82,59 @@ function StartBody({ bundle }: { bundle: Bundle }) {
   const [weightText, setWeightText] = useState(plan.bodyWeightKg ? String(plan.bodyWeightKg) : "");
   const toggle = (list: string[], id: string) => (list.includes(id) ? list.filter((x) => x !== id) : [...list, id]);
   const canGo = plan.mode === "pantry" || !!plan.dishId;
-  const inputTheme = { colors: { background: c.surface, onSurfaceVariant: c.onSurfaceVariant, outline: c.hairline, primary: c.primary } };
+  const inputTheme = { colors: { background: c.surface, onSurfaceVariant: c.onSurfaceVariant, outline: c.outline, primary: c.primary } };
+  const mainLabel = plan.mode === "pantry" ? "Show what I can make" : "Show me this dish";
 
   return (
-    <Screen
-      showBack={false}
-      showStatus
-      footer={<PrimaryButton label={plan.mode === "pantry" ? "Show what I can make" : "Show me this dish"} onPress={() => router.push("/suggestions")} disabled={!canGo} />}
-    >
+    <Screen footer={<PrimaryButton label={mainLabel} onPress={() => router.push("/suggestions")} disabled={!canGo} a11yLabel={mainLabel} />}>
       <Reveal>
         <Heading level="hero">What can I cook with what I have?</Heading>
         <Body muted style={{ marginTop: space.sm }}>
-          Your budget, your people. We pick the beans and seeds that suit the dish, and show how to prepare them.
+          Tell us your budget and your people. We pick the beans that suit the dish.
         </Body>
       </Reveal>
 
-      <Reveal index={1}>
-        <TopPick bundle={bundle} />
-      </Reveal>
-
-      <Reveal index={2} style={styles.choices}>
+      <Reveal index={1} style={styles.choices}>
         <Choice icon="basket-outline" title="What do I have?" hint="Tick what is in your kitchen" selected={plan.mode === "pantry"} onPress={() => update({ mode: "pantry" })} />
         <Choice icon="silverware-fork-knife" title="I want to make..." hint="Pick a dish" selected={plan.mode === "dish"} onPress={() => update({ mode: "dish" })} />
       </Reveal>
 
-      <Reveal index={3}>
+      <Reveal index={2}>
         {plan.mode === "pantry" ? (
           <>
             <SectionTitle title="In my kitchen" note={plan.pantryIds.length ? `${plan.pantryIds.length} ticked` : "Leave empty to buy all"} />
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.row}>
+            <View style={styles.list}>
               {bundle.ingredientOrder.map((id) => {
                 const n = plantName(bundle, id);
                 return (
-                  <CircleTile
+                  <CheckRow
                     key={id}
                     role="checkbox"
                     icon="seed-outline"
-                    label={n.local ?? n.english}
+                    title={n.local ?? n.english}
                     sub={n.local ? n.english : undefined}
                     selected={plan.pantryIds.includes(id)}
                     onPress={() => update({ pantryIds: toggle(plan.pantryIds, id) })}
                   />
                 );
               })}
-            </ScrollView>
+            </View>
           </>
         ) : (
           <>
-            <SectionTitle title="I want to make" note={`${bundle.dishes.length} dishes`} />
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.row}>
+            <SectionTitle title="I want to make" />
+            <View style={styles.list}>
               {bundle.dishes.map((d) => (
-                <CircleTile key={d.id} icon={dishIcon(d.id)} label={d.name.split(" (")[0]} selected={plan.dishId === d.id} onPress={() => update({ dishId: d.id })} />
+                <CheckRow key={d.id} role="radio" icon={dishIcon(d.id)} title={d.name} selected={plan.dishId === d.id} onPress={() => update({ dishId: d.id })} />
               ))}
-            </ScrollView>
+            </View>
           </>
         )}
       </Reveal>
 
-      <Reveal index={4}>
-        <SectionTitle title="Budget for this meal" note="naira" />
-        <View style={styles.presets}>
+      <Reveal index={3}>
+        <SectionTitle title="Budget for this meal" />
+        <View style={styles.presets} accessibilityRole="radiogroup">
           {BUDGET_PRESETS.map((b) => {
             const on = plan.budgetNgn === b;
             return (
@@ -178,7 +147,8 @@ function StartBody({ bundle }: { bundle: Bundle }) {
                 accessibilityRole="radio"
                 accessibilityState={{ selected: on }}
                 accessibilityLabel={`${b} naira`}
-                style={({ pressed }) => [styles.preset, { backgroundColor: on ? c.primary : c.surface, transform: [{ scale: pressed ? 0.96 : 1 }] }]}
+                android_ripple={RIPPLE}
+                style={({ pressed }) => [styles.preset, { backgroundColor: on ? c.primary : c.surface, transform: [{ scale: pressed ? 0.98 : 1 }] }]}
               >
                 <Text style={[type.bodyStrong, { color: on ? c.onPrimary : c.onBackground }]}>₦{b.toLocaleString("en-NG")}</Text>
               </Pressable>
@@ -187,7 +157,7 @@ function StartBody({ bundle }: { bundle: Bundle }) {
         </View>
         <TextInput
           mode="outlined"
-          label="Or type an amount"
+          label="Or type an amount in naira"
           keyboardType="number-pad"
           value={budgetText}
           onChangeText={(t) => {
@@ -200,35 +170,30 @@ function StartBody({ bundle }: { bundle: Bundle }) {
           outlineStyle={{ borderRadius: radius.control }}
           textColor={c.onBackground}
           theme={inputTheme}
+          accessibilityLabel="Budget in naira"
         />
       </Reveal>
 
-      <Reveal index={5}>
+      <Reveal index={4}>
         <View style={[styles.panel, { backgroundColor: c.surface }]}>
           <SectionTitle title="How many people?" />
           <Stepper value={plan.servings} onChange={(n) => update({ servings: n })} min={1} max={20} label="people" unit={plan.servings === 1 ? "person" : "people"} />
         </View>
       </Reveal>
 
-      <Reveal index={6}>
+      <Reveal index={5}>
         <SectionTitle title="Leave out" note="allergies" />
-        <View style={styles.presets}>
-          {allergenOptions(bundle).map(({ tag, label }) => {
-            const on = plan.allergens.includes(tag);
-            return (
-              <Pressable
-                key={tag}
-                onPress={() => update({ allergens: toggle(plan.allergens, tag) })}
-                accessibilityRole="checkbox"
-                accessibilityState={{ checked: on }}
-                accessibilityLabel={`Leave out ${label}`}
-                style={[styles.allergen, { backgroundColor: on ? c.accentContainer : c.surface, borderColor: on ? c.accent : c.surface }]}
-              >
-                <MaterialCommunityIcons name={on ? "close-circle" : "alert-circle-outline"} size={20} color={on ? c.accent : c.onSurfaceVariant} />
-                <Text style={[type.bodyStrong, { color: on ? c.onAccentContainer : c.onBackground }]}>{label}</Text>
-              </Pressable>
-            );
-          })}
+        <View style={styles.list}>
+          {allergenOptions(bundle).map(({ tag, label }) => (
+            <CheckRow
+              key={tag}
+              role="checkbox"
+              icon="alert-circle-outline"
+              title={`Leave out ${label.toLowerCase()}`}
+              selected={plan.allergens.includes(tag)}
+              onPress={() => update({ allergens: toggle(plan.allergens, tag) })}
+            />
+          ))}
         </View>
         <Expander title="More options" icon="tune-variant">
           <View style={{ gap: space.md, paddingTop: space.sm }}>
@@ -247,20 +212,18 @@ function StartBody({ bundle }: { bundle: Bundle }) {
               outlineStyle={{ borderRadius: radius.control }}
               textColor={c.onBackground}
               theme={inputTheme}
+              accessibilityLabel="Body weight in kilograms, optional"
             />
-            <Small>Stays on this phone. With a weight we use a general adult guideline (0.8 g protein per kg a day, over 3 meals). It is an estimate, not medical advice.</Small>
+            <Small>Stays on this phone. We use a general adult guide, not medical advice.</Small>
             {plan.bodyWeightKg ? null : (
               <View style={[styles.panel, { backgroundColor: c.surface }]}>
-                <Body strong>Protein per person for this meal</Body>
+                <Body strong>Protein per person</Body>
                 <Stepper value={plan.proteinPerPersonG} onChange={(n) => update({ proteinPerPersonG: n })} min={5} max={60} label="grams" unit="grams" />
-                <Small>Your choice. 20 g is our starting value.</Small>
               </View>
             )}
           </View>
         </Expander>
       </Reveal>
-
-      <LimitsLink />
     </Screen>
   );
 }
@@ -271,14 +234,11 @@ export default function Start() {
 
 const styles = StyleSheet.create({
   choices: { flexDirection: "row", gap: space.md },
-  choice: { flex: 1, borderWidth: 2, borderRadius: radius.card, padding: space.lg, gap: space.sm, minHeight: 156, overflow: "hidden" },
-  choiceIcon: { width: 48, height: 48, borderRadius: 14, alignItems: "center", justifyContent: "center", marginBottom: space.xs },
-  pickRow: { flexDirection: "row", alignItems: "flex-end", gap: space.md, marginTop: space.md },
-  row: { gap: space.sm, paddingRight: space.lg },
+  choice: { flex: 1, borderWidth: 2, borderRadius: radius.card, padding: space.lg, gap: space.sm, overflow: "hidden" },
+  list: { gap: space.sm },
   presets: { flexDirection: "row", flexWrap: "wrap", gap: space.sm },
-  preset: { borderRadius: radius.control, paddingHorizontal: space.lg, minHeight: 52, justifyContent: "center", flexGrow: 1, alignItems: "center" },
-  allergen: { flexDirection: "row", alignItems: "center", gap: space.sm, borderRadius: radius.control, borderWidth: 1.5, paddingHorizontal: space.lg, minHeight: 52 },
+  preset: { borderRadius: radius.control, paddingHorizontal: space.lg, minHeight: 52, justifyContent: "center", flexGrow: 1, alignItems: "center", overflow: "hidden" },
   panel: { borderRadius: radius.card, padding: space.lg },
-  stepper: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: space.xs },
-  stepBtn: { width: 56, height: 56, borderRadius: 18, alignItems: "center", justifyContent: "center" },
+  stepper: { flexDirection: "row", alignItems: "center", gap: space.md, marginTop: space.xs },
+  stepBtn: { width: 56, height: 56, borderRadius: 18, alignItems: "center", justifyContent: "center", overflow: "hidden" },
 });

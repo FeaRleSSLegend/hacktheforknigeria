@@ -25,7 +25,11 @@ export default function RootLayout() {
         <BundleProvider>
           <PlanProvider>
             <StatusBar style="light" />
-            <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.colors.background }, animation: "slide_from_right" }} />
+            <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.colors.background }, animation: "slide_from_right" }}>
+              <Stack.Screen name="(tabs)" />
+              <Stack.Screen name="suggestions" />
+              <Stack.Screen name="prepare/[dishId]" />
+            </Stack>
           </PlanProvider>
         </BundleProvider>
       </PaperProvider>
