@@ -1,0 +1,18 @@
+kind,old_name,new_name,note
+metric,wac_pct,water_absorption,
+metric,oac_pct,oil_absorption,
+metric,foam_capacity_pct,foam_capacity,
+metric,lgc_pct,least_gelation,
+metric,bulk_density_loose,bulk_density,loose bulk density in both papers
+metric,phytate_mg100g,phytate,
+metric,oxalate_mg100g,oxalate,
+metric,trypsin_inhibitor_mg100g,trypsin_inhibitor,
+metric,tannin_mg100g,tannin,
+metric,polyphenols_mg100g,polyphenols,
+metric,ivpd_pct,ivpd,
+metric,protein_pct,protein,
+metric,fat_pct,fat,
+metric,fibre_pct,fibre,
+metric,energy_kcal100g,energy,
+metric,iron_mg100g,iron,
+treatment,toasting,roasting,original word kept in method_note

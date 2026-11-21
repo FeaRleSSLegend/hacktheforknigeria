@@ -1,0 +1,99 @@
+[
+  {
+    "step": "ingest_treatments",
+    "rows_in": 682,
+    "dropped": {},
+    "rows_out": 682,
+    "notes": "batches: {'batch1': {'rows': 58, 'papers': ['abioye2014', 'abulude2006', 'chude2018'], 'zero_baseline': 0}, 'batch2': {'rows': 81, 'papers': ['makinde2020'], 'zero_baseline': 0}, 'batch3': {'rows': 166, 'papers': ['abiodun2011', 'mubaiwa2018', 'sobowale2025'], 'zero_baseline': 0}, 'batch4': {'rows': 299, 'papers': ['akubor2017', 'bolade2015', 'gandhi2022', 'kanetro2021', 'kewuyemi2024', 'ojha2020', 'pokharel2024', 'sharma2019'], 'zero_baseline': 0}, 'batch5': {'rows': 78, 'papers': ['ijarotimi2022', 'nagessa2023', 'rizvi2024'], 'zero_baseline': 0}, 'treatments_renamed': 4, 'needs_human_rows': 22}; metric renames: wac_pct -> water_absorption, oac_pct -> oil_absorption, foam_capacity_pct -> foam_capacity, lgc_pct -> least_gelation, bulk_density_loose -> bulk_density, phytate_mg100g -> phytate, oxalate_mg100g -> oxalate, trypsin_inhibitor_mg100g -> trypsin_inhibitor, tannin_mg100g -> tannin, polyphenols_mg100g -> polyphenols, ivpd_pct -> ivpd, protein_pct -> protein, fat_pct -> fat, fibre_pct -> fibre, energy_kcal100g -> energy, iron_mg100g -> iron; treatment renames: toasting -> roasting; baseline_type by paper (not pooled as the same): abioye2014=soaked, abulude2006=raw, chude2018=raw, makinde2020=dehulled, abiodun2011=raw, mubaiwa2018=raw, sobowale2025=germinated, bolade2015=raw, akubor2017=hydrated_dehulled, sharma2019=non_germinated, kewuyemi2024=raw, pokharel2024=raw, ojha2020=raw, gandhi2022=raw, kanetro2021=control, ijarotimi2022=raw, nagessa2023=raw, rizvi2024=raw; treatment_family (same unit operation family, names kept separate): biological: germination/fermentation/fermentation_lactic, dry_heat: roasting/soaking_roasting, mechanical: dehulling, multi_step_household: wet_milling/deep_frying/steaming/pressure_cooking/boiling_fermentation/germination_boiling_fermentation, soaking: soaking/dehulling_soaking/soaking_dehulling_soaking/soaking_alkaline, wet_heat: boiling/autoclaving/soaking_boiling/soaking_autoclaving/soaking_pressure_cooking; rows marked NEEDS_HUMAN and excluded from training: 22; crop_group x in_ingredient_table: {('legume', False): 120, ('legume', True): 550, ('oilseed', True): 12} (crops not in the ingredient table are treatment-effect evidence from a different crop only); cumulative_from_raw rows: 102 (boiling_fermentation = boil > ferment; deep_frying = soak > dehull > soak > wet mill > deep fry; dehulling_soaking = soak > dehull; germination_boiling_fermentation = germinate > boil > ferment; pressure_cooking = soak > dehull > pressure cook (exact preceding stage not stated); soaking = soak; soaking_dehulling_soaking = soak > dehull > soak; steaming = soak > dehull > soak > wet mill > steam; wet_milling = soak > dehull > soak > wet mill)"
+  },
+  {
+    "step": "ingest_functional",
+    "rows_in": 121,
+    "dropped": {},
+    "rows_out": 121,
+    "notes": "batches: {'batch1': {'rows': 56, 'papers': ['abioye2014', 'abulude2006', 'adediran2013', 'arawande2010', 'nzeagwu2018', 'odedeji2024', 'okoye2021', 'oloyo2005', 'onwuzurike2021']}, 'batch2': {'rows': 6, 'papers': ['makinde2020']}, 'batch3': {'rows': 38, 'papers': ['abiodun2011', 'adeleke2018', 'mubaiwa2018', 'ogunyinka2017']}, 'batch4': {'rows': 16, 'papers': ['akubor2017', 'kanetro2021', 'sharma2019']}, 'batch5': {'rows': 5, 'papers': ['ijarotimi2022']}}"
+  },
+  {
+    "step": "wafct2019",
+    "rows_in": 1055,
+    "dropped": {
+      "food group header row": 14,
+      "food group not needed": 384
+    },
+    "rows_out": 657,
+    "notes": "bracketed (imputed) cells per field: {'kcal': 0, 'water_g': 0, 'protein_g': 0, 'fat_g': 258, 'carbs_g': 0, 'fibre_g': 21, 'iron_mg': 51, 'phytate_mg': 120}"
+  },
+  {
+    "step": "pulses_dm",
+    "rows_in": 354,
+    "dropped": {
+      "value documentation row (codes kept in doc_ columns)": 177,
+      "blank row": 0
+    },
+    "rows_out": 177,
+    "notes": "one row per food; cross-check against sheet 04 NV_sum: 0 mismatching cells; FoodIDs reused for different foods in the source: ['PIS017_DM', 'PIS018_DM']"
+  },
+  {
+    "step": "phytate",
+    "rows_in": 1121,
+    "dropped": {
+      "crop not ranked": 863,
+      "no phytate value": 93
+    },
+    "rows_out": 165,
+    "notes": "names recovered without salvage.py; phytate methods kept in separate columns"
+  },
+  {
+    "step": "prices_feb2025",
+    "rows_in": 42,
+    "dropped": {
+      "no Feb 2025 price": 0
+    },
+    "rows_out": 42,
+    "notes": "per_kg_usable: 30 of 42; mapping labels not found in table: []"
+  },
+  {
+    "step": "prices_history_combined",
+    "rows_in": 82,
+    "dropped": {},
+    "rows_out": 91,
+    "notes": "added 9 months from the Feb 2025 table; 16 press quotes kept as unverified; overlapping months checked: 6, all agree within 1 NGN: True"
+  },
+  {
+    "step": "units",
+    "rows_in": 6,
+    "dropped": {
+      "marked do_not_use in source": 3
+    },
+    "rows_out": 3,
+    "notes": ""
+  },
+  {
+    "step": "build_ingredients",
+    "rows_in": 9,
+    "dropped": {},
+    "rows_out": 9,
+    "notes": "priced: 1; estimated: 4"
+  },
+  {
+    "step": "build_sides",
+    "rows_in": 9,
+    "dropped": {},
+    "rows_out": 9,
+    "notes": "priced: 9; vegetable oil left out of costing"
+  },
+  {
+    "step": "qc_functional",
+    "rows_in": 121,
+    "dropped": {},
+    "rows_out": 121,
+    "notes": "groups: 56; single_source: 32; high_disagreement: [['bambara', 'least_gelation'], ['melon_seed', 'oil_absorption'], ['pigeon_pea', 'emulsion_stability'], ['pigeon_pea', 'foam_capacity'], ['pigeon_pea', 'foam_stability'], ['pigeon_pea', 'least_gelation'], ['pigeon_pea', 'oil_absorption'], ['pigeon_pea', 'water_absorption']]; duplicates: 0; unit/form errors: 0"
+  },
+  {
+    "step": "check_playbook",
+    "rows_in": 18,
+    "dropped": {},
+    "rows_out": 120,
+    "notes": "120 entry-metric effect blocks recomputed; mismatches: 0"
+  }
+]

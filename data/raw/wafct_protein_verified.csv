@@ -1,0 +1,34 @@
+wafct_code,food,state,protein_g_per_100g,water_g,fat_g,edible_factor,value_type,source
+03_004,Cowpea (dried),raw,21.2,11.8,1.3,1.00,table_value,FAO/INFOODS West African FCT 2012 (fao.org/3/i2698b/i2698b.pdf) p.25
+03_007,Cowpea (boiled no salt),boiled,7.9,67.3,0.5,1.00,calculated_from_raw,same; boiled values calculated with yield and retention factors
+03_006,Cowpea white (dried),raw,19.2,13.3,1.5,1.00,table_value,same
+03_029,Cowpea white (boiled no salt),boiled,7.1,67.9,0.6,1.00,calculated_from_raw,same
+03_027,Cowpea brown (dried),raw,21.2,12.5,1.6,1.00,table_value,same
+03_028,Cowpea brown (boiled no salt),boiled,7.9,67.6,0.6,1.00,calculated_from_raw,same
+03_001,Bambara groundnut (dried),raw,20.1,8.4,5.9,1.00,table_value,same p.22
+03_012,Bambara groundnut (boiled no salt),boiled,7.4,66.1,2.2,1.00,calculated_from_raw,same
+03_018,Bambara groundnut combined varieties Ghana (dried),raw,20.8,9.4,5.5,1.00,table_value,same
+03_019,Bambara groundnut combined varieties Ghana (boiled),boiled,7.7,66.4,2.0,1.00,calculated_from_raw,same
+03_008,Soya bean (dried),raw,32.0,9.3,17.0,1.00,table_value,same p.25
+03_034,Soya bean (boiled no salt),boiled,13.9,60.6,7.4,1.00,calculated_from_raw,same
+03_039,Soya bean combined varieties Ghana (dried),raw,34.7,7.9,15.9,1.00,table_value,same p.28
+03_040,Soya bean combined varieties Ghana (boiled),boiled,15.1,60.0,6.9,1.00,calculated_from_raw,same
+03_032,Pigeon pea (dried),raw,18.4,13.4,1.5,1.00,table_value,same p.25
+03_033,Pigeon pea (boiled no salt),boiled,6.8,67.9,0.6,1.00,calculated_from_raw,same
+03_010,African yam bean (dried),raw,18.9,13.3,1.5,,table_value,same p.22
+03_011,African yam bean (boiled no salt),boiled,7.0,67.9,0.6,,calculated_from_raw,same
+03_009,African locust bean seeds (dried),raw,32.3,7.0,19.5,0.30,table_value,same p.22
+06_010,Groundnut shelled (dried),raw,22.4,6.3,45.9,1.00,table_value,same p.52
+06_026,Groundnut paste,raw,25.0,7.2,47.2,1.00,table_value,same
+06_028,Groundnut flour defatted,raw,42.5,5.0,9.9,1.00,table_value,same
+06_013,Melon seeds (egusi) slightly salted,raw,27.5,6.4,47.9,0.37,table_value,same
+07_009,Beef lean boneless,raw,21.7,73.2,4.3,1.00,table_value,same p.55
+07_010,Beef lean boneless boiled no salt,boiled,36.2,55.3,7.2,1.00,calculated_from_raw,same
+07_011,Beef lean boneless grilled,grilled,30.1,62.8,6.0,1.00,calculated_from_raw,same
+07_002,Beef 15-20% fat boneless,raw,18.4,64.3,18.0,1.00,table_value,same p.58
+07_012,Beef 15-20% fat boneless boiled,boiled,30.6,49.1,21.3,1.00,calculated_from_raw,same
+07_013,Beef 15-20% fat boneless grilled,grilled,25.5,55.4,19.9,1.00,calculated_from_raw,same
+07_033,Chicken light meat flesh,raw,23.6,74.5,1.4,0.55,table_value,same p.61
+07_034,Chicken light meat flesh boiled,boiled,31.1,66.5,1.8,0.48,calculated_from_raw,same
+07_003,Chicken dark meat flesh,raw,20.4,72.9,5.9,0.44,table_value,same
+07_028,Chicken dark meat flesh boiled,boiled,26.8,66.5,5.6,0.37,calculated_from_raw,same

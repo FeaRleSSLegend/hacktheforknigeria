@@ -1,0 +1,37 @@
+application_id,needs_source,ingredient_id,n_functional_values,needs_with_data,needs_missing,engine_effect
+akara_batter,data/applications.json,cowpea,22,foam_capacity;foam_stability;water_absorption;oil_absorption,,complete
+akara_batter,data/applications.json,bambara,28,foam_capacity;foam_stability;water_absorption;oil_absorption,,complete
+akara_batter,data/applications.json,pigeon_pea,33,foam_capacity;foam_stability;water_absorption;oil_absorption,,complete
+akara_batter,data/applications.json,african_yam_bean,5,foam_capacity;water_absorption,foam_stability;oil_absorption,partial data flag
+akara_batter,data/applications.json,jack_bean,12,foam_capacity;foam_stability;water_absorption;oil_absorption,,complete
+akara_batter,data/applications.json,soybean,5,foam_capacity;foam_stability;water_absorption;oil_absorption,,complete
+akara_batter,data/applications.json,groundnut,5,foam_capacity;water_absorption;oil_absorption,foam_stability,partial data flag
+akara_batter,data/applications.json,melon_seed,7,foam_capacity;water_absorption;oil_absorption,foam_stability,partial data flag
+akara_batter,data/applications.json,african_locust_bean,4,foam_capacity;foam_stability,water_absorption;oil_absorption,partial data flag
+steamed_bean_pudding,data/applications.json,cowpea,22,water_absorption;least_gelation;emulsion_capacity;foam_capacity,,complete
+steamed_bean_pudding,data/applications.json,bambara,28,water_absorption;least_gelation;emulsion_capacity;foam_capacity,,complete
+steamed_bean_pudding,data/applications.json,pigeon_pea,33,water_absorption;least_gelation;emulsion_capacity;foam_capacity,,complete
+steamed_bean_pudding,data/applications.json,african_yam_bean,5,water_absorption;foam_capacity,least_gelation;emulsion_capacity,partial data flag
+steamed_bean_pudding,data/applications.json,jack_bean,12,water_absorption;least_gelation;emulsion_capacity;foam_capacity,,complete
+steamed_bean_pudding,data/applications.json,soybean,5,water_absorption;foam_capacity,least_gelation;emulsion_capacity,partial data flag
+steamed_bean_pudding,data/applications.json,groundnut,5,water_absorption;emulsion_capacity;foam_capacity,least_gelation,partial data flag
+steamed_bean_pudding,data/applications.json,melon_seed,7,water_absorption;least_gelation;foam_capacity,emulsion_capacity,partial data flag
+steamed_bean_pudding,data/applications.json,african_locust_bean,4,emulsion_capacity;foam_capacity,water_absorption;least_gelation,partial data flag
+bean_soup_body,data/applications.json,cowpea,22,water_absorption;emulsion_capacity;emulsion_stability,,complete
+bean_soup_body,data/applications.json,bambara,28,water_absorption;emulsion_capacity;emulsion_stability,,complete
+bean_soup_body,data/applications.json,pigeon_pea,33,water_absorption;emulsion_capacity;emulsion_stability,,complete
+bean_soup_body,data/applications.json,african_yam_bean,5,water_absorption,emulsion_capacity;emulsion_stability,partial data flag
+bean_soup_body,data/applications.json,jack_bean,12,water_absorption;emulsion_capacity;emulsion_stability,,complete
+bean_soup_body,data/applications.json,soybean,5,water_absorption,emulsion_capacity;emulsion_stability,partial data flag
+bean_soup_body,data/applications.json,groundnut,5,water_absorption;emulsion_capacity,emulsion_stability,partial data flag
+bean_soup_body,data/applications.json,melon_seed,7,water_absorption,emulsion_capacity;emulsion_stability,partial data flag
+bean_soup_body,data/applications.json,african_locust_bean,4,emulsion_capacity,water_absorption;emulsion_stability,partial data flag
+seed_soup_body,data/applications.json,cowpea,22,oil_absorption;emulsion_capacity;water_absorption,,complete
+seed_soup_body,data/applications.json,bambara,28,oil_absorption;emulsion_capacity;water_absorption,,complete
+seed_soup_body,data/applications.json,pigeon_pea,33,oil_absorption;emulsion_capacity;water_absorption,,complete
+seed_soup_body,data/applications.json,african_yam_bean,5,water_absorption,oil_absorption;emulsion_capacity,partial data flag
+seed_soup_body,data/applications.json,jack_bean,12,oil_absorption;emulsion_capacity;water_absorption,,complete
+seed_soup_body,data/applications.json,soybean,5,oil_absorption;water_absorption,emulsion_capacity,partial data flag
+seed_soup_body,data/applications.json,groundnut,5,oil_absorption;emulsion_capacity;water_absorption,,complete
+seed_soup_body,data/applications.json,melon_seed,7,oil_absorption;water_absorption,emulsion_capacity,partial data flag
+seed_soup_body,data/applications.json,african_locust_bean,4,emulsion_capacity,oil_absorption;water_absorption,partial data flag

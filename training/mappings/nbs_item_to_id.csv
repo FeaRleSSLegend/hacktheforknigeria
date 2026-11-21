@@ -1,0 +1,20 @@
+item_label,target_id,table,confidence,note
+Beans Brown,cowpea,ingredients,sure,Brown beans are cowpea (Vigna unguiculata); price used for ingredient cowpea
+Beans white,cowpea_white,none,unsure,White beans are also cowpea; not used because ingredients.csv has one cowpea row priced from brown beans
+Garri white,garri_white,sides,sure,White gari; WAFCT 02_039
+Garri Yellow,garri_yellow,none,unsure,No yellow gari row in WAFCT 2019; composition would have to come from white gari
+Yam Tuber,yam,sides,unsure,Label has no unit; assumed per kg. WAFCT values are per edible portion while the price is for the whole tuber with peel
+"Rice Local, short-Grained",rice_local,sides,unsure,Composition row choice (WAFCT 01_037 Rice white raw) is a judgement; local rice is often parboiled
+Rice Long-Grained (Imported),rice_imported,sides,unsure,Composition row choice (WAFCT 01_036 Rice white polished raw) is a judgement
+Local Rice (Broken),rice_local_broken,none,unsure,Not used; overlaps with Rice Local short-grained
+Maize (Corn) Grains (White) sold loose,maize_white,sides,sure,WAFCT 01_004 Maize white whole kernel dry raw
+"Tomatoes, fresh ",tomato,sides,sure,WAFCT 04_021 Tomato red ripe raw
+"Onions, fresh ",onion,sides,sure,WAFCT 04_018 Onion fresh raw
+Plantain (unripe),plantain_unripe,sides,unsure,Label has no unit; assumed per kg. Price includes peel; WAFCT is per edible portion
+Plantain (ripe),plantain_ripe,sides,unsure,Label has no unit; assumed per kg. Price includes peel; WAFCT is per edible portion
+"Groundnuts, roasted,75cl bottle",groundnut,none,sure,Sold by volume (75 cl bottle); not converted to per kg without a cited density
+"Vegetable Oil, 75cl",vegetable_oil,none,sure,Sold by volume; oil is outside the cost (card says excludes oil and spices)
+"Palm oil, 75cl",palm_oil,none,sure,Sold by volume; oil is outside the cost
+"Groundnut oil, 75cl",groundnut_oil,none,sure,Sold by volume; oil is outside the cost
+Beef Boneless,beef_boneless,reference,sure,For the pitch comparison only; same id as nbs_prices_history.csv
+Chicken meat (Frozen),chicken_frozen,reference,sure,For the pitch comparison only; same id as nbs_prices_history.csv
