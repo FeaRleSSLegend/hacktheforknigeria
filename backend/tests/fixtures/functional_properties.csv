@@ -1,0 +1,9 @@
+ingredient_id,property,value,unit,form,ph,method_note,paper_id,page,quote,quality
+test_a,foaming,60,pct,flour,,,t1,1,q,estimated
+test_a,foaming,80,pct,flour,,,t2,1,q,estimated
+test_a,wac,2.0,g_per_g,flour,,,t1,1,q,estimated
+test_b,foaming,40,pct,flour,,,t1,1,q,estimated
+test_b,wac,3.0,g_per_g,flour,,,t1,1,q,estimated
+test_c,foaming,20,pct,flour,,,t1,1,q,estimated
+test_c,wac,1.0,g_per_g,flour,,,t1,1,q,estimated
+test_c,foaming,99,pct,isolate,,,t3,1,q,estimated

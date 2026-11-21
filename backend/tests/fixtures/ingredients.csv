@@ -1,0 +1,6 @@
+ingredient_id,name,local_names,form_sold,protein_g_per_100g,fat_g,energy_kcal,iron_mg,water_g,price_ngn_per_kg,price_month,price_source,allergen_tags,quality,source,notes
+test_a,Test legume A,,dry,20,1,,,10,2000,2026-01,test,,estimated,test,synthetic
+test_b,Test legume B,,dry,30,2,,,10,3000,2026-01,test,allergen_x,estimated,test,synthetic
+test_c,Test legume C,,dry,10,1,,,10,500,2026-01,test,,estimated,test,synthetic
+test_nodata,Test legume no props,,dry,25,1,,,10,1000,2026-01,test,,estimated,test,synthetic
+test_noprice,Test legume no price,,dry,25,1,,,10,,2026-01,test,,estimated,test,synthetic

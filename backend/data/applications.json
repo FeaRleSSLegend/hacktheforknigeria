@@ -1,0 +1,100 @@
+[
+ {
+  "id": "akara_batter",
+  "name": "Akara (fried bean-paste balls)",
+  "needs": [
+   {
+    "property": "foam_capacity",
+    "direction": "higher",
+    "weight": 0.35
+   },
+   {
+    "property": "foam_stability",
+    "direction": "higher",
+    "weight": 0.15
+   },
+   {
+    "property": "water_absorption",
+    "direction": "higher",
+    "weight": 0.3
+   },
+   {
+    "property": "oil_absorption",
+    "direction": "lower",
+    "weight": 0.2
+   }
+  ],
+  "notes": "ESTIMATED WEIGHTS (team judgement, not measured). Rationale: the batter is whipped, so foaming matters; it must hold water to stay soft; lower flour oil absorption is a proxy for a less greasy fry. Flour oil-absorption is not the same as frying oil uptake. Confirm with a mentor."
+ },
+ {
+  "id": "steamed_bean_pudding",
+  "name": "Steamed bean pudding (moin-moin, ekuru, okpa)",
+  "needs": [
+   {
+    "property": "water_absorption",
+    "direction": "higher",
+    "weight": 0.35
+   },
+   {
+    "property": "least_gelation",
+    "direction": "lower",
+    "weight": 0.3
+   },
+   {
+    "property": "emulsion_capacity",
+    "direction": "higher",
+    "weight": 0.2
+   },
+   {
+    "property": "foam_capacity",
+    "direction": "higher",
+    "weight": 0.15
+   }
+  ],
+  "notes": "ESTIMATED WEIGHTS (team judgement). Rationale: a steamed pudding must hold water and set (a lower least gelation concentration means it gels more easily), and bind oil and pepper. Confirm with a mentor."
+ },
+ {
+  "id": "bean_soup_body",
+  "name": "Bean soup / thick stew base (gbegiri)",
+  "needs": [
+   {
+    "property": "water_absorption",
+    "direction": "higher",
+    "weight": 0.4
+   },
+   {
+    "property": "emulsion_capacity",
+    "direction": "higher",
+    "weight": 0.3
+   },
+   {
+    "property": "emulsion_stability",
+    "direction": "higher",
+    "weight": 0.3
+   }
+  ],
+  "notes": "ESTIMATED WEIGHTS (team judgement). Rationale: thickens by holding water and keeps oil mixed in. Confirm with a mentor."
+ },
+ {
+  "id": "seed_soup_body",
+  "name": "Seed-based soup (egusi, groundnut soup)",
+  "needs": [
+   {
+    "property": "oil_absorption",
+    "direction": "higher",
+    "weight": 0.35
+   },
+   {
+    "property": "emulsion_capacity",
+    "direction": "higher",
+    "weight": 0.3
+   },
+   {
+    "property": "water_absorption",
+    "direction": "higher",
+    "weight": 0.35
+   }
+  ],
+  "notes": "ESTIMATED WEIGHTS (team judgement). Rationale: ground seed that holds oil and water gives body. Confirm with a mentor."
+ }
+]
