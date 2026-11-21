@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#19171b;--muted:#6b6c71;--card:#e8e8ec;--night:#121113;--bg:#fff;--blue-start:#1935d9;--blue-end:#2f2be2;--blue-border:#1f34c9;--hairline:rgba(116,84,84,.15);--tint:rgba(62,44,62,.08);--font-sans:Geist,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;--font-serif:"Instrument Serif",serif;--ease:cubic-bezier(.22,1,.36,1)}
+*{box-sizing:border-box;margin:0}
+html{-webkit-font-smoothing:antialiased}
+body{font-family:var(--font-sans);color:var(--ink);background:var(--bg);overflow-x:hidden;line-height:1.6;font-size:17px}
+::selection{background:var(--blue-start);color:#fff}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1530px;margin:0 auto;padding:0 24px}
+@media(min-width:768px){.wrap{padding:0 40px}}@media(min-width:1024px){.wrap{padding:0 64px}}
+.muted{color:var(--muted)}.serif{font-family:var(--font-serif);font-style:italic}
+h1,h2,h3{font-weight:500}
+.h-display{font-size:clamp(38px,6.6vw,104px);line-height:.98;letter-spacing:-.045em}
+.h-section{font-size:clamp(34px,5vw,72px);line-height:1.02;letter-spacing:-.035em}
+/* buttons: 10px radius, no pills */
+.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:10px;padding:12px 20px;font-size:15px;font-weight:500}
+.btn-primary{color:#fff;background:linear-gradient(to bottom,var(--blue-start),var(--blue-end));box-shadow:inset 0 1px 4px #2a3edc,inset 0 4px 16px rgba(255,255,255,.2),0 0 0 1px var(--blue-border)}
+.btn-ghost{background:var(--tint)}
+.btn-lg{padding:16px 28px;font-size:17px}
+/* underline link */
+.ul{position:relative;display:inline-block}
+.ul::after{content:"";position:absolute;left:0;bottom:-4px;height:1px;width:100%;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.ul:hover::after,a:hover>.ul::after{transform:scaleX(1)}
+/* nav */
+nav{position:fixed;inset:0 0 auto;z-index:50;transition:transform .7s var(--ease)}
+nav.hide{transform:translateY(-140px)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:20px;padding-bottom:20px}
+.logo{font-size:20px;letter-spacing:-.4px}.logo b{font-weight:600}.logo span{font-weight:300}
+.links{display:none;align-items:center;gap:32px;font-size:15px}
+.links a{display:flex;gap:8px;align-items:baseline}.links .n{font-size:13px;color:var(--muted)}
+@media(min-width:768px){.links{display:flex}}
+/* hero */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:144px 0 40px;overflow:hidden}
+.band{position:absolute;inset:0 0 25% 0;z-index:-1;opacity:.6;background:radial-gradient(60% 80% at 20% 10%,#c9d4ff 0,transparent 60%),radial-gradient(50% 70% at 85% 0%,#e6d9ff 0,transparent 65%),radial-gradient(40% 60% at 55% 30%,#d6f0ff 0,transparent 70%)}
+.kicker{font-size:clamp(20px,2vw,24px);color:var(--muted)}
+.hero h1{margin-top:12px}
+.hero-row{margin-top:48px;display:grid;gap:40px;align-items:end}
+@media(min-width:768px){.hero-row{grid-template-columns:1fr auto}}
+.hero-row p{max-width:560px}
+/* sections */
+section{padding:96px 0}@media(min-width:768px){section{padding:144px 0}}
+.rows{border-top:1px solid var(--hairline)}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding:20px 0;border-bottom:1px solid var(--hairline);font-size:20px;font-weight:500;letter-spacing:-.015em}
+.work{display:grid;gap:64px;margin-top:56px}
+@media(min-width:768px){.work{grid-template-columns:1.62fr 1fr;gap:32px}.work .b{margin-top:80px}}
+.media{overflow:hidden;border-radius:24px;background:var(--card);aspect-ratio:16/9;box-shadow:0 70px 109px -10px rgba(88,92,95,.08),0 0 0 1px rgba(51,51,51,.04),0 1px 1px 1px rgba(51,51,51,.04),0 15px 15px -7px rgba(51,51,51,.04),0 60px 60px -30px rgba(51,51,51,.04)}
+.work .b .media{aspect-ratio:4/5}
+.meta{display:flex;justify-content:space-between;gap:24px;margin-top:20px}
+.meta small{font-size:14px;color:var(--muted)}.meta h3{font-size:clamp(20px,2vw,28px);line-height:1.15;letter-spacing:-.02em;margin-top:4px}
+.dark{background:var(--night);color:#fff;border-radius:28px;padding:48px 28px}
+.dark p{color:rgba(255,255,255,.6)}
+.cta{text-align:center}.cta .wrap{display:flex;flex-direction:column;align-items:center}
+.cta p{max-width:460px;margin-top:24px;font-size:18px}.cta .btn{margin-top:40px}.cta small{margin-top:16px;font-size:14px}
+/* reveal */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+/* footer: signature */
+footer{position:relative;overflow:hidden;padding-top:96px}
+.f-row{display:flex;flex-direction:column;justify-content:space-between;gap:40px;border-top:1px solid var(--hairline);padding-top:40px}
+.f-row.alt{margin-top:56px;border:0;padding:0;gap:24px}
+.f-mail{font-size:clamp(22px,3vw,40px);font-weight:500;letter-spacing:-.03em;align-self:flex-start}
+.f-bot{margin-top:32px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;border-top:1px solid var(--hairline);padding-top:24px;font-size:14px;color:var(--muted)}
+.f-social{display:flex;gap:12px;align-items:center;font-size:14px}.f-social i{width:4px;height:4px;border-radius:50%;background:rgba(25,23,27,.3)}
+.f-social a:hover{opacity:.5}
+@media(min-width:768px){.f-row,.f-bot{flex-direction:row}.f-row.alt{align-items:flex-end}}
+.f-word{position:relative;margin-top:24px;height:clamp(120px,22vw,340px);overflow:hidden;user-select:none}
+.f-word div{position:absolute;left:0;right:0;bottom:-.12em;text-align:center;white-space:nowrap;font-weight:600;line-height:1;font-size:clamp(110px,21.5vw,330px);background:linear-gradient(to bottom,var(--ink),rgba(25,23,27,.7),transparent);-webkit-background-clip:text;background-clip:text;color:transparent;will-change:transform}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<nav id="nav"><div class="wrap">
+  <a class="logo" href="/"><b>brand</b><span>.studio</span></a>
+  <div class="links">
+    <a href="#work"><span class="ul">Work</span><span class="n serif">01</span></a>
+    <a href="#services"><span class="ul">Services</span><span class="n serif">02</span></a>
+    <a href="#contact" class="btn btn-primary">Book a call</a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <div class="band"></div>
+  <div class="wrap">
+    <p class="kicker serif">Your design and development partner.</p>
+    <h1 class="h-display">We build products<br>people keep using.</h1>
+    <div class="hero-row">
+      <p><span class="muted">Strategy, brand and code under one roof, for teams that ship. </span><br>Small team, direct access, fixed prices.</p>
+      <a class="btn btn-primary btn-lg" href="#contact">Book a call</a>
+    </div>
+  </div>
+</header>
+
+<section id="work"><div class="wrap">
+  <h2 class="h-section reveal">Selected work.</h2>
+  <div class="work">
+    <a class="reveal" href="#"><div class="media"></div><div class="meta"><div><small>Fintech</small><h3>Rebuilding onboarding for a payments startup</h3></div></div></a>
+    <a class="reveal b" href="#"><div class="media"></div><div class="meta"><div><small>Health</small><h3>A calmer booking flow</h3></div></div></a>
+  </div>
+</div></section>
+
+<section id="services"><div class="wrap"><div class="dark">
+  <h2 class="h-section reveal" style="font-size:clamp(28px,3.6vw,54px)">Capabilities that scale with the work.</h2>
+  <div class="rows reveal" style="margin-top:40px;border-color:rgba(255,255,255,.15)">
+    <div class="row" style="border-color:rgba(255,255,255,.15)">Strategy and research<span class="serif" style="color:rgba(255,255,255,.5)">01</span></div>
+    <div class="row" style="border-color:rgba(255,255,255,.15)">Brand and identity<span class="serif" style="color:rgba(255,255,255,.5)">02</span></div>
+    <div class="row" style="border-color:rgba(255,255,255,.15)">Design and engineering<span class="serif" style="color:rgba(255,255,255,.5)">03</span></div>
+  </div>
+</div></div></section>
+
+<section class="cta" id="contact"><div class="wrap">
+  <h2 class="h-section reveal">Got a project<br>in mind?</h2>
+  <p class="muted reveal">Tell us what you are building and what a good result looks like.</p>
+  <a class="btn btn-primary btn-lg reveal" href="mailto:hello@brand.com">Book a free call</a>
+  <small class="muted reveal">25 min intro call. No pressure.</small>
+</div></section>
+
+<footer id="footer">
+  <div class="wrap">
+    <div class="f-row reveal">
+      <div><p style="font-size:14px;font-weight:500">brand</p><p class="muted" style="font-size:14px;margin-top:8px">One plain sentence about what you do.</p></div>
+      <a class="f-mail" href="mailto:hello@brand.com"><span class="ul">hello@brand.com</span></a>
+    </div>
+    <div class="f-row alt reveal">
+      <div class="f-social"><a href="#">Dribbble</a><i></i><a href="#">LinkedIn</a><i></i><a href="#">Instagram</a></div>
+    </div>
+    <div class="f-bot"><div style="display:flex;gap:24px"><a href="#">Get in touch</a><a href="#">Privacy Policy</a></div><p>© 2026 brand. All rights reserved.</p></div>
+  </div>
+  <div class="f-word" aria-hidden="true"><div id="word">brand</div></div>
+</footer>
+
+<script>
+// reveal on scroll
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -12% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+// nav hides on scroll down
+const nav=document.getElementById('nav');let last=0;
+addEventListener('scroll',()=>{const y=scrollY;nav.classList.toggle('hide',y>last&&y>140);last=y},{passive:true});
+// footer wordmark: rises, tightens, fades in
+const foot=document.getElementById('footer'),word=document.getElementById('word');
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));let tick=false;
+function upd(){tick=false;const r=foot.getBoundingClientRect(),vh=innerHeight;
+  const p=clamp((vh-r.top)/(r.height),0,1);
+  word.style.transform=`translateY(${38*(1-p)}%)`;
+  word.style.letterSpacing=`${0.04-0.10*p}em`;
+  word.style.opacity=clamp(p/0.5,0,1)}
+addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});upd();
+</script>
+</body>
+</html>

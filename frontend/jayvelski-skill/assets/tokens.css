@@ -1,0 +1,26 @@
+/* Jayvelski-skill: framework-free tokens. Link Geist + Instrument Serif first (see references/typography.md). */
+:root {
+  --ink: #19171b;
+  --navy: #0c152a;
+  --muted: #6b6c71;
+  --cool: #818a94;
+  --night: #121113;
+  --card: #e8e8ec;
+  --render: #edeced;
+  --bg: #ffffff;
+  --blue-start: #1935d9;
+  --blue-end: #2f2be2;
+  --blue-border: #1f34c9;
+  --hairline: rgba(116, 84, 84, 0.15);
+  --tint: rgba(62, 44, 62, 0.08);
+
+  --font-sans: Geist, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-serif: "Instrument Serif", serif;
+
+  --r-btn: 10px; --r-sm: 16px; --r-md: 24px; --r-panel: 28px;
+  --shadow-card: 0 1px 2px rgba(14,15,43,.08), 0 43px 80px rgba(66,39,92,.02);
+  --shadow-photo: 0 70px 109px -10px rgba(88,92,95,.08), 0 0 0 1px rgba(51,51,51,.04), 0 1px 1px 1px rgba(51,51,51,.04), 0 15px 15px -7px rgba(51,51,51,.04), 0 60px 60px -30px rgba(51,51,51,.04);
+  --shadow-blue: inset 0 1px 4px #2a3edc, inset 0 4px 16px rgba(255,255,255,.2);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --wrap: 1530px;
+}
