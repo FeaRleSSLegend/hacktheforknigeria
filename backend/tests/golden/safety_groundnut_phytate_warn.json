@@ -129,11 +129,11 @@
    ]
   }
  },
- "bundleVersion": "2026-11-21-48c617ec",
+ "bundleVersion": "2026-11-21-019dc6d3",
  "expected": {
   "allowed": true,
   "blocked": [
-   "Withheld \"Soak the kernels, then let them sprout for several days. Dry and mill to flour.\": Soaking, dehulling, milling or sprouting alone does not remove the heat-sensitive anti-nutrients (trypsin inhibitors). Do not present a soak-only, sprout-only or raw-flour preparation as ready to eat. Cook bean and groundnut preparations until they are fully done. (safety rule not yet reviewed by an expert)"
+   "Withheld \"Soak the kernels, then let them sprout for several days. Dry and mill to flour.\": Soaking, sprouting or milling alone is not enough. Always cook beans and groundnuts until fully soft."
   ],
   "result": {
    "goal": "phytate",
@@ -240,10 +240,32 @@
     }
    ]
   },
+  "rules": [
+   {
+    "id": "sr_mould_discard",
+    "reviewed": false,
+    "severity": "warn"
+   },
+   {
+    "id": "sr_allergen_peanut_soy",
+    "reviewed": false,
+    "severity": "warn"
+   },
+   {
+    "id": "sr_fermentation_not_guaranteed",
+    "reviewed": false,
+    "severity": "warn"
+   },
+   {
+    "id": "sr_cook_thoroughly",
+    "reviewed": false,
+    "severity": "block"
+   }
+  ],
   "warnings": [
-   "Discard groundnuts, seeds and grains that look mouldy, discoloured or shrivelled before preparing them. Cooking or fermenting does not make mouldy nuts safe. (safety rule not yet reviewed by an expert)",
-   "Contains peanut (groundnut) or soya. Peanuts and soybeans are among the foods that cause allergic reactions. Anyone with an allergy to either should not use this ingredient. (safety rule not yet reviewed by an expert)",
-   "Fermentation did not lower anti-nutrients in every published sample. Show the published range for the crop and never promise a fixed reduction. (safety rule not yet reviewed by an expert)"
+   "Throw away mouldy, discoloured or shrivelled nuts and seeds. Cooking does not make them safe.",
+   "Contains groundnut (peanut) or soya. Do not use if anyone eating is allergic to them.",
+   "Fermenting does not always lower these natural compounds. Results vary from batch to batch."
   ]
  },
  "fn": "safetyGuard",

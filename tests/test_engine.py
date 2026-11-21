@@ -99,7 +99,10 @@ def test_suggest_basic(data):
     assert {d["dishId"] for d in r["dishes"]} == {"test_dish", "test_dish_noprice", "test_dish_mixed"}
     d = dish(r, "test_dish")
     assert d["protein"]["ingredientId"] in {"test_a", "test_b", "test_c"}
-    assert d["proteinPerPlateG"] == 20.0
+    protein = {"test_a": 20, "test_b": 30, "test_c": 10}[d["protein"]["ingredientId"]]
+    assert d["dryGPerServing"] == 100 and d["portionQuality"] == "estimated"
+    assert d["proteinPerPlateG"] == protein  # 100 g dry portion x protein per 100 g
+    assert d["costLabel"] == "protein ingredient only, no oil or spices"
     assert "cost excludes oil and spices" in d["flags"]
     reasons = {e["id"]: e["reason"] for e in r["excluded"]}
     assert reasons["test_dish_nodata"] == "not enough functional data: test_nodata (missing foaming, wac)"
@@ -128,8 +131,9 @@ def test_user_price_used_when_no_bundled_price(data):
     r = suggest_dishes(base_input(userPricesNgnPerKg={"test_noprice": 1500}), data)
     p = dish(r, "test_dish_noprice")["protein"]
     assert p["priceSource"] == "user"
-    assert p["asSoldG"] == pytest.approx(80.0)  # 20 g protein at 25 g/100 g
-    assert p["costNgn"] == pytest.approx(120.0)  # 80 g at 1500 NGN/kg
+    assert p["asSoldG"] == pytest.approx(100.0)  # 100 g dry portion x 1 serving
+    assert p["costNgn"] == pytest.approx(150.0)  # 100 g at 1500 NGN/kg
+    assert p["proteinPerPlateG"] == pytest.approx(25.0)  # 100 g at 25 g/100 g
     assert p["flags"] == []
 
 
@@ -207,3 +211,16 @@ def test_user_price_moves_item_into_scored_ranking(data):
     d = dish(suggest_dishes(base_input(userPricesNgnPerKg={"test_noprice": 100}), data), "test_dish_mixed")
     assert all(x["score"] is not None for x in d["ranked"])
     assert d["protein"]["ingredientId"] == "test_noprice"  # cheap and better fit once priced
+
+
+def test_portion_sets_protein_and_cost_per_person_and_group(data):
+    data = dict(data, dishes=[dict(d, typical_dry_g_per_serving=(50 if d["id"] == "test_dish" else 100))
+                              for d in data["dishes"]])
+    r = suggest_dishes(base_input(servings=4, userPricesNgnPerKg={"test_noprice": 1000}), data)
+    small, big = dish(r, "test_dish"), dish(r, "test_dish_noprice")
+    assert small["dryGPerServing"] == 50 and big["dryGPerServing"] == 100
+    assert big["proteinPerPlateG"] == 25.0 and big["proteinTotalG"] == 100.0
+    assert big["proteinCostPerPersonNgn"] == 100.0 and big["proteinCostNgn"] == 400.0
+    p = small["protein"]
+    assert small["proteinTotalG"] == pytest.approx(small["proteinPerPlateG"] * 4)
+    assert p["costNgn"] == pytest.approx(p["costPerPersonNgn"] * 4)

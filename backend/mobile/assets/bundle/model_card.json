@@ -1,0 +1,47 @@
+{
+ "generated": "2026-11-21",
+ "metrics": {
+  "bulk_density": {
+   "displayLabel": "estimated from other legumes",
+   "label": "ridge (crop, treatment, time^2, baseline type)",
+   "maeModel": 7.988112288366321,
+   "maeNoChange": 10.70816411293635,
+   "model": "R",
+   "nPapers": 8,
+   "nRows": 51,
+   "papersBetterThanNoChange": 5
+  },
+  "oxalate": {
+   "displayLabel": "predicted, pooled from listed crops",
+   "label": "ridge (crop, treatment, time^2, baseline type)",
+   "maeModel": 33.79037438525358,
+   "maeNoChange": 48.336650184543174,
+   "model": "R",
+   "nPapers": 8,
+   "nRows": 41,
+   "papersBetterThanNoChange": 7
+  },
+  "phytate": {
+   "displayLabel": "estimated from other legumes",
+   "label": "shrunk mean per treatment x metric",
+   "maeModel": 11.397229901251864,
+   "maeNoChange": 30.136000812382807,
+   "model": "C3",
+   "nPapers": 8,
+   "nRows": 43,
+   "papersBetterThanNoChange": 8
+  },
+  "tannin": {
+   "displayLabel": "estimated from other legumes",
+   "label": "ridge (crop, treatment, time^2, baseline type)",
+   "maeModel": 16.649919838568685,
+   "maeNoChange": 46.32871021862214,
+   "model": "R",
+   "nPapers": 9,
+   "nRows": 44,
+   "papersBetterThanNoChange": 9
+  }
+ },
+ "unit": "percent points of change versus untreated",
+ "validation": "grouped cross-validation by paper (each paper held out in turn)"
+}

@@ -5,6 +5,9 @@ Pure function. Two modes (PROJECT.md sections 7 and 8):
 - "fallback": published results, never predictions. Order: playbook entries for this crop, then
   grouped published rows for this crop, then (only when same-crop rows are thin) labelled rows from
   other crops. Rows the paper reports as cumulative stages are labelled so.
+- Crop group: a plant only borrows evidence (pooled estimates or other-crop rows) from crops of its
+  own group (ingredients.csv crop_group, e.g. legume). Melon seed is an oilseed and the evidence is
+  from legumes, so it gets "No published data for this plant." instead of legume numbers.
 - "model": only when the crop has NO same-crop published evidence for the goal (no playbook entry,
   no row) and bundle model.json["models"][goal] covers it. Same-crop rows always come first and a
   pooled prediction is never shown next to them (team decision, Nov 20). Model options are followed
@@ -30,6 +33,7 @@ def _rows(n: int) -> str:
 
 
 FALLBACK_NOTE = "No prediction available. These are published results from the cited papers, not predictions."
+NO_DATA_NOTE = "No published data for this plant."
 MODEL_NOTE = ("Estimated from published experiments on the crops named, inside their published range. "
               "Not measured on this crop.")
 _KNOWN_STEPS = sorted(set(STEP_INSTRUCTIONS) | set(HEAT_STEPS), key=len, reverse=True)
@@ -180,7 +184,7 @@ def _range_text(name: str, rng: list | None, unit: str) -> str | None:
 
 
 def _table_options(ingredient_id: str, goal: str, spec: dict, rows: list[dict],
-                   direction: str | None) -> list[dict]:
+                   direction: str | None, group: str | None, groups: dict) -> list[dict]:
     if not str(spec.get("key", "")).startswith("treatment|"):
         return []
     change = {r["exp_id"]: r["change_pct"] for r in rows}
@@ -190,6 +194,8 @@ def _table_options(ingredient_id: str, goal: str, spec: dict, rows: list[dict],
         if metric != goal:
             continue
         e = spec["entries"][key]
+        if not group or any(groups.get(c) != group for c in e["crops"]):
+            continue
         cited = [change[x] for x in e["citations"] if change.get(x) is not None]
         value = e["value"]
         rng = [round(min(cited), 1), round(max(cited), 1)] if cited else [round(value, 1), round(value, 1)]
@@ -221,8 +227,8 @@ def _table_options(ingredient_id: str, goal: str, spec: dict, rows: list[dict],
 
 
 def _model_options(ingredient_id: str, goal: str, spec: dict, rows: list[dict],
-                   direction: str | None) -> list[dict]:
-    opts = _table_options(ingredient_id, goal, spec, rows, direction)
+                   direction: str | None, group: str | None, groups: dict) -> list[dict]:
+    opts = _table_options(ingredient_id, goal, spec, rows, direction, group, groups)
     opts.sort(key=lambda o: (o["_key"], o["treatment"]))
     for o in opts:
         del o["_key"]
@@ -236,13 +242,16 @@ def recommend_processing(ingredient_id: str, goal: str, data: dict, direction: s
             if canonical_metric(r["outcome_metric"]) == goal and r.get("change_pct") is not None]
     playbook = _playbook_options(ingredient_id, goal, data, d)
     same = _row_groups([r for r in rows if r["crop_id"] == ingredient_id], ingredient_id, d)[:FALLBACK_MAX_SAME_CROP]
+    group = (data["ingredients"].get(ingredient_id) or {}).get("crop_group") or None
+    groups = {r["crop_id"]: r.get("crop_group") for r in data.get("treatments", [])}
     other = []
-    if len(same) < FALLBACK_MAX_SAME_CROP:
-        other = _row_groups([r for r in rows if r["crop_id"] != ingredient_id], ingredient_id, d)[:FALLBACK_MAX_OTHER_CROP]
+    if len(same) < FALLBACK_MAX_SAME_CROP and group:
+        kin = [r for r in rows if r["crop_id"] != ingredient_id and r.get("crop_group") == group]
+        other = _row_groups(kin, ingredient_id, d)[:FALLBACK_MAX_OTHER_CROP]
 
     spec = ((data.get("model") or {}).get("models") or {}).get(goal)
     if spec and not playbook and not same:
-        opts = _model_options(ingredient_id, goal, spec, rows, d)
+        opts = _model_options(ingredient_id, goal, spec, rows, d, group, groups)
         if opts:
             note = f"No published rows for {ingredient_id}. {MODEL_NOTE}"
             if other:
@@ -255,5 +264,5 @@ def recommend_processing(ingredient_id: str, goal: str, data: dict, direction: s
     if other:
         note += f" Few published rows for {ingredient_id}; rows from other crops are labelled."
     if not options:
-        note += f" No published rows for {goal}."
+        note = NO_DATA_NOTE
     return {"mode": "fallback", "ingredientId": ingredient_id, "goal": goal, "options": options, "note": note}

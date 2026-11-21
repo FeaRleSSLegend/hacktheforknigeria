@@ -11,7 +11,8 @@
   "severity": "block",
   "text": "Soaking, dehulling, milling or sprouting alone does not remove the heat-sensitive anti-nutrients (trypsin inhibitors). Do not present a soak-only, sprout-only or raw-flour preparation as ready to eat. Cook bean and groundnut preparations until they are fully done.",
   "source": "bolade2015 (cowpea trypsin inhibitor fell only 5.8 to 11.2 % after the first soak, 25.6 to 32.9 % after soak, dehull, soak, and to zero after steaming, frying or pressure cooking, four varieties); rizvi2024 (lima bean trypsin inhibitor was still 3.22 after 72 h germination against 20.41 raw); ijarotimi2022 introduction (anti-nutritional compounds are thermolabile). The app states no numeric cook time.",
-  "reviewed": false
+  "reviewed": false,
+  "user_text": "Soaking, sprouting or milling alone is not enough. Always cook beans and groundnuts until fully soft."
  },
  {
   "id": "sr_mould_discard",
@@ -23,7 +24,8 @@
   "severity": "warn",
   "text": "Discard groundnuts, seeds and grains that look mouldy, discoloured or shrivelled before preparing them. Cooking or fermenting does not make mouldy nuts safe.",
   "source": "WHO, Mycotoxins fact sheet, https://www.who.int/news-room/fact-sheets/detail/mycotoxins (\"discard any that look mouldy, discoloured, or shrivelled\"; \"Most mycotoxins are chemically stable and survive food processing\"). Reviewer: decide whether to widen applies_to to all dry seeds.",
-  "reviewed": false
+  "reviewed": false,
+  "user_text": "Throw away mouldy, discoloured or shrivelled nuts and seeds. Cooking does not make them safe."
  },
  {
   "id": "sr_allergen_peanut_soy",
@@ -34,7 +36,8 @@
   "severity": "warn",
   "text": "Contains peanut (groundnut) or soya. Peanuts and soybeans are among the foods that cause allergic reactions. Anyone with an allergy to either should not use this ingredient.",
   "source": "Codex Alimentarius, General Standard for the Labelling of Prepackaged Foods, CXS 1-1985, section 4.2.1.4 (\"Peanuts, soybeans and products of these\"). Link used: https://vbs.gov.vu/national-standards/images/catalogue/CXS_001e.pdf. Also check each ingredient row allergen_tags.",
-  "reviewed": false
+  "reviewed": false,
+  "user_text": "Contains groundnut (peanut) or soya. Do not use if anyone eating is allergic to them."
  },
  {
   "id": "sr_jack_bean_caution",
@@ -44,7 +47,8 @@
   "severity": "warn",
   "text": "Jack bean contains toxic compounds (concanavalin A and canavanine). Published detoxification work is mostly on animal feed and finds a residual toxic component even after heat processing. Do not recommend jack bean to households until a food-safety source gives a safe preparation.",
   "source": "Review \"Jack Bean (Canavalia ensiformis L. DC) in Poultry Diets: Antinutritional Factors and Detoxification Studies\" (World's Poultry Science Journal), abstract, https://www.cambridge.org/core/journals/world-s-poultry-science-journal/article/jack-bean-canavalia-ensifomis-l-dc-in-poultry-diets-antinutritional-factors-and-detoxification-studies-a-review/67950C0F20575EF3E51E82C5B609605E . Abstract only was read. Reviewer: consider turning this into a block and removing jack bean from pantry mode.",
-  "reviewed": false
+  "reviewed": false,
+  "user_text": "Jack bean has natural toxins and no tested safe home method. Do not cook it for now."
  },
  {
   "id": "sr_fermentation_not_guaranteed",
@@ -56,6 +60,7 @@
   "severity": "warn",
   "text": "Fermentation did not lower anti-nutrients in every published sample. Show the published range for the crop and never promise a fixed reduction.",
   "source": "sobowale2025 (pigeon pea fermentation: tannin change ranged from -93.0 % to +300.8 % over 11 rows and oxalate from -54.7 % to +197.5 % over 12 rows; these transcriptions are not yet spot-checked against the PDF); chude2018 and kewuyemi2024 report reductions in single studies.",
-  "reviewed": false
+  "reviewed": false,
+  "user_text": "Fermenting does not always lower these natural compounds. Results vary from batch to batch."
  }
 ]

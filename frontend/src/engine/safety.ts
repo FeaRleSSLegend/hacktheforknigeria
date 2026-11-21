@@ -1,14 +1,14 @@
 // safetyGuard. Port of backend/reference/safety.py. Pure. Rules come only from the bundle.
 import { HEAT_STEPS } from "./config";
 import { treatmentSteps } from "./processing";
-import { Bundle, GuardResult, PlateResult, ProcessingOption, ProcessingResult, SafetyCtx, SafetyRule } from "./types";
+// Messages are each rule's user_text; review status is kept apart in `rules`.
+import { AppliedRule, Bundle, GuardResult, PlateResult, ProcessingOption, ProcessingResult, SafetyCtx, SafetyRule } from "./types";
 
 export const UNHEATED = "legume_processing_without_heat";
-export const UNREVIEWED_LABEL = " (safety rule not yet reviewed by an expert)";
 const HEAT = new Set<string>(HEAT_STEPS);
 
-function label(rule: SafetyRule): string {
-  return rule.reviewed ? "" : UNREVIEWED_LABEL;
+function note(applied: AppliedRule[], rule: SafetyRule) {
+  if (!applied.some((a) => a.id === rule.id)) applied.push({ id: rule.id, severity: rule.severity, reviewed: !!rule.reviewed });
 }
 
 function optionTags(o: ProcessingOption): { tags: Set<string>; heated: boolean } {
@@ -37,6 +37,7 @@ export function safetyGuard<T extends ProcessingResult | PlateResult>(result: T,
   const ids = [...new Set([result.ingredientId, ctx.ingredientId, ...(ctx.ingredientIds ?? [])].filter((i): i is string => !!i))];
   const warnings: string[] = [];
   const blocked: string[] = [];
+  const applied: AppliedRule[] = [];
 
   const userAllergens = new Set(ctx.allergens ?? []);
   for (const iid of ids) {
@@ -46,11 +47,12 @@ export function safetyGuard<T extends ProcessingResult | PlateResult>(result: T,
   }
   for (const rule of rules) {
     if (rule.applies_to.some((t) => ids.includes(t))) {
-      add(rule.severity === "block" ? blocked : warnings, rule.text + label(rule));
+      add(rule.severity === "block" ? blocked : warnings, rule.user_text);
+      note(applied, rule);
     }
   }
-  if (blocked.length) return { allowed: false, warnings, blocked, result: null };
-  if (!("options" in result)) return { allowed: true, warnings, blocked, result };
+  if (blocked.length) return { allowed: false, warnings, blocked, rules: applied, result: null };
+  if (!("options" in result)) return { allowed: true, warnings, blocked, rules: applied, result };
 
   const kept: ProcessingOption[] = [];
   for (const opt of result.options) {
@@ -58,15 +60,16 @@ export function safetyGuard<T extends ProcessingResult | PlateResult>(result: T,
     let withheld = false;
     for (const rule of rules) {
       if (!matches(rule, tags, heated)) continue;
+      note(applied, rule);
       if (rule.severity === "block") {
         withheld = true;
-        add(blocked, `Withheld "${opt.instruction}": ${rule.text}${label(rule)}`);
+        add(blocked, `Withheld "${opt.instruction}": ${rule.user_text}`);
       } else {
-        add(warnings, rule.text + label(rule));
+        add(warnings, rule.user_text);
       }
     }
     if (!withheld) kept.push(opt);
   }
   const allowed = kept.length > 0 || result.options.length === 0;
-  return { allowed, warnings, blocked, result: allowed ? ({ ...result, options: kept } as T) : null };
+  return { allowed, warnings, blocked, rules: applied, result: allowed ? ({ ...result, options: kept } as T) : null };
 }

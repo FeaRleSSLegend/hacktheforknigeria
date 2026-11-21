@@ -29,7 +29,11 @@
    "pb_bambara_roast_caution",
    "pb_pigeon_pea_germinate"
   ],
-  "notes": "side_items left empty on purpose: fill from the ids in data/sides.csv. Suggested side intent: pap/ogi or bread, plus a vegetable or tomato-pepper sauce. Portion sizes are estimates. First dish built end to end."
+  "notes": "side_items left empty on purpose: fill from the ids in data/sides.csv. Suggested side intent: pap/ogi or bread, plus a vegetable or tomato-pepper sauce. Portion sizes are estimates. First dish built end to end.",
+  "typical_dry_g_per_serving": 50,
+  "typical_dry_g_quality": "estimated",
+  "typical_dry_g_note": "typical portion, estimate, to confirm",
+  "summary_line": "Ranked on foaming and water holding, key for light batter."
  },
  {
   "id": "moin_moin",
@@ -53,7 +57,11 @@
    "pb_cowpea_moinmoin_route",
    "pb_cowpea_soak_dehull"
   ],
-  "notes": "side_items left empty on purpose: fill from the ids in data/sides.csv. Side intent: pap/ogi or rice or bread."
+  "notes": "side_items left empty on purpose: fill from the ids in data/sides.csv. Side intent: pap/ogi or rice or bread.",
+  "typical_dry_g_per_serving": 70,
+  "typical_dry_g_quality": "estimated",
+  "typical_dry_g_note": "typical portion, estimate, to confirm",
+  "summary_line": "Ranked on water holding and gelling for a firm pudding."
  },
  {
   "id": "ekuru",
@@ -81,7 +89,11 @@
    "pb_cowpea_moinmoin_route",
    "pb_cowpea_soak_dehull"
   ],
-  "notes": "side_items left empty on purpose: fill from the ids in data/sides.csv. Dehulled-bean steamed paste; uses the same steamed route as moin-moin. Side intent: stew or pepper sauce plus a starch."
+  "notes": "side_items left empty on purpose: fill from the ids in data/sides.csv. Dehulled-bean steamed paste; uses the same steamed route as moin-moin. Side intent: stew or pepper sauce plus a starch.",
+  "typical_dry_g_per_serving": 60,
+  "typical_dry_g_quality": "estimated",
+  "typical_dry_g_note": "typical portion, estimate, to confirm",
+  "summary_line": "Ranked on water holding and gelling for steamed paste."
  },
  {
   "id": "okpa",
@@ -96,7 +108,11 @@
    "pb_bambara_roast_caution",
    "pb_bambara_ferment"
   ],
-  "notes": "side_items left empty on purpose: fill from the ids in data/sides.csv. Bambara is the traditional base. Only one protein slot, so there is nothing to rank; the card should show cost and plate balance. Bambara has no published flour functional values in the data yet, so expect \"no data\" flags."
+  "notes": "side_items left empty on purpose: fill from the ids in data/sides.csv. Bambara is the traditional base. Only one protein slot, so there is nothing to rank; the card should show cost and plate balance. Bambara has no published flour functional values in the data yet, so expect \"no data\" flags.",
+  "typical_dry_g_per_serving": 80,
+  "typical_dry_g_quality": "estimated",
+  "typical_dry_g_note": "typical portion, estimate, to confirm",
+  "summary_line": "Traditional base; ranked on water holding and gelling."
  },
  {
   "id": "gbegiri",
@@ -118,7 +134,11 @@
    "pb_cowpea_gbegiri_route",
    "pb_cowpea_soak_dehull"
   ],
-  "notes": "side_items left empty on purpose: fill from the ids in data/sides.csv. Side intent: amala, eba or rice."
+  "notes": "side_items left empty on purpose: fill from the ids in data/sides.csv. Side intent: amala, eba or rice.",
+  "typical_dry_g_per_serving": 45,
+  "typical_dry_g_quality": "estimated",
+  "typical_dry_g_note": "typical portion, estimate, to confirm",
+  "summary_line": "Ranked on water holding and creaminess for a smooth soup."
  },
  {
   "id": "egusi_soup",
@@ -140,6 +160,10 @@
    "pb_melon_seed_boil",
    "pb_groundnut_boil"
   ],
-  "notes": "side_items left empty on purpose: fill from the ids in data/sides.csv. Soup is eaten with a starch; side intent: pounded yam, eba or rice plus vegetables. Melon seed is expensive; check price before ranking on cost."
+  "notes": "side_items left empty on purpose: fill from the ids in data/sides.csv. Soup is eaten with a starch; side intent: pounded yam, eba or rice plus vegetables. Melon seed is expensive; check price before ranking on cost.",
+  "typical_dry_g_per_serving": 35,
+  "typical_dry_g_quality": "estimated",
+  "typical_dry_g_note": "typical portion, estimate, to confirm",
+  "summary_line": "Ranked on holding oil and water to thicken soup."
  }
 ]

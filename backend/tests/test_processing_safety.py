@@ -13,17 +13,18 @@ def data():
     return load_data(FIX)
 
 
-def row(exp, crop, treatment, change, paper="p1", t=None, c=None, metric="phytate", note=""):
+def row(exp, crop, treatment, change, paper="p1", t=None, c=None, metric="phytate", note="", group="legume"):
     return {"exp_id": exp, "crop_id": crop, "treatment": treatment, "time_h": t, "temp_c": c,
-            "outcome_metric": metric, "change_pct": change, "paper_id": paper, "method_note": note, "quality": "measured"}
+            "outcome_metric": metric, "change_pct": change, "paper_id": paper, "method_note": note, "quality": "measured",
+            "crop_group": group}
 
 
 RULES = [
     {"id": "cook", "applies_to": ["legume_processing_without_heat", "soaking", "germination"], "severity": "block",
-     "text": "Cook fully.", "source": "s", "reviewed": False},
+     "text": "Cook fully.", "user_text": "Cook fully.", "source": "s", "reviewed": False},
     {"id": "ferm", "applies_to": ["fermentation"], "severity": "warn", "text": "Fermentation varies.", "source": "s",
-     "reviewed": False},
-    {"id": "crop", "applies_to": ["test_a"], "severity": "warn", "text": "Crop caution.", "source": "s", "reviewed": True},
+     "reviewed": False, "user_text": "Fermentation varies."},
+    {"id": "crop", "applies_to": ["test_a"], "severity": "warn", "text": "Crop caution.", "user_text": "Crop caution.", "source": "s", "reviewed": True},
 ]
 
 
@@ -96,7 +97,7 @@ def test_fallback_orders_lower_is_better_for_antinutrients(data):
 
 def test_no_rows_says_so(data):
     r = recommend_processing("test_a", "phytate", proc_data(data, []))
-    assert r["options"] == [] and "No published rows" in r["note"]
+    assert r["options"] == [] and r["note"] == "No published data for this plant."
 
 
 # Synthetic model.json in the AI lane's format (TEST ONLY values).
@@ -112,7 +113,7 @@ TABLE = {"models": {"phytate": {
                 "boiling|tannin": {"value": -99.0, "n_rows": 1, "papers": ["p9"], "crops": ["test_b"],
                                    "citations": ["9"], "time_h": None, "temp_c": None, "cumulative_from_raw": False}}}}}
 OTHER = [row("1", "test_b", "boiling", -40, t=0.5, c=100), row("2", "test_b", "boiling", -20, paper="p2", t=1, c=100),
-         row("3", "test_b", "soaking", -10, t=12)]
+         row("3", "test_b", "soaking", -10, t=12), row("5", "other", "roasting", -1, metric="tannin")]
 
 
 def test_table_model_used_only_without_same_crop_rows(data):
@@ -152,14 +153,16 @@ def test_guard_blocks_unheated_option_only(data):
     g = safety_guard(recommend_processing("test_c", "phytate", d), {"allergens": []}, d)
     assert g["allowed"] is True
     assert [o["treatment"] for o in g["result"]["options"]] == ["soaking_boiling"]
-    assert len(g["blocked"]) == 1 and "Cook fully." in g["blocked"][0] and "not yet reviewed" in g["blocked"][0]
+    assert g["blocked"] == ['Withheld "Soak in clean water.": Cook fully.']
+    assert {"id": "cook", "severity": "block", "reviewed": False} in g["rules"]  # review status kept apart
 
 
 def test_guard_warns_and_labels_unreviewed(data):
     rows = [row("1", "test_c", "boiling_fermentation", -20)]
     d = proc_data(data, rows)
     g = safety_guard(recommend_processing("test_c", "phytate", d), {"allergens": []}, d)
-    assert g["allowed"] and g["warnings"] == ["Fermentation varies. (safety rule not yet reviewed by an expert)"]
+    assert g["allowed"] and g["warnings"] == ["Fermentation varies."]
+    assert g["rules"] == [{"id": "ferm", "severity": "warn", "reviewed": False}]
 
 
 def test_guard_crop_rule_and_user_allergen(data):
@@ -168,7 +171,8 @@ def test_guard_crop_rule_and_user_allergen(data):
     g = safety_guard(res, {"allergens": ["allergen_x"]}, d)
     assert g["allowed"] is False and g["result"] is None and "allergen_x" in g["blocked"][0]
     g = safety_guard(recommend_processing("test_a", "phytate", d), {"allergens": []}, d)
-    assert "Crop caution." in g["warnings"]  # reviewed rule: no unreviewed label
+    assert "Crop caution." in g["warnings"]
+    assert {"id": "crop", "severity": "warn", "reviewed": True} in g["rules"]
 
 
 def test_guard_all_options_blocked_is_not_allowed(data):
@@ -182,3 +186,10 @@ def test_guard_plate_result_uses_ingredient_rules(data):
     plate = {"totals": {"proteinG": 20}, "status": {}, "suggestedSides": [], "notes": []}
     g = safety_guard(plate, {"ingredientIds": ["test_a", "test_side"], "allergens": []}, d)
     assert g["allowed"] and g["warnings"] == ["Crop caution."] and g["result"] is plate
+
+
+def test_plant_of_another_group_borrows_no_evidence(data):
+    data = dict(data, ingredients=dict(data["ingredients"]))
+    data["ingredients"]["test_a"] = dict(data["ingredients"]["test_a"], crop_group="oilseed")
+    r = recommend_processing("test_a", "phytate", proc_data(data, OTHER, TABLE))
+    assert r["mode"] == "fallback" and r["options"] == [] and r["note"] == "No published data for this plant."

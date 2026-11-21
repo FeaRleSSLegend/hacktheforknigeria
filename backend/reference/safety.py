@@ -14,16 +14,13 @@ How rules apply (rules come from safety_rules.json, never from this file):
 - A rule that lists "legume_processing_without_heat" is about unheated preparations, so it never
   applies to an option that includes a heat step (sr_cook_thoroughly: "do not present a soak-only,
   sprout-only or raw-flour preparation as ready to eat").
-- Every message says when the rule is not yet reviewed.
+- Messages are the rule's user_text (plain words for the cook). Review status is kept apart in
+  "rules": one entry per rule that applied, {id, severity, reviewed}.
 """
 from .config import HEAT_STEPS
 from .processing import treatment_steps
 
 UNHEATED = "legume_processing_without_heat"
-
-
-def _label(rule: dict) -> str:
-    return "" if rule.get("reviewed") else " (safety rule not yet reviewed by an expert)"
 
 
 def _option_tags(option: dict) -> tuple[set, bool]:
@@ -49,11 +46,17 @@ def _add(lst: list, msg: str):
         lst.append(msg)
 
 
+def _note(applied: list, rule: dict):
+    entry = {"id": rule["id"], "severity": rule["severity"], "reviewed": bool(rule.get("reviewed"))}
+    if entry not in applied:
+        applied.append(entry)
+
+
 def safety_guard(result: dict, ctx: dict, data: dict) -> dict:
     rules = data.get("safetyRules", [])
     ids = [i for i in [result.get("ingredientId"), ctx.get("ingredientId"), *ctx.get("ingredientIds", [])] if i]
     ids = list(dict.fromkeys(ids))
-    warnings, blocked = [], []
+    warnings, blocked, applied = [], [], []
 
     user_allergens = set(ctx.get("allergens", []))
     for iid in ids:
@@ -63,13 +66,13 @@ def safety_guard(result: dict, ctx: dict, data: dict) -> dict:
             _add(blocked, f"{iid}: matches your allergen list ({', '.join(hit)}).")
     for rule in rules:
         if set(rule.get("applies_to", [])) & set(ids):
-            msg = rule["text"] + _label(rule)
-            _add(blocked if rule["severity"] == "block" else warnings, msg)
+            _add(blocked if rule["severity"] == "block" else warnings, rule["user_text"])
+            _note(applied, rule)
     if blocked:
-        return {"allowed": False, "warnings": warnings, "blocked": blocked, "result": None}
+        return {"allowed": False, "warnings": warnings, "blocked": blocked, "rules": applied, "result": None}
 
     if "options" not in result:
-        return {"allowed": True, "warnings": warnings, "blocked": blocked, "result": result}
+        return {"allowed": True, "warnings": warnings, "blocked": blocked, "rules": applied, "result": result}
 
     kept = []
     for opt in result["options"]:
@@ -78,14 +81,16 @@ def safety_guard(result: dict, ctx: dict, data: dict) -> dict:
         for rule in rules:
             if not _matches(rule, tags, heated):
                 continue
+            _note(applied, rule)
             if rule["severity"] == "block":
                 withheld = True
-                _add(blocked, f"Withheld \"{opt['instruction']}\": {rule['text']}{_label(rule)}")
+                _add(blocked, f"Withheld \"{opt['instruction']}\": {rule['user_text']}")
             else:
-                _add(warnings, rule["text"] + _label(rule))
+                _add(warnings, rule["user_text"])
         if not withheld:
             kept.append(opt)
 
     filtered = dict(result, options=kept)
     allowed = bool(kept) or not result["options"]
-    return {"allowed": allowed, "warnings": warnings, "blocked": blocked, "result": filtered if allowed else None}
+    return {"allowed": allowed, "warnings": warnings, "blocked": blocked, "rules": applied,
+            "result": filtered if allowed else None}

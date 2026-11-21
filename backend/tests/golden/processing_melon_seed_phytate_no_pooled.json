@@ -1,0 +1,16 @@
+{
+ "args": {
+  "goal": "phytate",
+  "ingredientId": "melon_seed"
+ },
+ "bundleVersion": "2026-11-21-019dc6d3",
+ "expected": {
+  "goal": "phytate",
+  "ingredientId": "melon_seed",
+  "mode": "fallback",
+  "note": "No published data for this plant.",
+  "options": []
+ },
+ "fn": "recommendProcessing",
+ "name": "processing_melon_seed_phytate_no_pooled"
+}

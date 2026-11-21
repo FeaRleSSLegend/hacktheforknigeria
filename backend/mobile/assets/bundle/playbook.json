@@ -37,6 +37,7 @@
    "Wet-mill to a paste.",
    "Fry the paste fully (akara)."
   ],
+  "user_text": "In one study, the full akara route (soak, skin, soak, grind, fry) lowered these natural compounds.",
   "why": "The paper reports trypsin inhibitor activity, phytate and tannin after each unit operation. The effect shown is for the finished fried paste versus raw seed."
  },
  {
@@ -76,6 +77,7 @@
    "Soak again, then wet-mill to a paste.",
    "Steam the paste fully."
   ],
+  "user_text": "In one study, the full moin-moin route (soak, skin, soak, grind, steam) lowered these natural compounds.",
   "why": "Effect is the finished steamed paste versus raw seed."
  },
  {
@@ -114,6 +116,7 @@
    "Soak briefly and remove the skins.",
    "Pressure-cook the beans until fully soft."
   ],
+  "user_text": "In one study, skinned beans cooked under pressure had less of these natural compounds.",
   "why": "Effect is the pressure-cooked dehulled seed versus raw seed."
  },
  {
@@ -196,6 +199,7 @@
    "Remove the skins by hand.",
    "Soak again if the recipe needs a paste."
   ],
+  "user_text": "Soaking and removing the skins lowered these natural compounds. Skinned flour also had a little less protein.",
   "why": "Skin removal and soaking lower the anti-nutrients measured; Abiodun also reports lower protein and fat in the dehulled flour."
  },
  {
@@ -259,6 +263,7 @@
    "Boil until fully soft.",
    "Dry and mill to flour."
   ],
+  "user_text": "Boiling skinned beans before drying and milling lowered these compounds and helped the flour hold water.",
   "why": "Boiling lowers phytate, tannin and oxalate in the flour and raises water absorption in these rows."
  },
  {
@@ -322,6 +327,7 @@
    "Roast in a pan, stirring.",
    "Cool and mill to flour."
   ],
+  "user_text": "Dry-roasting before milling lowered these compounds, but less than boiling did.",
   "why": "Roasting lowers the anti-nutrients less than boiling in these rows."
  },
  {
@@ -353,6 +359,7 @@
   "steps": [
    "Germinate whole beans, or ferment the milled whole-bean flour."
   ],
+  "user_text": "In one small study, sprouting or fermenting lowered tannin and oxalate.",
   "why": "Both lower tannin and oxalate in the rows available. This is a single study with one value per metric."
  },
  {
@@ -404,6 +411,7 @@
    "Ferment for about three days at room temperature.",
    "Dry and mill."
   ],
+  "user_text": "In one study, cooking then fermenting bambara lowered these compounds; protein dropped slightly.",
   "why": "Anti-nutrients fell in the single study; protein fell slightly (-5.3 %)."
  },
  {
@@ -453,6 +461,7 @@
   "steps": [
    "Soak the seeds before milling."
   ],
+  "user_text": "Soaking bambara helped the flour foam more in these tests.",
   "why": "Foam capacity rose in these two rows; emulsion measures barely changed."
  },
  {
@@ -502,6 +511,7 @@
   "steps": [
    "Dry-roast the seeds, then mill."
   ],
+  "user_text": "Dry-roasting bambara cut foaming sharply. Avoid it for dishes that need a light batter, like akara.",
   "why": "Roasting cut foaming and emulsifying values sharply in these rows. Avoid it when the dish needs foam, such as akara batter."
  },
  {
@@ -577,6 +587,7 @@
    "Boil until cooked through.",
    "Dry and mill to flour."
   ],
+  "user_text": "Boiling groundnuts before milling lowered these natural compounds in the published test.",
   "why": "Cooking lowered oxalate, phytate, tannin and trypsin inhibitor and raised water absorption and bulk density."
  },
  {
@@ -651,6 +662,7 @@
    "Soak the kernels, then let them sprout for several days.",
    "Dry and mill to flour."
   ],
+  "user_text": "Sprouting groundnuts lowered most of these compounds, but not phytate in this test.",
   "why": "Germination lowered oxalate, tannin and trypsin inhibitor, but phytate did not fall in this sample (+4.6 %)."
  },
  {
@@ -724,6 +736,7 @@
   "steps": [
    "Boil the kernels, then wrap them and let them ferment, then dry and mill."
   ],
+  "user_text": "Cooking then fermenting groundnuts lowered these compounds, but phytate fell less than with cooking alone.",
   "why": "Cooking plus fermentation lowered the anti-nutrients, but phytate fell less (-9.1 %) than with cooking alone (-36.3 %). Note: tannin and trypsin inhibitor show identical percent change in this paper for the cooked and the cooked-fermented samples, which needs a PDF check."
  },
  {
@@ -803,6 +816,7 @@
   "steps": [
    "Steam briefly, remove the skins, soak."
   ],
+  "user_text": "In one study, steaming, skinning and soaking pigeon pea lowered these compounds; protein also dropped.",
   "why": "Large drops in tannin, phytate, oxalate and trypsin inhibitor in the single study; protein fell about 14 %."
  },
  {
@@ -889,6 +903,7 @@
   "steps": [
    "Soak, then sprout for a short time, dry and mill."
   ],
+  "user_text": "Sprouting pigeon pea usually helped it foam and hold oil and water together; results vary.",
   "why": "Foam capacity and emulsion measures rose on average; bulk density and swelling power fell. The wide ranges mean the effect depends on time and temperature."
  },
  {
@@ -968,6 +983,7 @@
   "steps": [
    "Steam briefly, remove the skins, soak."
   ],
+  "user_text": "Skinning and soaking African yam bean lowered these compounds and helped the flour hold water.",
   "why": "Lowers phytate, tannin and trypsin inhibitor; raises water absorption by about 75 %."
  },
  {
@@ -1035,6 +1051,7 @@
   "steps": [
    "Soak, then sprout, dry and mill."
   ],
+  "user_text": "Sprouting African yam bean tended to lower these compounds; foaming and water holding fell slightly.",
   "why": "Trypsin inhibitor, phytate and oxalate tended to fall with germination time (some rows did not change); foam capacity and water absorption fell slightly."
  },
  {
@@ -1078,6 +1095,7 @@
   "steps": [
    "Boil the seeds, then dry and mill."
   ],
+  "user_text": "In one study, boiling egusi seed helped it foam and hold water, and hold less oil.",
   "why": "Boiling raised foaming and water absorption and lowered oil absorption in the single study."
  }
 ]

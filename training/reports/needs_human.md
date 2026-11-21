@@ -108,3 +108,10 @@ Each item: the question, what the pipeline does now, and the options. Nothing be
     - Melon seed lacks emulsion capacity, so egusi soup ranks groundnut alone. Groundnut's water and oil absorption (0.30 and 0.29 g/g, item 35) look implausibly low; check before trusting that dish.
     - Only one candidate can be ranked for okpa (single slot) and egusi soup.
     - In every dish only cowpea is priced; the other ranked proteins show "price needed".
+
+## Added Nov 21 (dish portions, plain text, new cowpea price)
+
+49. **Dish portions are team estimates, to confirm.** `typical_dry_g_per_serving` in data/dishes.json (dry protein ingredient as sold, per person): akara 50 g, moin-moin 70 g, ekuru 60 g, okpa 80 g, gbegiri 45 g, egusi soup 35 g. They set protein per plate and cost, so a cook or nutritionist should check them.
+50. **Cowpea price 1338.93 NGN/kg (April 2026) comes from a press report** (ThisDay, 2 Jun 2026; Nairametrics and Legit.ng quote the same figure per kilogramme). Check it against the NBS Selected Food Price Watch April 2026 table. The sides are still priced from Feb 2025, so a dish total mixes months.
+51. **Check the plain-language `user_text`** on the 5 safety rules and 18 playbook entries, and the dish `summary_line`s. They were written by the team, contain no new numbers and say "in one study" where the playbook rests on a single study. The safety rules stay `reviewed: false`.
+52. **Melon seed (oilseed) now borrows no legume evidence.** Pooled estimates and other-crop rows are limited to the plant's own crop group (training/mappings/crop_group.csv), so melon seed shows "No published data for this plant." except where its own playbook entry applies.

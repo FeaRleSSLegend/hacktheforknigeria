@@ -10,6 +10,7 @@ import { cmpStr, cmpTuple, median, pyG, pyRound, signedFixed } from "./num";
 import { Bundle, ModelEntry, ProcessingOption, ProcessingResult, TreatmentRow } from "./types";
 
 export const FALLBACK_NOTE = "No prediction available. These are published results from the cited papers, not predictions.";
+export const NO_DATA_NOTE = "No published data for this plant.";
 export const MODEL_NOTE = "Estimated from published experiments on the crops named, inside their published range. Not measured on this crop.";
 
 const KNOWN_STEPS = [...new Set([...Object.keys(STEP_INSTRUCTIONS), ...HEAT_STEPS])].sort((a, b) => b.length - a.length);
@@ -169,7 +170,10 @@ function rangeText(name: string, rng: [number, number] | null | undefined, unit:
   return lo === hi ? `${name} ${pyG(lo)} ${unit}` : `${name} ${pyG(lo)} to ${pyG(hi)} ${unit}`;
 }
 
-function modelOptions(ingredientId: string, goal: string, spec: ModelEntry, rows: TreatmentRow[], d: Direction | undefined): ProcessingOption[] {
+function modelOptions(
+  ingredientId: string, goal: string, spec: ModelEntry, rows: TreatmentRow[], d: Direction | undefined,
+  group: string | null, groups: Map<string, string>,
+): ProcessingOption[] {
   if (!(spec.key ?? "").startsWith("treatment|")) return [];
   const change = new Map<string, number | null>(rows.map((r) => [r.exp_id, r.change_pct]));
   const entries = spec.entries ?? {};
@@ -180,6 +184,7 @@ function modelOptions(ingredientId: string, goal: string, spec: ModelEntry, rows
     const metric = i === -1 ? "" : k.slice(i + 1);
     if (metric !== goal) continue;
     const e = entries[k];
+    if (!group || e.crops.some((c) => groups.get(c) !== group)) continue;
     const cited = e.citations.map((x) => change.get(x)).filter((v): v is number => v !== undefined && v !== null);
     const effectRange: [number, number] = cited.length
       ? [pyRound(Math.min(...cited), 1), pyRound(Math.max(...cited), 1)]
@@ -218,13 +223,16 @@ export function recommendProcessing(ingredientId: string, goalIn: string, bundle
   const rows = bundle.treatments.filter((r) => canonicalMetric(r.outcome_metric) === goal && r.change_pct !== null);
   const playbook = playbookOptions(ingredientId, goal, bundle, d);
   const same = rowGroups(rows.filter((r) => r.crop_id === ingredientId), ingredientId, d).slice(0, FALLBACK_MAX_SAME_CROP);
-  const other = same.length < FALLBACK_MAX_SAME_CROP
-    ? rowGroups(rows.filter((r) => r.crop_id !== ingredientId), ingredientId, d).slice(0, FALLBACK_MAX_OTHER_CROP)
+  const group = bundle.ingredients[ingredientId]?.crop_group || null;
+  const groups = new Map<string, string>();
+  for (const r of bundle.treatments) groups.set(r.crop_id, r.crop_group);
+  const other = same.length < FALLBACK_MAX_SAME_CROP && group
+    ? rowGroups(rows.filter((r) => r.crop_id !== ingredientId && r.crop_group === group), ingredientId, d).slice(0, FALLBACK_MAX_OTHER_CROP)
     : [];
 
   const spec = bundle.model.models?.[goal];
   if (spec && !playbook.length && !same.length) {
-    const opts = modelOptions(ingredientId, goal, spec, rows, d);
+    const opts = modelOptions(ingredientId, goal, spec, rows, d, group, groups);
     if (opts.length) {
       let note = `No published rows for ${ingredientId}. ${MODEL_NOTE}`;
       if (other.length) note += " Rows from other crops are labelled.";
@@ -235,6 +243,6 @@ export function recommendProcessing(ingredientId: string, goalIn: string, bundle
   const options = [...playbook, ...same, ...other];
   let note = FALLBACK_NOTE;
   if (other.length) note += ` Few published rows for ${ingredientId}; rows from other crops are labelled.`;
-  if (!options.length) note += ` No published rows for ${goal}.`;
+  if (!options.length) note = NO_DATA_NOTE;
   return { mode: "fallback", ingredientId, goal, options, note };
 }

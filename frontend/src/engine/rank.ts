@@ -2,10 +2,25 @@
 import { DEFAULT_FORM, DRIVER_TEXT, MONEY_DP, SCORE_DP } from "./config";
 import { cmpTuple, pyRound } from "./num";
 import { asSoldG, costNgn, Driver, fitScores, overallScores } from "./scoring";
-import { Bundle, Excluded, PlanInput, PropertyRow, RankedItem, RankedResult } from "./types";
+import { Bundle, CompositionRow, Excluded, PlanInput, PropertyRow, RankedItem, RankedResult } from "./types";
 
 export const NO_FUNCTIONAL_DATA = "no functional data for this dish";
 export const PRICE_NEEDED = "price needed";
+
+export function userPrices(input: PlanInput): Record<string, number> {
+  const prices = input.userPricesNgnPerKg ?? {};
+  for (const [k, v] of Object.entries(prices)) {
+    if (typeof v !== "number" || !(v > 0)) throw new Error(`userPricesNgnPerKg[${k}] must be a positive number`);
+  }
+  return prices;
+}
+
+/** [price per kg, "user" | "bundled" | null]. */
+export function priceOf(id: string, record: CompositionRow, prices: Record<string, number>): [number | null, "user" | "bundled" | null] {
+  if (id in prices) return [prices[id], "user"];
+  if (record.price_ngn_per_kg !== null) return [record.price_ngn_per_kg, "bundled"];
+  return [null, null];
+}
 
 function driverText(drivers: Driver[]): string[] {
   return drivers
@@ -21,14 +36,17 @@ function functionalQuality(rows: PropertyRow[], cid: string, needs: string[]): s
   return qs.size ? [...qs].sort().join("+") : "missing";
 }
 
-export function rankIngredients(applicationId: string, input: PlanInput, bundle: Bundle, candidateIds?: string[] | null): RankedResult {
+export function rankIngredients(
+  applicationId: string, input: PlanInput, bundle: Bundle, candidateIds?: string[] | null, dryGPerServing?: number | null,
+): RankedResult {
   const version = bundle.version;
   const app = bundle.applications[applicationId];
   if (!app) return { items: [], excluded: [{ id: applicationId, reason: "unknown application" }], bundleVersion: version };
 
   const ids = candidateIds ?? bundle.ingredientOrder;
   const allergens = new Set(input.allergens);
-  const totalProteinG = input.targetProteinG * input.servings;
+  const prices = userPrices(input);
+  const servings = input.servings;
 
   const excluded: Excluded[] = [];
   const cands: string[] = [];
@@ -49,16 +67,32 @@ export function rankIngredients(applicationId: string, input: PlanInput, bundle:
   }
 
   const ing = bundle.ingredients;
+  const perPerson: Record<string, number> = {};
+  const plate: Record<string, number> = {};
   const sold: Record<string, number> = {};
-  for (const c of ranked) sold[c] = asSoldG(totalProteinG, ing[c].protein_g_per_100g as number);
-  const priced = ranked.filter((c) => ing[c].price_ngn_per_kg !== null);
+  const price: Record<string, [number | null, "user" | "bundled" | null]> = {};
+  for (const c of ranked) {
+    const protein = ing[c].protein_g_per_100g as number;
+    if (dryGPerServing !== undefined && dryGPerServing !== null) {
+      perPerson[c] = dryGPerServing;
+      plate[c] = (dryGPerServing * protein) / 100;
+    } else {
+      plate[c] = input.targetProteinG;
+      perPerson[c] = asSoldG(plate[c], protein);
+    }
+    sold[c] = perPerson[c] * servings;
+    price[c] = priceOf(c, ing[c], prices);
+  }
+  const priced = ranked.filter((c) => price[c][0] !== null);
   const cost: Record<string, number> = {};
+  const costPP: Record<string, number> = {};
   const perG: Record<string, number> = {};
   const fitP: Record<string, number> = {};
   const dens: Record<string, number> = {};
   for (const c of priced) {
-    cost[c] = costNgn(sold[c], ing[c].price_ngn_per_kg as number);
-    perG[c] = cost[c] / totalProteinG;
+    cost[c] = costNgn(sold[c], price[c][0] as number);
+    costPP[c] = costNgn(perPerson[c], price[c][0] as number);
+    perG[c] = cost[c] / (plate[c] * servings);
     fitP[c] = fits[c].fit as number;
     dens[c] = ing[c].protein_g_per_100g as number;
   }
@@ -77,13 +111,17 @@ export function rankIngredients(applicationId: string, input: PlanInput, bundle:
       fit: pyRound(f.fit as number, SCORE_DP),
       fitRange: [pyRound(range[0], SCORE_DP), pyRound(range[1], SCORE_DP)],
       costNgn: isPriced ? pyRound(cost[c], MONEY_DP) : null,
+      costPerPersonNgn: isPriced ? pyRound(costPP[c], MONEY_DP) : null,
       costPerGProtein: isPriced ? pyRound(perG[c], 4) : null,
       asSoldG: pyRound(sold[c], 1),
+      proteinPerPlateG: pyRound(plate[c], 1),
+      proteinTotalG: pyRound(plate[c] * servings, 1),
+      priceSource: price[c][1],
       drivers: isPriced ? driverText(scores[c].drivers) : [],
       flags,
       quality: {
         composition: ing[c].quality,
-        price: isPriced ? `published (${ing[c].price_month || "month not stated"})` : "missing",
+        price: price[c][1] === "user" ? "entered by you" : isPriced ? `published (${ing[c].price_month || "month not stated"})` : "missing",
         functional: functionalQuality(bundle.properties, c, needProps),
         weights: "estimated",
       },

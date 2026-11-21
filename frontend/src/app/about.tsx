@@ -26,10 +26,11 @@ function AboutBody({ bundle }: { bundle: Bundle }) {
     const tq = count(bundle.treatments, (r) => r.quality);
     const papers = new Set([...bundle.properties.map((r) => r.paper_id), ...bundle.treatments.map((r) => r.paper_id)]);
     const shipped = Object.entries(bundle.model.models ?? {});
+    const card = bundle.modelCard?.metrics ?? {};
     const unreviewed = bundle.safetyRules.filter((r) => !r.reviewed).length;
     const compSources = [...new Set(ings.map((i) => i.source))];
     const priceSources = [...new Set(priced.map((i) => `${i.price_source} (${i.price_month})`))];
-    return { ings, priced, fq, tq, papers, shipped, unreviewed, compSources, priceSources };
+    return { ings, priced, fq, tq, papers, shipped, card, unreviewed, compSources, priceSources };
   }, [bundle]);
 
   const versionDate = bundle.version.slice(0, 10);
@@ -97,8 +98,11 @@ function AboutBody({ bundle }: { bundle: Bundle }) {
             facts.shipped.map(([metric, m]) => (
               <Body key={metric}>
                 {metric.replace(/_/g, " ")}: {m.kind === "ridge" ? "small linear model" : "pooled average of published results"}, tested on papers it had not
-                seen and kept only because it beat the simple baseline{m.display_label ? ` (${m.display_label})` : ""}. Shown only when there are no
-                published results for the plant itself.
+                seen and kept only because it beat the simple baseline{m.display_label ? ` (${m.display_label})` : ""}.
+                {facts.card[metric]
+                  ? ` Average error ${facts.card[metric].maeModel.toFixed(1)} points, against ${facts.card[metric].maeNoChange.toFixed(1)} for guessing "no change" (${facts.card[metric].nPapers} papers).`
+                  : ""}{" "}
+                Shown only when there are no published results for the plant itself.
               </Body>
             ))
           )}

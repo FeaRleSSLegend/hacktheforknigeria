@@ -17,6 +17,7 @@ export interface CompositionRow {
   price_month: string;
   price_source: string;
   allergen_tags: string[];
+  crop_group?: string;
   quality: Quality;
   source: string;
   notes: string;
@@ -84,6 +85,10 @@ export interface Dish {
   side_items: { id: string; as_sold_g_per_serving: number; quality?: string; note?: string }[];
   playbook_ids: string[];
   notes?: string;
+  typical_dry_g_per_serving: number;
+  typical_dry_g_quality: string;
+  typical_dry_g_note: string;
+  summary_line: string;
 }
 
 export interface PlaybookMetric {
@@ -103,6 +108,7 @@ export interface PlaybookEntry {
   why?: string;
   evidence_level: string;
   sources: string[];
+  user_text: string;
 }
 
 export interface SafetyRule {
@@ -112,6 +118,7 @@ export interface SafetyRule {
   text: string;
   source: string;
   reviewed: boolean;
+  user_text: string;
 }
 
 /** One entry of a pooled table model (C3: key "treatment|metric"). */
@@ -133,6 +140,25 @@ export interface ModelEntry {
   display_label?: string;
   ships_only_with_different_crop_rows?: boolean;
   entries?: Record<string, ModelTableEntry>;
+}
+
+/** Backtest per shipped model, copied from reports/metrics.json by build_bundle.py. */
+export interface ModelCardEntry {
+  model: string;
+  label: string;
+  maeModel: number;
+  maeNoChange: number;
+  papersBetterThanNoChange: number | null;
+  nRows: number;
+  nPapers: number;
+  displayLabel: string;
+}
+
+export interface ModelCard {
+  generated: string;
+  unit: string;
+  validation: string;
+  metrics: Record<string, ModelCardEntry>;
 }
 
 export interface ModelFile {
@@ -172,6 +198,7 @@ export interface Bundle {
   playbook: Record<string, PlaybookEntry>;
   safetyRules: SafetyRule[];
   model: ModelFile;
+  modelCard: ModelCard | null;
   units: UnitRow[];
   manifest: Manifest;
   version: string;
@@ -185,6 +212,7 @@ export interface PlanInput {
   servings: number;
   targetProteinG: number;
   allergens: string[];
+  userPricesNgnPerKg?: Record<string, number>;
 }
 
 export interface Excluded {
@@ -198,8 +226,12 @@ export interface RankedItem {
   fit: number;
   fitRange: [number, number];
   costNgn: number | null;
+  costPerPersonNgn: number | null;
   costPerGProtein: number | null;
   asSoldG: number;
+  proteinPerPlateG: number;
+  proteinTotalG: number;
+  priceSource: "user" | "bundled" | null;
   drivers: string[];
   flags: string[];
   quality: { composition: string; price: string; functional: string; weights: string };
@@ -214,11 +246,19 @@ export interface RankedResult {
 export interface DishSuggestion {
   dishId: string;
   name: string;
+  summaryLine: string;
   protein: RankedItem;
   alternatives: RankedItem[];
   missingItems: { id: string; costNgn: number }[];
-  totalCostNgn: number;
+  dryGPerServing: number;
+  portionQuality: string;
   proteinPerPlateG: number;
+  proteinTotalG: number;
+  proteinCostPerPersonNgn: number | null;
+  proteinCostNgn: number | null;
+  costLabel: string;
+  totalCostPerPersonNgn: number;
+  totalCostNgn: number;
   playbookIds: string[];
   flags: string[];
 }
@@ -270,9 +310,16 @@ export interface SafetyCtx {
   allergens?: string[];
 }
 
+export interface AppliedRule {
+  id: string;
+  severity: "block" | "warn";
+  reviewed: boolean;
+}
+
 export interface GuardResult<T> {
   allowed: boolean;
   warnings: string[];
   blocked: string[];
+  rules: AppliedRule[];
   result: T | null;
 }

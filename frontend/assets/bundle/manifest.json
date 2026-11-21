@@ -5,32 +5,36 @@
    "sha256": "cefb234735697d96649956bd1cd4105fac24a9745bca1c810d39d373027a310a"
   },
   "dishes.json": {
-   "bytes": 4200,
-   "sha256": "7c515e5545488563a07d2c5de20e62f4ada7bfece4be2300c34c795bc345caf4"
+   "bytes": 5498,
+   "sha256": "4cf61085d670d528491d774d4692721a45e118631876458d4b003507bec2c9dc"
   },
   "functional_properties.json": {
    "bytes": 49570,
    "sha256": "c7aee888d574b71e192a5193c1d30fce6767722208323f2316ec162196476ccc"
   },
   "ingredients.json": {
-   "bytes": 5783,
-   "sha256": "e8af6e0bb08c42847696a76df10868cea22e55e9f00dfbb394394aaef023622f"
+   "bytes": 6040,
+   "sha256": "89a16889dcf9aef2c5893b0292ce0d4724d09c8d9f0c00744a144543971d3a30"
   },
   "model.json": {
    "bytes": 30984,
    "sha256": "fc0b12d78c42cbca94c4023e06cb77d47a81d4dac18db85efc425d9458bf7b9f"
   },
+  "model_card.json": {
+   "bytes": 1336,
+   "sha256": "ec73d067426107abb60a8875f9928e7cd4c8be09acb410250e7d9ae62f554c20"
+  },
   "playbook.json": {
-   "bytes": 28957,
-   "sha256": "dd74eff45e7a0b3dd57cd100870176645fa704a25179c2f8b058e0c007ac68ee"
+   "bytes": 30948,
+   "sha256": "c4ecb1d2e0bd1883c70f1546548cef9cddd514706374b0f41d564ccbe9fef119"
   },
   "reference_values.json": {
    "bytes": 3,
    "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
   },
   "safety_rules.json": {
-   "bytes": 3695,
-   "sha256": "580ea411a2415fa2da1229b3853b7eae2f292288c34db702d3b5c96ed32bfe52"
+   "bytes": 4244,
+   "sha256": "6f5516244ef4b2a61c3211174ffa9ed8a1079bd6ee6604eaf19a7d1395d98265"
   },
   "sides.json": {
    "bytes": 7112,
@@ -53,5 +57,5 @@
   "Nothing here was lab-tested by the team."
  ],
  "schemaVersion": 1,
- "version": "2026-11-21-48c617ec"
+ "version": "2026-11-21-019dc6d3"
 }

@@ -69,7 +69,9 @@ test("Suggestions ranks dishes with honest labels and lists dishes not available
   await wrap(<Suggestions />);
   expect(await screen.findByText("You can make")).toBeTruthy();
   expect(screen.getByText("Akara")).toBeTruthy();
-  expect(screen.getAllByText(/Protein only, excludes oil and spices/).length).toBeGreaterThan(0);
+  expect(screen.getAllByText(/Protein ingredient only, no oil or spices/).length).toBeGreaterThan(0);
+  expect(screen.getAllByText(/typical portion, estimate/).length).toBeGreaterThan(0);
+  expect(screen.getByText(/Ranked on foaming and water holding, key for light batter/)).toBeTruthy();
   expect(screen.getAllByText(/with Ewa \(cowpea\)/).length).toBeGreaterThan(0);
   expect(screen.getByText("Not available yet")).toBeTruthy();
   expect(screen.getByText("We do not have a market price for bambara groundnut yet.")).toBeTruthy();
@@ -77,7 +79,7 @@ test("Suggestions ranks dishes with honest labels and lists dishes not available
   expect(mockPush).toHaveBeenCalledWith({ pathname: "/prepare/[dishId]", params: { dishId: "akara", plant: "cowpea" } });
 });
 
-test("Prepare for akara shows sourced steps, evidence and unreviewed safety notes", async () => {
+test("Prepare for akara shows sourced steps, evidence and plain safety notes", async () => {
   mockParams = { dishId: "akara", plant: "cowpea" };
   await wrap(<Prepare />);
   expect(await screen.findByText("Cook beans until fully soft")).toBeTruthy();
@@ -86,7 +88,8 @@ test("Prepare for akara shows sourced steps, evidence and unreviewed safety note
   expect(screen.getByText(/Phytate was 85 to 89% lower/)).toBeTruthy();
   expect(screen.getAllByText("Published results, not a prediction").length).toBeGreaterThan(0);
   expect(screen.getByText(/not shown because of a safety rule/)).toBeTruthy();
-  expect(screen.getAllByText(/safety rule not yet reviewed by an expert/).length).toBeGreaterThan(0);
+  expect(screen.queryAllByText(/safety rule not yet reviewed by an expert/)).toHaveLength(0); // only user_text is shown
+  expect(screen.getByText(/the full akara route/)).toBeTruthy(); // playbook user_text
 });
 
 test("About and limits states the honest facts", async () => {
@@ -94,5 +97,6 @@ test("About and limits states the honest facts", async () => {
   expect(await screen.findByText("Nothing here was tested in a lab by us")).toBeTruthy();
   expect(screen.getByText(/phytate: pooled average of published results/)).toBeTruthy();
   expect(screen.getByText(/tannin: small linear model/)).toBeTruthy();
+  expect(screen.getByText(/phytate: .*Average error 11.4 points, against 30.1 for guessing "no change"/)).toBeTruthy();
   expect(screen.getByText(/Plate balance .* is coming/)).toBeTruthy();
 });

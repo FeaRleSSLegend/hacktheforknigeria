@@ -19,6 +19,7 @@ const composition = z.object({
   price_month: z.string(),
   price_source: z.string(),
   allergen_tags: z.array(z.string()),
+  crop_group: z.enum(["legume", "oilseed"]).optional(), // ingredients only
   quality,
   source: z.string().min(1),
   notes: z.string(),
@@ -82,6 +83,10 @@ const dish = z.object({
   }).strict()),
   playbook_ids: z.array(z.string()),
   notes: z.string().optional(),
+  typical_dry_g_per_serving: z.number().positive(),
+  typical_dry_g_quality: z.literal("estimated"),
+  typical_dry_g_note: z.string().min(1),
+  summary_line: z.string().min(1),
 }).strict();
 
 const playbook = z.object({
@@ -97,6 +102,7 @@ const playbook = z.object({
   why: z.string().optional(),
   evidence_level: z.string(),
   sources: z.array(z.string()).min(1),
+  user_text: z.string().min(1),
 }).strict();
 
 const safetyRule = z.object({
@@ -106,6 +112,7 @@ const safetyRule = z.object({
   text: z.string().min(1),
   source: z.string().min(1),
   reviewed: z.boolean(),
+  user_text: z.string().min(1),
 }).strict();
 
 const unit = z.object({
@@ -145,6 +152,22 @@ const model = z.object({
   models: z.record(z.string(), modelEntry).optional(),
 }).passthrough();
 
+const modelCard = z.object({
+  generated: z.string(),
+  unit: z.string(),
+  validation: z.string(),
+  metrics: z.record(z.string(), z.object({
+    model: z.string(),
+    label: z.string(),
+    maeModel: z.number(),
+    maeNoChange: z.number(),
+    papersBetterThanNoChange: z.number().nullable(),
+    nRows: z.number(),
+    nPapers: z.number(),
+    displayLabel: z.string(),
+  }).strict()),
+}).strict();
+
 const manifest = z.object({
   schemaVersion: z.literal(1),
   version: z.string().min(1),
@@ -166,6 +189,7 @@ export const bundleFilesSchema = z.object({
   "units.json": z.array(unit),
   "reference_values.json": z.record(z.string(), z.unknown()),
   "model.json": model,
+  "model_card.json": modelCard.optional(),
 }).strict();
 
 export type BundleFiles = z.infer<typeof bundleFilesSchema>;

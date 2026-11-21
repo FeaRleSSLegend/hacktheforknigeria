@@ -16,7 +16,11 @@
    }
   ],
   "playbook_ids": [],
-  "notes": "TEST ONLY"
+  "notes": "TEST ONLY",
+  "typical_dry_g_per_serving": 100,
+  "typical_dry_g_quality": "estimated",
+  "typical_dry_g_note": "TEST ONLY",
+  "summary_line": "TEST ONLY"
  },
  {
   "id": "test_dish_nodata",
@@ -27,7 +31,11 @@
   ],
   "side_items": [],
   "playbook_ids": [],
-  "notes": "TEST ONLY"
+  "notes": "TEST ONLY",
+  "typical_dry_g_per_serving": 100,
+  "typical_dry_g_quality": "estimated",
+  "typical_dry_g_note": "TEST ONLY",
+  "summary_line": "TEST ONLY"
  },
  {
   "id": "test_dish_noprice",
@@ -38,7 +46,11 @@
   ],
   "side_items": [],
   "playbook_ids": [],
-  "notes": "TEST ONLY"
+  "notes": "TEST ONLY",
+  "typical_dry_g_per_serving": 100,
+  "typical_dry_g_quality": "estimated",
+  "typical_dry_g_note": "TEST ONLY",
+  "summary_line": "TEST ONLY"
  },
  {
   "id": "test_dish_mixed",
@@ -50,6 +62,10 @@
   ],
   "side_items": [],
   "playbook_ids": [],
-  "notes": "TEST ONLY"
+  "notes": "TEST ONLY",
+  "typical_dry_g_per_serving": 100,
+  "typical_dry_g_quality": "estimated",
+  "typical_dry_g_note": "TEST ONLY",
+  "summary_line": "TEST ONLY"
  }
 ]

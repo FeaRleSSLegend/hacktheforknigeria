@@ -8,7 +8,7 @@ Needs: foam_capacity (higher, w=0.35), foam_stability (higher, w=0.15), water_ab
 
 ## App output (suggest_dishes)
 
-- Chosen protein: **cowpea**, score 0.579, fit 0.658 (range 0.107-0.715), cost 218.23 NGN, 88.5 g as sold, 10.9113 NGN per g protein
+- Chosen protein: **cowpea**, score 0.579, fit 0.658 (range 0.107-0.715), cost 66.95 NGN, 50 g as sold, 5.9245 NGN per g protein
 - Drivers: fit +0.000, cost +0.000
 - Flags: price needed for lower-ranked options: bambara, pigeon_pea; not enough data: african_yam_bean; cost excludes oil and spices
 

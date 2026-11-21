@@ -9,7 +9,6 @@ import { Text } from "react-native-paper";
 import { BundleGate } from "../../components/BundleGate";
 import { LimitsLink, Screen } from "../../components/Screen";
 import { Body, Card, Expander, Hairline, Heading, Note, Numeral, Reveal, Small, StateView, Tag } from "../../components/ui";
-import { UNREVIEWED_LABEL } from "../../engine/safety";
 import { Bundle, ProcessingOption } from "../../engine/types";
 import { dishIcon } from "../../lib/icons";
 import { Finding, preparePlan } from "../../lib/prepare";
@@ -105,7 +104,6 @@ function PrepareBody({ bundle }: { bundle: Bundle }) {
       {p.wholeBlocked.length ? (
         <Note icon="hand-back-left-outline" title="Not shown for safety">
           {p.wholeBlocked.join(" ")}
-          {UNREVIEWED_LABEL}
         </Note>
       ) : (
         <>
@@ -126,6 +124,7 @@ function PrepareBody({ bundle }: { bundle: Bundle }) {
                 <MaterialCommunityIcons name="pot-steam-outline" size={26} color={c.primary} />
                 <Text style={[type.heading, { color: c.primary, flex: 1 }]}>{FINAL_STEP}</Text>
               </View>
+              {p.route ? <Small muted={false}>{p.route.user_text}</Small> : null}
               {p.route?.conditions ? (
                 <Expander title="As done in the study" icon="flask-outline">
                   <Small muted={false} style={{ paddingTop: space.xs }}>
@@ -140,8 +139,7 @@ function PrepareBody({ bundle }: { bundle: Bundle }) {
             <Reveal index={2}>
               <View style={{ gap: space.xs }}>
                 <Small muted={false}>
-                  {p.hiddenCount} other published method{p.hiddenCount === 1 ? " is" : "s are"} not shown because of a safety rule
-                  {UNREVIEWED_LABEL}.
+                  {p.hiddenCount} other published method{p.hiddenCount === 1 ? " is" : "s are"} not shown because of a safety rule.
                 </Small>
                 <Expander title="Why some methods are hidden" icon="shield-alert-outline">
                   <View style={{ gap: space.xs, paddingTop: space.xs }}>

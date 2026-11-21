@@ -16,12 +16,6 @@ import { toPlanInput, usePlan } from "../state/PlanContext";
 import { useAppTheme } from "../theme";
 import { radius, space, type } from "../theme/tokens";
 
-function whyLine(d: DishSuggestion): string {
-  if (d.protein.drivers.length) return d.protein.drivers.join(" and ");
-  if (d.alternatives.length && d.alternatives.every((a) => a.score === null)) return "the only plant listed for this dish with a market price so far";
-  return "the only plant listed for this dish";
-}
-
 const noDataProps = (i: RankedItem) => i.flags.filter((f) => f.startsWith("no data: ")).map((f) => f.slice(9).replace(/_/g, " "));
 
 function DishCard({ d, bundle, index, servings, allergens }: { d: DishSuggestion; bundle: Bundle; index: number; servings: number; allergens: string[] }) {
@@ -39,7 +33,7 @@ function DishCard({ d, bundle, index, servings, allergens }: { d: DishSuggestion
       <Pressable
         onPress={() => router.push({ pathname: "/prepare/[dishId]", params: { dishId: d.dishId, plant: d.protein.ingredientId } })}
         accessibilityRole="button"
-        accessibilityLabel={`${d.name} with ${plantLabel(bundle, d.protein.ingredientId)}, about ${naira(d.totalCostNgn)} for ${servings}. Open preparation steps.`}
+        accessibilityLabel={`${d.name} with ${plantLabel(bundle, d.protein.ingredientId)}, about ${naira(d.proteinCostNgn ?? 0)} for ${servings}. Open preparation steps.`}
         style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1, transform: [{ scale: pressed ? 0.99 : 1 }] })}
       >
         <Card style={{ gap: space.md }}>
@@ -55,14 +49,16 @@ function DishCard({ d, bundle, index, servings, allergens }: { d: DishSuggestion
 
           <View style={styles.numbers}>
             <View style={{ flex: 1 }}>
-              <Text style={[type.title, { color: c.onBackground }]}>{naira(d.totalCostNgn)}</Text>
+              <Text style={[type.title, { color: c.onBackground }]}>{naira(d.proteinCostNgn ?? 0)}</Text>
               <Small>
-                for {servings} {servings === 1 ? "person" : "people"}. Protein only, excludes oil and spices
+                for {servings} {servings === 1 ? "person" : "people"} ({naira(d.proteinCostPerPersonNgn ?? 0)} each). Protein ingredient only, no oil or spices
               </Small>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={[type.title, { color: c.onBackground }]}>{d.proteinPerPlateG} g</Text>
-              <Small>protein per plate</Small>
+              <Small>
+                protein per plate, from {d.dryGPerServing} g dry {plantShort} each (typical portion, estimate)
+              </Small>
             </View>
           </View>
 
@@ -73,7 +69,7 @@ function DishCard({ d, bundle, index, servings, allergens }: { d: DishSuggestion
 
           <Body>
             <Text style={{ fontWeight: "600" }}>Why: </Text>
-            {whyLine(d)}.
+            {d.summaryLine}
           </Body>
 
           <View style={styles.tags}>
@@ -98,7 +94,8 @@ function DishCard({ d, bundle, index, servings, allergens }: { d: DishSuggestion
               {missingData.length ? <Small muted={false}>No published value yet for: {missingData.join(", ")}.</Small> : null}
               {d.protein.costPerGProtein !== null ? (
                 <Small muted={false}>
-                  {d.protein.asSoldG} g of dry {plant.english.toLowerCase()} for your group. About {naira(d.protein.costPerGProtein)} per gram of protein. Price {d.protein.quality.price}.
+                  {d.protein.asSoldG} g of dry {plant.english.toLowerCase()} for your group ({d.proteinTotalG} g protein). About {naira(d.protein.costPerGProtein)} per gram of
+                  protein. Price {d.protein.quality.price}. With the sides, about {naira(d.totalCostNgn)} for the group.
                 </Small>
               ) : null}
               {d.alternatives.map((a) => {

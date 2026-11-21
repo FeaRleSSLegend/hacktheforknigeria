@@ -131,3 +131,11 @@ Treatment rows E605-E682 (source ids B5-... in method_note), plus 5 functional r
 - data/applications.json, dishes.json, playbook.json and safety_rules.json were drafted by the team and loaded unchanged (byte-identical to the batch-6 files). Application weights are ESTIMATED team judgement. All safety rules are `reviewed: false`.
 - Playbook effect numbers were recomputed from data/treatment_experiments.csv by training/etl/check_playbook.py (rows selected via training/mappings/playbook_row_filters.csv). All 120 entry-metric blocks agree within 0.1 percent point.
 - dishes.json side_items (the only edit) were added by the AI lane from data/sides.csv. Each portion (`as_sold_g_per_serving`) is an ESTIMATE marked `quality: estimated` with a note; see training/reports/needs_human.md item 47.
+
+## Added Nov 21 (portions, plain text, cowpea price)
+
+- `dishes.json` `typical_dry_g_per_serving`: **estimated** by the team (dry protein ingredient as sold, per person), labelled `typical_dry_g_quality: "estimated"` and "typical portion, estimate, to confirm". No source.
+- `dishes.json` `summary_line`, `safety_rules.json` and `playbook.json` `user_text`: plain wording written by the team from the existing `text` and `why` fields. No new numbers.
+- `ingredients.csv` cowpea price 1338.93 NGN/kg, month 2026-04: NBS Selected Food Price Watch April 2026 (brown beans sold loose, national average, per kg) via a press report (ThisDay, 2 Jun 2026). Not yet verified against the NBS table. Applied through `training/mappings/price_overrides.csv`.
+- `ingredients.csv` `crop_group`: from `training/mappings/crop_group.csv` (botanical group; melon seed is an oilseed).
+- Bundle `model_card.json`: copied from `reports/metrics.json` (grouped cross-validation error of each shipped model and of the no-change baseline).

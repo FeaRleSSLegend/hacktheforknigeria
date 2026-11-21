@@ -37,7 +37,8 @@
   "evidence_level": "published rows, same crop, one study, 12 rows; cumulative stages (soak + dehull + soak + mill + fry)",
   "sources": [
    "bolade2015 (see data/SOURCES.md)"
-  ]
+  ],
+  "user_text": "In one study, the full akara route (soak, skin, soak, grind, fry) lowered these natural compounds."
  },
  {
   "id": "pb_cowpea_moinmoin_route",
@@ -76,7 +77,8 @@
   "evidence_level": "published rows, same crop, one study, 12 rows; cumulative stages",
   "sources": [
    "bolade2015 (see data/SOURCES.md)"
-  ]
+  ],
+  "user_text": "In one study, the full moin-moin route (soak, skin, soak, grind, steam) lowered these natural compounds."
  },
  {
   "id": "pb_cowpea_gbegiri_route",
@@ -114,7 +116,8 @@
   "evidence_level": "published rows, same crop, one study, 12 rows; cumulative stages",
   "sources": [
    "bolade2015 (see data/SOURCES.md)"
-  ]
+  ],
+  "user_text": "In one study, skinned beans cooked under pressure had less of these natural compounds."
  },
  {
   "id": "pb_cowpea_soak_dehull",
@@ -196,7 +199,8 @@
   "sources": [
    "bolade2015 (see data/SOURCES.md)",
    "abiodun2011 (see data/SOURCES.md)"
-  ]
+  ],
+  "user_text": "Soaking and removing the skins lowered these natural compounds. Skinned flour also had a little less protein."
  },
  {
   "id": "pb_cowpea_boil_flour",
@@ -259,7 +263,8 @@
   "evidence_level": "published rows, same crop, one study, 21 rows",
   "sources": [
    "makinde2020 (see data/SOURCES.md)"
-  ]
+  ],
+  "user_text": "Boiling skinned beans before drying and milling lowered these compounds and helped the flour hold water."
  },
  {
   "id": "pb_cowpea_roast_flour",
@@ -322,7 +327,8 @@
   "evidence_level": "published rows, same crop, one study, 21 rows",
   "sources": [
    "makinde2020 (see data/SOURCES.md)"
-  ]
+  ],
+  "user_text": "Dry-roasting before milling lowered these compounds, but less than boiling did."
  },
  {
   "id": "pb_cowpea_germ_ferment",
@@ -353,7 +359,8 @@
   "evidence_level": "published rows, same crop, one study, 4 rows",
   "sources": [
    "kewuyemi2024 (see data/SOURCES.md)"
-  ]
+  ],
+  "user_text": "In one small study, sprouting or fermenting lowered tannin and oxalate."
  },
  {
   "id": "pb_bambara_ferment",
@@ -404,7 +411,8 @@
   "evidence_level": "published rows, same crop, one study, 5 rows",
   "sources": [
    "chude2018 (see data/SOURCES.md)"
-  ]
+  ],
+  "user_text": "In one study, cooking then fermenting bambara lowered these compounds; protein dropped slightly."
  },
  {
   "id": "pb_bambara_soak_for_foam",
@@ -453,7 +461,8 @@
   "evidence_level": "published rows, same crop, one study, 10 rows",
   "sources": [
    "mubaiwa2018 (see data/SOURCES.md)"
-  ]
+  ],
+  "user_text": "Soaking bambara helped the flour foam more in these tests."
  },
  {
   "id": "pb_bambara_roast_caution",
@@ -502,7 +511,8 @@
   "evidence_level": "published rows, same crop, one study, 10 rows",
   "sources": [
    "mubaiwa2018 (see data/SOURCES.md)"
-  ]
+  ],
+  "user_text": "Dry-roasting bambara cut foaming sharply. Avoid it for dishes that need a light batter, like akara."
  },
  {
   "id": "pb_groundnut_boil",
@@ -577,7 +587,8 @@
   "evidence_level": "published rows, same crop, one study, 9 rows",
   "sources": [
    "ijarotimi2022 (see data/SOURCES.md)"
-  ]
+  ],
+  "user_text": "Boiling groundnuts before milling lowered these natural compounds in the published test."
  },
  {
   "id": "pb_groundnut_germinate",
@@ -651,7 +662,8 @@
   "evidence_level": "published rows, same crop, one study, 9 rows",
   "sources": [
    "ijarotimi2022 (see data/SOURCES.md)"
-  ]
+  ],
+  "user_text": "Sprouting groundnuts lowered most of these compounds, but not phytate in this test."
  },
  {
   "id": "pb_groundnut_cook_ferment",
@@ -724,7 +736,8 @@
   "evidence_level": "published rows, same crop, one study, 9 rows; cumulative stages",
   "sources": [
    "ijarotimi2022 (see data/SOURCES.md)"
-  ]
+  ],
+  "user_text": "Cooking then fermenting groundnuts lowered these compounds, but phytate fell less than with cooking alone."
  },
  {
   "id": "pb_pigeon_pea_dehull_soak",
@@ -803,7 +816,8 @@
   "evidence_level": "published rows, same crop, one study, 10 rows",
   "sources": [
    "abiodun2011 (see data/SOURCES.md)"
-  ]
+  ],
+  "user_text": "In one study, steaming, skinning and soaking pigeon pea lowered these compounds; protein also dropped."
  },
  {
   "id": "pb_pigeon_pea_germinate",
@@ -889,7 +903,8 @@
   "sources": [
    "sharma2019 (see data/SOURCES.md)",
    "akubor2017 (see data/SOURCES.md)"
-  ]
+  ],
+  "user_text": "Sprouting pigeon pea usually helped it foam and hold oil and water together; results vary."
  },
  {
   "id": "pb_african_yam_bean_dehull_soak",
@@ -968,7 +983,8 @@
   "evidence_level": "published rows, same crop, one study, 10 rows",
   "sources": [
    "abiodun2011 (see data/SOURCES.md)"
-  ]
+  ],
+  "user_text": "Skinning and soaking African yam bean lowered these compounds and helped the flour hold water."
  },
  {
   "id": "pb_african_yam_bean_germinate",
@@ -1035,7 +1051,8 @@
   "evidence_level": "published rows, same crop, one study, 32 rows",
   "sources": [
    "abioye2014 (see data/SOURCES.md)"
-  ]
+  ],
+  "user_text": "Sprouting African yam bean tended to lower these compounds; foaming and water holding fell slightly."
  },
  {
   "id": "pb_melon_seed_boil",
@@ -1078,6 +1095,7 @@
   "evidence_level": "published rows, same crop, one study, 4 rows",
   "sources": [
    "abulude2006 (see data/SOURCES.md)"
-  ]
+  ],
+  "user_text": "In one study, boiling egusi seed helped it foam and hold water, and hold less oil."
  }
 ]

@@ -1,0 +1,78 @@
+{
+ "args": {
+  "input": {
+   "allergens": [],
+   "budgetNgn": 1500,
+   "dishId": "okpa",
+   "mode": "dish",
+   "pantryIds": [],
+   "servings": 4,
+   "targetProteinG": 20,
+   "userPricesNgnPerKg": {
+    "bambara": 2000
+   }
+  }
+ },
+ "bundleVersion": "2026-11-21-019dc6d3",
+ "expected": {
+  "bundleVersion": "2026-11-21-019dc6d3",
+  "dishes": [
+   {
+    "alternatives": [],
+    "costLabel": "protein ingredient only, no oil or spices",
+    "dishId": "okpa",
+    "dryGPerServing": 80,
+    "flags": [
+     "cost excludes oil and spices"
+    ],
+    "missingItems": [
+     {
+      "costNgn": 640.0,
+      "id": "bambara"
+     }
+    ],
+    "name": "Okpa",
+    "playbookIds": [
+     "pb_bambara_soak_for_foam",
+     "pb_bambara_roast_caution",
+     "pb_bambara_ferment"
+    ],
+    "portionQuality": "estimated",
+    "protein": {
+     "asSoldG": 320,
+     "costNgn": 640.0,
+     "costPerGProtein": 10.2564,
+     "costPerPersonNgn": 160.0,
+     "drivers": [],
+     "fit": 0.5,
+     "fitRange": [
+      0.5,
+      0.5
+     ],
+     "flags": [],
+     "ingredientId": "bambara",
+     "priceSource": "user",
+     "proteinPerPlateG": 15.6,
+     "proteinTotalG": 62.4,
+     "quality": {
+      "composition": "measured",
+      "functional": "calculated+measured",
+      "price": "entered by you",
+      "weights": "estimated"
+     },
+     "score": 0.5
+    },
+    "proteinCostNgn": 640.0,
+    "proteinCostPerPersonNgn": 160.0,
+    "proteinPerPlateG": 15.6,
+    "proteinTotalG": 62.4,
+    "summaryLine": "Traditional base; ranked on water holding and gelling.",
+    "totalCostNgn": 640.0,
+    "totalCostPerPersonNgn": 160.0
+   }
+  ],
+  "excluded": []
+ },
+ "fn": "suggestDishes",
+ "name": "suggest_user_price_okpa"
+}

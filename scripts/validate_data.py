@@ -136,6 +136,25 @@ def main(data_dir):
             errors.append(f"playbook.json {p.get('id')}: crop_id '{p.get('crop_id')}' not in ingredients.csv")
         if not p.get("sources"):
             errors.append(f"playbook.json {p.get('id')}: sources required")
+    for name, limit in (("safety_rules.json", 20), ("playbook.json", 20)):
+        for x in json_tables.get(name, []):
+            text = x.get("user_text")
+            if not isinstance(text, str) or not text.strip():
+                errors.append(f"{name} {x.get('id')}: user_text (plain words for the cook) is required")
+            elif len(text.split()) > limit:
+                errors.append(f"{name} {x.get('id')}: user_text has {len(text.split())} words, at most {limit}")
+    for dish in json_tables.get("dishes.json", []):
+        g = dish.get("typical_dry_g_per_serving")
+        if not isinstance(g, (int, float)) or isinstance(g, bool) or g <= 0:
+            errors.append(f"dishes.json {dish.get('id')}: typical_dry_g_per_serving must be a positive number")
+        elif dish.get("typical_dry_g_quality") != "estimated" or not dish.get("typical_dry_g_note"):
+            errors.append(f"dishes.json {dish.get('id')}: portion must be labelled estimated with a note")
+        line = dish.get("summary_line")
+        if not isinstance(line, str) or not line.strip() or len(line.split()) > 10:
+            errors.append(f"dishes.json {dish.get('id')}: summary_line is required, at most 10 words")
+    for r in tables.get("ingredients.csv", []):
+        if r.get("crop_group") not in ("legume", "oilseed"):
+            errors.append(f"ingredients.csv {r['ingredient_id']}: crop_group must be legume or oilseed")
 
     fp = tables.get("functional_properties.csv", [])
     te = tables.get("treatment_experiments.csv", [])

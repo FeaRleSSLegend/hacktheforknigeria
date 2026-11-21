@@ -2,7 +2,9 @@
 
 Composition: training/clean/wafct2019.csv via training/mappings/wafct_code_to_id.csv.
 Price: training/clean/prices_feb2025.csv via training/mappings/nbs_item_to_id.csv, only for
-items marked per_kg_usable. Missing prices stay empty; nothing is estimated.
+items marked per_kg_usable, then training/mappings/price_overrides.csv (a newer price chosen by the
+team, with its source and unit check). Missing prices stay empty; nothing is estimated.
+Crop group (ingredients only): training/mappings/crop_group.csv (legume or oilseed).
 Descriptive columns of ingredients.csv (name, local names, form sold, allergen tags) are kept
 from the current file. functional_properties.csv is not touched.
 """
@@ -17,8 +19,8 @@ from training.etl.common import CLEAN, MAPPINGS, log_step  # noqa: E402
 
 DATA = ROOT / "data"
 COLUMNS = ["ingredient_id", "name", "local_names", "form_sold", "protein_g_per_100g", "fat_g", "energy_kcal",
-           "iron_mg", "water_g", "price_ngn_per_kg", "price_month", "price_source", "allergen_tags", "quality",
-           "source", "notes"]
+           "iron_mg", "water_g", "price_ngn_per_kg", "price_month", "price_source", "allergen_tags", "crop_group",
+           "quality", "source", "notes"]
 SIDE_COLUMNS = ["ingredient_id", "name", "food_group", "form_sold", "protein_g_per_100g", "fat_g", "energy_kcal",
                 "iron_mg", "water_g", "price_ngn_per_kg", "price_month", "price_source", "allergen_tags", "quality",
                 "source", "notes"]
@@ -43,6 +45,9 @@ def price_lookup() -> dict:
             h = hit.iloc[0]
             out[m["target_id"]] = {"price": float(h["price_ngn"]), "month": h["month"], "label": h["item_label"],
                                    "unit": h["unit"], "confidence": m["confidence"]}
+    for _, o in pd.read_csv(MAPPINGS / "price_overrides.csv", dtype=str).iterrows():
+        out[o["ingredient_id"]] = {"price": float(o["price_ngn_per_kg"]), "month": o["price_month"],
+                                   "source": o["price_source"], "unit": "kg", "override": True}
     return out
 
 
@@ -62,7 +67,10 @@ def build_row(base: dict, code: str, wafct: pd.DataFrame, prices: dict, extra_no
     if imputed:
         notes.append("Imputed or borrowed in WAFCT (square brackets): " + ", ".join(imputed) + ".")
     p = prices.get(base["ingredient_id"])
-    if p:
+    if p and p.get("override"):
+        row.update(price_ngn_per_kg=round(p["price"], 2), price_month=p["month"], price_source=p["source"])
+        notes.append("Price from training/mappings/price_overrides.csv (newer than the Feb 2025 NBS file).")
+    elif p:
         row.update(price_ngn_per_kg=round(p["price"], 2), price_month=p["month"],
                    price_source=f"NBS Selected Food Price Watch Feb 2025, item '{p['label']}' (national average)")
         if p["unit"].startswith("kg (assumed"):
@@ -79,6 +87,7 @@ def main():
     wafct = pd.read_csv(CLEAN / "wafct2019.csv", dtype={"code": str}).set_index("code")
     codes = pd.read_csv(MAPPINGS / "wafct_code_to_id.csv", dtype=str)
     prices = price_lookup()
+    groups = pd.read_csv(MAPPINGS / "crop_group.csv", dtype=str).set_index("crop_id")["crop_group"].to_dict()
 
     current = pd.read_csv(DATA / "ingredients.csv", dtype=str, keep_default_na=False).set_index("ingredient_id")
     ing_rows = []
@@ -86,9 +95,8 @@ def main():
         cur = current.loc[c["target_id"]] if c["target_id"] in current.index else {}
         base = {"ingredient_id": c["target_id"], "name": cur.get("name", c["target_id"]),
                 "local_names": cur.get("local_names", ""), "form_sold": cur.get("form_sold", ""),
-                "allergen_tags": cur.get("allergen_tags", "")}
-        extra = ["White beans Feb 2025 was 2114.33 NGN/kg; papers rarely state the cowpea variety."] \
-            if c["target_id"] == "cowpea" else []
+                "allergen_tags": cur.get("allergen_tags", ""), "crop_group": groups.get(c["target_id"], "")}
+        extra = ["Papers rarely state the cowpea variety."] if c["target_id"] == "cowpea" else []
         ing_rows.append(build_row(base, c["wafct_code"], wafct, prices, extra, source=INGREDIENT_SOURCE))
     ing = pd.DataFrame(ing_rows, columns=COLUMNS)
     ing.to_csv(DATA / "ingredients.csv", index=False)

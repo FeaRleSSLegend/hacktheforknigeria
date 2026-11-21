@@ -10,16 +10,17 @@
    "targetProteinG": 20
   }
  },
- "bundleVersion": "2026-11-21-48c617ec",
+ "bundleVersion": "2026-11-21-019dc6d3",
  "expected": {
-  "bundleVersion": "2026-11-21-48c617ec",
+  "bundleVersion": "2026-11-21-019dc6d3",
   "dishes": [
    {
     "alternatives": [
      {
-      "asSoldG": 390.2,
+      "asSoldG": 200,
       "costNgn": null,
       "costPerGProtein": null,
+      "costPerPersonNgn": null,
       "drivers": [],
       "fit": 0.8391,
       "fitRange": [
@@ -32,6 +33,9 @@
        "price needed"
       ],
       "ingredientId": "african_yam_bean",
+      "priceSource": null,
+      "proteinPerPlateG": 10.2,
+      "proteinTotalG": 41.0,
       "quality": {
        "composition": "estimated",
        "functional": "calculated+measured",
@@ -41,9 +45,10 @@
       "score": null
      },
      {
-      "asSoldG": 384.6,
+      "asSoldG": 200,
       "costNgn": null,
       "costPerGProtein": null,
+      "costPerPersonNgn": null,
       "drivers": [],
       "fit": 0.3517,
       "fitRange": [
@@ -54,6 +59,9 @@
        "price needed"
       ],
       "ingredientId": "pigeon_pea",
+      "priceSource": null,
+      "proteinPerPlateG": 10.4,
+      "proteinTotalG": 41.6,
       "quality": {
        "composition": "estimated",
        "functional": "calculated+measured",
@@ -63,9 +71,10 @@
       "score": null
      },
      {
-      "asSoldG": 410.3,
+      "asSoldG": 200,
       "costNgn": null,
       "costPerGProtein": null,
+      "costPerPersonNgn": null,
       "drivers": [],
       "fit": 0.35,
       "fitRange": [
@@ -76,6 +85,9 @@
        "price needed"
       ],
       "ingredientId": "bambara",
+      "priceSource": null,
+      "proteinPerPlateG": 9.8,
+      "proteinTotalG": 39.0,
       "quality": {
        "composition": "measured",
        "functional": "calculated+measured",
@@ -85,14 +97,16 @@
       "score": null
      }
     ],
+    "costLabel": "protein ingredient only, no oil or spices",
     "dishId": "akara",
+    "dryGPerServing": 50,
     "flags": [
      "price needed: african_yam_bean, pigeon_pea, bambara",
      "cost excludes oil and spices"
     ],
     "missingItems": [
      {
-      "costNgn": 872.91,
+      "costNgn": 267.79,
       "id": "cowpea"
      },
      {
@@ -111,10 +125,12 @@
      "pb_bambara_roast_caution",
      "pb_pigeon_pea_germinate"
     ],
+    "portionQuality": "estimated",
     "protein": {
-     "asSoldG": 354.0,
-     "costNgn": 872.91,
-     "costPerGProtein": 10.9113,
+     "asSoldG": 200,
+     "costNgn": 267.79,
+     "costPerGProtein": 5.9245,
+     "costPerPersonNgn": 66.95,
      "drivers": [],
      "fit": 0.5292,
      "fitRange": [
@@ -123,16 +139,24 @@
      ],
      "flags": [],
      "ingredientId": "cowpea",
+     "priceSource": "bundled",
+     "proteinPerPlateG": 11.3,
+     "proteinTotalG": 45.2,
      "quality": {
       "composition": "measured",
       "functional": "calculated+measured",
-      "price": "published (2025-02)",
+      "price": "published (2026-04)",
       "weights": "estimated"
      },
      "score": 0.5146
     },
-    "proteinPerPlateG": 20,
-    "totalCostNgn": 1329.0
+    "proteinCostNgn": 267.79,
+    "proteinCostPerPersonNgn": 66.95,
+    "proteinPerPlateG": 11.3,
+    "proteinTotalG": 45.2,
+    "summaryLine": "Ranked on foaming and water holding, key for light batter.",
+    "totalCostNgn": 723.88,
+    "totalCostPerPersonNgn": 180.98
    }
   ],
   "excluded": []

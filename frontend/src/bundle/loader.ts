@@ -29,6 +29,7 @@ export function loadBundle(raw: unknown): LoadResult {
       playbook: Object.fromEntries(f["playbook.json"].map((p) => [p.id, p])),
       safetyRules: f["safety_rules.json"],
       model: f["model.json"] as ModelFile,
+      modelCard: f["model_card.json"] ?? null,
       units: f["units.json"],
       manifest: f["manifest.json"],
       version: f["manifest.json"].version,

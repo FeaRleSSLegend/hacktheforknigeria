@@ -11,16 +11,17 @@
    "targetProteinG": 20
   }
  },
- "bundleVersion": "2026-11-21-48c617ec",
+ "bundleVersion": "2026-11-21-019dc6d3",
  "expected": {
-  "bundleVersion": "2026-11-21-48c617ec",
+  "bundleVersion": "2026-11-21-019dc6d3",
   "dishes": [
    {
     "alternatives": [
      {
-      "asSoldG": 384.6,
+      "asSoldG": 240,
       "costNgn": null,
       "costPerGProtein": null,
+      "costPerPersonNgn": null,
       "drivers": [],
       "fit": 0.0,
       "fitRange": [
@@ -31,6 +32,9 @@
        "price needed"
       ],
       "ingredientId": "pigeon_pea",
+      "priceSource": null,
+      "proteinPerPlateG": 12.5,
+      "proteinTotalG": 49.9,
       "quality": {
        "composition": "estimated",
        "functional": "calculated+measured",
@@ -40,7 +44,9 @@
       "score": null
      }
     ],
+    "costLabel": "protein ingredient only, no oil or spices",
     "dishId": "ekuru",
+    "dryGPerServing": 60,
     "flags": [
      "price needed: pigeon_pea",
      "cost excludes oil and spices"
@@ -60,10 +66,12 @@
      "pb_cowpea_moinmoin_route",
      "pb_cowpea_soak_dehull"
     ],
+    "portionQuality": "estimated",
     "protein": {
-     "asSoldG": 354.0,
-     "costNgn": 872.91,
-     "costPerGProtein": 10.9113,
+     "asSoldG": 240,
+     "costNgn": 321.34,
+     "costPerGProtein": 5.9245,
+     "costPerPersonNgn": 80.34,
      "drivers": [],
      "fit": 1.0,
      "fitRange": [
@@ -72,23 +80,32 @@
      ],
      "flags": [],
      "ingredientId": "cowpea",
+     "priceSource": "bundled",
+     "proteinPerPlateG": 13.6,
+     "proteinTotalG": 54.2,
      "quality": {
       "composition": "measured",
       "functional": "calculated+measured",
-      "price": "published (2025-02)",
+      "price": "published (2026-04)",
       "weights": "estimated"
      },
      "score": 0.75
     },
-    "proteinPerPlateG": 20,
-    "totalCostNgn": 1721.79
+    "proteinCostNgn": 321.34,
+    "proteinCostPerPersonNgn": 80.34,
+    "proteinPerPlateG": 13.6,
+    "proteinTotalG": 54.2,
+    "summaryLine": "Ranked on water holding and gelling for steamed paste.",
+    "totalCostNgn": 1170.22,
+    "totalCostPerPersonNgn": 292.56
    },
    {
     "alternatives": [
      {
-      "asSoldG": 390.2,
+      "asSoldG": 280,
       "costNgn": null,
       "costPerGProtein": null,
+      "costPerPersonNgn": null,
       "drivers": [],
       "fit": 0.756,
       "fitRange": [
@@ -101,6 +118,9 @@
        "price needed"
       ],
       "ingredientId": "african_yam_bean",
+      "priceSource": null,
+      "proteinPerPlateG": 14.3,
+      "proteinTotalG": 57.4,
       "quality": {
        "composition": "estimated",
        "functional": "calculated+measured",
@@ -110,9 +130,10 @@
       "score": null
      },
      {
-      "asSoldG": 384.6,
+      "asSoldG": 280,
       "costNgn": null,
       "costPerGProtein": null,
+      "costPerPersonNgn": null,
       "drivers": [],
       "fit": 0.4577,
       "fitRange": [
@@ -123,6 +144,9 @@
        "price needed"
       ],
       "ingredientId": "pigeon_pea",
+      "priceSource": null,
+      "proteinPerPlateG": 14.6,
+      "proteinTotalG": 58.2,
       "quality": {
        "composition": "estimated",
        "functional": "calculated+measured",
@@ -132,9 +156,10 @@
       "score": null
      },
      {
-      "asSoldG": 410.3,
+      "asSoldG": 280,
       "costNgn": null,
       "costPerGProtein": null,
+      "costPerPersonNgn": null,
       "drivers": [],
       "fit": 0.2,
       "fitRange": [
@@ -145,6 +170,9 @@
        "price needed"
       ],
       "ingredientId": "bambara",
+      "priceSource": null,
+      "proteinPerPlateG": 13.7,
+      "proteinTotalG": 54.6,
       "quality": {
        "composition": "measured",
        "functional": "calculated+measured",
@@ -154,7 +182,9 @@
       "score": null
      }
     ],
+    "costLabel": "protein ingredient only, no oil or spices",
     "dishId": "moin_moin",
+    "dryGPerServing": 70,
     "flags": [
      "price needed: african_yam_bean, pigeon_pea, bambara",
      "cost excludes oil and spices"
@@ -170,10 +200,12 @@
      "pb_cowpea_moinmoin_route",
      "pb_cowpea_soak_dehull"
     ],
+    "portionQuality": "estimated",
     "protein": {
-     "asSoldG": 354.0,
-     "costNgn": 872.91,
-     "costPerGProtein": 10.9113,
+     "asSoldG": 280,
+     "costNgn": 374.9,
+     "costPerGProtein": 5.9245,
+     "costPerPersonNgn": 93.73,
      "drivers": [],
      "fit": 0.9136,
      "fitRange": [
@@ -182,23 +214,32 @@
      ],
      "flags": [],
      "ingredientId": "cowpea",
+     "priceSource": "bundled",
+     "proteinPerPlateG": 15.8,
+     "proteinTotalG": 63.3,
      "quality": {
       "composition": "measured",
       "functional": "calculated+measured",
-      "price": "published (2025-02)",
+      "price": "published (2026-04)",
       "weights": "estimated"
      },
      "score": 0.7068
     },
-    "proteinPerPlateG": 20,
-    "totalCostNgn": 1106.77
+    "proteinCostNgn": 374.9,
+    "proteinCostPerPersonNgn": 93.73,
+    "proteinPerPlateG": 15.8,
+    "proteinTotalG": 63.3,
+    "summaryLine": "Ranked on water holding and gelling for a firm pudding.",
+    "totalCostNgn": 608.76,
+    "totalCostPerPersonNgn": 152.2
    },
    {
     "alternatives": [
      {
-      "asSoldG": 384.6,
+      "asSoldG": 180,
       "costNgn": null,
       "costPerGProtein": null,
+      "costPerPersonNgn": null,
       "drivers": [],
       "fit": 0.3,
       "fitRange": [
@@ -209,6 +250,9 @@
        "price needed"
       ],
       "ingredientId": "pigeon_pea",
+      "priceSource": null,
+      "proteinPerPlateG": 9.4,
+      "proteinTotalG": 37.4,
       "quality": {
        "composition": "estimated",
        "functional": "calculated+measured",
@@ -218,7 +262,9 @@
       "score": null
      }
     ],
+    "costLabel": "protein ingredient only, no oil or spices",
     "dishId": "gbegiri",
+    "dryGPerServing": 45,
     "flags": [
      "price needed: pigeon_pea",
      "cost excludes oil and spices"
@@ -234,10 +280,12 @@
      "pb_cowpea_gbegiri_route",
      "pb_cowpea_soak_dehull"
     ],
+    "portionQuality": "estimated",
     "protein": {
-     "asSoldG": 354.0,
-     "costNgn": 872.91,
-     "costPerGProtein": 10.9113,
+     "asSoldG": 180,
+     "costNgn": 241.01,
+     "costPerGProtein": 5.9245,
+     "costPerPersonNgn": 60.25,
      "drivers": [],
      "fit": 0.7,
      "fitRange": [
@@ -246,23 +294,32 @@
      ],
      "flags": [],
      "ingredientId": "cowpea",
+     "priceSource": "bundled",
+     "proteinPerPlateG": 10.2,
+     "proteinTotalG": 40.7,
      "quality": {
       "composition": "measured",
       "functional": "calculated+measured",
-      "price": "published (2025-02)",
+      "price": "published (2026-04)",
       "weights": "estimated"
      },
      "score": 0.6
     },
-    "proteinPerPlateG": 20,
-    "totalCostNgn": 1281.63
+    "proteinCostNgn": 241.01,
+    "proteinCostPerPersonNgn": 60.25,
+    "proteinPerPlateG": 10.2,
+    "proteinTotalG": 40.7,
+    "summaryLine": "Ranked on water holding and creaminess for a smooth soup.",
+    "totalCostNgn": 649.73,
+    "totalCostPerPersonNgn": 162.43
    },
    {
     "alternatives": [
      {
-      "asSoldG": 390.2,
+      "asSoldG": 200,
       "costNgn": null,
       "costPerGProtein": null,
+      "costPerPersonNgn": null,
       "drivers": [],
       "fit": 0.8391,
       "fitRange": [
@@ -275,6 +332,9 @@
        "price needed"
       ],
       "ingredientId": "african_yam_bean",
+      "priceSource": null,
+      "proteinPerPlateG": 10.2,
+      "proteinTotalG": 41.0,
       "quality": {
        "composition": "estimated",
        "functional": "calculated+measured",
@@ -284,9 +344,10 @@
       "score": null
      },
      {
-      "asSoldG": 384.6,
+      "asSoldG": 200,
       "costNgn": null,
       "costPerGProtein": null,
+      "costPerPersonNgn": null,
       "drivers": [],
       "fit": 0.3517,
       "fitRange": [
@@ -297,6 +358,9 @@
        "price needed"
       ],
       "ingredientId": "pigeon_pea",
+      "priceSource": null,
+      "proteinPerPlateG": 10.4,
+      "proteinTotalG": 41.6,
       "quality": {
        "composition": "estimated",
        "functional": "calculated+measured",
@@ -306,9 +370,10 @@
       "score": null
      },
      {
-      "asSoldG": 410.3,
+      "asSoldG": 200,
       "costNgn": null,
       "costPerGProtein": null,
+      "costPerPersonNgn": null,
       "drivers": [],
       "fit": 0.35,
       "fitRange": [
@@ -319,6 +384,9 @@
        "price needed"
       ],
       "ingredientId": "bambara",
+      "priceSource": null,
+      "proteinPerPlateG": 9.8,
+      "proteinTotalG": 39.0,
       "quality": {
        "composition": "measured",
        "functional": "calculated+measured",
@@ -328,7 +396,9 @@
       "score": null
      }
     ],
+    "costLabel": "protein ingredient only, no oil or spices",
     "dishId": "akara",
+    "dryGPerServing": 50,
     "flags": [
      "price needed: african_yam_bean, pigeon_pea, bambara",
      "cost excludes oil and spices"
@@ -350,10 +420,12 @@
      "pb_bambara_roast_caution",
      "pb_pigeon_pea_germinate"
     ],
+    "portionQuality": "estimated",
     "protein": {
-     "asSoldG": 354.0,
-     "costNgn": 872.91,
-     "costPerGProtein": 10.9113,
+     "asSoldG": 200,
+     "costNgn": 267.79,
+     "costPerGProtein": 5.9245,
+     "costPerPersonNgn": 66.95,
      "drivers": [],
      "fit": 0.5292,
      "fitRange": [
@@ -362,16 +434,24 @@
      ],
      "flags": [],
      "ingredientId": "cowpea",
+     "priceSource": "bundled",
+     "proteinPerPlateG": 11.3,
+     "proteinTotalG": 45.2,
      "quality": {
       "composition": "measured",
       "functional": "calculated+measured",
-      "price": "published (2025-02)",
+      "price": "published (2026-04)",
       "weights": "estimated"
      },
      "score": 0.5146
     },
-    "proteinPerPlateG": 20,
-    "totalCostNgn": 1329.0
+    "proteinCostNgn": 267.79,
+    "proteinCostPerPersonNgn": 66.95,
+    "proteinPerPlateG": 11.3,
+    "proteinTotalG": 45.2,
+    "summaryLine": "Ranked on foaming and water holding, key for light batter.",
+    "totalCostNgn": 723.88,
+    "totalCostPerPersonNgn": 180.98
    }
   ],
   "excluded": [
