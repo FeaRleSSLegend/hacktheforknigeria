@@ -28,7 +28,7 @@ export interface PropertyRow {
   value: number | null;
   unit: string;
   form: string;
-  ph: number | null;
+  ph: string;
   method_note: string;
   paper_id: string;
   page: string;

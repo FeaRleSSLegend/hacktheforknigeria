@@ -184,3 +184,10 @@ Short messages. After each milestone: what you built, what you ran, what passed,
 ## Deviations
 
 (Record any change to the stack or layout here, with the reason.)
+
+- 2026-11-21, frontend lane. The Expo app lives in `frontend/` (not `mobile/`). Routes are in `frontend/src/app/` because Expo SDK 58 uses that location by default, and `frontend/src/` holds engine, bundle, theme, components. Backend-side deviations are listed in `backend/AGENTS.md`.
+- The app's bundle copy is `frontend/assets/bundle/`, copied from `backend/mobile/assets/bundle/` by `node scripts/sync-bundle.js`. The script checks every sha256 against the manifest before copying. Jest parity tests read the golden fixtures straight from `backend/tests/golden/`.
+- `safetyGuard(result, ctx, bundle)` takes the bundle for its rules and returns the filtered result, matching the Python reference (see `backend/AGENTS.md`).
+- Design guidance came from the local, vetted `frontend/jayvelski-skill` (a web design guide) at the human's request, in place of the Expo plugin and the frontend-design skill. Its principles were applied to mobile: one accent, hairlines, no pill chips or sparkle icons, italic serif for numerals only, and slow eased motion. Its web palette and Geist font were not used. The palette follows the product brief (cream, leaf green, palm-oil orange), and fonts are system fonts so nothing is downloaded.
+- The Prepare screen asks the engine for three goals (phytate, tannin, trypsin inhibitor) and shows the dish's playbook route when the guard keeps it.
+- Without a body weight, protein per person defaults to 20 g, labelled as the cook's own choice. This is the same value the golden fixtures use.

@@ -30,7 +30,7 @@ const property = z.object({
   value: num,
   unit: z.string(),
   form: z.string(),
-  ph: num,
+  ph: z.string(), // carried as text by the backend (not parsed); currently always empty
   method_note: z.string(),
   paper_id: z.string().min(1),
   page: z.string(),
