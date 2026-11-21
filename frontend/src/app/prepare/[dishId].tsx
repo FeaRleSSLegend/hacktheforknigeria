@@ -8,7 +8,7 @@ import { Text } from "react-native-paper";
 
 import { BundleGate } from "../../components/BundleGate";
 import { LimitsLink, Screen } from "../../components/Screen";
-import { Body, Card, Expander, Hairline, Heading, Note, Numeral, Reveal, Small, StateView, Tag } from "../../components/ui";
+import { Body, Card, Expander, Glow, Hairline, HeroTile, Meta, Note, Numeral, Reveal, SectionTitle, Small, StateView, Tag } from "../../components/ui";
 import { UNREVIEWED_LABEL } from "../../engine/safety";
 import { Bundle, ProcessingOption } from "../../engine/types";
 import { dishIcon } from "../../lib/icons";
@@ -16,7 +16,7 @@ import { Finding, preparePlan } from "../../lib/prepare";
 import { METRIC_WORDS, effectSentence, isCumulative, plantLabel, plantName, samplesText, studiesLabel } from "../../lib/words";
 import { usePlan } from "../../state/PlanContext";
 import { useAppTheme } from "../../theme";
-import { space, type } from "../../theme/tokens";
+import { radius, space, type } from "../../theme/tokens";
 
 const FINAL_STEP = "Cook beans until fully soft";
 
@@ -29,14 +29,20 @@ function sourceDetails(bundle: Bundle, o: ProcessingOption): string[] {
 }
 
 function FindingRow({ f, bundle, plantId }: { f: Finding; bundle: Bundle; plantId: string }) {
+  const { custom: c } = useAppTheme();
   const words = METRIC_WORDS[f.goal] ?? { name: f.goal.replace(/_/g, " "), plain: "" };
   const o = f.option;
   const other = o.cropId !== plantId;
   return (
     <View style={{ gap: space.sm }}>
-      <Body strong>
-        {effectSentence(words.name, o.effectRange)} in {samplesText(o, bundle)}.
-      </Body>
+      <View style={styles.findingHead}>
+        <View style={[styles.findingIcon, { backgroundColor: c.primaryContainer }]}>
+          <MaterialCommunityIcons name={o.effectRange[1] <= 0 ? "trending-down" : o.effectRange[0] >= 0 ? "trending-up" : "swap-vertical"} size={22} color={c.primary} />
+        </View>
+        <Body strong style={{ flex: 1 }}>
+          {effectSentence(words.name, o.effectRange)} in {samplesText(o, bundle)}.
+        </Body>
+      </View>
       {words.plain ? <Small>{words.plain}</Small> : null}
       <View style={styles.tags}>
         <Tag icon="book-open-page-variant-outline" label={studiesLabel(o)} tone={other ? "warn" : "plain"} />
@@ -50,7 +56,9 @@ function FindingRow({ f, bundle, plantId }: { f: Finding; bundle: Bundle; plantI
               {s}
             </Small>
           ))}
-          <Small>{o.effect}. Range {o.effectRange[0]}% to {o.effectRange[1]}%.</Small>
+          <Small>
+            {o.effect}. Range {o.effectRange[0]}% to {o.effectRange[1]}%.
+          </Small>
           <Small>Evidence: {o.evidence}.</Small>
           {o.timeH !== null || o.tempC !== null ? (
             <Small>
@@ -80,19 +88,23 @@ function PrepareBody({ bundle }: { bundle: Bundle }) {
       </Screen>
     );
   }
-  const plantText = plantLabel(bundle, plantId);
 
   return (
     <Screen>
       <Reveal>
-        <View style={styles.head}>
-          <View style={[styles.block, { backgroundColor: c.accentContainer }]}>
-            <MaterialCommunityIcons name={dishIcon(dish.id)} size={30} color={c.onAccentContainer} />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Heading level="display">{dish.name}</Heading>
-            <Body muted>How to prepare {plantText}</Body>
-          </View>
+        <HeroTile icon={dishIcon(dish.id)} height={230} />
+      </Reveal>
+
+      <Reveal index={1}>
+        <Text style={[type.label, { color: c.onSurfaceVariant }]}>Step by step</Text>
+        <Text accessibilityRole="header" style={[type.display, { color: c.onBackground }]}>
+          {dish.name}
+        </Text>
+        <Text style={[type.bodyStrong, { color: c.primary }]}>How to prepare {plantLabel(bundle, plantId)}</Text>
+        <View style={[styles.metaRow, { marginTop: space.sm }]}>
+          <Meta icon="format-list-numbered" label={`${p.steps.length + 1} steps`} />
+          <Meta icon="book-open-variant" label={`${p.findings.length} published results`} />
+          <Meta icon="shield-check-outline" label="Safety rules applied" />
         </View>
       </Reveal>
 
@@ -103,41 +115,55 @@ function PrepareBody({ bundle }: { bundle: Bundle }) {
         </Note>
       ) : (
         <>
-          <Reveal index={1}>
-            <Card style={{ gap: space.md }}>
-              <View style={styles.between}>
-                <Heading level="heading">Steps</Heading>
-                {p.anyModel ? <Tag icon="chart-line" label="Includes predicted values" tone="warn" /> : <Tag icon="book-check-outline" label="Published results, not a prediction" tone="good" />}
-              </View>
+          <Reveal index={2}>
+            <View style={styles.stepsHead}>
+              <SectionTitle title="Steps" />
+              {p.anyModel ? <Tag icon="chart-line" label="Includes predicted values" tone="warn" /> : <Tag icon="book-check-outline" label="Published results, not a prediction" tone="good" />}
+            </View>
+            <View style={[styles.steps, { backgroundColor: c.surface }]}>
               {p.steps.map((s, i) => (
-                <View key={s} style={styles.step}>
-                  <Numeral n={i + 1} />
-                  <Body style={{ flex: 1 }}>{s}</Body>
+                <View key={s}>
+                  {i > 0 ? <View style={[styles.divider, { backgroundColor: c.hairline }]} /> : null}
+                  <View style={styles.step}>
+                    <Numeral n={i + 1} />
+                    <Body style={{ flex: 1 }}>{s}</Body>
+                  </View>
                 </View>
               ))}
-              <Hairline />
-              <View style={styles.step} accessibilityRole="text">
-                <MaterialCommunityIcons name="pot-steam-outline" size={26} color={c.primary} />
-                <Text style={[type.heading, { color: c.primary, flex: 1 }]}>{FINAL_STEP}</Text>
+            </View>
+          </Reveal>
+
+          <Reveal index={3}>
+            <View style={[styles.final, { backgroundColor: c.primaryContainer }]} accessible accessibilityLabel={FINAL_STEP}>
+              <Glow size={260} style={{ right: -90, top: -110 }} strength={1.6} />
+              <View style={[styles.finalIcon, { backgroundColor: "rgba(10,11,13,0.35)" }]}>
+                <MaterialCommunityIcons name="pot-steam" size={30} color={c.primary} />
               </View>
-              {p.route?.conditions ? (
-                <Expander title="As done in the study" icon="flask-outline">
-                  <Small muted={false} style={{ paddingTop: space.xs }}>
-                    {p.route.conditions} These are study conditions, not safety advice.
-                  </Small>
-                </Expander>
-              ) : null}
-            </Card>
+              <View style={{ flex: 1 }}>
+                <Text style={[type.label, { color: c.onPrimaryContainer }]}>Always finish with</Text>
+                <Text style={[type.title, { color: c.onPrimaryContainer }]}>{FINAL_STEP}</Text>
+              </View>
+            </View>
+            {p.route?.conditions ? (
+              <Expander title="As done in the study" icon="flask-outline">
+                <Small muted={false} style={{ paddingTop: space.xs }}>
+                  {p.route.conditions} These are study conditions, not safety advice.
+                </Small>
+              </Expander>
+            ) : null}
           </Reveal>
 
           {p.hiddenCount ? (
-            <Reveal index={2}>
-              <View style={{ gap: space.xs }}>
-                <Small muted={false}>
-                  {p.hiddenCount} other published method{p.hiddenCount === 1 ? " is" : "s are"} not shown because of a safety rule
-                  {UNREVIEWED_LABEL}.
-                </Small>
-                <Expander title="Why some methods are hidden" icon="shield-alert-outline">
+            <Reveal index={4}>
+              <View style={[styles.hidden, { backgroundColor: c.muted }]}>
+                <View style={styles.findingHead}>
+                  <MaterialCommunityIcons name="shield-alert-outline" size={22} color={c.accent} />
+                  <Small muted={false} style={{ flex: 1 }}>
+                    {p.hiddenCount} other published method{p.hiddenCount === 1 ? " is" : "s are"} not shown because of a safety rule
+                    {UNREVIEWED_LABEL}.
+                  </Small>
+                </View>
+                <Expander title="Why some methods are hidden" icon="information-outline">
                   <View style={{ gap: space.xs, paddingTop: space.xs }}>
                     {p.hiddenReasons.map((r) => (
                       <Small key={r} muted={false}>
@@ -151,16 +177,19 @@ function PrepareBody({ bundle }: { bundle: Bundle }) {
           ) : null}
 
           {p.warnings.map((w, i) => (
-            <Reveal key={w} index={3 + i}>
+            <Reveal key={w} index={5 + i}>
               <Note icon="hand-heart-outline" title="Good to know">
                 {w}
               </Note>
             </Reveal>
           ))}
 
-          <Reveal index={4 + p.warnings.length}>
-            <Card style={{ gap: space.md }}>
-              <Heading level="heading">What the papers found</Heading>
+          <Reveal index={6 + p.warnings.length}>
+            <Card style={{ gap: space.md, overflow: "hidden" }}>
+              <Glow size={240} style={{ left: -120, top: -120 }} strength={0.8} />
+              <Text accessibilityRole="header" style={[type.title, { color: c.onBackground }]}>
+                What the papers found
+              </Text>
               {p.findings.length === 0 ? (
                 <Body muted>No published results for this plant yet. Follow the steps and cook until fully soft.</Body>
               ) : (
@@ -190,9 +219,15 @@ export default function Prepare() {
 }
 
 const styles = StyleSheet.create({
-  head: { flexDirection: "row", gap: space.md, alignItems: "center" },
-  block: { width: 64, height: 64, borderRadius: 18, alignItems: "center", justifyContent: "center" },
-  between: { flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: space.sm },
-  step: { flexDirection: "row", gap: space.md, alignItems: "flex-start" },
+  metaRow: { flexDirection: "row", flexWrap: "wrap", gap: space.md },
+  stepsHead: { flexDirection: "row", flexWrap: "wrap", alignItems: "baseline", justifyContent: "space-between", gap: space.sm },
+  steps: { borderRadius: radius.card, paddingHorizontal: space.lg, paddingVertical: space.sm },
+  step: { flexDirection: "row", gap: space.md, alignItems: "center", paddingVertical: space.md },
+  divider: { height: 1, marginLeft: 46 },
+  final: { borderRadius: radius.card, padding: space.lg, flexDirection: "row", alignItems: "center", gap: space.md, overflow: "hidden" },
+  finalIcon: { width: 56, height: 56, borderRadius: 18, alignItems: "center", justifyContent: "center" },
+  hidden: { borderRadius: radius.card, padding: space.lg, gap: space.xs },
+  findingHead: { flexDirection: "row", gap: space.md, alignItems: "center" },
+  findingIcon: { width: 40, height: 40, borderRadius: 12, alignItems: "center", justifyContent: "center" },
   tags: { flexDirection: "row", flexWrap: "wrap", gap: space.sm },
 });

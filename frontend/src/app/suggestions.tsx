@@ -3,11 +3,11 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useMemo } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Text } from "react-native-paper";
 
 import { BundleGate } from "../components/BundleGate";
 import { LimitsLink, Screen } from "../components/Screen";
-import { Bar, Body, Card, Expander, Heading, Reveal, Small, StateView, Tag } from "../components/ui";
+import { Bar, Body, Expander, Heading, HeroTile, Meta, PrimaryButton, Reveal, SectionTitle, Small, StateView, Tag } from "../components/ui";
 import { suggestDishes } from "../engine/suggest";
 import { Bundle, DishSuggestion, RankedItem } from "../engine/types";
 import { dishIcon } from "../lib/icons";
@@ -33,46 +33,57 @@ function DishCard({ d, bundle, index, servings, allergens }: { d: DishSuggestion
   const dish = bundle.dishes.find((x) => x.id === d.dishId);
   const leftOut = (dish?.protein_slot_ids ?? []).filter((id) => bundle.ingredients[id]?.allergen_tags.some((t) => allergens.includes(t)));
   const owned = d.missingItems.length === 0;
+  const ranked = [d.protein, ...d.alternatives].sort((a, b) => b.fit - a.fit);
+  const fitRank = ranked.findIndex((i) => i.ingredientId === d.protein.ingredientId) + 1;
+  const fitLabel = ranked.length === 1 ? "Only plant listed" : fitRank === 1 ? `Best fit of ${ranked.length} plants` : `Fit #${fitRank} of ${ranked.length} plants`;
+  const open = () => router.push({ pathname: "/prepare/[dishId]", params: { dishId: d.dishId, plant: d.protein.ingredientId } });
 
   return (
     <Reveal index={index}>
-      <Pressable
-        onPress={() => router.push({ pathname: "/prepare/[dishId]", params: { dishId: d.dishId, plant: d.protein.ingredientId } })}
-        accessibilityRole="button"
-        accessibilityLabel={`${d.name} with ${plantLabel(bundle, d.protein.ingredientId)}, about ${naira(d.totalCostNgn)} for ${servings}. Open preparation steps.`}
-        style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1, transform: [{ scale: pressed ? 0.99 : 1 }] })}
-      >
-        <Card style={{ gap: space.md }}>
-          <View style={styles.head}>
-            <View style={[styles.block, { backgroundColor: index === 0 ? c.accentContainer : c.primaryContainer }]}>
-              <MaterialCommunityIcons name={dishIcon(d.dishId)} size={30} color={index === 0 ? c.onAccentContainer : c.onPrimaryContainer} />
+      <View style={[styles.card, { backgroundColor: c.surface }]}>
+        <Pressable
+          onPress={open}
+          accessibilityRole="button"
+          accessibilityLabel={`${d.name} with ${plantLabel(bundle, d.protein.ingredientId)}, about ${naira(d.totalCostNgn)} for ${servings}. Open preparation steps.`}
+          style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1 })}
+        >
+          <HeroTile icon={dishIcon(d.dishId)} height={index === 1 ? 190 : 150} tone={index === 1 ? "green" : "dark"}>
+            <View style={[styles.rank, { backgroundColor: c.background }]}>
+              <Text style={[type.label, { color: c.primary }]}>#{index}</Text>
             </View>
-            <View style={{ flex: 1 }}>
-              <Heading level="title">{d.name}</Heading>
-              <Body muted>with {plantLabel(bundle, d.protein.ingredientId)}</Body>
-            </View>
-          </View>
+            {owned ? (
+              <View style={[styles.owned, { backgroundColor: c.primary }]}>
+                <MaterialCommunityIcons name="basket-check" size={18} color={c.onPrimary} />
+              </View>
+            ) : null}
+          </HeroTile>
 
-          <View style={styles.numbers}>
-            <View style={{ flex: 1 }}>
-              <Text style={[type.title, { color: c.onBackground }]}>{naira(d.totalCostNgn)}</Text>
-              <Small>
-                for {servings} {servings === 1 ? "person" : "people"}. Protein only, excludes oil and spices
-              </Small>
+          <View style={styles.cardBody}>
+            <View style={styles.titleRow}>
+              <View style={{ flex: 1 }}>
+                <Text style={[type.title, { color: c.onBackground }]}>{d.name}</Text>
+                <Small>with {plantLabel(bundle, d.protein.ingredientId)}</Small>
+              </View>
+              <Text style={[type.title, { color: c.primary }]}>{naira(d.totalCostNgn)}</Text>
             </View>
-            <View style={{ flex: 1 }}>
-              <Text style={[type.title, { color: c.onBackground }]}>{d.proteinPerPlateG} g</Text>
-              <Small>protein per plate</Small>
-            </View>
-          </View>
 
+            <View style={styles.metaRow}>
+              <Meta icon="account-group" label={`${servings} ${servings === 1 ? "person" : "people"}`} />
+              <Meta icon="weight-gram" label={`${d.proteinPerPlateG} g protein per plate`} />
+              <Meta icon="leaf" label={fitLabel} />
+            </View>
+            <Small>Protein only, excludes oil and spices</Small>
+          </View>
+        </Pressable>
+
+        <View style={{ gap: space.md }}>
           <View style={{ gap: space.xs }}>
             <Bar value={d.protein.fit} label={`How well ${plantShort} suits ${d.name}, compared with the other plants listed`} />
             <Small>How well {plantShort} suits this dish, compared with the other plants listed</Small>
           </View>
 
           <Body>
-            <Text style={{ fontWeight: "600" }}>Why: </Text>
+            <Text style={{ color: c.primary }}>Why: </Text>
             {whyLine(d)}.
           </Body>
 
@@ -80,14 +91,10 @@ function DishCard({ d, bundle, index, servings, allergens }: { d: DishSuggestion
             {missingData.length ? <Tag icon="help-circle-outline" label="Some data missing" tone="warn" /> : <Tag icon="book-check-outline" label="Published values" tone="good" />}
             {d.protein.quality.composition === "estimated" ? <Tag icon="approximately-equal" label="Some values estimated" /> : null}
             {owned ? <Tag icon="basket-check-outline" label="Already in your kitchen" tone="good" /> : null}
-            {unpriced.length ? <Tag icon="tag-off-outline" label={`Price needed for ${unpriced.length} other plant${unpriced.length === 1 ? "" : "s"}`} /> : null}
+            {unpriced.length ? <Tag icon="tag-off-outline" label={`Price needed for ${unpriced.length} other plant${unpriced.length === 1 ? "" : "s"}`} tone="warn" /> : null}
           </View>
 
-          {leftOut.length ? (
-            <Small>
-              Left out because of your allergen list: {joinAnd(leftOut.map((id) => plantName(bundle, id).english.toLowerCase()))}.
-            </Small>
-          ) : null}
+          {leftOut.length ? <Small>Left out because of your allergen list: {joinAnd(leftOut.map((id) => plantName(bundle, id).english.toLowerCase()))}.</Small> : null}
 
           <Expander title="How do we know?">
             <View style={{ gap: space.sm, paddingTop: space.xs }}>
@@ -103,7 +110,7 @@ function DishCard({ d, bundle, index, servings, allergens }: { d: DishSuggestion
               ) : null}
               {d.alternatives.map((a) => {
                 const nd = noDataProps(a);
-                const bits = [a.score === null ? "price needed" : `${naira(a.costNgn ?? 0)}`, nd.length ? `no data for ${nd.join(", ")}` : null].filter(Boolean);
+                const bits = [a.score === null ? "price needed" : naira(a.costNgn ?? 0), nd.length ? `no data for ${nd.join(", ")}` : null].filter(Boolean);
                 return (
                   <Small key={a.ingredientId} muted={false}>
                     Also suits it: {plantLabel(bundle, a.ingredientId)}, fit {a.fit.toFixed(2)} ({bits.join("; ")})
@@ -113,12 +120,9 @@ function DishCard({ d, bundle, index, servings, allergens }: { d: DishSuggestion
             </View>
           </Expander>
 
-          <View style={styles.cta}>
-            <Text style={[type.bodyStrong, { color: c.primary }]}>See how to prepare</Text>
-            <MaterialCommunityIcons name="chevron-right" size={24} color={c.primary} />
-          </View>
-        </Card>
-      </Pressable>
+          <PrimaryButton label="See how to prepare" onPress={open} icon="chef-hat" />
+        </View>
+      </View>
     </Reveal>
   );
 }
@@ -134,9 +138,11 @@ function SuggestionsBody({ bundle }: { bundle: Bundle }) {
     <Screen>
       <Reveal>
         <Heading level="display">{result.dishes.length ? "You can make" : "Nothing fits yet"}</Heading>
-        <Body muted style={{ marginTop: space.sm }}>
-          For {plan.servings} {plan.servings === 1 ? "person" : "people"}, budget {naira(plan.budgetNgn)}, about {input.targetProteinG} g protein each.
-        </Body>
+        <View style={[styles.metaRow, { marginTop: space.sm }]}>
+          <Meta icon="account-group" label={`${plan.servings} ${plan.servings === 1 ? "person" : "people"}`} />
+          <Meta icon="wallet-outline" label={`Budget ${naira(plan.budgetNgn)}`} />
+          <Meta icon="food-variant" label={`about ${input.targetProteinG} g protein each`} />
+        </View>
       </Reveal>
 
       {result.dishes.length === 0 ? (
@@ -144,11 +150,7 @@ function SuggestionsBody({ bundle }: { bundle: Bundle }) {
           kind="empty"
           title="No dish fits these choices"
           message="Try a bigger budget or fewer people. The reasons for each dish are below."
-          action={
-            <Button mode="outlined" onPress={() => router.back()} style={{ borderRadius: radius.control }} contentStyle={{ minHeight: 48 }}>
-              Change my choices
-            </Button>
-          }
+          action={<PrimaryButton label="Change my choices" onPress={() => router.back()} icon="pencil" />}
         />
       ) : (
         result.dishes.map((d, i) => <DishCard key={d.dishId} d={d} bundle={bundle} index={i + 1} servings={plan.servings} allergens={plan.allergens} />)
@@ -156,13 +158,15 @@ function SuggestionsBody({ bundle }: { bundle: Bundle }) {
 
       {result.excluded.length ? (
         <Reveal index={result.dishes.length + 1}>
+          <SectionTitle title="Not available yet" note={`${result.excluded.length} dishes`} />
           <View style={{ gap: space.sm }}>
-            <Heading level="heading">Not available yet</Heading>
             {result.excluded.map((e) => (
-              <View key={e.id} style={[styles.excluded, { borderColor: c.hairline }]}>
-                <MaterialCommunityIcons name={dishIcon(e.id)} size={24} color={c.onSurfaceVariant} />
-                <View style={{ flex: 1 }}>
-                  <Text style={[type.bodyStrong, { color: c.onSurfaceVariant }]}>{dishName(e.id)}</Text>
+              <View key={e.id} style={[styles.excluded, { backgroundColor: c.muted }]}>
+                <View style={[styles.excludedIcon, { backgroundColor: c.surfaceVariant }]}>
+                  <MaterialCommunityIcons name={dishIcon(e.id)} size={24} color={c.onSurfaceVariant} />
+                </View>
+                <View style={{ flex: 1, gap: 2 }}>
+                  <Text style={[type.bodyStrong, { color: c.onMuted }]}>{dishName(e.id)}</Text>
                   <Small>{plainReason(bundle, e.reason)}</Small>
                 </View>
               </View>
@@ -181,10 +185,13 @@ export default function Suggestions() {
 }
 
 const styles = StyleSheet.create({
-  head: { flexDirection: "row", gap: space.md, alignItems: "center" },
-  block: { width: 60, height: 60, borderRadius: 16, alignItems: "center", justifyContent: "center" },
-  numbers: { flexDirection: "row", gap: space.lg },
+  card: { borderRadius: radius.block, padding: space.md, gap: space.md },
+  cardBody: { paddingHorizontal: space.xs, paddingTop: space.md, gap: space.sm },
+  titleRow: { flexDirection: "row", alignItems: "flex-start", gap: space.md },
+  rank: { position: "absolute", top: 14, left: 14, borderRadius: radius.round, paddingHorizontal: 12, paddingVertical: 6 },
+  owned: { position: "absolute", top: 14, right: 14, width: 36, height: 36, borderRadius: 18, alignItems: "center", justifyContent: "center" },
+  metaRow: { flexDirection: "row", flexWrap: "wrap", gap: space.md },
   tags: { flexDirection: "row", flexWrap: "wrap", gap: space.sm },
-  cta: { flexDirection: "row", alignItems: "center", justifyContent: "flex-end", minHeight: 48 },
-  excluded: { flexDirection: "row", gap: space.md, borderTopWidth: StyleSheet.hairlineWidth, paddingTop: space.md, alignItems: "flex-start" },
+  excluded: { flexDirection: "row", gap: space.md, borderRadius: radius.card, padding: space.md, alignItems: "center" },
+  excludedIcon: { width: 48, height: 48, borderRadius: 24, alignItems: "center", justifyContent: "center" },
 });

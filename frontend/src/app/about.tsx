@@ -4,7 +4,7 @@ import { View } from "react-native";
 
 import { BundleGate } from "../components/BundleGate";
 import { Screen } from "../components/Screen";
-import { Body, Card, Expander, Heading, Note, Reveal, Small } from "../components/ui";
+import { Body, Card, Expander, Heading, HeroTile, Note, Reveal, Small } from "../components/ui";
 import { WEIGHTS } from "../engine/config";
 import { Bundle } from "../engine/types";
 import { joinAnd, plantName } from "../lib/words";
@@ -40,6 +40,9 @@ function AboutBody({ bundle }: { bundle: Bundle }) {
 
   return (
     <Screen>
+      <Reveal>
+        <HeroTile icon="scale-balance" height={150} />
+      </Reveal>
       <Reveal>
         <Heading level="display">About and limits</Heading>
         <Body muted style={{ marginTop: space.sm }}>
