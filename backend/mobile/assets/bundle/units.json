@@ -1,0 +1,56 @@
+[
+ {
+  "basis": "lab-measured mean volume 1463 ml; Bida northern Nigeria; 1962",
+  "commodity": "rice (milled)",
+  "confidence": "measured_but_old_single_location",
+  "kg_per_unit": 1.075,
+  "source": "Sluyters 1962 Neth J Agric Sci 10(4) via library.wur.nl",
+  "unit": "mudu",
+  "use_in_app": "reference_only"
+ },
+ {
+  "basis": "lab-measured mean volume 1493 ml; Bida; 1962",
+  "commodity": "paddy rice",
+  "confidence": "measured_but_old_single_location",
+  "kg_per_unit": 0.602,
+  "source": "same",
+  "unit": "mudu",
+  "use_in_app": "reference_only"
+ },
+ {
+  "basis": "50 kg bag is about 33 mudu (50/33); 25 kg is about 16; 100 kg is about 66",
+  "commodity": "beans and grains (trade rule of thumb)",
+  "confidence": "estimated_trade_convention",
+  "kg_per_unit": 1.52,
+  "source": "naijapricemarket.blogspot.com 2024 (several trade sites repeat it)",
+  "unit": "mudu",
+  "use_in_app": "default_until_weighed"
+ },
+ {
+  "basis": "unreferenced; converter says range 1.5 to 3 kg",
+  "commodity": "grains general (online converter)",
+  "confidence": "unverified",
+  "kg_per_unit": 2.5,
+  "source": "calculators-ng.pages.dev",
+  "unit": "mudu",
+  "use_in_app": "do_not_use"
+ },
+ {
+  "basis": "Guardian Nigeria article",
+  "commodity": "grains small Abuja (press)",
+  "confidence": "conflicts_with_lab_and_trade_figures",
+  "kg_per_unit": 0.17,
+  "source": "guardian.ng traditional measurements article",
+  "unit": "mudu",
+  "use_in_app": "do_not_use"
+ },
+ {
+  "basis": "Guardian Nigeria article",
+  "commodity": "grains large Kano (press)",
+  "confidence": "conflicts_with_lab_and_trade_figures",
+  "kg_per_unit": 0.32,
+  "source": "same",
+  "unit": "mudu",
+  "use_in_app": "do_not_use"
+ }
+]

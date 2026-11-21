@@ -1,0 +1,98 @@
+[
+ {
+  "application_id": "akara_batter",
+  "id": "akara",
+  "name": "Akara",
+  "notes": "side_items left empty on purpose: fill from the ids in data/sides.csv. Suggested side intent: pap/ogi or bread, plus a vegetable or tomato-pepper sauce. Portion sizes are estimates. First dish built end to end.",
+  "playbook_ids": [
+   "pb_cowpea_akara_route",
+   "pb_cowpea_soak_dehull",
+   "pb_bambara_roast_caution",
+   "pb_pigeon_pea_germinate"
+  ],
+  "protein_slot_ids": [
+   "cowpea",
+   "bambara",
+   "pigeon_pea",
+   "african_yam_bean"
+  ],
+  "side_items": []
+ },
+ {
+  "application_id": "steamed_bean_pudding",
+  "id": "moin_moin",
+  "name": "Moin-moin",
+  "notes": "side_items left empty on purpose: fill from the ids in data/sides.csv. Side intent: pap/ogi or rice or bread.",
+  "playbook_ids": [
+   "pb_cowpea_moinmoin_route",
+   "pb_cowpea_soak_dehull"
+  ],
+  "protein_slot_ids": [
+   "cowpea",
+   "bambara",
+   "pigeon_pea",
+   "african_yam_bean"
+  ],
+  "side_items": []
+ },
+ {
+  "application_id": "steamed_bean_pudding",
+  "id": "ekuru",
+  "name": "Ekuru",
+  "notes": "side_items left empty on purpose: fill from the ids in data/sides.csv. Dehulled-bean steamed paste; uses the same steamed route as moin-moin. Side intent: stew or pepper sauce plus a starch.",
+  "playbook_ids": [
+   "pb_cowpea_moinmoin_route",
+   "pb_cowpea_soak_dehull"
+  ],
+  "protein_slot_ids": [
+   "cowpea",
+   "pigeon_pea"
+  ],
+  "side_items": []
+ },
+ {
+  "application_id": "steamed_bean_pudding",
+  "id": "okpa",
+  "name": "Okpa",
+  "notes": "side_items left empty on purpose: fill from the ids in data/sides.csv. Bambara is the traditional base. Only one protein slot, so there is nothing to rank; the card should show cost and plate balance. Bambara has no published flour functional values in the data yet, so expect \"no data\" flags.",
+  "playbook_ids": [
+   "pb_bambara_soak_for_foam",
+   "pb_bambara_roast_caution",
+   "pb_bambara_ferment"
+  ],
+  "protein_slot_ids": [
+   "bambara"
+  ],
+  "side_items": []
+ },
+ {
+  "application_id": "bean_soup_body",
+  "id": "gbegiri",
+  "name": "Gbegiri (bean soup)",
+  "notes": "side_items left empty on purpose: fill from the ids in data/sides.csv. Side intent: amala, eba or rice.",
+  "playbook_ids": [
+   "pb_cowpea_gbegiri_route",
+   "pb_cowpea_soak_dehull"
+  ],
+  "protein_slot_ids": [
+   "cowpea",
+   "pigeon_pea"
+  ],
+  "side_items": []
+ },
+ {
+  "application_id": "seed_soup_body",
+  "id": "egusi_soup",
+  "name": "Egusi soup",
+  "notes": "side_items left empty on purpose: fill from the ids in data/sides.csv. Soup is eaten with a starch; side intent: pounded yam, eba or rice plus vegetables. Melon seed is expensive; check price before ranking on cost.",
+  "playbook_ids": [
+   "pb_melon_seed_boil",
+   "pb_groundnut_boil"
+  ],
+  "protein_slot_ids": [
+   "melon_seed",
+   "groundnut"
+  ],
+  "side_items": []
+ }
+]
