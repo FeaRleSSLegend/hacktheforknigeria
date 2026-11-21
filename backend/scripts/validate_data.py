@@ -59,7 +59,9 @@ def main(data_dir):
             for col in spec["required"]:
                 if col in header and (row.get(col) or "").strip() == "":
                     if col in ("protein_g_per_100g", "price_ngn_per_kg") and name == "ingredients.csv":
-                        warnings.append(f"{name} line {i}: {col} empty (ingredient will be excluded by the engine)")
+                        effect = ("ranked by fit only, shown as \"price needed\", never the headline pick"
+                                  if col == "price_ngn_per_kg" else "ingredient will be excluded by the engine")
+                        warnings.append(f"{name} line {i}: {col} empty ({effect})")
                     else:
                         errors.append(f"{name} line {i}: {col} is empty")
             if row.get("quality") and row["quality"] not in ALLOWED_QUALITY:

@@ -184,3 +184,8 @@ Short messages. After each milestone: what you built, what you ran, what passed,
 ## Deviations
 
 (Record any change to the stack or layout here, with the reason.)
+
+- 2026-11-21, backend lane. The git repo root is the workspace folder that contains `backend/`, `frontend/` and `training/`, so the lanes can be merged in one repo. `backend/` plays the role of `repo/` in the handoff. The bundle is written to `backend/mobile/assets/bundle/` as the handoff specifies; the mobile lane copies it (or points `--out` at its own assets folder). `.gitattributes` marks bundle and golden files `-text` so their sha256 survives Windows checkouts.
+- Golden fixtures live in `backend/tests/golden/` (one file per case plus `index.json`), pinned to a bundle version.
+- Output fields added beyond PROJECT.md section 8 (all camelCase, mirrored by the TS port): `DishSuggestion.alternatives` (the other ranked plants, so the ranking stays visible) and `playbookIds`; processing options carry `kind`, `cropId`, `conditions`, `nRows` and, for playbook entries, `playbookId`; `ProcessingResult` carries `ingredientId` and `goal`. `safetyGuard(result, ctx, bundle)` takes the bundle for its rules and returns the filtered `result` (blocked options removed, `null` when nothing may be shown).
+- `recommendProcessing` takes `goal` = an outcome metric id (e.g. `phytate`). Unit-suffixed dev names (`phytate_mg100g`, `wac_pct`, ...) map to one metric in `config.METRIC_ALIASES`.
