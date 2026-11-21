@@ -1,77 +1,112 @@
-// What this plant is good for: the dishes it suits, ranked by the engine (dishesForPlant).
-import { useLocalSearchParams } from "expo-router";
+// Plant page: what this plant is good for (dishesForPlant), whether it is in your kitchen, its protein
+// and price. Unpriced plants get a price field so every cost can be worked out.
+import { router, useLocalSearchParams } from "expo-router";
 import { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
-import { Text } from "react-native-paper";
 
 import { BundleGate } from "../../components/BundleGate";
+import { PriceRow } from "../../components/PriceEntry";
 import { Screen } from "../../components/Screen";
-import { Heading, Reveal, SectionTitle, Small, Tag } from "../../components/ui";
+import { Body, Caption, Expander, Heading, OutlineButton, PhotoRow, Poster, Reveal, SectionTitle, Small, Stat, StateView } from "../../components/ui";
 import { dishesForPlant } from "../../engine/plant";
 import { Bundle } from "../../engine/types";
-import { joinAnd, naira, plantLabel } from "../../lib/words";
+import { dishPhoto, plantPhoto } from "../../lib/photos";
+import { joinAnd, naira, plainReason, plantName } from "../../lib/words";
 import { toPlanInput, usePlan } from "../../state/PlanContext";
-import { useAppTheme } from "../../theme";
-import { radius, space, type } from "../../theme/tokens";
+import { space } from "../../theme/tokens";
 
-function PlantBody({ bundle, plantId }: { bundle: Bundle; plantId: string }) {
-  const { custom: c } = useAppTheme();
-  const { plan } = usePlan();
-  const r = useMemo(() => dishesForPlant(plantId, toPlanInput(plan), bundle), [plantId, plan, bundle]);
-  const people = `${plan.servings} ${plan.servings === 1 ? "person" : "people"}`;
+function PlantBody({ bundle }: { bundle: Bundle }) {
+  const { plan, update } = usePlan();
+  const { plantId } = useLocalSearchParams<{ plantId: string }>();
+  const ing = bundle.ingredients[plantId];
+  const pd = useMemo(() => (ing ? dishesForPlant(plantId, toPlanInput(plan), bundle) : null), [plan, bundle, plantId, ing]);
+
+  if (!ing || !pd) {
+    return (
+      <Screen backLabel="Back">
+        <StateView kind="empty" title="We could not find that plant" message="Go back and pick a plant." />
+      </Screen>
+    );
+  }
+  const n = plantName(bundle, plantId);
+  const have = plan.pantryIds.includes(plantId);
+  const userPrice = plan.userPrices[plantId];
+  const price = userPrice ?? ing.price_ngn_per_kg;
+  const toggle = () => update({ pantryIds: have ? plan.pantryIds.filter((x) => x !== plantId) : [...plan.pantryIds, plantId] });
+  const skipped = [...pd.notEnoughData.map((x) => `${x.name}: not enough published data`), ...pd.excluded.map((x) => `${x.name}: ${plainReason(bundle, x.reason)}`)];
 
   return (
     <Screen backLabel="Back">
       <Reveal>
-        <Heading level="display">What this plant is good for</Heading>
-        <Small>{plantLabel(bundle, plantId)}</Small>
+        <Poster source={plantPhoto(plantId)} height={400}>
+          <Caption>PLANT</Caption>
+          <Heading level="display">{n.local ?? n.english}</Heading>
+          {n.local ? <Body muted>{n.english}</Body> : null}
+        </Poster>
       </Reveal>
 
-      {r.dishes.length === 0 ? <Small muted={false}>No dish here has enough published data for this plant yet.</Small> : null}
+      <Reveal index={1}>
+        <OutlineButton
+          label={have ? "In my kitchen" : "Add to my kitchen"}
+          on={have}
+          onPress={toggle}
+          a11yLabel={have ? `${n.english} is in your kitchen. Remove` : `Add ${n.english} to your kitchen`}
+        />
+      </Reveal>
 
-      {r.dishes.map((d, i) => (
-        <Reveal key={d.dishId} index={i + 1}>
-          <View
-            style={[styles.card, { backgroundColor: c.surface }]}
-            accessible
-            accessibilityLabel={`${d.name}. Ranked ${d.rankInDish} of ${d.candidatesRanked} plants for this dish. ${
-              d.proteinCostNgn === null ? "Price needed" : `${naira(d.proteinCostNgn)} total for ${people}`
-            }. ${d.proteinPerPlateG} grams protein per person.`}
-          >
-            <Text style={[type.title, { color: c.onBackground }]}>{d.name}</Text>
-            <Small>{`Ranked ${d.rankInDish} of ${d.candidatesRanked} plants for this dish`}</Small>
-            <Text style={[type.bodyStrong, { color: c.onBackground }]}>
-              {d.proteinCostNgn === null || d.proteinCostPerPersonNgn === null
-                ? "Price needed"
-                : `${naira(d.proteinCostNgn)} total for ${people} (${naira(d.proteinCostPerPersonNgn)} each)`}
-            </Text>
-            <Text style={[type.label, { color: c.onSurfaceVariant }]}>protein ingredient only, no oil or spices</Text>
-            <Text style={[type.bodyStrong, { color: c.onBackground }]}>{`${d.proteinPerPlateG} g protein per person`}</Text>
-            <Small>{d.summaryLine}</Small>
-            {d.priceSource === "user" ? <Tag icon="pencil-outline" label="your price" tone="good" /> : null}
-          </View>
-        </Reveal>
-      ))}
-
-      {r.notEnoughData.length ? (
-        <View style={{ gap: space.xs }}>
-          <SectionTitle title="Not enough data" />
-          {r.notEnoughData.map((n) => (
-            <Small key={n.dishId} muted={false}>
-              {`${n.name}: no published value for ${joinAnd(n.missingNeeds.map((m) => m.replace(/_/g, " ")))}.`}
-            </Small>
-          ))}
+      <Reveal index={2}>
+        <View style={styles.stats}>
+          <Stat value={ing.protein_g_per_100g !== null ? `${ing.protein_g_per_100g} g` : "No data"} label="protein per 100 g" sub={ing.quality === "estimated" ? "food table, some values estimated" : "published food table"} />
+          <Stat
+            value={price !== null ? naira(price) : "Price needed"}
+            label={price !== null ? "per kg" : "no market price yet"}
+            sub={userPrice !== undefined ? "your price" : price !== null ? `market price, ${ing.price_month}` : undefined}
+          />
         </View>
+        {ing.allergen_tags.length ? <Small style={{ marginTop: space.md }}>Contains {joinAnd(ing.allergen_tags)}. You can leave it out on your plan.</Small> : null}
+      </Reveal>
+
+      {price === null || userPrice !== undefined ? (
+        <Reveal index={3}>
+          <PriceRow id={plantId} bundle={bundle} />
+        </Reveal>
+      ) : null}
+
+      <Reveal index={4}>
+        <SectionTitle title="Good for" />
+        {pd.dishes.length === 0 ? <Body muted>No dish in our data uses this plant yet.</Body> : null}
+        {pd.dishes.map((d) => (
+          <PhotoRow
+            key={d.dishId}
+            source={dishPhoto(d.dishId)}
+            title={d.name.split(" (")[0]}
+            sub={d.rankInDish === 1 ? `Best fit of ${d.candidatesRanked}` : `Fit ${d.rankInDish} of ${d.candidatesRanked}`}
+            right={d.proteinCostPerPersonNgn !== null ? `${naira(d.proteinCostPerPersonNgn)} each` : undefined}
+            onPress={() => router.push({ pathname: "/dish/[dishId]", params: { dishId: d.dishId } })}
+            a11yLabel={`${d.name}. ${d.rankInDish === 1 ? "Best fit" : `Fit ${d.rankInDish} of ${d.candidatesRanked}`}. Open dish`}
+          />
+        ))}
+      </Reveal>
+
+      {skipped.length ? (
+        <Reveal index={5}>
+          <Expander title="Where we cannot say yet">
+            {skipped.map((s) => (
+              <Small key={s} muted={false}>
+                {s}
+              </Small>
+            ))}
+          </Expander>
+        </Reveal>
       ) : null}
     </Screen>
   );
 }
 
-export default function Plant() {
-  const { plantId } = useLocalSearchParams<{ plantId: string }>();
-  return <BundleGate>{(bundle) => <PlantBody bundle={bundle} plantId={String(plantId)} />}</BundleGate>;
+export default function PlantPage() {
+  return <BundleGate>{(bundle) => <PlantBody bundle={bundle} />}</BundleGate>;
 }
 
 const styles = StyleSheet.create({
-  card: { borderRadius: radius.block, padding: space.lg, gap: space.xs },
+  stats: { flexDirection: "row", flexWrap: "wrap", gap: space.xl },
 });

@@ -18,7 +18,7 @@ export function parsePrice(raw: string): number | null {
   return n > 0 ? n : null;
 }
 
-function PriceRow({ id, bundle }: { id: string; bundle: Bundle }) {
+export function PriceRow({ id, bundle }: { id: string; bundle: Bundle }) {
   const { custom: c } = useAppTheme();
   const { plan, update } = usePlan();
   const current = plan.userPrices[id];

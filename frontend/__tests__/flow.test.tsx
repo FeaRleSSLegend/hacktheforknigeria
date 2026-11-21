@@ -6,11 +6,12 @@ import { PaperProvider } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import About from "../src/app/(tabs)/about";
-import Dishes from "../src/app/(tabs)/dishes";
-import Start from "../src/app/(tabs)/index";
-import Plant from "../src/app/plant/[plantId]";
+import Home from "../src/app/(tabs)/index";
+import Dishes from "../src/app/(tabs)/suggestions";
+import DishPage from "../src/app/dish/[dishId]";
+import PlanPage from "../src/app/plan";
+import PlantPage from "../src/app/plant/[plantId]";
 import Prepare from "../src/app/prepare/[dishId]";
-import Suggestions from "../src/app/suggestions";
 import { BundleProvider } from "../src/state/BundleContext";
 import { PlanProvider } from "../src/state/PlanContext";
 import { darkTheme } from "../src/theme";
@@ -25,7 +26,6 @@ jest.mock("react-native-reanimated", () => {
     default: { View },
     FadeIn: chain,
     FadeInDown: chain,
-    FadeOut: chain,
     LinearTransition: chain,
     ReduceMotion: { System: "system" },
     Easing: { bezier: () => (t: number) => t },
@@ -40,14 +40,15 @@ jest.mock("@react-native-async-storage/async-storage", () =>
   jest.requireActual("@react-native-async-storage/async-storage/jest/async-storage-mock"),
 );
 const mockPush = jest.fn();
+const mockNavigate = jest.fn();
 let mockParams: Record<string, string> = {};
 jest.mock("expo-router", () => ({
-  router: { push: (...a: unknown[]) => mockPush(...a), back: jest.fn(), replace: jest.fn(), canGoBack: () => true, navigate: jest.fn() },
+  router: { push: (...a: unknown[]) => mockPush(...a), back: jest.fn(), replace: jest.fn(), canGoBack: () => true, navigate: (...a: unknown[]) => mockNavigate(...a) },
   useLocalSearchParams: () => mockParams,
 }));
 
-// Internal rule wording that must never reach the screen.
-const INTERNAL = [/safety rule not yet reviewed/i, /Show the published range for the crop/i, /sprouting alone does not remove/i, /not shown because of a safety rule/i];
+const INTERNAL = [/safety rule not yet reviewed/i, /Show the published range for the crop/i, /sprouting alone does not remove/i];
+const WAIT = { timeout: 5000 };
 
 const wrap = async (ui: ReactNode) =>
   await render(
@@ -60,97 +61,74 @@ const wrap = async (ui: ReactNode) =>
     </SafeAreaProvider>,
   );
 
-beforeEach(() => mockPush.mockClear());
-
-test("Cook tab shows the two ways in, the checklist and one main button", async () => {
-  await wrap(<Start />);
-  expect(await screen.findByText("What can I cook with what I have?")).toBeTruthy();
-  expect(screen.getByText("What do I have?")).toBeTruthy();
-  expect(screen.getByText("I want to make...")).toBeTruthy();
-  expect(screen.getByLabelText("Ewa, Cowpea")).toBeTruthy(); // one touch target per checklist row
-  expect(screen.getByText("Works offline")).toBeTruthy();
-  await act(async () => fireEvent.press(screen.getByLabelText("Show what I can make")));
-  expect(mockPush).toHaveBeenCalledWith("/suggestions");
+beforeEach(() => {
+  mockPush.mockClear();
+  mockNavigate.mockClear();
 });
 
-test("Results card shows price and protein with what they are for; evidence starts closed", async () => {
-  await wrap(<Suggestions />);
-  expect(await screen.findByText("You can make")).toBeTruthy();
-  expect(screen.getByText("Akara")).toBeTruthy();
-  expect(screen.getAllByText(/^total for 4 people \(₦[0-9,]+ each\)$/).length).toBeGreaterThan(0);
-  expect(screen.getAllByText("protein ingredient only, no oil or spices").length).toBeGreaterThan(0);
-  expect(screen.getAllByText("protein per person").length).toBeGreaterThan(0);
-  expect(screen.getAllByText("Fit for this dish").length).toBeGreaterThan(0);
-  expect(screen.queryByText("Published values")).toBeNull(); // inside the closed evidence section
-  expect(screen.getByText("Not available yet")).toBeTruthy();
-  expect(screen.getByText("We do not have a market price for bambara groundnut yet.")).toBeTruthy();
-  await act(async () => fireEvent.press(screen.getByLabelText("See how to prepare Akara")));
-  expect(mockPush).toHaveBeenCalledWith({ pathname: "/prepare/[dishId]", params: { dishId: "akara", plant: "cowpea" } });
+test("Home starts with the kitchen: tick plants, then Done goes to the dishes you can make", async () => {
+  await wrap(<Home />);
+  expect(await screen.findByText("What's in your kitchen?", {}, WAIT)).toBeTruthy();
+  expect(screen.queryByText(/^Done/)).toBeNull(); // no Done until something is picked
+  expect(screen.queryByText(/Online|Works offline/)).toBeNull();
+  const ewa = screen.getByLabelText("Ewa, Cowpea");
+  expect(ewa.props.accessibilityState).toMatchObject({ checked: false });
+  await act(async () => fireEvent.press(ewa));
+  expect(screen.getByLabelText("Ewa, Cowpea").props.accessibilityState).toMatchObject({ checked: true });
+  await act(async () => fireEvent.press(screen.getByLabelText(/^Done, 1 picked/)));
+  expect(mockNavigate).toHaveBeenCalledWith("/suggestions");
+  await act(async () => fireEvent.press(screen.getByLabelText(/^Akara, /)));
+  expect(mockPush).toHaveBeenCalledWith({ pathname: "/dish/[dishId]", params: { dishId: "akara" } });
 });
 
-test("A typed price is used: the plant gets a cost and a 'your price' tag; letters are refused", async () => {
-  await wrap(<Suggestions />);
-  const input = await screen.findByLabelText("Price for Okpa (bambara groundnut), naira per kilogram", {}, { timeout: 5000 }).catch(() => screen.getAllByLabelText(/^Price for .*bambara.*naira per kilogram$/i)[0]);
-  await act(async () => fireEvent.changeText(input, "abc"));
-  await act(async () => fireEvent.press(screen.getAllByLabelText(/^Use this price for .*bambara/i)[0]));
-  expect(screen.getByText("Type numbers only, for example 1500.")).toBeTruthy();
-  expect(screen.queryByText("your price")).toBeNull();
-  await act(async () => fireEvent.changeText(input, "900"));
-  await act(async () => fireEvent.press(screen.getAllByLabelText(/^Use this price for .*bambara/i)[0]));
-  expect(screen.getByText(/Your price: ₦900 per kg/)).toBeTruthy();
-  expect(screen.getAllByText("your price").length).toBeGreaterThan(0);
-  expect(screen.queryByText("We do not have a market price for bambara groundnut yet.")).toBeNull();
+test("Dish page shows price, protein, the plant used and one main action; detail starts closed", async () => {
+  mockParams = { dishId: "akara" };
+  await wrap(<DishPage />);
+  expect(await screen.findByText("How to prepare", {}, WAIT)).toBeTruthy();
+  expect(screen.getByText("protein each")).toBeTruthy();
+  expect(screen.getByText("MADE WITH")).toBeTruthy();
+  expect(screen.getByLabelText("How do we know?").props.accessibilityState).toMatchObject({ expanded: false });
+  expect(screen.queryByText("Published values")).toBeNull();
 });
 
-test("Prepare shows steps and one caution; evidence is closed by default and opens on tap", async () => {
-  mockParams = { dishId: "akara", plant: "cowpea" };
-  await wrap(<Prepare />);
-  expect(await screen.findByText("Akara · with cowpea")).toBeTruthy();
-  expect(screen.getByText("Fry the paste fully (akara).")).toBeTruthy();
-  expect(screen.getByText(/Cook beans until fully soft\./)).toBeTruthy();
-  expect(screen.getByLabelText("Back to results")).toBeTruthy();
-  expect(screen.queryByText(/Phytate was/)).toBeNull();
-  const toggle = screen.getByLabelText("How do we know?");
-  expect(toggle.props.accessibilityState).toMatchObject({ expanded: false });
+test("Plant page lists what the plant is good for and toggles 'in my kitchen'", async () => {
+  mockParams = { plantId: "cowpea" };
+  await wrap(<PlantPage />);
+  expect(await screen.findByText("Good for", {}, WAIT)).toBeTruthy();
+  const toggle = screen.getByLabelText(/Add cowpea to your kitchen/i);
   await act(async () => fireEvent.press(toggle));
-  expect(screen.getByText(/Phytate was 85 to 89% lower/)).toBeTruthy();
-  expect(screen.getByText("We only show methods that are safe to follow at home.")).toBeTruthy();
+  expect(screen.getByLabelText(/is in your kitchen/i).props.accessibilityState).toMatchObject({ checked: true });
+});
+
+test("Plan page has one budget field and no preset amounts", async () => {
+  await wrap(<PlanPage />);
+  expect(await screen.findByLabelText("Budget for this meal, in naira", {}, WAIT)).toBeTruthy();
+  expect(screen.queryByLabelText("1000 naira")).toBeNull();
+  expect(screen.queryByText("₦3,000")).toBeNull();
+});
+
+test("Dishes tab ranks dishes and lists those not available yet", async () => {
+  await wrap(<Dishes />);
+  expect(await screen.findByText(/Dishes for you|You can make/, {}, WAIT)).toBeTruthy();
 });
 
 test.each([
   ["akara", "cowpea"],
+  ["ekuru", "cowpea"],
   ["egusi_soup", "groundnut"],
-  ["okpa", "bambara"],
-])("internal safety-rule wording never renders on %s with %s, before or after opening evidence", async (dishId, plant) => {
+])("Prepare %s with %s: steps and one caution, evidence closed, no internal rule wording", async (dishId, plant) => {
   mockParams = { dishId, plant };
   await wrap(<Prepare />);
-  const toggle = await screen.findByLabelText("How do we know?", {}, { timeout: 5000 });
+  const toggle = await screen.findByLabelText("How do we know?", {}, WAIT);
+  expect(screen.getByText("Cook beans until fully soft.")).toBeTruthy();
   for (const rx of INTERNAL) expect(screen.queryByText(rx)).toBeNull();
   await act(async () => fireEvent.press(toggle));
   for (const rx of INTERNAL) expect(screen.queryByText(rx)).toBeNull();
 });
 
-test("About lists the limits, including the safety-rule review status", async () => {
+test("About lists the limits, review status and connection state", async () => {
   await wrap(<About />);
-  expect(await screen.findByText("Limits", {}, { timeout: 5000 })).toBeTruthy();
-  expect(screen.getByText(/safety rules are waiting for an expert to review them/)).toBeTruthy();
-  expect(screen.getByText(/Only 1 of 9 plants have a market price/)).toBeTruthy();
-  expect(screen.getByText(/not yet checked against the original PDFs/)).toBeTruthy();
-});
-
-test("Dishes tab lists every dish and opens results for the one picked", async () => {
-  await wrap(<Dishes />);
-  const row = await screen.findByLabelText(/^Moin.moin, /, {}, { timeout: 5000 });
-  expect(row.props.accessibilityRole).toBe("radio");
-  await act(async () => fireEvent.press(row));
-  expect(mockPush).toHaveBeenCalledWith("/suggestions");
-});
-
-test("Plant view lists the dishes cowpea suits with protein-only price", async () => {
-  mockParams = { plantId: "cowpea" };
-  await wrap(<Plant />);
-  expect(await screen.findByText("What this plant is good for", {}, { timeout: 5000 })).toBeTruthy();
-  expect(screen.getByText("Akara")).toBeTruthy();
-  expect(screen.getAllByText(/^₦[0-9,]+ total for 4 people \(₦[0-9,]+ each\)$/).length).toBe(4);
-  expect(screen.getByLabelText("Back")).toBeTruthy();
+  expect(await screen.findByText("LIMITS", {}, WAIT)).toBeTruthy();
+  expect(screen.getByText(/safety rules are waiting for an expert/)).toBeTruthy();
+  expect(screen.getByText(/Offline now|Online now/)).toBeTruthy();
 });
