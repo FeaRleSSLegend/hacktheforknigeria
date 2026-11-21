@@ -122,3 +122,22 @@ Raw inputs live in `training/data/` (read-only). Outputs:
 - `reports/metrics.md` / `metrics.json`: processing model vs baselines (grouped CV by paper)
 - `reports/ranking_stability.md`, `reports/coverage.json`
 - `bundle/model.json`: shipped processing models (empty until a metric beats its baseline)
+
+## Ask Popo (optional online helper)
+
+Popo answers follow-up questions on the Prepare screen, using only the steps shown there. Every answer is checked; anything with a number or ingredient not in the steps, or a health claim, is replaced by a safe reply. Without this setup Popo still works offline by quoting the matching steps.
+
+1. On the laptop, give the service Claude credentials (`ant auth login`, or set `ANTHROPIC_API_KEY`), then start it so the phone can reach it:
+   ```
+   cd backend
+   .venvScriptsactivate
+   pip install -r requirements.txt
+   uvicorn service.main:app --host 0.0.0.0 --port 8000
+   ```
+2. Start the app pointing at the laptop's Wi-Fi address (find it with `ipconfig`):
+   ```
+   cd frontend
+   set EXPO_PUBLIC_POPO_URL=http://192.168.x.x:8000
+   npx expo start
+   ```
+Never put the API key in the app.
