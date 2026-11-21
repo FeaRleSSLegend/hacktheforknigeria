@@ -87,6 +87,20 @@ test("Results card shows price and protein with what they are for; evidence star
   expect(mockPush).toHaveBeenCalledWith({ pathname: "/prepare/[dishId]", params: { dishId: "akara", plant: "cowpea" } });
 });
 
+test("A typed price is used: the plant gets a cost and a 'your price' tag; letters are refused", async () => {
+  await wrap(<Suggestions />);
+  const input = await screen.findByLabelText("Price for Okpa (bambara groundnut), naira per kilogram", {}, { timeout: 5000 }).catch(() => screen.getAllByLabelText(/^Price for .*bambara.*naira per kilogram$/i)[0]);
+  await act(async () => fireEvent.changeText(input, "abc"));
+  await act(async () => fireEvent.press(screen.getAllByLabelText(/^Use this price for .*bambara/i)[0]));
+  expect(screen.getByText("Type numbers only, for example 1500.")).toBeTruthy();
+  expect(screen.queryByText("your price")).toBeNull();
+  await act(async () => fireEvent.changeText(input, "900"));
+  await act(async () => fireEvent.press(screen.getAllByLabelText(/^Use this price for .*bambara/i)[0]));
+  expect(screen.getByText(/Your price: ₦900 per kg/)).toBeTruthy();
+  expect(screen.getAllByText("your price").length).toBeGreaterThan(0);
+  expect(screen.queryByText("We do not have a market price for bambara groundnut yet.")).toBeNull();
+});
+
 test("Prepare shows steps and one caution; evidence is closed by default and opens on tap", async () => {
   mockParams = { dishId: "akara", plant: "cowpea" };
   await wrap(<Prepare />);

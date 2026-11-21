@@ -6,6 +6,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
 import { BundleGate } from "../components/BundleGate";
+import { PriceEntry } from "../components/PriceEntry";
 import { Screen } from "../components/Screen";
 import { Bar, Body, Expander, Heading, IconTile, PrimaryButton, Reveal, SectionTitle, Small, StateView, Tag } from "../components/ui";
 import { suggestDishes } from "../engine/suggest";
@@ -33,8 +34,8 @@ function DishCard({ d, bundle, index, servings, allergens }: { d: DishSuggestion
   const leftOut = (dish?.protein_slot_ids ?? []).filter((id) => bundle.ingredients[id]?.allergen_tags.some((t) => allergens.includes(t)));
   const owned = d.missingItems.length === 0;
   const people = `${servings} ${servings === 1 ? "person" : "people"}`;
-  const total = naira(d.totalCostNgn);
-  const each = naira(d.totalCostNgn / servings);
+  const total = d.proteinCostNgn === null ? "Price needed" : naira(d.proteinCostNgn);
+  const each = d.proteinCostPerPersonNgn === null ? "price needed" : naira(d.proteinCostPerPersonNgn);
   const why = dish?.summary_line ?? shortWhy(d);
   const open = () => router.push({ pathname: "/prepare/[dishId]", params: { dishId: d.dishId, plant: d.protein.ingredientId } });
   const summary = `${d.name}, with ${plantLabel(bundle, d.protein.ingredientId)}. ${total} total for ${people}, ${each} each. ${d.proteinPerPlateG} grams protein per person.`;
@@ -58,6 +59,7 @@ function DishCard({ d, bundle, index, servings, allergens }: { d: DishSuggestion
                 {`total for ${people} (${each} each)`}
               </Text>
               <Text style={[type.label, { color: c.onSurfaceVariant }]}>protein ingredient only, no oil or spices</Text>
+              {d.protein.priceSource === "user" ? <Tag icon="pencil-outline" label="your price" tone="good" /> : null}
             </View>
             <View style={{ flex: 2 }}>
               <Text style={[type.display, { color: c.onBackground }]}>{d.proteinPerPlateG} g</Text>
@@ -132,6 +134,8 @@ function SuggestionsBody({ bundle }: { bundle: Bundle }) {
       ) : (
         result.dishes.map((d, i) => <DishCard key={d.dishId} d={d} bundle={bundle} index={i + 1} servings={plan.servings} allergens={plan.allergens} />)
       )}
+
+      <PriceEntry bundle={bundle} />
 
       {result.excluded.length ? (
         <Reveal index={Math.min(result.dishes.length + 1, 6)}>
