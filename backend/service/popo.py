@@ -80,6 +80,11 @@ def make_claude_asker() -> Optional[Callable[[dict, list[dict], str], str]]:
                 system=SYSTEM,
                 messages=messages,
             )
+        except TypeError as e:
+            # The SDK raises TypeError when no credentials are configured at all.
+            if "authentication method" not in str(e):
+                raise
+            raise PopoUnavailable("no Claude credentials on the service (set ANTHROPIC_API_KEY or run ant auth login)") from e
         except anthropic.AuthenticationError as e:
             raise PopoUnavailable("no valid Claude credentials on the service") from e
         except anthropic.RateLimitError as e:

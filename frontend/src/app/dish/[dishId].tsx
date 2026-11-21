@@ -8,7 +8,7 @@ import { Text } from "react-native-paper";
 import { BundleGate } from "../../components/BundleGate";
 import { PriceRow } from "../../components/PriceEntry";
 import { Screen } from "../../components/Screen";
-import { Bar, Body, Caption, Expander, Heading, PhotoRow, Poster, PrimaryButton, Reveal, Small, Stat, StateView, Tag, Thumb } from "../../components/ui";
+import { Bar, Body, Caption, Expander, Heading, OutlineButton, PhotoRow, Poster, PrimaryButton, Reveal, Small, Stat, StateView, Tag, Thumb } from "../../components/ui";
 import { suggestDishes } from "../../engine/suggest";
 import { Bundle, DishSuggestion } from "../../engine/types";
 import { dishPhoto, plantPhoto } from "../../lib/photos";
@@ -24,6 +24,10 @@ function why(d: DishSuggestion): string {
 }
 
 const openPlant = (id: string) => router.push({ pathname: "/plant/[plantId]", params: { plantId: id } });
+
+function FindButton({ dishId, name }: { dishId: string; name: string }) {
+  return <OutlineButton label="Find around you" onPress={() => router.push({ pathname: "/find/[dishId]", params: { dishId } })} a11yLabel={`Find ${name} around you, on a map or a delivery app`} />;
+}
 
 function Available({ d, bundle, servings }: { d: DishSuggestion; bundle: Bundle; servings: number }) {
   const { custom: c } = useAppTheme();
@@ -62,6 +66,8 @@ function Available({ d, bundle, servings }: { d: DishSuggestion; bundle: Bundle;
           onPress={() => router.push({ pathname: "/prepare/[dishId]", params: { dishId: d.dishId, plant: plantId } })}
           a11yLabel={`How to prepare ${d.name}`}
         />
+        <View style={{ height: space.sm }} />
+        <FindButton dishId={d.dishId} name={d.name} />
       </Reveal>
 
       <Reveal index={4}>
@@ -142,6 +148,7 @@ function DishBody({ bundle }: { bundle: Bundle }) {
             {unpriced.map((id) => (
               <PriceRow key={id} id={id} bundle={bundle} />
             ))}
+            <FindButton dishId={dish.id} name={dish.name} />
           </View>
         </Reveal>
       )}

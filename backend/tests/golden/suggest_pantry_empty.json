@@ -9,9 +9,9 @@
    "targetProteinG": 20
   }
  },
- "bundleVersion": "2026-11-21-019dc6d3",
+ "bundleVersion": "2026-11-21-911c9f4e",
  "expected": {
-  "bundleVersion": "2026-11-21-019dc6d3",
+  "bundleVersion": "2026-11-21-911c9f4e",
   "dishes": [
    {
     "alternatives": [
@@ -432,6 +432,112 @@
     "summaryLine": "Ranked on foaming and water holding, key for light batter.",
     "totalCostNgn": 723.88,
     "totalCostPerPersonNgn": 180.98
+   },
+   {
+    "alternatives": [],
+    "costLabel": "protein ingredient only, no oil or spices",
+    "dishId": "ewa_agoyin",
+    "dryGPerServing": 84,
+    "flags": [
+     "cost excludes oil and spices"
+    ],
+    "missingItems": [
+     {
+      "costNgn": 449.88,
+      "id": "cowpea"
+     }
+    ],
+    "name": "Ewa agoyin",
+    "notEnoughData": [],
+    "playbookIds": [
+     "pb_cowpea_gbegiri_route",
+     "pb_cowpea_soak_dehull"
+    ],
+    "portionQuality": "estimated",
+    "protein": {
+     "asSoldG": 336,
+     "costNgn": 449.88,
+     "costPerGProtein": 5.9245,
+     "costPerPersonNgn": 112.47,
+     "drivers": [],
+     "fit": 0.5,
+     "fitRange": [
+      0.5,
+      0.5
+     ],
+     "flags": [],
+     "ingredientId": "cowpea",
+     "priceSource": "bundled",
+     "proteinPerPlateG": 19.0,
+     "proteinTotalG": 75.9,
+     "quality": {
+      "composition": "measured",
+      "functional": "calculated+measured",
+      "price": "published (2026-04)",
+      "weights": "estimated"
+     },
+     "score": 0.5
+    },
+    "proteinCostNgn": 449.88,
+    "proteinCostPerPersonNgn": 112.47,
+    "proteinPerPlateG": 19.0,
+    "proteinTotalG": 75.9,
+    "summaryLine": "Mashed soft beans; ranked on water holding and creaminess.",
+    "totalCostNgn": 449.88,
+    "totalCostPerPersonNgn": 112.47
+   },
+   {
+    "alternatives": [],
+    "costLabel": "protein ingredient only, no oil or spices",
+    "dishId": "ewa_riro",
+    "dryGPerServing": 84,
+    "flags": [
+     "cost excludes oil and spices"
+    ],
+    "missingItems": [
+     {
+      "costNgn": 449.88,
+      "id": "cowpea"
+     }
+    ],
+    "name": "Ewa riro (beans porridge)",
+    "notEnoughData": [],
+    "playbookIds": [
+     "pb_cowpea_gbegiri_route",
+     "pb_cowpea_soak_dehull"
+    ],
+    "portionQuality": "estimated",
+    "protein": {
+     "asSoldG": 336,
+     "costNgn": 449.88,
+     "costPerGProtein": 5.9245,
+     "costPerPersonNgn": 112.47,
+     "drivers": [],
+     "fit": 0.5,
+     "fitRange": [
+      0.5,
+      0.5
+     ],
+     "flags": [],
+     "ingredientId": "cowpea",
+     "priceSource": "bundled",
+     "proteinPerPlateG": 19.0,
+     "proteinTotalG": 75.9,
+     "quality": {
+      "composition": "measured",
+      "functional": "calculated+measured",
+      "price": "published (2026-04)",
+      "weights": "estimated"
+     },
+     "score": 0.5
+    },
+    "proteinCostNgn": 449.88,
+    "proteinCostPerPersonNgn": 112.47,
+    "proteinPerPlateG": 19.0,
+    "proteinTotalG": 75.9,
+    "summaryLine": "Soft bean porridge; ranked on water holding and creaminess.",
+    "totalCostNgn": 449.88,
+    "totalCostPerPersonNgn": 112.47
    }
   ],
   "excluded": [
@@ -442,6 +548,14 @@
    {
     "id": "egusi_soup",
     "reason": "no usable protein: melon_seed (not enough data: missing emulsion_capacity); groundnut (price needed)"
+   },
+   {
+    "id": "fio_fio",
+    "reason": "no usable protein: pigeon_pea (price needed)"
+   },
+   {
+    "id": "miyan_gyada",
+    "reason": "no usable protein: groundnut (price needed)"
    }
   ]
  },

@@ -139,3 +139,7 @@ Treatment rows E605-E682 (source ids B5-... in method_note), plus 5 functional r
 - `ingredients.csv` cowpea price 1338.93 NGN/kg, month 2026-04: NBS Selected Food Price Watch April 2026 (brown beans sold loose, national average, per kg) via a press report (ThisDay, 2 Jun 2026). Not yet verified against the NBS table. Applied through `training/mappings/price_overrides.csv`.
 - `ingredients.csv` `crop_group`: from `training/mappings/crop_group.csv` (botanical group; melon seed is an oilseed).
 - Bundle `model_card.json`: copied from `reports/metrics.json` (grouped cross-validation error of each shipped model and of the no-change baseline).
+
+## Added Nov 21 (four more dishes)
+
+- `dishes.json` ewa_agoyin, ewa_riro, fio_fio, miyan_gyada. Dish identity: Wikipedia "Ewa aganyin", "Fio Fio"; Wikibooks "Nigerian Miyan Giyada"; Eat Well Abi (ewa riro). Portions (`typical_dry_g_per_serving`) are **estimated**: published home-recipe yields (2 cups dry beans for 4; 2 cups pigeon peas for 4 to 6, 5 used; 2 cups ground groundnut for 6) times USDA cup weights (cowpea 167 g, FDC 173758; pigeon pea 205 g; peanut 146 g, SR "all types, raw"). Preparation uses the closest existing playbook route for the plant; no new safety numbers. Applications reuse `bean_soup_body` and `seed_soup_body`.

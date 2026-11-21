@@ -1,4 +1,4 @@
-// Home: start with what is in your kitchen (tap photos to tick), then browse dishes underneath.
+// Home: start with what is in your kitchen (tap photos to tick); dishes that use a ticked plant appear underneath.
 // Once something is ticked, a small Done button takes you to the dishes you can make.
 import { router } from "expo-router";
 import { useMemo } from "react";
@@ -12,6 +12,7 @@ import { Caption, Heading, PhotoCard, Poster, PrimaryButton, Reveal, SectionTitl
 import { suggestDishes } from "../../engine/suggest";
 import { Bundle } from "../../engine/types";
 import { HERO_PHOTO, dishPhoto, plantPhoto } from "../../lib/photos";
+import { dishIdsForPicks } from "../../lib/picks";
 import { naira, plantName } from "../../lib/words";
 import { toPlanInput, usePlan } from "../../state/PlanContext";
 import { useAppTheme } from "../../theme";
@@ -24,6 +25,8 @@ function HomeBody({ bundle }: { bundle: Bundle }) {
   const priceOf = new Map(result.dishes.map((d) => [d.dishId, d.totalCostNgn]));
   const people = `${plan.servings} ${plan.servings === 1 ? "person" : "people"}`;
   const picked = plan.pantryIds.length;
+  const shown = useMemo(() => dishIdsForPicks(bundle, plan.pantryIds), [bundle, plan.pantryIds]);
+  const dishes = bundle.dishes.filter((d) => shown.has(d.id));
   const toggle = (id: string) => update({ pantryIds: plan.pantryIds.includes(id) ? plan.pantryIds.filter((x) => x !== id) : [...plan.pantryIds, id] });
 
   return (
@@ -84,24 +87,33 @@ function HomeBody({ bundle }: { bundle: Bundle }) {
       </Reveal>
 
       <Reveal index={3}>
-        <SectionTitle title="Dishes" action={{ label: "See all", onPress: () => router.navigate("/suggestions") }} />
-        <Grid columns={2}>
-          {bundle.dishes.map((d) => {
-            const price = priceOf.get(d.id);
-            const sub = price !== undefined ? naira(price) : "Not available yet";
-            return (
-              <PhotoCard
-                key={d.id}
-                source={dishPhoto(d.id)}
-                title={d.name.split(" (")[0]}
-                sub={sub}
-                aspect={0.82}
-                onPress={() => router.push({ pathname: "/dish/[dishId]", params: { dishId: d.id } })}
-                a11yLabel={`${d.name}, ${sub}. Open`}
-              />
-            );
-          })}
-        </Grid>
+        {picked ? (
+          <>
+            <SectionTitle title="Dishes" note={`${dishes.length} use what you picked`} action={{ label: "See all", onPress: () => router.navigate("/suggestions") }} />
+            <Grid columns={2}>
+              {dishes.map((d) => {
+                const price = priceOf.get(d.id);
+                const sub = price !== undefined ? naira(price) : "Not available yet";
+                return (
+                  <PhotoCard
+                    key={d.id}
+                    source={dishPhoto(d.id)}
+                    title={d.name.split(" (")[0]}
+                    sub={sub}
+                    aspect={0.82}
+                    onPress={() => router.push({ pathname: "/dish/[dishId]", params: { dishId: d.id } })}
+                    a11yLabel={`${d.name}, ${sub}. Open`}
+                  />
+                );
+              })}
+            </Grid>
+          </>
+        ) : (
+          <View style={{ gap: space.xs }}>
+            <SectionTitle title="Dishes" />
+            <Small>Tick a plant above to see the dishes made with it.</Small>
+          </View>
+        )}
       </Reveal>
     </Screen>
   );

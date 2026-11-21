@@ -5,8 +5,8 @@
    "sha256": "cefb234735697d96649956bd1cd4105fac24a9745bca1c810d39d373027a310a"
   },
   "dishes.json": {
-   "bytes": 5498,
-   "sha256": "4cf61085d670d528491d774d4692721a45e118631876458d4b003507bec2c9dc"
+   "bytes": 8036,
+   "sha256": "cd1e18efe9f1643e8b5f09ee30768ca10704622b6a64b9baeeb896756f50a8fc"
   },
   "functional_properties.json": {
    "bytes": 49570,
@@ -57,5 +57,5 @@
   "Nothing here was lab-tested by the team."
  ],
  "schemaVersion": 1,
- "version": "2026-11-21-019dc6d3"
+ "version": "2026-11-21-911c9f4e"
 }

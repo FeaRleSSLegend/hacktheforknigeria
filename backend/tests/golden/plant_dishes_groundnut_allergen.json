@@ -12,14 +12,19 @@
   },
   "plantId": "groundnut"
  },
- "bundleVersion": "2026-11-21-019dc6d3",
+ "bundleVersion": "2026-11-21-911c9f4e",
  "expected": {
-  "bundleVersion": "2026-11-21-019dc6d3",
+  "bundleVersion": "2026-11-21-911c9f4e",
   "dishes": [],
   "excluded": [
    {
     "dishId": "egusi_soup",
     "name": "Egusi soup",
+    "reason": "allergen: peanut"
+   },
+   {
+    "dishId": "miyan_gyada",
+    "name": "Miyan gyada (groundnut soup)",
     "reason": "allergen: peanut"
    }
   ],

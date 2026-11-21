@@ -107,9 +107,10 @@ test("Plan page has one budget field and no preset amounts", async () => {
   expect(screen.queryByText("₦3,000")).toBeNull();
 });
 
-test("Dishes tab ranks dishes and lists those not available yet", async () => {
+test("Dishes tab shows no dishes until a plant is picked", async () => {
   await wrap(<Dishes />);
-  expect(await screen.findByText(/Dishes for you|You can make/, {}, WAIT)).toBeTruthy();
+  expect(await screen.findByText("Pick a plant first", {}, WAIT)).toBeTruthy();
+  expect(screen.queryByLabelText(/^Akara,/)).toBeNull();
 });
 
 test.each([

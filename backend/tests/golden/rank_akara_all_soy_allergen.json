@@ -13,9 +13,9 @@
    "targetProteinG": 20
   }
  },
- "bundleVersion": "2026-11-21-019dc6d3",
+ "bundleVersion": "2026-11-21-911c9f4e",
  "expected": {
-  "bundleVersion": "2026-11-21-019dc6d3",
+  "bundleVersion": "2026-11-21-911c9f4e",
   "excluded": [
    {
     "id": "soybean",

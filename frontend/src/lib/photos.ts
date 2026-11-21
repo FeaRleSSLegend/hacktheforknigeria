@@ -20,6 +20,8 @@ const EKURU = require("../../assets/photos/ekuru.png");
 const EKURU_RAW = require("../../assets/photos/ekuru-raw.png");
 const EKURU_COOKED = require("../../assets/photos/ekuru-cooked.png");
 const COWPEA = require("../../assets/photos/cowpea.jpg");
+const GROUNDNUT_SOUP = require("../../assets/photos/groundnut-soup.jpg");
+const PIGEON_PEA = require("../../assets/photos/plants/pigeon_pea.jpg");
 
 export const HERO_PHOTO: ImageSourcePropType = COWPEA;
 /** Dehulled beans: the raw starting point for bean pastes, used as a background on Dishes. */
@@ -32,12 +34,17 @@ const DISH_PHOTOS: Record<string, ImageSourcePropType> = {
   egusi_soup: EGUSI,
   okpa: OKPA,
   ekuru: EKURU,
+  miyan_gyada: GROUNDNUT_SOUP,
+  // No free dish photo downloaded yet: these show the plant they are made from.
+  ewa_agoyin: COWPEA,
+  ewa_riro: COWPEA,
+  fio_fio: PIGEON_PEA,
 };
 
 const PLANT_PHOTOS: Record<string, ImageSourcePropType> = {
   cowpea: COWPEA,
   bambara: require("../../assets/photos/plants/bambara.jpg"),
-  pigeon_pea: require("../../assets/photos/plants/pigeon_pea.jpg"),
+  pigeon_pea: PIGEON_PEA,
   african_yam_bean: require("../../assets/photos/plants/african_yam_bean.jpg"),
   jack_bean: require("../../assets/photos/plants/jack_bean.jpg"),
   soybean: require("../../assets/photos/plants/soybean.jpg"),
@@ -69,6 +76,7 @@ export const PHOTO_CREDITS: PhotoCredit[] = [
   { file: "gbegiri.jpg", subject: "Gbegiri", author: "Ebiojo", licence: "CC BY-SA 4.0", source: commons("Amala_and_gbegiri.jpg") },
   { file: "egusi.jpg", subject: "Egusi soup", author: "Tesleemah", licence: "CC BY-SA 4.0", source: commons("Egusi_soup_in_a_plate.jpg") },
   { file: "okpa.jpg", subject: "Okpa", author: "Confidence24", licence: "CC BY-SA 4.0", source: commons("Okpa_(A_traditional_Igbo_steamed_delicacy).jpg") },
+  { file: "groundnut-soup.jpg", subject: "Groundnut soup", author: "Blackmapapa", licence: "CC BY-SA 4.0", source: commons("Groundnut_Soup.JPG") },
   { file: "ekuru*.png", subject: "Ekuru (raw beans, wrapped and served)", author: "Provided by the ProteinPath team", licence: "used with the team's permission", source: "team photos" },
   { file: "cowpea.jpg", subject: "Cowpea", author: "Fumikas Sagisavas", licence: "CC0", source: commons("Patterned_cowpea_(20240714).jpg") },
   { file: "bambara.jpg", subject: "Bambara groundnut", author: "Ton Rulkens", licence: "CC BY-SA 2.0", source: commons("Vigna_subterranea_(4350578751).jpg") },

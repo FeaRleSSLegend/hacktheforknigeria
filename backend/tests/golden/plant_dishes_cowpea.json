@@ -10,9 +10,9 @@
   },
   "plantId": "cowpea"
  },
- "bundleVersion": "2026-11-21-019dc6d3",
+ "bundleVersion": "2026-11-21-911c9f4e",
  "expected": {
-  "bundleVersion": "2026-11-21-019dc6d3",
+  "bundleVersion": "2026-11-21-911c9f4e",
   "dishes": [
    {
     "candidatesRanked": 2,
@@ -69,6 +69,34 @@
     "rankInDish": 1,
     "score": 0.5792,
     "summaryLine": "Ranked on foaming and water holding, key for light batter."
+   },
+   {
+    "candidatesRanked": 1,
+    "dishId": "ewa_agoyin",
+    "dryGPerServing": 84,
+    "fit": 0.5,
+    "name": "Ewa agoyin",
+    "priceSource": "bundled",
+    "proteinCostNgn": 449.88,
+    "proteinCostPerPersonNgn": 112.47,
+    "proteinPerPlateG": 19.0,
+    "rankInDish": 1,
+    "score": 0.5,
+    "summaryLine": "Mashed soft beans; ranked on water holding and creaminess."
+   },
+   {
+    "candidatesRanked": 1,
+    "dishId": "ewa_riro",
+    "dryGPerServing": 84,
+    "fit": 0.5,
+    "name": "Ewa riro (beans porridge)",
+    "priceSource": "bundled",
+    "proteinCostNgn": 449.88,
+    "proteinCostPerPersonNgn": 112.47,
+    "proteinPerPlateG": 19.0,
+    "rankInDish": 1,
+    "score": 0.5,
+    "summaryLine": "Soft bean porridge; ranked on water holding and creaminess."
    }
   ],
   "excluded": [],

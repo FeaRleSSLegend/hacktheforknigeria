@@ -165,5 +165,75 @@
   "typical_dry_g_quality": "estimated",
   "typical_dry_g_note": "typical portion, estimate, to confirm",
   "summary_line": "Ranked on holding oil and water to thicken soup."
+ },
+ {
+  "id": "ewa_agoyin",
+  "name": "Ewa agoyin",
+  "application_id": "bean_soup_body",
+  "protein_slot_ids": [
+   "cowpea"
+  ],
+  "side_items": [],
+  "playbook_ids": [
+   "pb_cowpea_gbegiri_route",
+   "pb_cowpea_soak_dehull"
+  ],
+  "notes": "Preparation steps are the closest published route for this plant, not a recipe for this exact dish. Usually eaten with bread and a pepper sauce.",
+  "typical_dry_g_per_serving": 84,
+  "typical_dry_g_quality": "estimated",
+  "typical_dry_g_note": "estimate from a published recipe: 2 cups dry beans serve 4; 1 cup cowpea = 167 g (USDA FDC 173758)",
+  "summary_line": "Mashed soft beans; ranked on water holding and creaminess."
+ },
+ {
+  "id": "ewa_riro",
+  "name": "Ewa riro (beans porridge)",
+  "application_id": "bean_soup_body",
+  "protein_slot_ids": [
+   "cowpea"
+  ],
+  "side_items": [],
+  "playbook_ids": [
+   "pb_cowpea_gbegiri_route",
+   "pb_cowpea_soak_dehull"
+  ],
+  "notes": "Preparation steps are the closest published route for this plant, not a recipe for this exact dish.",
+  "typical_dry_g_per_serving": 84,
+  "typical_dry_g_quality": "estimated",
+  "typical_dry_g_note": "estimate from a published recipe: 2 cups dry beans serve 4; 1 cup cowpea = 167 g (USDA FDC 173758)",
+  "summary_line": "Soft bean porridge; ranked on water holding and creaminess."
+ },
+ {
+  "id": "fio_fio",
+  "name": "Fio fio (pigeon pea porridge)",
+  "application_id": "bean_soup_body",
+  "protein_slot_ids": [
+   "pigeon_pea"
+  ],
+  "side_items": [],
+  "playbook_ids": [
+   "pb_pigeon_pea_dehull_soak"
+  ],
+  "notes": "Preparation steps are the closest published route for this plant, not a recipe for this exact dish.",
+  "typical_dry_g_per_serving": 82,
+  "typical_dry_g_quality": "estimated",
+  "typical_dry_g_note": "estimate from a published recipe: 2 cups dry pigeon peas serve 4 to 6 (5 used); 1 cup = 205 g (USDA SR)",
+  "summary_line": "Igbo pigeon pea porridge; ranked on water holding."
+ },
+ {
+  "id": "miyan_gyada",
+  "name": "Miyan gyada (groundnut soup)",
+  "application_id": "seed_soup_body",
+  "protein_slot_ids": [
+   "groundnut"
+  ],
+  "side_items": [],
+  "playbook_ids": [
+   "pb_groundnut_boil"
+  ],
+  "notes": "Preparation steps are the closest published route for this plant, not a recipe for this exact dish.",
+  "typical_dry_g_per_serving": 49,
+  "typical_dry_g_quality": "estimated",
+  "typical_dry_g_note": "estimate from a published recipe: 2 cups ground groundnut serve 6; 1 cup = 146 g (USDA SR)",
+  "summary_line": "Hausa groundnut soup; ranked on holding oil and water."
  }
 ]

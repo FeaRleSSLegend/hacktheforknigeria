@@ -52,6 +52,7 @@ export default function RootLayout() {
                   <Stack.Screen name="plant/[plantId]" options={{ animation: "slide_from_right" }} />
                   <Stack.Screen name="plan" options={{ animation: "slide_from_bottom" }} />
                   <Stack.Screen name="prepare/[dishId]" options={{ animation: "slide_from_right" }} />
+                  <Stack.Screen name="find/[dishId]" options={{ animation: "slide_from_right" }} />
                   <Stack.Screen name="ask/[dishId]" options={{ animation: "slide_from_bottom", presentation: "modal" }} />
                 </Stack>
               </PlanProvider>

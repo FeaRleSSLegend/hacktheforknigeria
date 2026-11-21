@@ -2,6 +2,7 @@
 // off, so NetInfo itself sends no requests) and sends Popo questions to the optional service.
 // Nothing on the main path waits on the network.
 import NetInfo from "@react-native-community/netinfo";
+import { Linking } from "react-native";
 
 let configured = false;
 
@@ -54,5 +55,16 @@ export async function askPopo(context: Record<string, unknown>, history: PopoTur
     return { kind: "unreachable", reason: "no connection" };
   } finally {
     clearTimeout(timer);
+  }
+}
+
+/** Opens a web or map link in the phone's browser or map app. Never throws; false if it could not open. */
+export async function openExternal(url: string): Promise<boolean> {
+  if (!/^https:\/\//.test(url)) return false;
+  try {
+    await Linking.openURL(url);
+    return true;
+  } catch {
+    return false;
   }
 }
