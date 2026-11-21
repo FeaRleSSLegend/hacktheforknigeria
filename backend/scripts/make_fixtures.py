@@ -20,6 +20,7 @@ from reference.processing import recommend_processing  # noqa: E402
 from reference.rank import rank_ingredients  # noqa: E402
 from reference.safety import safety_guard  # noqa: E402
 from reference.suggest import suggest_dishes  # noqa: E402
+from reference.plant import dishes_for_plant  # noqa: E402
 
 
 def plan(**kw) -> dict:
@@ -43,6 +44,11 @@ CASES = [
      {"applicationId": "akara_batter", "input": plan(allergens=["soy"]), "candidateIds": None}),
     ("rank_seed_soup_peanut_allergen", "rankIngredients",
      {"applicationId": "seed_soup_body", "input": plan(allergens=["peanut"]), "candidateIds": ["melon_seed", "groundnut"]}),
+    ("plant_dishes_cowpea", "dishesForPlant", {"plantId": "cowpea", "input": plan()}),
+    ("plant_dishes_bambara_user_price", "dishesForPlant",
+     {"plantId": "bambara", "input": plan(userPricesNgnPerKg={"bambara": 900})}),
+    ("plant_dishes_groundnut_allergen", "dishesForPlant", {"plantId": "groundnut", "input": plan(allergens=["peanut"])}),
+    ("plant_dishes_melon_seed", "dishesForPlant", {"plantId": "melon_seed", "input": plan()}),
     ("processing_cowpea_phytate", "recommendProcessing", {"ingredientId": "cowpea", "goal": "phytate"}),
     ("processing_bambara_phytate_thin", "recommendProcessing", {"ingredientId": "bambara", "goal": "phytate"}),
     ("processing_melon_seed_tannin_no_data", "recommendProcessing", {"ingredientId": "melon_seed", "goal": "tannin"}),
@@ -64,6 +70,8 @@ SAFETY_CASES = [
 def run_case(fn: str, args: dict, data: dict):
     if fn == "suggestDishes":
         return suggest_dishes(args["input"], data)
+    if fn == "dishesForPlant":
+        return dishes_for_plant(args["plantId"], args["input"], data)
     if fn == "rankIngredients":
         return rank_ingredients(args["applicationId"], args["input"], data, args.get("candidateIds"))
     if fn == "recommendProcessing":

@@ -1,0 +1,31 @@
+{
+ "args": {
+  "input": {
+   "allergens": [
+    "peanut"
+   ],
+   "budgetNgn": 1500,
+   "mode": "pantry",
+   "pantryIds": [],
+   "servings": 4,
+   "targetProteinG": 20
+  },
+  "plantId": "groundnut"
+ },
+ "bundleVersion": "2026-11-21-019dc6d3",
+ "expected": {
+  "bundleVersion": "2026-11-21-019dc6d3",
+  "dishes": [],
+  "excluded": [
+   {
+    "dishId": "egusi_soup",
+    "name": "Egusi soup",
+    "reason": "allergen: peanut"
+   }
+  ],
+  "notEnoughData": [],
+  "plantId": "groundnut"
+ },
+ "fn": "dishesForPlant",
+ "name": "plant_dishes_groundnut_allergen"
+}
